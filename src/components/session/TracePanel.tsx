@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 
 import { ageLabel, joinNames } from "@/lib/agent/prompts";
+import { describeRecordedAt } from "@/lib/guard/snapshots";
 import { DOMAIN_INFO, type Card, type Session, type TraceEvent } from "@/lib/session/types";
 import { isAgeBucket } from "@/lib/session/youth-window";
 
@@ -47,7 +48,7 @@ function tagWords(ids: string): string {
 }
 
 /** The human-labelled request table: one row per parameter that was sent. */
-function requestRows(card: Card, names: Map<string, string>): [string, string][] {
+function requestRows(card: Card, names: Map<string, string>, replayedAt: string | undefined): [string, string][] {
   const p = card.signals.params;
   const rows: [string, string][] = [];
   rows.push(["Type", TYPE_HUMAN[p["filter.type"] ?? ""] ?? p["filter.type"] ?? ""]);
@@ -67,7 +68,7 @@ function requestRows(card: Card, names: Map<string, string>): [string, string][]
     rows.push(["Excluding", `${n} entit${n === 1 ? "y" : "ies"} already in the session`]);
   }
   rows.push(["Explain", `${p["feature.explainability"] === "true" ? "On" : "Off"} · take ${p.take ?? "10"}`]);
-  rows.push(["Source", SOURCE_LABEL[card.signals.source]]);
+  rows.push(["Source", replayedAt && card.signals.source === "live" ? `${SOURCE_LABEL.live}, replayed from a run at ${describeRecordedAt(replayedAt)}` : SOURCE_LABEL[card.signals.source]]);
   return rows;
 }
 
@@ -116,6 +117,11 @@ export function TracePanel({ open, onClose, session, card, liveEvents }: Props) 
         {session.planner === "llm" ? "LLM-driven agent" : "deterministic agent"}
         {mixed ? ", with offline fallback steps" : ""} · youth window {session.youthWindow.start} to {session.youthWindow.end}
       </p>
+      {session.replayedAt ? (
+        <p className="mt-1 text-sm text-ink-500" data-testid="trace-replayed">
+          Replayed from a live Qloo run at {describeRecordedAt(session.replayedAt)}; nothing was fetched for this session.
+        </p>
+      ) : null}
 
       {card ? (
         <section className="mt-6 border-t border-paper-200 pt-4" aria-labelledby="trace-card-heading" data-testid="trace-card">
@@ -169,7 +175,7 @@ export function TracePanel({ open, onClose, session, card, liveEvents }: Props) 
           <div className="mt-6 border-t border-paper-200 pt-4">
             <p className="label">The request</p>
             <dl className="mt-3 grid grid-cols-[minmax(0,9em)_minmax(0,1fr)] gap-x-4 gap-y-1.5">
-              {requestRows(card, names).map(([k, v]) => (
+              {requestRows(card, names, session.replayedAt).map(([k, v]) => (
                 <div key={k} className="contents">
                   <dt className="text-xs font-semibold tracking-[0.06em] text-ink-500 uppercase">{k}</dt>
                   <dd className="text-sm break-words text-ink-900">{v}</dd>
@@ -214,7 +220,7 @@ export function TracePanel({ open, onClose, session, card, liveEvents }: Props) 
                       </span>
                     ) : null}
                     {e.policy && e.qloo ? " · " : ""}
-                    {e.qloo ? `${e.qloo.resultCount} result${e.qloo.resultCount === 1 ? "" : "s"} · ${e.qloo.durationMs} ms · ${e.qloo.path} · ${e.qloo.source}` : ""}
+                    {e.qloo ? `${e.qloo.resultCount} result${e.qloo.resultCount === 1 ? "" : "s"} · ${e.qloo.durationMs} ms · ${e.qloo.path} · ${e.qloo.source}${e.qloo.cached ? ", cached" : ""}` : ""}
                     {e.qloo && e.qloo.warnings.length > 0 ? ` · ${e.qloo.warnings.length} dropped` : ""}
                   </p>
                 ) : null}

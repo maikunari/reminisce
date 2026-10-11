@@ -30,12 +30,21 @@ export interface AgentOptions {
   qloo?: QlooClient;
   now?: Date;
   fetchImpl?: typeof fetch;
+  /** Notes to record before the first step, e.g. why a cheaper planner was chosen. */
+  notes?: string[];
 }
 
 /** Total agent time per request; leaves headroom under the routes' maxDuration of 60 s. */
 export const AGENT_BUDGET_MS = 50_000;
 /** Time held back from the LLM loop so the scripted fallback can still finish. */
 export const FALLBACK_RESERVE_MS = 15_000;
+/**
+ * Completions the model may use before the deterministic planner takes over.
+ * Each completion re-sends the whole history, so the cap bounds spend roughly
+ * quadratically; the prompt asks for parallel tool calls so a plan fits well
+ * inside it (searches, tags, insights, commit).
+ */
+export const LLM_MAX_STEPS = { plan: 12, adapt: 8 } as const;
 
 interface Run {
   final: ToolFinal;
@@ -56,7 +65,7 @@ async function runWithFallback(
     const ctx = makeCtx(llmDeadline);
     try {
       const policy: Policy = new LlmPolicy({ env, ctx, fetchImpl, deadline: llmDeadline });
-      const { final } = await runLoop({ policy, ctx, emit, maxSteps: 22 });
+      const { final } = await runLoop({ policy, ctx, emit, maxSteps: LLM_MAX_STEPS[phase] });
       return { final, planner: "llm", ctx };
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
@@ -112,6 +121,7 @@ export async function planSession(person: Person, opts: AgentOptions = {}): Prom
     trace.push(event);
     opts.emit?.(event);
   };
+  for (const note of opts.notes ?? []) emit(traceEvent({ phase: "plan", kind: "note", summary: note }));
   const makeCtx = (deadline: number): ToolContext => ({ ...baseContext(person, qloo, now, "plan"), existingCards: [], deadline });
   const run = await runWithFallback(makeCtx, env, emit, opts.fetchImpl, "plan", deadline);
   if (run.final.kind !== "plan") throw new LoopError("planner committed the wrong kind of result", "no-final");
@@ -147,6 +157,7 @@ export async function adaptSession(input: AdaptInput, opts: AgentOptions = {}): 
   const cardIndex = input.cards.findIndex((c) => c.id === input.feedback.cardId);
   const card = input.cards[cardIndex];
   if (!card) throw new Error("feedback card not found in session");
+  for (const note of opts.notes ?? []) emit(traceEvent({ phase: "adapt", kind: "note", summary: note }));
   const cards = input.cards.map((c, i) => (i === cardIndex ? { ...c, reaction: input.feedback.reaction } : c));
   const currentIndex = Math.max(input.currentIndex, cardIndex);
   const upcoming = cards.filter((c, i) => i > currentIndex && !c.reaction);
