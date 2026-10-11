@@ -1,21 +1,23 @@
 import type { Metadata, Viewport } from "next";
-import { Atkinson_Hyperlegible, Fraunces } from "next/font/google";
+import { Fraunces, Libre_Franklin } from "next/font/google";
 import type { ReactNode } from "react";
 
 import "./globals.css";
 
+/* Display and reading text: Fraunces, used quietly (weight 500, SOFT 40, optical sizing on). */
 const fraunces = Fraunces({
   variable: "--font-fraunces",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
   style: ["normal", "italic"],
+  axes: ["opsz", "SOFT", "WONK"],
   display: "swap",
 });
 
-const atkinson = Atkinson_Hyperlegible({
-  variable: "--font-atkinson",
+/* Everything functional: labels, buttons, inputs, hints, the panel. Lining numerals via CSS. */
+const franklin = Libre_Franklin({
+  variable: "--font-franklin",
   subsets: ["latin"],
-  weight: ["400", "700"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 
@@ -38,29 +40,29 @@ export const metadata: Metadata = {
     template: "%s · Reminisce",
   },
   description:
-    "Music and memories from when they were 20. A cultural memory session builder for dementia caregivers, powered by the Qloo taste graph.",
+    "Music and memories from when they were twenty. A cultural memory session builder for dementia caregivers, powered by the Qloo taste graph.",
   applicationName: "Reminisce",
   metadataBase: siteUrl(),
   openGraph: {
     title: "Reminisce",
-    description: "Music and memories from when they were 20.",
+    description: "Music and memories from when they were twenty.",
     type: "website",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#fdfaf4",
+  themeColor: "#fbf7ef",
   width: "device-width",
   initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${atkinson.variable} h-full`}>
-      <body className="paper flex min-h-full flex-col">
+    <html lang="en" className={`${fraunces.variable} ${franklin.variable}`}>
+      <body className="flex min-h-dvh flex-col">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-lg focus:bg-ember-600 focus:px-4 focus:py-2 focus:text-white"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-md focus:bg-ember-600 focus:px-4 focus:py-2 focus:text-white"
         >
           Skip to content
         </a>

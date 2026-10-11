@@ -17,12 +17,33 @@ export interface Favorite {
   imageUrl?: string;
 }
 
+/** How to refer to the person in caregiver-facing copy. Defaults to "they". */
+export type Pronoun = "she" | "he" | "they";
+
+export interface Pronouns {
+  subject: string;
+  object: string;
+  possessive: string;
+}
+
+export function pronounsFor(pronoun: Pronoun | undefined): Pronouns {
+  switch (pronoun) {
+    case "she":
+      return { subject: "she", object: "her", possessive: "her" };
+    case "he":
+      return { subject: "he", object: "him", possessive: "his" };
+    default:
+      return { subject: "they", object: "them", possessive: "their" };
+  }
+}
+
 export interface Person {
   name: string;
   birthYear: number;
   hometown: string;
   favorites: Favorite[];
   language: Language;
+  pronoun?: Pronoun;
   presetId?: string;
 }
 

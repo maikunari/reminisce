@@ -2,6 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   cacheComponents: true,
+  // Next 16 writes an AGENTS.md into the repo on build unless told not to.
+  agentRules: false,
   partialPrefetching: true,
   turbopack: {
     rules: {

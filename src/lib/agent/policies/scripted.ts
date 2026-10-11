@@ -406,7 +406,7 @@ export class ScriptedAdaptPolicy extends GeneratorPolicy {
     const replacements: AdaptArgsT["replacements"] = [];
 
     if (fb.reaction === "lit_up") {
-      yield { narration: NARRATION.adaptLiked(fb.card.title) };
+      yield { narration: NARRATION.adaptLiked(fb.card.title, this.ctx.person) };
       const signalSeeds = unique([fb.card.entityId, ...liked, ...seeds]);
       const domain = fb.card.domain;
       let tagIds: string[] = [];

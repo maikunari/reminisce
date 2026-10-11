@@ -2,8 +2,9 @@
 
 import { useEffect, useRef } from "react";
 
-import { DomainBadge } from "@/components/DomainBadge";
-import type { Card, Session, TraceEvent } from "@/lib/session/types";
+import { ageLabel, joinNames } from "@/lib/agent/prompts";
+import { DOMAIN_INFO, type Card, type Session, type TraceEvent } from "@/lib/session/types";
+import { isAgeBucket } from "@/lib/session/youth-window";
 
 interface Props {
   open: boolean;
@@ -15,71 +16,62 @@ interface Props {
 }
 
 const SOURCE_LABEL = {
-  live: { label: "Live Qloo", className: "bg-sage-100 text-sage-700" },
-  recorded: { label: "Recorded Qloo response", className: "bg-sea-100 text-sea-700" },
-  synthetic: { label: "Synthetic fixture", className: "bg-gold-100 text-gold-700" },
+  live: "Live Qloo response",
+  recorded: "Recorded Qloo response, replayed",
+  synthetic: "Synthetic fixture, shaped like a Qloo response",
 } as const;
 
-function splitParams(params: Record<string, string>) {
-  const signals: [string, string][] = [];
-  const filters: [string, string][] = [];
-  const other: [string, string][] = [];
-  for (const [k, v] of Object.entries(params)) {
-    if (k.startsWith("signal.")) signals.push([k, v]);
-    else if (k.startsWith("filter.")) filters.push([k, v]);
-    else other.push([k, v]);
+const TYPE_HUMAN: Record<string, string> = {
+  "urn:entity:artist": "Artist",
+  "urn:entity:movie": "Film",
+  "urn:entity:tv_show": "Television show",
+  "urn:entity:place": "Place",
+  "urn:entity:destination": "Destination",
+  "urn:entity:book": "Book",
+  "urn:entity:person": "Person",
+  "urn:entity:brand": "Brand",
+  "urn:entity:podcast": "Podcast",
+  "urn:entity:video_game": "Video game",
+};
+
+function ordinal(n: number): string {
+  const words = ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"];
+  return words[n - 1] ?? `${n}th`;
+}
+
+function tagWords(ids: string): string {
+  return ids
+    .split(",")
+    .map((id) => id.trim().split(":").at(-1)?.replace(/_/g, " ") ?? id)
+    .join(", ");
+}
+
+/** The human-labelled request table: one row per parameter that was sent. */
+function requestRows(card: Card, names: Map<string, string>): [string, string][] {
+  const p = card.signals.params;
+  const rows: [string, string][] = [];
+  rows.push(["Type", TYPE_HUMAN[p["filter.type"] ?? ""] ?? p["filter.type"] ?? ""]);
+  const seeds = p["signal.interests.entities"];
+  if (seeds) rows.push(["Interests", seeds.split(",").map((id) => names.get(id) ?? "an unnamed entity").join(", ")]);
+  if (p["signal.location.query"]) rows.push(["Location", `tuned to ${p["signal.location.query"]}`]);
+  if (p["filter.location.query"]) rows.push(["Within", p["filter.location.query"]]);
+  const age = p["signal.demographics.age"];
+  if (age) rows.push(["Age", isAgeBucket(age) ? ageLabel(age).replace(/^people /, "") : age]);
+  if (p["filter.release_year.min"] || p["filter.release_year.max"]) rows.push(["Years", `${p["filter.release_year.min"] ?? ""} to ${p["filter.release_year.max"] ?? ""}`]);
+  if (p["filter.release_country"]) rows.push(["Released in", p["filter.release_country"]]);
+  if (p["filter.tags"]) rows.push(["Tagged", tagWords(p["filter.tags"])]);
+  if (p["filter.geocode.country_code"]) rows.push(["Country", p["filter.geocode.country_code"]]);
+  const excluded = p["filter.exclude.entities"];
+  if (excluded) {
+    const n = excluded.split(",").length;
+    rows.push(["Excluding", `${n} entit${n === 1 ? "y" : "ies"} already in the session`]);
   }
-  return { signals, filters, other };
+  rows.push(["Explain", `${p["feature.explainability"] === "true" ? "On" : "Off"} · take ${p.take ?? "10"}`]);
+  rows.push(["Source", SOURCE_LABEL[card.signals.source]]);
+  return rows;
 }
 
-function ParamRows({ rows, names }: { rows: [string, string][]; names: Map<string, string> }) {
-  if (rows.length === 0) return <p className="text-base text-ink-500">none</p>;
-  return (
-    <dl className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-1.5">
-      {rows.map(([k, v]) => (
-        <div key={k} className="contents">
-          <dt className="mono rounded bg-cream-100 px-1.5 py-0.5 text-ink-700">{k}</dt>
-          <dd className="min-w-0 text-base break-words text-ink-900">
-            {v
-              .split(",")
-              .map((part) => names.get(part) ?? part)
-              .join(", ")}
-          </dd>
-        </div>
-      ))}
-    </dl>
-  );
-}
-
-const POLICY_LABEL = {
-  llm: { label: "LLM", className: "bg-sea-100 text-sea-700" },
-  scripted: { label: "Scripted", className: "bg-gold-100 text-gold-700" },
-} as const;
-
-function Bar({ value, className }: { value: number; className: string }) {
-  const pct = Math.max(2, Math.min(100, Math.round(value * 100)));
-  return (
-    <div className="h-3 w-full overflow-hidden rounded-full bg-cream-200" aria-hidden="true">
-      <div className={`h-full rounded-full ${className}`} style={{ width: `${pct}%` }} />
-    </div>
-  );
-}
-
-function kindIcon(kind: TraceEvent["kind"]): { glyph: string; className: string; label: string } {
-  switch (kind) {
-    case "narration":
-      return { glyph: "✦", className: "text-ember-600", label: "agent" };
-    case "tool_call":
-      return { glyph: "▶", className: "text-ink-500", label: "tool call" };
-    case "tool_result":
-      return { glyph: "✓", className: "text-sage-700", label: "result" };
-    case "note":
-      return { glyph: "i", className: "text-sea-700", label: "note" };
-    case "error":
-      return { glyph: "!", className: "text-ember-700", label: "error" };
-  }
-}
-
+/** The provenance note: what Qloo was asked, what came back, and how the session was built. */
 export function TracePanel({ open, onClose, session, card, liveEvents }: Props) {
   const closeRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
@@ -101,191 +93,145 @@ export function TracePanel({ open, onClose, session, card, liveEvents }: Props) 
   for (const f of session.person.favorites) if (f.entityId) names.set(f.entityId, f.name);
   const events = [...session.trace, ...liveEvents];
   const qlooCalls = events.filter((e) => e.qloo).length;
-  const signals = card ? splitParams(card.signals.params) : null;
-  const source = card ? SOURCE_LABEL[card.signals.source] : null;
+  const sessionPolicy = session.planner === "llm" ? "llm" : "scripted";
+  const mixed = events.some((e) => e.policy && e.policy !== sessionPolicy);
+  const take = card ? Number(card.signals.params.take ?? "10") : 10;
 
   return (
-    <>
-      {/* Backdrop for the drawer; the panel becomes a sticky column from xl up. */}
-      <div className="fixed inset-0 z-30 bg-ink-900/30 xl:hidden" aria-hidden="true" onClick={onClose} />
-      <aside
-        id="trace-panel"
-        role="complementary"
-        aria-label="Why Qloo"
-        className="fixed inset-0 z-40 overflow-y-auto bg-cream-50 p-5 shadow-lift md:left-auto md:w-[28rem] md:max-w-full md:rounded-l-card xl:sticky xl:inset-auto xl:top-4 xl:z-auto xl:max-h-[calc(100dvh-2rem)] xl:w-auto xl:rounded-card xl:bg-white xl:p-6 xl:ring-1 xl:ring-cream-300"
-        data-testid="trace-panel"
-      >
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <h2 className="font-display text-3xl font-semibold text-ink-900">Why Qloo</h2>
-          <p className="mt-1 text-base text-ink-500">
-            {qlooCalls} Qloo call{qlooCalls === 1 ? "" : "s"} · {session.qlooMode === "live" ? "live API" : "fixture mode"} ·{" "}
-            {session.planner === "llm" ? "LLM-driven agent" : "deterministic agent"}
-          </p>
-        </div>
-        <button
-          ref={closeRef}
-          type="button"
-          onClick={onClose}
-          aria-label="Close Why Qloo panel"
-          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-cream-200 text-2xl text-ink-900 hover:bg-ember-100"
-        >
-          ×
+    <aside
+      id="trace-panel"
+      role="complementary"
+      aria-label="Why Qloo"
+      className="surface print-hide mt-8 p-6 xl:sticky xl:top-4 xl:mt-0 xl:max-h-[calc(100dvh-2rem)] xl:overflow-y-auto"
+      data-testid="trace-panel"
+    >
+      <div className="flex items-baseline justify-between gap-3">
+        <h2 className="text-xl">Why Qloo chose this</h2>
+        <button ref={closeRef} type="button" onClick={onClose} aria-label="Close Why Qloo panel" className="btn-text btn-text-muted">
+          Close
         </button>
       </div>
+      <p className="mt-1 text-sm text-ink-500" data-testid="trace-policy">
+        {qlooCalls} call{qlooCalls === 1 ? "" : "s"} to the Qloo Insights API · {session.qlooMode === "live" ? "live API" : "fixture replay"} ·{" "}
+        {session.planner === "llm" ? "LLM-driven agent" : "deterministic agent"}
+        {mixed ? ", with offline fallback steps" : ""} · youth window {session.youthWindow.start} to {session.youthWindow.end}
+      </p>
 
-      <dl className="mt-4 grid grid-cols-2 gap-3 text-base">
-        <div className="rounded-2xl bg-cream-100 p-3">
-          <dt className="font-bold text-ink-500">Youth window</dt>
-          <dd className="text-xl font-bold text-ink-900">
-            {session.youthWindow.start}–{session.youthWindow.end}
-          </dd>
-        </div>
-        <div className="rounded-2xl bg-cream-100 p-3">
-          <dt className="font-bold text-ink-500">Age signal</dt>
-          <dd className="mono text-ink-900">{session.ageBucket}</dd>
-        </div>
-      </dl>
-
-      {card && signals && source ? (
-        <section aria-labelledby="trace-card-heading" className="mt-6 rounded-2xl border-2 border-cream-300 p-4" data-testid="trace-card">
-          <h3 id="trace-card-heading" className="text-base font-bold tracking-wide text-ink-500 uppercase">
+      {card ? (
+        <section className="mt-6 border-t border-paper-200 pt-4" aria-labelledby="trace-card-heading" data-testid="trace-card">
+          <p id="trace-card-heading" className="label">
             This card
-          </h3>
-          <div className="mt-2 flex flex-wrap items-center gap-2">
-            <DomainBadge domain={card.domain} size="sm" />
-            <span className={`rounded-full px-2.5 py-1 text-sm font-bold ${source.className}`}>{source.label}</span>
-            {card.promptSource ? (
-              <span className={`rounded-full px-2.5 py-1 text-sm font-bold ${card.promptSource === "llm" ? POLICY_LABEL.llm.className : POLICY_LABEL.scripted.className}`}>
-                {card.promptSource === "llm" ? "LLM-written prompt" : "Offline template prompt"}
-              </span>
-            ) : null}
+          </p>
+          <p className="font-display mt-2 text-lg leading-[1.35]">
+            Qloo was asked for <em>{DOMAIN_INFO[card.domain].plural}</em>
+            {card.signals.seedNames.length > 0 ? ` with taste affinity to ${joinNames(card.signals.seedNames, 6)}` : ""}
+            {card.signals.locationQuery ? (card.signals.params["filter.location.query"] ? ` in ${card.signals.locationQuery}` : `, tuned to ${card.signals.locationQuery}`) : ""}
+            {card.signals.ageBucket ? `, for ${ageLabel(card.signals.ageBucket)}` : ""}. {card.title} came back {ordinal(card.signals.rank)} of {take}.
+          </p>
+          <div className="mt-4 grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-3 gap-y-2">
+            <span className="label">Affinity</span>
+            <span className="font-display text-3xl" data-testid="trace-affinity">
+              {card.signals.affinity !== null ? card.signals.affinity.toFixed(3) : "n/a"}
+            </span>
+            <div className="bar col-span-2" aria-hidden="true">
+              <i style={{ width: `${Math.max(2, Math.min(100, Math.round((card.signals.affinity ?? 0) * 100)))}%` }} />
+            </div>
           </div>
-          <p className="mt-3 font-display text-2xl font-semibold text-ink-900">{card.title}</p>
-          <p className="mono mt-1 text-ink-500">
-            GET {card.signals.path} · filter.type={card.signals.qlooType}
+          <p className="mt-1.5 text-xs text-ink-500">
+            Rank {card.signals.rank} of {take}
+            {typeof card.signals.popularity === "number" ? ` · popularity ${card.signals.popularity.toFixed(2)}` : ""}
           </p>
 
-          <div className="mt-4">
-            <div className="flex items-baseline justify-between">
-              <span className="text-base font-bold text-ink-700">Affinity</span>
-              <span className="font-display text-3xl font-semibold text-ink-900" data-testid="trace-affinity">
-                {card.signals.affinity !== null ? card.signals.affinity.toFixed(3) : "n/a"}
-              </span>
-            </div>
-            <Bar value={card.signals.affinity ?? 0} className="bg-ember-600" />
-            <p className="mt-1 text-base text-ink-500">
-              Rank #{card.signals.rank} in the result list
-              {typeof card.signals.popularity === "number" ? ` · popularity ${card.signals.popularity.toFixed(2)}` : ""}
-            </p>
-          </div>
-
           {card.signals.explainability ? (
-            <div className="mt-4">
-              <h4 className="text-base font-bold text-ink-700">Which seeds pulled it in</h4>
-              <ul className="mt-2 space-y-2">
+            <div className="mt-6 border-t border-paper-200 pt-4">
+              <p className="label">Pulled in by</p>
+              <ul className="mt-3 grid gap-2.5">
                 {Object.entries(card.signals.explainability)
                   .sort((a, b) => b[1] - a[1])
                   .map(([id, score]) => (
-                    <li key={id}>
-                      <div className="flex justify-between text-base">
-                        <span className="font-bold text-ink-900">{names.get(id) ?? id}</span>
-                        <span className="text-ink-500">{score.toFixed(2)}</span>
+                    <li key={id} className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-3 gap-y-1 text-sm">
+                      <span className="text-ink-900">{names.get(id) ?? "an unnamed entity"}</span>
+                      <span className="text-ink-500">{score.toFixed(2)}</span>
+                      <div className="bar bar-moss col-span-2" aria-hidden="true">
+                        <i style={{ width: `${Math.max(2, Math.min(100, Math.round(score * 100)))}%` }} />
                       </div>
-                      <Bar value={score} className="bg-sage-600" />
                     </li>
                   ))}
               </ul>
             </div>
           ) : null}
 
-          <div className="mt-4 space-y-3">
-            <div>
-              <h4 className="text-base font-bold text-ink-700">Signals</h4>
-              <ParamRows rows={signals.signals} names={names} />
-            </div>
-            <div>
-              <h4 className="text-base font-bold text-ink-700">Filters</h4>
-              <ParamRows rows={signals.filters} names={names} />
-            </div>
-            <div>
-              <h4 className="text-base font-bold text-ink-700">Output</h4>
-              <ParamRows rows={signals.other} names={names} />
-            </div>
+          <div className="mt-6 border-t border-paper-200 pt-4">
+            <p className="label">The request</p>
+            <dl className="mt-3 grid grid-cols-[minmax(0,9em)_minmax(0,1fr)] gap-x-4 gap-y-1.5">
+              {requestRows(card, names).map(([k, v]) => (
+                <div key={k} className="contents">
+                  <dt className="text-xs font-semibold tracking-[0.06em] text-ink-500 uppercase">{k}</dt>
+                  <dd className="text-sm break-words text-ink-900">{v}</dd>
+                </div>
+              ))}
+            </dl>
+            {card.signals.warnings.length > 0 ? (
+              <p className="mt-3 text-xs text-ink-500">Dropped before sending, because the docs do not list them for this type: {card.signals.warnings.join("; ")}</p>
+            ) : null}
+            <details className="mt-3">
+              <summary className="cursor-pointer text-sm font-semibold text-ember-700">Raw request</summary>
+              <pre className="raw">
+                {`GET ${card.signals.path}\n` +
+                  Object.entries(card.signals.params)
+                    .map(([k, v]) => `${k}=${v}`)
+                    .join("\n")}
+              </pre>
+            </details>
           </div>
-
-          {card.signals.warnings.length > 0 ? (
-            <div className="mt-4 rounded-xl bg-gold-100 p-3 text-base text-gold-700">
-              <strong>Dropped before sending:</strong>
-              <ul className="mt-1 list-disc pl-5">
-                {card.signals.warnings.map((w) => (
-                  <li key={w}>{w}</li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
-          {card.signals.source === "synthetic" ? (
-            <p className="mt-3 text-base text-ink-500">
-              Synthetic fixture: shaped like a Qloo response, scored by a deterministic stand-in. Set QLOO_API_KEY to go live.
-            </p>
-          ) : null}
         </section>
       ) : null}
 
-      <section aria-labelledby="trace-timeline-heading" className="mt-6">
-        <h3 id="trace-timeline-heading" className="text-base font-bold tracking-wide text-ink-500 uppercase">
-          Agent timeline
-        </h3>
-        <ol className="mt-2 space-y-2" data-testid="trace-timeline">
-          {events.map((e) => {
-            const icon = kindIcon(e.kind);
-            return (
-              <li key={e.id} className="flex items-start gap-3 rounded-xl px-2 py-1.5 odd:bg-cream-100/60">
-                <span className={`mt-0.5 w-5 shrink-0 text-center text-lg font-bold ${icon.className}`} aria-label={icon.label}>
-                  {icon.glyph}
-                </span>
-                <div className="min-w-0 flex-1">
-                  {e.policy ? (
-                    <span className={`mr-2 rounded-full px-2 py-0.5 text-sm font-bold ${POLICY_LABEL[e.policy].className}`} data-testid="trace-policy">
-                      {POLICY_LABEL[e.policy].label}
-                    </span>
-                  ) : null}
-                  <p className={`text-base leading-snug ${e.kind === "narration" ? "text-ink-900 italic" : "text-ink-700"}`}>
-                    {e.tool && e.kind === "tool_call" ? <span className="mono mr-1 text-ink-900">{e.tool}</span> : null}
-                    {e.summary}
+      <section className="mt-6 border-t border-paper-200 pt-4" aria-labelledby="trace-timeline-heading">
+        <p id="trace-timeline-heading" className="label">
+          How this session was built
+        </p>
+        <ol className="mt-3" data-testid="trace-timeline">
+          {events.map((e, i) => (
+            <li key={e.id} className="grid grid-cols-[2em_minmax(0,1fr)] gap-2 border-t border-paper-200 py-2.5 first:border-t-0">
+              <span className="font-display text-md leading-[1.3] text-ember-700">{i + 1}</span>
+              <div className="min-w-0">
+                {e.kind === "narration" ? (
+                  <p className="font-display text-sm leading-[1.4] text-ink-700 italic">{e.summary}</p>
+                ) : (
+                  <p className={`text-sm leading-[1.4] ${e.kind === "error" ? "text-ember-700" : "text-ink-900"}`}>{e.summary}</p>
+                )}
+                {e.qloo ? (
+                  <p className="mt-0.5 text-xs text-ink-500">
+                    {e.qloo.resultCount} result{e.qloo.resultCount === 1 ? "" : "s"} · {e.qloo.durationMs} ms · {e.qloo.path} · {e.qloo.source}
+                    {e.qloo.warnings.length > 0 ? ` · ${e.qloo.warnings.length} dropped` : ""}
                   </p>
-                  {e.qloo ? (
-                    <p className="mono mt-1 flex flex-wrap gap-x-2 text-ink-500">
-                      <span>GET {e.qloo.path}</span>
-                      <span>· {e.qloo.resultCount} results</span>
-                      <span>· {e.qloo.durationMs} ms</span>
-                      <span>· {e.qloo.source}</span>
-                      {e.qloo.warnings.length > 0 ? <span className="text-gold-700">· {e.qloo.warnings.length} dropped</span> : null}
-                    </p>
-                  ) : null}
-                  {e.kind === "tool_call" && e.args ? (
-                    <details className="mt-1">
-                      <summary className="cursor-pointer text-base text-ember-700">arguments</summary>
-                      <pre className="mono mt-1 overflow-x-auto rounded-lg bg-ink-900 p-3 text-cream-100">{JSON.stringify(e.args, null, 2)}</pre>
-                    </details>
-                  ) : null}
-                  {e.qloo ? (
-                    <details className="mt-1">
-                      <summary className="cursor-pointer text-base text-ember-700">request parameters</summary>
-                      <pre className="mono mt-1 overflow-x-auto rounded-lg bg-ink-900 p-3 whitespace-pre-wrap text-cream-100">
-                        {Object.entries(e.qloo.params)
+                ) : null}
+                {e.policy && e.policy !== sessionPolicy ? (
+                  <p className="mt-0.5 text-xs text-ink-500">{e.policy === "scripted" ? "Offline fallback step" : "Model step"}</p>
+                ) : null}
+                {e.kind === "tool_call" && e.args ? (
+                  <details className="mt-1">
+                    <summary className="cursor-pointer text-xs font-semibold text-ember-700">Arguments</summary>
+                    <pre className="raw">{JSON.stringify(e.args, null, 2)}</pre>
+                  </details>
+                ) : null}
+                {e.qloo ? (
+                  <details className="mt-1">
+                    <summary className="cursor-pointer text-xs font-semibold text-ember-700">Request</summary>
+                    <pre className="raw">
+                      {`GET ${e.qloo.path}\n` +
+                        Object.entries(e.qloo.params)
                           .map(([k, v]) => `${k}=${v}`)
                           .join("\n")}
-                      </pre>
-                    </details>
-                  ) : null}
-                </div>
-              </li>
-            );
-          })}
+                    </pre>
+                  </details>
+                ) : null}
+              </div>
+            </li>
+          ))}
         </ol>
       </section>
-      </aside>
-    </>
+    </aside>
   );
 }

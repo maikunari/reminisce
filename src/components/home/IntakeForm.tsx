@@ -3,12 +3,12 @@
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 
+import { useCurrentYear } from "@/lib/client/hooks";
 import { createSessionShell } from "@/lib/session/storage";
 import { LANGUAGES, type Favorite, type Language } from "@/lib/session/types";
-import { useCurrentYear } from "@/lib/client/hooks";
 import { MIN_BIRTH_YEAR, computeYouthWindow } from "@/lib/session/youth-window";
 
-import { EntityAutocomplete, type Suggestion } from "./EntityAutocomplete";
+import { EntityAutocomplete, TYPE_LABEL, type Suggestion } from "./EntityAutocomplete";
 
 const FAVORITE_TYPES = "urn:entity:artist,urn:entity:movie,urn:entity:tv_show,urn:entity:book,urn:entity:person,urn:entity:brand,urn:entity:place";
 
@@ -41,8 +41,8 @@ export function IntakeForm() {
     setError(null);
     const list = [...favorites];
     if (list.length === 0 && favoriteText.trim()) list.push({ name: favoriteText.trim() });
-    if (!name.trim()) return setError("Please add their name (or what you call them).");
-    if (!yearValid) return setError(`Birth year should be between ${MIN_BIRTH_YEAR} and ${maxYear ?? "today"}.`);
+    if (!name.trim()) return setError("Please add their name, or what you call them.");
+    if (!yearValid) return setError(`The birth year should be between ${MIN_BIRTH_YEAR} and ${maxYear ?? "today"}.`);
     if (!hometown.trim()) return setError("Please add where they grew up.");
     if (list.length === 0) return setError("Add at least one thing they loved: a singer, a film, a dish, a place.");
     setBusy(true);
@@ -57,24 +57,17 @@ export function IntakeForm() {
   };
 
   return (
-    <form onSubmit={submit} noValidate className="rounded-card bg-white p-6 shadow-card ring-1 ring-cream-300 sm:p-8" aria-describedby={error ? "intake-error" : undefined}>
-      <div className="grid gap-6 md:grid-cols-2">
+    <form onSubmit={submit} noValidate className="surface p-6 sm:p-8" aria-describedby={error ? "intake-error" : undefined}>
+      <div className="grid gap-6 md:grid-cols-2 md:gap-x-8">
         <div>
-          <label htmlFor="person-name" className="mb-2 block text-lg font-bold text-ink-900">
+          <label htmlFor="person-name" className="field-label">
             Their name
           </label>
-          <input
-            id="person-name"
-            name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Grandma Michiko"
-            autoComplete="off"
-            className="min-h-14 w-full rounded-2xl border-2 border-cream-300 bg-white px-4 text-xl text-ink-900 placeholder:text-ink-300 focus:border-ember-600"
-          />
+          <input id="person-name" name="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Grandma Michiko" autoComplete="off" className="field-input" />
+          <p className="hint">Or what you call them.</p>
         </div>
         <div>
-          <label htmlFor="birth-year" className="mb-2 block text-lg font-bold text-ink-900">
+          <label htmlFor="birth-year" className="field-label">
             Year they were born
           </label>
           <input
@@ -86,9 +79,9 @@ export function IntakeForm() {
             onChange={(e) => setBirthYear(e.target.value.replace(/[^0-9]/g, "").slice(0, 4))}
             placeholder="1950"
             aria-describedby="birth-year-hint"
-            className="min-h-14 w-full rounded-2xl border-2 border-cream-300 bg-white px-4 text-xl text-ink-900 placeholder:text-ink-300 focus:border-ember-600"
+            className="field-input"
           />
-          <p id="birth-year-hint" className="mt-1.5 text-base text-ink-500" aria-live="polite">
+          <p id="birth-year-hint" className="hint" aria-live="polite">
             {window ? `They were 15 to 30 from ${window.start} to ${window.end}. That is where we will look.` : "We build around the years they were 15 to 30."}
           </p>
         </div>
@@ -107,16 +100,10 @@ export function IntakeForm() {
           />
         </div>
         <div>
-          <label htmlFor="language" className="mb-2 block text-lg font-bold text-ink-900">
+          <label htmlFor="language" className="field-label">
             Language for the prompts
           </label>
-          <select
-            id="language"
-            name="language"
-            value={language}
-            onChange={(e) => setLanguage(e.target.value as Language)}
-            className="min-h-14 w-full rounded-2xl border-2 border-cream-300 bg-white px-4 text-xl text-ink-900 focus:border-ember-600"
-          >
+          <select id="language" name="language" value={language} onChange={(e) => setLanguage(e.target.value as Language)} className="field-input">
             {LANGUAGES.map((l) => (
               <option key={l.code} value={l.code}>
                 {l.nativeLabel}
@@ -135,20 +122,20 @@ export function IntakeForm() {
             onChange={setFavoriteText}
             onSelect={(s: Suggestion) => addFavorite({ name: s.name, entityId: s.entityId, type: s.type, imageUrl: s.imageUrl })}
             onFreeText={(t) => addFavorite({ name: t })}
-            hint="Pick from Qloo's suggestions so the taste graph can use them as seeds. Press Enter to add a free-text favorite."
+            hint="Up to three. Pick from the suggestions when you can; Qloo uses them as seeds. Press Enter to add a name as typed."
             autoComplete="off"
           />
           {favorites.length > 0 ? (
             <ul className="mt-3 flex flex-wrap gap-2" aria-label="Chosen favorites">
               {favorites.map((f) => (
-                <li key={f.name} className="inline-flex items-center gap-2 rounded-full bg-ember-100 py-1.5 pr-1.5 pl-4 text-lg font-bold text-ember-700">
+                <li key={f.name} className="tag">
                   {f.name}
-                  {!f.entityId ? <span className="text-sm font-normal text-ember-700/80">(unmatched)</span> : null}
+                  <small>{f.type ? (TYPE_LABEL[f.type] ?? "").toLowerCase() : "as typed"}</small>
                   <button
                     type="button"
                     onClick={() => setFavorites((list) => list.filter((x) => x.name !== f.name))}
                     aria-label={`Remove ${f.name}`}
-                    className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-ember-600 hover:text-white"
+                    className="flex h-8 w-8 items-center justify-center rounded-sm text-xl text-ink-500 hover:bg-paper-100 hover:text-ember-700"
                   >
                     ×
                   </button>
@@ -159,18 +146,14 @@ export function IntakeForm() {
         </div>
       </div>
       {error ? (
-        <p id="intake-error" role="alert" className="mt-5 rounded-2xl bg-ember-100 px-4 py-3 text-lg font-bold text-ember-700">
+        <p id="intake-error" role="alert" className="notice mt-6 font-semibold text-ember-700">
           {error}
         </p>
       ) : null}
-      <div className="mt-6 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-base text-ink-500">Nothing here leaves your browser except the search terms sent to Qloo.</p>
-        <button
-          type="submit"
-          disabled={busy}
-          className="inline-flex min-h-14 items-center justify-center rounded-2xl bg-ink-900 px-7 text-xl font-bold text-white shadow-card transition hover:bg-ember-700 disabled:opacity-70"
-        >
-          {busy ? "Opening…" : "Build their session"}
+      <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-paper-200 pt-6">
+        <p className="max-w-[42ch] text-sm text-ink-500">Nothing here leaves your browser except the search terms sent to Qloo.</p>
+        <button type="submit" disabled={busy} className="btn btn-primary btn-lg">
+          {busy ? "Opening…" : "Make their session"}
         </button>
       </div>
     </form>

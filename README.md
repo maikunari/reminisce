@@ -5,7 +5,7 @@ A cultural memory session builder for dementia caregivers, driven by an agent th
 
 Built for the Qloo Agentic Hackathon. MIT licensed.
 
-![Michiko's session: a warm card for Yujiro Ishihara with a conversation prompt, a "why this" line and two big reaction buttons](docs/screenshots/session-michiko.png)
+![Michiko's session: a record sleeve for Yujiro Ishihara beside the card, an italic conversation prompt, a "From Qloo" footnote and two large reaction buttons](docs/screenshots/session-michiko.png)
 
 ## What it is
 
@@ -63,7 +63,7 @@ caregiver intake ──► /api/plan ──────────────�
                        deck re-tuned; trace appended to the Why Qloo panel
 ```
 
-![Planning view streaming the agent's trace: looking up Hibari Misora, resolving Osaka, one Qloo call so far](docs/screenshots/planning.png)
+![Planning view: "Asking Qloo what Osaka loved from 1965 to 1980", one Qloo call so far, and the first trace lines looking up Hibari Misora](docs/screenshots/planning.png)
 
 The loop is a real tool-calling loop. The model (any OpenAI-compatible chat model with function calling) sees five tools and nothing else; it cannot invent an entity because `plan_session` and `adapt_session` only accept entity ids that an earlier `qloo_insights` call returned in this session. Every step is emitted as a trace event and streamed to the browser as NDJSON, so the planning screen shows the agent thinking and the Why Qloo panel keeps the full timeline.
 
@@ -172,24 +172,29 @@ Tapping **They lit up** on a card:
 
 **Not this one** excludes that entity and steers the next cards of that domain toward a different domain (the last one that lit up, if any).
 
-![After tapping They lit up: a notice reads "Re-tuned 3 upcoming cards toward what lit them up" and the second deck card is marked new](docs/screenshots/retuned.png)
+![After tapping They lit up: a notice reads "Three of the next cards now lean toward Yujiro Ishihara" and the re-tuned deck cards are marked new](docs/screenshots/retuned.png)
+
+When every card has a reaction, the session closes with a keepsake: what lit them up, each with its prompt, ready to print for the care file.
+
+![Keepsake at the end of Frank's session: "What lit Frank up today" lists six cards with their prompts above a Print for the care file button](docs/screenshots/keepsake.png)
 
 ## Why Qloo panel
 
 Open from the header or from "See the Qloo call" on any card. For the current card it shows the entity type, the source (live, recorded or synthetic), affinity with a bar, rank and popularity, Qloo's explainability per seed, and every signal, filter and output parameter that was sent. Below it is the full agent timeline: narration, each tool call with its arguments, each Qloo request with its parameters, result counts and durations, and any parameters the validator dropped. Escape closes it; it is a complementary landmark and keyboard reachable.
 
-![Why Qloo panel beside the card showing GET /v2/insights parameters, affinity 0.905 and the explainability bar for Hibari Misora](docs/screenshots/why-qloo.png)
+![Why Qloo panel beside the card: "Qloo was asked for artists with taste affinity to Hibari Misora, tuned to Osaka, for people 55 and older", affinity 0.905, a Pulled-in-by bar for Hibari Misora and the request as a table](docs/screenshots/why-qloo.png)
 
 ## Accessibility and design
 
 Designed for a tablet on a care-home table, used by someone whose eyes and hands are busy:
 
-- 18px base type, Atkinson Hyperlegible for text, Fraunces for display; WCAG AA contrast on every pairing (the warm palette was checked against the cream background).
+- 18px base type, Libre Franklin for text, Fraunces for display; one ink and one accent (ember) with WCAG AA contrast on every pairing against the paper background. Domain inks appear only on the sleeves and the 10px swatch beside a label, never behind text.
 - Every control is at least 44px tall, named, and reachable by keyboard; left and right arrows move between cards.
 - Live regions announce planning progress, re-tuning and notices; the trace panel is a labelled complementary region; the deck strip is navigation with per-card labels including the reaction.
-- `prefers-reduced-motion` disables the card rise, the re-tuning pulse and the skeleton shimmer.
-- Posters come from Qloo image URLs with a domain-coloured monogram placeholder when there is none or it fails to load.
-- Works from phone portrait to desktop; the trace panel is a drawer on small screens and a side column on wide ones.
+- No animation on load. `prefers-reduced-motion` removes the 160ms card crossfade and the moving re-tuning rule.
+- Qloo image URLs are shown as a matted photograph; without one, each card gets a printed sleeve for its domain (album sleeve, ticket stub, menu card, postcard, luggage label, television) with the title set in type, so no card is ever a grey box.
+- Works from phone portrait to desktop; the trace panel sits below the card on small screens and in a side column on wide ones.
+- When every card has a reaction, a keepsake lists what lit them up with its prompt and prints cleanly for the care file.
 
 ## Privacy
 

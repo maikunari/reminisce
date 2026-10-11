@@ -8,36 +8,32 @@ interface Props {
   events: TraceEvent[];
 }
 
-/** Shown while the agent is building the deck: the person, and the plan as it happens. */
+/** Shown while the agent is building the deck: blank sleeves on the table, and the plan as it happens. */
 export function PlanningView({ person, youthWindow, events }: Props) {
   const lines = events.filter((e) => e.kind !== "tool_call").slice(-6);
   const qlooCalls = events.filter((e) => e.qloo).length;
   return (
-    <section aria-live="polite" aria-busy="true" className="grid gap-8 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]" data-testid="planning-view">
-      <div className="relative" aria-hidden="true">
-        <div className="skeleton absolute inset-x-6 top-6 h-[26rem] rotate-[-3deg] rounded-card opacity-60" />
-        <div className="skeleton absolute inset-x-3 top-3 h-[26rem] rotate-[1.5deg] rounded-card opacity-80" />
-        <div className="skeleton relative h-[26rem] rounded-card" />
+    <section aria-live="polite" aria-busy="true" className="grid min-h-[60vh] gap-8 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:gap-12" data-testid="planning-view">
+      <div className="relative mx-auto aspect-square w-full max-w-[420px]" aria-hidden="true">
+        <div className="sleeve-blank absolute top-[8%] left-0 aspect-square w-[58%] -rotate-[5deg]" />
+        <div className="sleeve-blank absolute top-0 right-0 aspect-square w-1/2 rotate-[4deg]" />
+        <div className="sleeve-blank absolute bottom-0 left-[24%] aspect-square w-[56%] -rotate-[1.5deg]" />
       </div>
       <div>
-        <p className="inline-flex items-center gap-2 rounded-full bg-ember-100 px-4 py-1.5 text-base font-bold text-ember-700">
-          <span className="relative flex h-3 w-3" aria-hidden="true">
-            <span className="absolute inline-flex h-full w-full animate-pulse-ring rounded-full bg-ember-600" />
-            <span className="relative inline-flex h-3 w-3 rounded-full bg-ember-600" />
-          </span>
-          Building {person.name}&apos;s session
-        </p>
-        <h2 className="mt-4 font-display text-4xl font-semibold text-ink-900">
+        <p className="label">Building {person.name}&apos;s session</p>
+        <h2 className="balance mt-3 text-3xl sm:text-4xl">
           Asking Qloo what {person.hometown} loved from {youthWindow.start} to {youthWindow.end}
         </h2>
-        <p className="mt-3 text-lg text-ink-500">
+        <p className="mt-3 text-md text-ink-500">
           {qlooCalls} Qloo call{qlooCalls === 1 ? "" : "s"} so far. Seeds: {person.favorites.map((f) => f.name).join(", ") || "none"}.
         </p>
-        <ol className="mt-6 space-y-2" data-testid="planning-trace">
+        <div className="progress mt-6" aria-hidden="true">
+          <i />
+        </div>
+        <ol className="mt-6 divide-y divide-paper-200" data-testid="planning-trace">
           {lines.map((e) => (
-            <li key={e.id} className="animate-rise flex items-start gap-3 text-lg text-ink-700">
-              <span className={`mt-2 inline-block h-2.5 w-2.5 shrink-0 rounded-full ${e.kind === "narration" ? "bg-ember-600" : e.kind === "error" ? "bg-ink-700" : "bg-sage-600"}`} aria-hidden="true" />
-              <span>{e.summary}</span>
+            <li key={e.id} className={`py-2.5 text-md ${e.kind === "narration" ? "font-display text-ink-700 italic" : "text-ink-900"}`}>
+              {e.summary}
             </li>
           ))}
         </ol>

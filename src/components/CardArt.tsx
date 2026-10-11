@@ -2,57 +2,59 @@
 
 import { useState } from "react";
 
-import { DOMAIN_STYLE } from "@/lib/session/domain-style";
 import type { Domain } from "@/lib/session/types";
 
-import { DomainIcon } from "./DomainIcon";
+import { Sleeve } from "./Sleeve";
 
 interface Props {
   title: string;
   domain: Domain;
   imageUrl?: string;
   year?: number;
-  className?: string;
-  /** Large art for the main card, or a small thumbnail for the deck strip. */
+  subtitle?: string;
+  /** Large art for the main card, or a small thumbnail for the programme strip. */
   variant?: "hero" | "thumb";
+  className?: string;
+}
+
+/** The small uppercase line on each sleeve, specific where the data allows (year, label). */
+function sleeveLabel(domain: Domain, year?: number): string | undefined {
+  switch (domain) {
+    case "music":
+      return "45 rpm";
+    case "film":
+      return year ? String(year) : "Feature";
+    case "tv":
+      return year ? String(year) : "Television";
+    case "dining":
+      return "Menu";
+    case "destination":
+      return year ? String(year) : "Bon voyage";
+    case "place":
+      return undefined;
+  }
 }
 
 /**
- * Poster or album art from the Qloo image URL when present, otherwise a warm
- * typographic placeholder in the domain's colour. Never a broken image.
+ * A Qloo image when there is one, pasted into the album in a white matte with
+ * an italic caption; otherwise printed ephemera for the domain. Never a broken
+ * image, never a blank grey box.
  */
-export function CardArt({ title, domain, imageUrl, year, className = "", variant = "hero" }: Props) {
+export function CardArt({ title, domain, imageUrl, year, subtitle, variant = "hero", className = "" }: Props) {
   const [failed, setFailed] = useState(false);
-  const style = DOMAIN_STYLE[domain];
-  const initial = [...title.trim()][0]?.toUpperCase() ?? "?";
-  const showImage = imageUrl && !failed;
   const hero = variant === "hero";
 
-  return (
-    <div className={`relative overflow-hidden bg-gradient-to-br ${style.gradient} ${className}`}>
-      {showImage ? (
-        // Qloo serves images from its own CDN hosts; a plain <img> with a
-        // graceful fallback is more robust than next/image here.
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={imageUrl}
-          alt=""
-          loading={hero ? "eager" : "lazy"}
-          decoding="async"
-          onError={() => setFailed(true)}
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-      ) : (
-        <div className="absolute inset-0 flex items-center justify-center" aria-hidden="true">
-          <DomainIcon domain={domain} className={`absolute ${hero ? "h-72 w-72 -right-10 -bottom-12" : "h-20 w-20 -right-3 -bottom-3"} text-white/15`} />
-          <span className={`font-display italic text-white drop-shadow-sm ${hero ? "text-[9rem] leading-none" : "text-4xl"}`}>{initial}</span>
-        </div>
-      )}
-      {hero && year ? (
-        <span className="absolute top-4 left-4 rounded-full bg-ink-900/80 px-3.5 py-1.5 text-base font-bold text-white backdrop-blur">
-          {year}
-        </span>
-      ) : null}
-    </div>
-  );
+  if (imageUrl && !failed) {
+    const caption = [title, year ? String(year) : null].filter(Boolean).join(", ");
+    return (
+      <figure className={`photo ${className}`.trim()}>
+        {/* Qloo serves images from its own CDN hosts; a plain <img> with a fallback is more robust than next/image here. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={imageUrl} alt="" loading={hero ? "eager" : "lazy"} decoding="async" onError={() => setFailed(true)} />
+        {hero ? <figcaption>{caption}</figcaption> : null}
+      </figure>
+    );
+  }
+
+  return <Sleeve domain={domain} title={title} label={sleeveLabel(domain, year)} line={hero ? subtitle : undefined} mini={!hero} className={className} />;
 }

@@ -1,12 +1,12 @@
-import type { Person } from "./types";
+import type { Domain, Person } from "./types";
 
 export interface Preset {
   id: string;
   person: Person;
-  /** Short line under the name on the home page. */
+  /** Two lines under the name on the home page. */
   blurb: string;
-  /** Two-letter flag-free locale hint used for the card art accent. */
-  accent: "ember" | "sea";
+  /** Which sleeve stands in for their portrait on the home page. */
+  art: Domain;
 }
 
 /**
@@ -22,10 +22,11 @@ export const PRESETS: Preset[] = [
       hometown: "Osaka",
       favorites: [{ name: "Hibari Misora" }],
       language: "en",
+      pronoun: "she",
       presetId: "michiko",
     },
-    blurb: "Born 1950, grew up in Osaka, loved Hibari Misora.",
-    accent: "ember",
+    blurb: "Grew up with Hibari Misora on the radio, Tora-san at the pictures, and the crab sign over Dotonbori.",
+    art: "music",
   },
   {
     id: "frank",
@@ -35,10 +36,11 @@ export const PRESETS: Preset[] = [
       hometown: "Chicago",
       favorites: [{ name: "Frank Sinatra" }],
       language: "en",
+      pronoun: "he",
       presetId: "frank",
     },
-    blurb: "Born 1945, grew up in Chicago, loved Frank Sinatra.",
-    accent: "sea",
+    blurb: "Sinatra on the hi-fi, the Rat Pack at the Chicago Theatre, steak at Gene & Georgetti.",
+    art: "film",
   },
 ];
 

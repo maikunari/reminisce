@@ -4,13 +4,14 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { Footer } from "@/components/Footer";
-import { Logo } from "@/components/Logo";
+import { Masthead } from "@/components/Masthead";
 import { useIsClient } from "@/lib/client/hooks";
 import { postNdjson } from "@/lib/client/ndjson";
 import { loadSession, saveSession } from "@/lib/session/storage";
-import type { Reaction, Session, StreamEvent, TraceEvent } from "@/lib/session/types";
+import { pronounsFor, type Reaction, type Session, type StreamEvent, type TraceEvent } from "@/lib/session/types";
 
 import { DeckStrip } from "./DeckStrip";
+import { Keepsake } from "./Keepsake";
 import { MemoryCard } from "./MemoryCard";
 import { PlanningView } from "./PlanningView";
 import { RetuningBanner } from "./RetuningBanner";
@@ -18,14 +19,19 @@ import { TracePanel } from "./TracePanel";
 
 type Loaded = { kind: "missing" } | { kind: "ready"; session: Session };
 
+const NUMBER_WORD = ["One", "Two", "Three", "Four", "Five", "Six"];
+function numberWord(n: number): string {
+  return NUMBER_WORD[n - 1] ?? String(n);
+}
+
 /** Sessions live in localStorage, so the view mounts only in the browser. */
 export function SessionView({ id }: { id: string }) {
   const isClient = useIsClient();
   if (!isClient) {
     return (
-      <main id="main" className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8" aria-busy="true">
-        <div className="skeleton h-10 w-64 rounded-xl" />
-        <div className="skeleton mt-8 h-[28rem] rounded-card" />
+      <main id="main" className="wrap wrap-wide py-16" aria-busy="true">
+        <div className="sleeve-blank h-10 w-64" />
+        <div className="sleeve-blank mt-8 h-[28rem]" />
       </main>
     );
   }
@@ -129,12 +135,14 @@ function SessionClient({ id }: { id: string }) {
       const s = sessionRef.current;
       if (!s || s.status === "retuning") return;
       const index = s.cards.findIndex((c) => c.id === cardId);
-      if (index < 0) return;
+      const card = s.cards[index];
+      if (!card) return;
+      const pronouns = pronounsFor(s.person.pronoun);
       const cards = s.cards.map((c) => (c.id === cardId ? { ...c, reaction } : c));
       const hasUpcoming = cards.some((c, i) => i > index && !c.reaction);
       update((prev) => ({ ...prev, cards, status: hasUpcoming ? "retuning" : "ready" }));
       if (!hasUpcoming) {
-        setNotice(reaction === "lit_up" ? "Noted. That one lit them up." : "Noted. Nothing left to re-tune.");
+        setNotice(reaction === "lit_up" ? `Noted. That one lit ${pronouns.object} up.` : "Noted. Nothing left ahead to change.");
         return;
       }
       setLiveEvents([]);
@@ -156,10 +164,10 @@ function SessionClient({ id }: { id: string }) {
             const n = ev.result.replacements.length;
             setNotice(
               n === 0
-                ? "Qloo had nothing new for this one; the deck stays as it is."
+                ? "Nothing new came back for this one. The deck stays as it is."
                 : reaction === "lit_up"
-                  ? `Re-tuned ${n} upcoming card${n === 1 ? "" : "s"} toward what lit them up.`
-                  : `Steered ${n} upcoming card${n === 1 ? "" : "s"} away from that.`,
+                  ? `${numberWord(n)} of the next cards now lean${n === 1 ? "s" : ""} toward ${card.title}.`
+                  : `${numberWord(n)} of the next cards now steer${n === 1 ? "s" : ""} away from that.`,
             );
           } else if (ev.type === "error") throw new Error(ev.message);
         });
@@ -167,7 +175,7 @@ function SessionClient({ id }: { id: string }) {
       } catch (error) {
         setLiveEvents([]);
         update((prev) => ({ ...prev, status: "ready" }));
-        setNotice(`Couldn't re-tune: ${error instanceof Error ? error.message : "unknown error"}`);
+        setNotice(`Couldn't re-tune: ${error instanceof Error ? error.message : "unknown error"}.`);
       }
     },
     [update],
@@ -175,13 +183,25 @@ function SessionClient({ id }: { id: string }) {
 
   if (state.kind === "missing") {
     return (
-      <main id="main" className="mx-auto w-full max-w-3xl px-5 py-20 text-center sm:px-8">
-        <h1 className="font-display text-4xl font-semibold text-ink-900">This session isn&apos;t on this device</h1>
-        <p className="mt-4 text-xl text-ink-700">Sessions live in the browser that created them. Nothing is stored on a server.</p>
-        <Link href="/" className="mt-8 inline-flex min-h-14 items-center rounded-2xl bg-ember-600 px-6 text-xl font-bold text-white">
-          Build a new session
-        </Link>
-      </main>
+      <div className="wrap wrap-wide flex flex-1 flex-col">
+        <Masthead
+          actions={
+            <Link href="/" className="btn-text btn-text-muted">
+              New session
+            </Link>
+          }
+        />
+        <main id="main" className="flex-1 py-16 sm:py-24">
+          <div className="mx-auto max-w-[36rem] text-center">
+            <h1 className="balance text-3xl sm:text-4xl">This session isn&apos;t on this device</h1>
+            <p className="lede mt-4">Sessions live in the browser that created them. Nothing is stored on a server.</p>
+            <Link href="/" className="btn btn-primary mt-8">
+              Build a new session
+            </Link>
+          </div>
+        </main>
+        <Footer />
+      </div>
     );
   }
 
@@ -190,47 +210,44 @@ function SessionClient({ id }: { id: string }) {
   const litUp = s.cards.filter((c) => c.reaction === "lit_up");
   const reactedAll = s.cards.length > 0 && s.cards.every((c) => c.reaction);
   const retuning = s.status === "retuning";
+  const pronouns = pronounsFor(s.person.pronoun);
 
   return (
-    <>
-      <header className="mx-auto flex w-full max-w-7xl flex-wrap items-center gap-3 px-5 pt-5 sm:px-8">
-        <Logo compact />
-        <p className="order-last w-full text-lg text-ink-700 sm:order-none sm:w-auto sm:flex-1 sm:px-4" data-testid="person-summary">
-          <strong className="text-ink-900">{s.person.name}</strong> · born {s.person.birthYear} · {s.person.hometown}
-          {s.person.favorites.length > 0 ? <> · loved {s.person.favorites.map((f) => f.name).join(", ")}</> : null}
-        </p>
-        <div className="ml-auto flex items-center gap-2">
-          <span className={`hidden rounded-full px-3 py-1.5 text-sm font-bold sm:inline ${s.qlooMode === "live" ? "bg-sage-100 text-sage-700" : "bg-gold-100 text-gold-700"}`}>
-            Qloo {s.qlooMode === "live" ? "live" : "fixtures"}
-          </span>
-          <button
-            type="button"
-            onClick={() => setTraceOpen((o) => !o)}
-            aria-expanded={traceOpen}
-            aria-controls="trace-panel"
-            data-testid="why-qloo-toggle"
-            className="inline-flex min-h-12 items-center gap-2 rounded-full border-2 border-ink-900 bg-white px-4 text-base font-bold text-ink-900 hover:bg-ink-900 hover:text-white"
-          >
-            <span aria-hidden="true">✦</span> Why Qloo
-          </button>
-          <Link href="/" className="hidden min-h-12 items-center rounded-full px-3 text-base font-bold text-ink-700 underline decoration-2 underline-offset-4 sm:inline-flex">
-            New session
-          </Link>
-        </div>
-      </header>
+    <div className="wrap wrap-wide flex flex-1 flex-col">
+      <Masthead
+        centre={
+          <p className="label label-ink sm:truncate" data-testid="person-summary">
+            {s.person.name} · {s.person.hometown} · {s.youthWindow.start} to {s.youthWindow.end}
+            {s.person.favorites.length > 0 ? ` · loved ${s.person.favorites.map((f) => f.name).join(", ")}` : ""}
+          </p>
+        }
+        actions={
+          <>
+            <button
+              type="button"
+              onClick={() => setTraceOpen((o) => !o)}
+              aria-expanded={traceOpen}
+              aria-controls="trace-panel"
+              data-testid="why-qloo-toggle"
+              className="btn-text print-hide"
+            >
+              Why Qloo
+            </button>
+            <Link href="/" className="btn-text btn-text-muted print-hide">
+              New session
+            </Link>
+          </>
+        }
+      />
 
-      <div className={`mx-auto w-full max-w-7xl px-5 pt-6 sm:px-8 ${traceOpen ? "xl:grid xl:grid-cols-[minmax(0,1fr)_26rem] xl:items-start xl:gap-6" : ""}`}>
+      <div className={`flex-1 pt-6 ${traceOpen ? "xl:grid xl:grid-cols-[minmax(0,1fr)_26rem] xl:items-start xl:gap-8" : ""}`}>
         <main id="main" className="min-w-0">
           <h1 className="sr-only">{s.person.name}&apos;s session</h1>
           {s.status === "error" ? (
-            <div role="alert" className="rounded-card bg-ember-100 p-6 text-lg text-ember-700">
-              <p className="font-bold">Couldn&apos;t build the session.</p>
-              <p className="mt-1">{s.error}</p>
-              <button
-                type="button"
-                onClick={() => update((prev) => ({ ...prev, status: "planning", error: undefined }))}
-                className="mt-4 inline-flex min-h-12 items-center rounded-2xl bg-ember-600 px-5 font-bold text-white"
-              >
+            <div role="alert" className="surface p-6">
+              <p className="notice font-semibold text-ember-700">Couldn&apos;t build the session.</p>
+              <p className="mt-2 text-md text-ink-700">{s.error}</p>
+              <button type="button" onClick={() => update((prev) => ({ ...prev, status: "planning", error: undefined }))} className="btn btn-outline mt-4">
                 Try again
               </button>
             </div>
@@ -238,69 +255,54 @@ function SessionClient({ id }: { id: string }) {
             <PlanningView person={s.person} youthWindow={s.youthWindow} events={liveEvents} />
           ) : (
             <>
-              <div className="mb-5 space-y-3">
-                {retuning ? <RetuningBanner events={liveEvents} label={`Re-tuning upcoming cards with Qloo…`} /> : null}
-                {notice && !retuning ? (
-                  <p role="status" className="rounded-2xl bg-sage-100 px-5 py-3 text-lg font-bold text-sage-700" data-testid="notice">
+              <div className="print-hide mb-4 flex min-h-[2rem] items-baseline justify-between gap-4">
+                {retuning ? (
+                  <RetuningBanner events={liveEvents} label="Re-tuning the next cards with Qloo…" />
+                ) : notice ? (
+                  <p role="status" className="notice" data-testid="notice">
                     {notice}
                   </p>
-                ) : null}
+                ) : (
+                  <span />
+                )}
+                {litUp.length > 0 ? <p className="label flex-none">{litUp.length} lit up so far</p> : null}
               </div>
               {current ? (
-                <MemoryCard
-                  key={current.id}
-                  card={current}
-                  index={s.currentIndex}
-                  total={s.cards.length}
-                  onReact={(r) => react(current.id, r)}
-                  onWhy={() => setTraceOpen(true)}
-                  disabled={retuning}
-                />
+                <div className={reactedAll ? "print-hide" : ""}>
+                  <MemoryCard
+                    key={current.id}
+                    card={current}
+                    index={s.currentIndex}
+                    total={s.cards.length}
+                    onReact={(r) => react(current.id, r)}
+                    onWhy={() => setTraceOpen(true)}
+                    disabled={retuning}
+                    language={s.person.language}
+                    pronouns={pronouns}
+                  />
+                </div>
               ) : null}
-              <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
-                <button
-                  type="button"
-                  onClick={() => go(s.currentIndex - 1)}
-                  disabled={s.currentIndex === 0}
-                  className="inline-flex min-h-14 items-center gap-2 rounded-2xl border-2 border-cream-300 bg-white px-5 text-lg font-bold text-ink-900 hover:border-ink-900 disabled:opacity-40"
-                >
+              <div className="print-hide mt-6 grid grid-cols-2 items-center gap-4 sm:grid-cols-[auto_minmax(0,1fr)_auto]">
+                <button type="button" onClick={() => go(s.currentIndex - 1)} disabled={s.currentIndex === 0} className="btn btn-quiet">
                   ← Previous
                 </button>
-                <p className="order-last w-full text-center text-base text-ink-500 sm:order-none sm:w-auto" aria-live="polite">
-                  {litUp.length > 0 ? `${litUp.length} lit up so far` : "Tap how they respond; upcoming cards re-tune."}
+                <p className="hidden text-center text-sm text-ink-500 sm:block" aria-live="polite">
+                  Tap how they respond. The rest of the deck follows their lead.
                 </p>
-                <button
-                  type="button"
-                  onClick={() => go(s.currentIndex + 1)}
-                  disabled={s.currentIndex >= s.cards.length - 1}
-                  data-testid="next-card"
-                  className="inline-flex min-h-14 items-center gap-2 rounded-2xl bg-ink-900 px-5 text-lg font-bold text-white hover:bg-ember-700 disabled:opacity-40"
-                >
+                <button type="button" onClick={() => go(s.currentIndex + 1)} disabled={s.currentIndex >= s.cards.length - 1} data-testid="next-card" className="btn btn-quiet">
                   Next →
                 </button>
               </div>
-              <div className="mt-8">
+              <div className="mt-6">
                 <DeckStrip cards={s.cards} currentIndex={s.currentIndex} onSelect={go} retuning={retuning} />
               </div>
-              {reactedAll ? (
-                <section className="mt-8 rounded-card bg-white p-6 shadow-card ring-1 ring-cream-300" aria-labelledby="done-heading">
-                  <h2 id="done-heading" className="font-display text-3xl font-semibold text-ink-900">
-                    That&apos;s the session.
-                  </h2>
-                  <p className="mt-2 text-lg text-ink-700">
-                    {litUp.length > 0 ? `${litUp.length} thing${litUp.length === 1 ? "" : "s"} lit ${s.person.name} up: ${litUp.map((c) => c.title).join(", ")}.` : "Nothing landed this time; that happens. Try again another day."}
-                  </p>
-                  <Link href="/" className="mt-4 inline-flex min-h-12 items-center rounded-2xl bg-ember-600 px-5 text-lg font-bold text-white">
-                    Build another session
-                  </Link>
-                </section>
-              ) : null}
+              {reactedAll ? <Keepsake session={s} /> : null}
             </>
           )}
         </main>
         <TracePanel open={traceOpen} onClose={() => setTraceOpen(false)} session={s} card={current} liveEvents={liveEvents} />
       </div>
       <Footer />
-    </>
+    </div>
   );
 }

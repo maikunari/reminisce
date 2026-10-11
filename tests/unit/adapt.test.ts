@@ -31,6 +31,10 @@ describe("adaptSession", () => {
       expect(plan.cards[replaced]?.reaction).toBeUndefined();
       expect(r.signals.params["signal.interests.entities"]).toContain(liked.entityId);
       expect(r.signals.params["filter.exclude.entities"]).toContain(liked.entityId);
+      // The liked card is a seed, so it is named in the "why" line, never printed as an id prefix.
+      expect(r.signals.seedNames).toContain(liked.title);
+      expect(r.why).toContain(liked.title);
+      expect(r.why).not.toMatch(/\b[0-9a-f]{8}\b/);
     }
     const domains = new Set(result.replacements.map((r) => r.domain));
     expect(domains.has(liked.domain)).toBe(true);

@@ -11,7 +11,7 @@ async function deckTitles(page: Page): Promise<string[]> {
 }
 
 async function deckDomains(page: Page): Promise<string[]> {
-  return page.getByTestId("deck-strip").locator("li button span:first-of-type").allInnerTexts();
+  return page.getByTestId("deck-strip").locator("li").evaluateAll((els) => els.map((el) => el.getAttribute("data-domain") ?? ""));
 }
 
 for (const preset of PRESETS) {
@@ -37,8 +37,9 @@ for (const preset of PRESETS) {
     const panel = page.getByTestId("trace-panel");
     await expect(panel).toBeVisible();
     await expect(page.getByTestId("trace-affinity")).toHaveText(/^\d\.\d{3}$/);
-    await expect(panel.getByTestId("trace-card")).toContainText("filter.type=urn:entity:");
     await expect(panel.getByTestId("trace-card")).toContainText(preset.seed);
+    await panel.getByTestId("trace-card").getByText("Raw request").click();
+    await expect(panel.getByTestId("trace-card")).toContainText("filter.type=urn:entity:");
     expect(await panel.getByTestId("trace-timeline").locator("li").count()).toBeGreaterThanOrEqual(10);
     await expect(panel).toContainText("GET /v2/insights");
     await page.keyboard.press("Escape");
@@ -49,7 +50,7 @@ for (const preset of PRESETS) {
     const currentTitle = await page.getByTestId("card-title").innerText();
     await page.getByTestId("react-lit-up").click();
     await expect(page.getByTestId("react-lit-up")).toBeDisabled();
-    await expect(page.getByTestId("notice")).toContainText(/Re-tuned \d upcoming card/, { timeout: 45_000 });
+    await expect(page.getByTestId("notice")).toContainText(/of the next cards now lean/, { timeout: 45_000 });
     const after = await deckTitles(page);
     expect(after).not.toEqual(before);
     expect(after[0]).toBe(before[0]);
@@ -93,7 +94,7 @@ test("intake form: autocomplete from Qloo search, prompts in the chosen language
   await favorite.fill("Julio");
   await page.getByRole("option", { name: /Julio Iglesias/ }).first().click();
   await expect(page.getByRole("list", { name: "Chosen favorites" })).toContainText("Julio Iglesias");
-  await page.getByRole("button", { name: "Build their session" }).click();
+  await page.getByRole("button", { name: "Make their session" }).click();
   await expect(page).toHaveURL(/\/session\//);
   await expect(page.getByTestId("memory-card")).toBeVisible({ timeout: 45_000 });
   await expect(page.getByTestId("card-prompt")).toHaveText(/[¿?]/);
@@ -104,4 +105,24 @@ test("session pages for unknown ids explain that sessions stay on the device", a
   await page.goto("/session/does-not-exist");
   await expect(page.getByRole("heading", { level: 1 })).toContainText("isn't on this device");
   await expect(page.getByRole("link", { name: "Build a new session" })).toBeVisible();
+});
+
+test("reacting to every card ends in a printable keepsake", async ({ page }) => {
+  await page.goto("/");
+  await page.getByTestId("preset-frank").click();
+  await expect(page.getByTestId("memory-card")).toBeVisible({ timeout: 45_000 });
+  const total = await page.getByTestId("deck-strip").locator("li").count();
+  for (let i = 0; i < total; i++) {
+    const button = page.getByTestId(i % 3 === 2 ? "react-not-this" : "react-lit-up");
+    await expect(button).toBeEnabled();
+    await button.click();
+    await expect(button).toHaveAttribute("aria-pressed", "true");
+    await expect(page.getByTestId("retuning-banner")).toBeHidden({ timeout: 45_000 });
+    if (i < total - 1) await page.getByTestId("next-card").click();
+  }
+  const keepsake = page.getByTestId("keepsake");
+  await expect(keepsake).toBeVisible();
+  await expect(keepsake).toContainText("What lit Frank up today");
+  expect(await keepsake.locator("ol li").count()).toBeGreaterThanOrEqual(5);
+  await expect(keepsake.getByRole("button", { name: "Print for the care file" })).toBeVisible();
 });

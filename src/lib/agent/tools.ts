@@ -364,9 +364,13 @@ async function runSearchEntity(rawArgs: unknown, ctx: ToolContext): Promise<Tool
   return {
     ok: true,
     result: { results },
-    summary: `${results.length} match${results.length === 1 ? "" : "es"} for "${args.query}"${
-      results[0] ? `: ${results[0].name}` : ""
-    }`,
+    summary: args.types?.includes("urn:entity:locality")
+      ? top
+        ? `Resolved "${args.query}" to ${top.name}${top.disambiguation ? ` (${top.disambiguation})` : ""}`
+        : `No locality found for "${args.query}"; using the name as typed`
+      : top
+        ? `Looked up "${args.query}": ${results.length} match${results.length === 1 ? "" : "es"}, best ${top.name}`
+        : `Looked up "${args.query}": no entity found`,
     qloo: traceOf(res, results.length),
   };
 }
@@ -384,7 +388,7 @@ async function runSearchTags(rawArgs: unknown, ctx: ToolContext): Promise<ToolOu
   return {
     ok: true,
     result: { tags },
-    summary: `${tags.length} tag${tags.length === 1 ? "" : "s"} for "${args.query}"${tags[0] ? `: ${tags[0].id}` : ""}`,
+    summary: `Found ${tags.length} Qloo tag${tags.length === 1 ? "" : "s"} for "${args.query}"${tags[0] ? `, first ${tags[0].name}` : ""}`,
     qloo: traceOf(res, tags.length),
   };
 }
@@ -418,7 +422,8 @@ async function runInsights(rawArgs: unknown, ctx: ToolContext): Promise<ToolOutc
   const req = insightsRequestFromArgs(args);
   const res = await ctx.qloo.insights(req, { deadline: ctx.deadline });
   const seedIds = args.signal_entities ?? [];
-  const seedNames = seedIds.map((id) => ctx.names.get(id) ?? ctx.pool.get(id)?.entity.name ?? id.slice(0, 8));
+  // Only seeds we can name reach the caregiver's "why" line; an id is never printed.
+  const seedNames = seedIds.map((id) => ctx.names.get(id) ?? ctx.pool.get(id)?.entity.name).filter((n): n is string => !!n);
   const entities = res.body.results.entities;
   entities.forEach((entity, index) => {
     ctx.names.set(entity.entity_id, entity.name);
@@ -445,9 +450,9 @@ async function runInsights(rawArgs: unknown, ctx: ToolContext): Promise<ToolOutc
       warnings: res.warnings,
       entities: entities.map(compactEntity),
     },
-    summary: `${entities.length} ${label}${args.purpose ? ` for "${args.purpose}"` : ""}${
-      entities[0] ? `; top: ${entities[0].name}` : ""
-    }${res.warnings.length > 0 ? ` (${res.warnings.length} dropped param)` : ""}`,
+    summary: `${entities.length} ${label} came back${args.purpose ? ` for "${args.purpose}"` : ""}${
+      entities[0] ? `, first ${entities[0].name}` : ""
+    }${res.warnings.length > 0 ? ` (${res.warnings.length} parameter${res.warnings.length === 1 ? "" : "s"} dropped before sending)` : ""}`,
     qloo: traceOf(res, entities.length),
   };
 }
@@ -620,7 +625,7 @@ function runPlan(rawArgs: unknown, ctx: ToolContext): ToolOutcome {
   return {
     ok: true,
     result: { ok: true, cards: cards.map((c) => ({ id: c.id, title: c.title, domain: c.domain })) },
-    summary: `plan committed: ${cards.length} cards across ${domains.size} domains`,
+    summary: `Committed ${cards.length} cards across ${domains.size} domains`,
     final: { kind: "plan", cards },
   };
 }
@@ -683,7 +688,7 @@ function runAdapt(rawArgs: unknown, ctx: ToolContext): ToolOutcome {
   return {
     ok: true,
     result: { ok: true, replacements: replacements.map((c) => ({ id: c.id, title: c.title, domain: c.domain, replaces: c.replacedEntityId })) },
-    summary: `adapt committed: ${replacements.length} replacement${replacements.length === 1 ? "" : "s"}`,
+    summary: `Replaced ${replacements.length} upcoming card${replacements.length === 1 ? "" : "s"}`,
     final: { kind: "adapt", replacements },
   };
 }

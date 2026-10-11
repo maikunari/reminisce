@@ -29,7 +29,10 @@ describe("planSession (deterministic planner, fixture Qloo)", () => {
       for (const card of result.cards) {
         expect(card.title.length).toBeGreaterThan(0);
         expect(card.prompt.length).toBeGreaterThan(10);
-        expect(card.why).toMatch(/^Qloo /);
+        // A readable fragment: "artists close to Hibari Misora, tuned to Osaka, for people 55 and older".
+        expect(card.why).toMatch(/^(artists|films|shows|places to eat|places|destinations)\b/);
+        expect(card.why).not.toMatch(/\b[0-9a-f]{8}\b/);
+        expect(card.why).not.toMatch(/urn:|^Qloo|, \(|, close to/);
         expect(card.signals.params["filter.type"]).toBe(DOMAIN_INFO[card.domain].qlooType);
         expect(card.signals.affinity).not.toBeNull();
       }
@@ -89,6 +92,13 @@ describe("planSession (deterministic planner, fixture Qloo)", () => {
     expect(qlooCalls.map((e) => e.qloo!.path)).toEqual(expect.arrayContaining(["/search", "/v2/tags", "/v2/insights"]));
     expect(a.trace.some((e) => e.tool === "plan_session" && e.kind === "tool_result")).toBe(true);
     expect(a.trace.every((e) => e.phase === "plan")).toBe(true);
+  });
+
+  it("keeps raw URNs and parameter names out of the trace summaries", async () => {
+    const result = await plan(michiko);
+    for (const e of result.trace) {
+      expect(e.summary).not.toMatch(/urn:|filter\.[a-z]|signal\.[a-z]|_and_older|_to_\d/);
+    }
   });
 
   it("still plans when a favorite cannot be resolved and writes prompts in the chosen language", async () => {

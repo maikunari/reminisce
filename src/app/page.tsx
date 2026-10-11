@@ -1,64 +1,97 @@
 import { Footer } from "@/components/Footer";
-import { Logo } from "@/components/Logo";
+import { Masthead } from "@/components/Masthead";
+import { Sleeve } from "@/components/Sleeve";
 import { IntakeForm } from "@/components/home/IntakeForm";
 import { PresetCard } from "@/components/home/PresetCard";
 import { PRESETS } from "@/lib/session/presets";
 
+function SectionHead({ id, title, aside }: { id: string; title: string; aside: string }) {
+  return (
+    <div className="mb-6 flex flex-col gap-2 border-b border-paper-300 pb-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
+      <h2 id={id} className="text-3xl">
+        {title}
+      </h2>
+      <p className="text-md text-ink-500">{aside}</p>
+    </div>
+  );
+}
+
 export default function HomePage() {
   return (
-    <>
-      <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-5 pt-6 sm:px-8">
-        <Logo />
-        <a
-          href="https://github.com/maikunari/reminisce#why-qloo-is-essential"
-          rel="noreferrer"
-          className="hidden rounded-full border-2 border-cream-300 bg-white px-4 py-2 text-base font-bold text-ink-700 hover:border-ember-600 hover:text-ember-700 sm:inline-flex"
-        >
-          How it uses Qloo
-        </a>
-      </header>
+    <div className="wrap flex flex-1 flex-col">
+      <Masthead
+        centre={<p className="label hidden sm:block">A conversation aid for caregivers · Built on the Qloo taste graph</p>}
+        actions={
+          <a className="btn-text" href="https://github.com/maikunari/reminisce#why-qloo-is-essential" rel="noreferrer">
+            How it uses Qloo
+          </a>
+        }
+      />
 
-      <main id="main" className="mx-auto w-full max-w-6xl px-5 sm:px-8">
-        <section className="animate-rise pt-12 pb-10 sm:pt-20">
-          <p className="mb-4 inline-flex items-center gap-2 rounded-full bg-ember-100 px-4 py-1.5 text-base font-bold text-ember-700">
-            <span className="inline-block h-2.5 w-2.5 rounded-full bg-ember-600" aria-hidden="true" />
-            For family caregivers and care-home activity staff
-          </p>
-          <h1 className="max-w-4xl font-display text-5xl leading-[1.05] font-semibold tracking-tight text-ink-900 sm:text-7xl">
-            Music and memories from when they were&nbsp;<em className="text-ember-600">20</em>.
-          </h1>
-          <p className="mt-6 max-w-3xl text-xl leading-relaxed text-ink-700 sm:text-2xl">
-            Tell us a loved one&apos;s birth year, where they grew up, and a few things they loved. Reminisce asks the Qloo taste graph what
-            <em> their</em> generation and hometown adored, then builds a 20-minute conversation of songs, films, dishes and places, each with a
-            gentle prompt. It re-tunes live as you tap <strong>they lit up</strong> or <strong>not this one</strong>.
-          </p>
+      <main id="main" className="flex-1">
+        <section className="grid items-center gap-8 py-12 sm:py-16 md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] md:gap-12">
+          <div>
+            <h1 className="balance max-w-[14ch] text-4xl sm:text-5xl">Music and memories from when they were twenty.</h1>
+            <p className="lede mt-6 max-w-[40ch]">
+              Tell us the year a loved one was born, where they grew up, and a few things they loved. Reminisce asks Qloo what their generation
+              and their hometown adored, and sets a table of songs, films, dishes and places to talk about together.
+            </p>
+            <ol className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-md text-ink-500">
+              <li className="flex items-baseline gap-2.5">
+                <span className="font-display text-md text-ember-700">1</span>Three facts about them
+              </li>
+              <li className="flex items-baseline gap-2.5">
+                <span className="font-display text-md text-ember-700">2</span>A 20-minute deck of nine cards
+              </li>
+              <li className="flex items-baseline gap-2.5">
+                <span className="font-display text-md text-ember-700">3</span>
+                <span>
+                  Tap <em>they lit up</em>; the rest follows their lead
+                </span>
+              </li>
+            </ol>
+          </div>
+          {/* Three pieces of ephemera on a table. Decorative. */}
+          <div className="relative mx-auto aspect-square w-full max-w-[420px] md:max-w-none" aria-hidden="true">
+            <Sleeve
+              domain="music"
+              title="Hibari Misora"
+              label="45 rpm · Columbia"
+              line="Kanashii Sake · 1966"
+              className="absolute top-[8%] left-0 aspect-square w-[58%] -rotate-[5deg] border border-paper-300 text-[12px] shadow-lift sm:text-[15px]"
+            />
+            <Sleeve
+              domain="film"
+              title="Red Beard"
+              label="Nikkatsu"
+              line="1965"
+              className="absolute top-0 right-0 aspect-square w-1/2 rotate-[4deg] border border-paper-300 text-[12px] shadow-lift sm:text-[15px]"
+            />
+            <Sleeve
+              domain="place"
+              title="Dotonbori"
+              label="¥10"
+              line="Osaka 1968"
+              className="absolute bottom-0 left-[24%] aspect-square w-[56%] -rotate-[1.5deg] border border-paper-300 text-[12px] shadow-lift sm:text-[15px]"
+            />
+          </div>
         </section>
 
-        <section aria-labelledby="try-heading" className="animate-rise [animation-delay:120ms]">
-          <div className="mb-5 flex items-end justify-between gap-4">
-            <h2 id="try-heading" className="font-display text-3xl font-semibold text-ink-900">
-              Try it in one tap
-            </h2>
-            <p className="hidden text-base text-ink-500 sm:block">Two people, two decades, two worlds.</p>
-          </div>
-          <div className="grid gap-5 md:grid-cols-2">
+        <section aria-labelledby="begin-heading">
+          <SectionHead id="begin-heading" title="Begin with someone we prepared" aside="Two people, two decades, two cities." />
+          <div className="grid gap-6 md:grid-cols-2">
             {PRESETS.map((preset) => (
               <PresetCard key={preset.id} preset={preset} />
             ))}
           </div>
         </section>
 
-        <section aria-labelledby="intake-heading" className="animate-rise mt-16 [animation-delay:200ms]">
-          <div className="mb-5">
-            <h2 id="intake-heading" className="font-display text-3xl font-semibold text-ink-900">
-              Or build one for someone you love
-            </h2>
-            <p className="mt-2 text-lg text-ink-500">Takes about a minute. Favorites are matched against Qloo&apos;s entity search as you type.</p>
-          </div>
+        <section aria-labelledby="make-heading" className="mt-12 sm:mt-16">
+          <SectionHead id="make-heading" title="Or make one for someone you love" aside="About a minute." />
           <IntakeForm />
         </section>
       </main>
       <Footer />
-    </>
+    </div>
   );
 }

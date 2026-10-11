@@ -110,26 +110,57 @@ export async function runLoop(opts: LoopOptions): Promise<{ final: ToolFinal; st
   throw new LoopError("agent finished without committing a session", "no-final");
 }
 
+const TYPE_WORD: Record<string, string> = {
+  "urn:entity:artist": "artists",
+  "urn:entity:movie": "films",
+  "urn:entity:tv_show": "television shows",
+  "urn:entity:place": "places",
+  "urn:entity:destination": "destinations",
+  "urn:entity:locality": "cities",
+  "urn:entity:book": "books",
+  "urn:entity:person": "people",
+  "urn:entity:brand": "brands",
+  "urn:entity:podcast": "podcasts",
+  "urn:entity:video_game": "video games",
+};
+
+const AGE_WORD: Record<string, string> = {
+  "24_and_younger": "24 and younger",
+  "25_to_29": "25 to 29",
+  "30_to_34": "30 to 34",
+  "35_to_44": "35 to 44",
+  "45_to_54": "45 to 54",
+  "55_and_older": "55 and older",
+};
+
+function typeWord(type: unknown): string {
+  const key = String(type ?? "");
+  return TYPE_WORD[key] ?? key.replace("urn:entity:", "").replace(/_/g, " ");
+}
+
+/** One readable line per tool call for the trace; no URNs, no parameter names. */
 function describeCall(call: ToolCall): string {
   const a = (call.args ?? {}) as Record<string, unknown>;
   switch (call.name) {
-    case "qloo_search_entity":
-      return `search "${String(a.query ?? "")}"${Array.isArray(a.types) ? ` in ${a.types.join(", ")}` : ""}`;
+    case "qloo_search_entity": {
+      const types = Array.isArray(a.types) ? a.types.map(typeWord).join(", ") : "";
+      return `Searching Qloo for "${String(a.query ?? "")}"${types ? ` among ${types}` : ""}`;
+    }
     case "qloo_search_tags":
-      return `tags "${String(a.query ?? "")}"${a.parent_type ? ` for ${String(a.parent_type)}` : ""}`;
+      return `Searching Qloo tags for "${String(a.query ?? "")}"${a.parent_type ? ` on ${typeWord(a.parent_type)}` : ""}`;
     case "qloo_insights": {
-      const bits: string[] = [String(a.filter_type ?? "")];
+      const bits: string[] = [];
       if (Array.isArray(a.signal_entities) && a.signal_entities.length > 0) bits.push(`${a.signal_entities.length} seed${a.signal_entities.length === 1 ? "" : "s"}`);
-      if (a.signal_location_query) bits.push(`near ${String(a.signal_location_query)}`);
+      if (a.signal_location_query) bits.push(`tuned to ${String(a.signal_location_query)}`);
       if (a.filter_location_query) bits.push(`in ${String(a.filter_location_query)}`);
-      if (a.release_year_min || a.release_year_max) bits.push(`${String(a.release_year_min ?? "")}–${String(a.release_year_max ?? "")}`);
-      if (a.signal_age) bits.push(String(a.signal_age));
-      return `insights ${bits.join(" · ")}`;
+      if (a.release_year_min || a.release_year_max) bits.push(`${String(a.release_year_min ?? "")} to ${String(a.release_year_max ?? "")}`);
+      if (a.signal_age) bits.push(`for people ${AGE_WORD[String(a.signal_age)] ?? String(a.signal_age).replace(/_/g, " ")}`);
+      return `Asking Qloo Insights for ${typeWord(a.filter_type)}${bits.length > 0 ? `: ${bits.join(", ")}` : ""}`;
     }
     case "plan_session":
-      return `plan_session with ${Array.isArray(a.cards) ? a.cards.length : 0} cards`;
+      return `Committing ${Array.isArray(a.cards) ? a.cards.length : 0} cards`;
     case "adapt_session":
-      return `adapt_session with ${Array.isArray(a.replacements) ? a.replacements.length : 0} replacements`;
+      return `Replacing ${Array.isArray(a.replacements) ? a.replacements.length : 0} upcoming card${Array.isArray(a.replacements) && a.replacements.length === 1 ? "" : "s"}`;
     default:
       return call.name;
   }

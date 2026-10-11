@@ -28,10 +28,10 @@ interface Props {
   autoComplete?: string;
 }
 
-const TYPE_LABEL: Record<string, string> = {
-  "urn:entity:artist": "Artist",
+export const TYPE_LABEL: Record<string, string> = {
+  "urn:entity:artist": "Singer or band",
   "urn:entity:movie": "Film",
-  "urn:entity:tv_show": "TV show",
+  "urn:entity:tv_show": "Television",
   "urn:entity:book": "Book",
   "urn:entity:person": "Person",
   "urn:entity:brand": "Brand",
@@ -94,7 +94,7 @@ export function EntityAutocomplete({ id, label, placeholder, types, value, onCha
 
   return (
     <div className="relative">
-      <label htmlFor={inputId} className="mb-2 block text-lg font-bold text-ink-900">
+      <label htmlFor={inputId} className="field-label">
         {label}
       </label>
       <input
@@ -134,10 +134,10 @@ export function EntityAutocomplete({ id, label, placeholder, types, value, onCha
             setOpen(false);
           }
         }}
-        className="min-h-14 w-full rounded-2xl border-2 border-cream-300 bg-white px-4 text-xl text-ink-900 placeholder:text-ink-300 focus:border-ember-600"
+        className="field-input"
       />
       {hint ? (
-        <p id={`${inputId}-hint`} className="mt-1.5 text-base text-ink-500">
+        <p id={`${inputId}-hint`} className="hint">
           {hint}
         </p>
       ) : null}
@@ -145,12 +145,7 @@ export function EntityAutocomplete({ id, label, placeholder, types, value, onCha
         {loading ? "Searching Qloo" : visible ? `${items.length} suggestions` : ""}
       </div>
       {visible ? (
-        <ul
-          id={listId}
-          role="listbox"
-          aria-label={`${label} suggestions`}
-          className="absolute z-20 mt-2 max-h-80 w-full overflow-auto rounded-2xl bg-white p-2 shadow-lift ring-1 ring-cream-300"
-        >
+        <ul id={listId} role="listbox" aria-label={`${label} suggestions`} className="suggest">
           {items.map((s, i) => (
             <li
               key={`${s.entityId}-${i}`}
@@ -162,19 +157,22 @@ export function EntityAutocomplete({ id, label, placeholder, types, value, onCha
                 choose(s);
               }}
               onMouseEnter={() => setActive(i)}
-              className={`flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 ${i === active ? "bg-ember-100" : "hover:bg-cream-100"}`}
+              className={`grid cursor-pointer grid-cols-[44px_minmax(0,1fr)] items-center gap-3 rounded-sm px-2.5 py-2 ${i === active ? "bg-paper-100" : "hover:bg-paper-50"}`}
             >
               {s.imageUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={s.imageUrl} alt="" className="h-11 w-11 rounded-lg object-cover" loading="lazy" />
+                <img src={s.imageUrl} alt="" className="h-11 w-11 rounded-sm border border-paper-200 object-cover" loading="lazy" />
               ) : (
-                <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-cream-200 font-display text-xl italic text-ink-700" aria-hidden="true">
+                <span
+                  className="grid h-11 w-11 place-content-center rounded-sm border border-paper-200 bg-paper-100 font-display text-md text-ink-700 italic"
+                  aria-hidden="true"
+                >
                   {[...s.name][0]}
                 </span>
               )}
-              <span className="min-w-0 flex-1">
-                <span className="block truncate text-lg font-bold text-ink-900">{s.name}</span>
-                <span className="block truncate text-base text-ink-500">
+              <span className="min-w-0">
+                <span className="block truncate text-base font-semibold text-ink-900">{s.name}</span>
+                <span className="block truncate text-sm text-ink-500">
                   {TYPE_LABEL[s.type] ?? s.type.replace("urn:entity:", "")}
                   {s.year ? ` · ${s.year}` : ""}
                   {s.disambiguation ? ` · ${s.disambiguation}` : ""}

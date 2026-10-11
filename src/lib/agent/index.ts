@@ -75,7 +75,18 @@ async function runWithFallback(
   return { final, planner: "deterministic", ctx };
 }
 
-function baseContext(person: Person, qloo: QlooClient, now: Date, phase: "plan" | "adapt"): Omit<ToolContext, "existingCards" | "feedback" | "deadline"> {
+function baseContext(
+  person: Person,
+  qloo: QlooClient,
+  now: Date,
+  phase: "plan" | "adapt",
+  knownCards: Card[] = [],
+): Omit<ToolContext, "existingCards" | "feedback" | "deadline"> {
+  // Every id the loop may use as a seed must have a name, or the "why" line
+  // would print an id prefix: favorites resolved earlier and cards already dealt.
+  const names = new Map<string, string>();
+  for (const f of person.favorites) if (f.entityId) names.set(f.entityId, f.name);
+  for (const c of knownCards) names.set(c.entityId, c.title);
   return {
     qloo,
     person,
@@ -85,7 +96,7 @@ function baseContext(person: Person, qloo: QlooClient, now: Date, phase: "plan" 
     ageBucket: ageBucketFor(person.birthYear, now),
     phase,
     pool: new EntityPool(),
-    names: new Map<string, string>(),
+    names,
     now,
   };
 }
@@ -144,7 +155,7 @@ export async function adaptSession(input: AdaptInput, opts: AgentOptions = {}): 
     return { replacements: [], trace, planner: "deterministic" };
   }
   const makeCtx = (deadline: number): ToolContext => ({
-    ...baseContext(input.person, qloo, now, "adapt"),
+    ...baseContext(input.person, qloo, now, "adapt", cards),
     existingCards: cards,
     deadline,
     feedback: { card: { ...card, reaction: input.feedback.reaction }, reaction: input.feedback.reaction, currentIndex },

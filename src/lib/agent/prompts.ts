@@ -7,7 +7,7 @@
  * time, inviting a story rather than testing recall.
  */
 import type { QlooAgeBucket } from "@/lib/qloo/types";
-import { DOMAIN_INFO, type CardSignals, type Domain, type Language, type Person } from "@/lib/session/types";
+import { DOMAIN_INFO, type CardSignals, type Domain, type Language, type Person, pronounsFor } from "@/lib/session/types";
 import { describeDecade } from "@/lib/session/youth-window";
 
 type Vars = { title: string; year?: number; decade?: string; person: string; hometown: string };
@@ -158,55 +158,65 @@ export function offlinePrompt(opts: {
 }
 
 const AGE_LABEL: Record<QlooAgeBucket, string> = {
-  "24_and_younger": "listeners 24 and younger",
-  "25_to_29": "people aged 25 to 29",
-  "30_to_34": "people aged 30 to 34",
-  "35_to_44": "people aged 35 to 44",
-  "45_to_54": "people aged 45 to 54",
-  "55_and_older": "people aged 55 and older",
+  "24_and_younger": "people 24 and younger",
+  "25_to_29": "people 25 to 29",
+  "30_to_34": "people 30 to 34",
+  "35_to_44": "people 35 to 44",
+  "45_to_54": "people 45 to 54",
+  "55_and_older": "people 55 and older",
 };
 
-/** One line, in English, naming the Qloo signals that produced a card. */
+export function ageLabel(bucket: QlooAgeBucket): string {
+  return AGE_LABEL[bucket];
+}
+
+/**
+ * The provenance fragment under a card, read as "From Qloo: {whyLine} ·
+ * affinity 0.91". For example "artists close to Hibari Misora, tuned to Osaka,
+ * for people 55 and older". Seeds without a name are left out rather than
+ * printed as ids.
+ */
 export function whyLine(domain: Domain, signals: CardSignals): string {
   const info = DOMAIN_INFO[domain];
-  const parts: string[] = [];
-  let head = `Qloo ${info.plural}`;
+  let head = info.plural;
   if (signals.yearRange) head += ` from ${signals.yearRange[0]} to ${signals.yearRange[1]}`;
   const country = signals.params["filter.release_country"];
   if (country) head += ` released in ${country}`;
-  parts.push(head);
-  if (signals.seedNames.length > 0) {
-    const aff = signals.affinity !== null ? ` (affinity ${signals.affinity.toFixed(2)})` : "";
-    parts.push(`with taste affinity to ${joinNames(signals.seedNames)}${aff}`);
-  } else if (signals.affinity !== null) {
-    parts.push(`(affinity ${signals.affinity.toFixed(2)})`);
-  }
+  const seeds = signals.seedNames.filter((n) => n.trim().length > 0 && !/^[0-9a-f]{8}$/i.test(n));
+  if (seeds.length > 0) head += ` close to ${joinNames(seeds)}`;
+  const parts = [head];
   if (signals.locationQuery) {
     parts.push(signals.params["filter.location.query"] ? `in ${signals.locationQuery}` : `tuned to ${signals.locationQuery}`);
   }
   if (signals.ageBucket) parts.push(`for ${AGE_LABEL[signals.ageBucket]}`);
-  return parts.join(", ").replace(", (", " (") + ".";
+  return parts.join(", ");
 }
 
-function joinNames(names: string[]): string {
+/** "A", "A and B", "A, B and C"; five or more become "A, B, C and 2 others". The newest seed comes first. */
+export function joinNames(names: string[], max = 3): string {
   if (names.length <= 1) return names[0] ?? "";
-  if (names.length === 2) return `${names[0]} and ${names[1]}`;
+  if (names.length > max + 1) return `${names.slice(0, max).join(", ")} and ${names.length - max} others`;
   return `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
 }
 
 /** Planner narration used by the deterministic policy. */
 export const NARRATION = {
   start: (p: Person, start: number, end: number) =>
-    `${p.name} was ${15} to ${30} between ${start} and ${end}. Building a session around ${p.hometown} and ${
-      p.favorites.length > 0 ? p.favorites.map((f) => f.name).join(", ") : "their generation's taste"
+    `${p.name} was 15 to 30 between ${start} and ${end}. Building around ${p.hometown} and ${
+      p.favorites.length > 0 ? p.favorites.map((f) => f.name).join(", ") : `${pronounsFor(p.pronoun).possessive} generation's taste`
     }.`,
-  resolveFavorite: (name: string) => `Looking up "${name}" in Qloo's entity search so it can seed the taste graph.`,
-  resolveHometown: (name: string) => `Resolving "${name}" to a Qloo locality for the location signal.`,
-  tags: (what: string) => `Finding valid Qloo tag ids for ${what}.`,
-  insights: (what: string) => `Asking Qloo Insights for ${what}.`,
-  widen: (what: string) => `Few results. Widening the ${what} query.`,
+  resolveFavorite: (name: string) => `Looking up ${name} in Qloo's entity search so it can seed the taste graph.`,
+  resolveHometown: (name: string) => `Resolving ${name} to a Qloo locality for the location signal.`,
+  tags: (what: string) => `Finding Qloo's tag ids for ${what}.`,
+  insights: (what: string) => `Asking Qloo for ${what}.`,
+  widen: (what: string) => `Few results. Widening the ${what} request.`,
   plan: (count: number, domains: number) => `Choosing ${count} cards across ${domains} domains, highest affinity first.`,
-  adaptLiked: (title: string) => `"${title}" lit them up. Re-querying Qloo with it as an added taste signal.`,
-  adaptDisliked: (title: string) => `"${title}" didn't land. Steering upcoming cards away from it.`,
-  adaptDone: (n: number) => `Swapped ${n} upcoming card${n === 1 ? "" : "s"}.`,
+  adaptLiked: (title: string, p: Person) =>
+    `${capitalize(pronounsFor(p.pronoun).subject)} lit up at ${title}. Adding it as a taste signal and refreshing the cards ahead.`,
+  adaptDisliked: (title: string) => `${title} didn't land. Steering the cards ahead away from it.`,
+  adaptDone: (n: number) => (n === 0 ? "Nothing new came back; leaving the deck as it is." : `Swapping ${n} upcoming card${n === 1 ? "" : "s"}.`),
 } as const;
+
+function capitalize(word: string): string {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}
