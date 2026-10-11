@@ -75,7 +75,7 @@ The loop is a real tool-calling loop. The model (any OpenAI-compatible chat mode
 | `plan_session` | Commit 8 to 10 cards across at least 3 domains, each with a prompt | none |
 | `adapt_session` | Replace up to 3 upcoming, unreacted cards after feedback | none |
 
-When no LLM key is configured, or the model fails or misbehaves, the same loop runs a deterministic policy that performs the same tool calls in a fixed order and writes prompts from templates. The Why Qloo panel labels every timeline step with the policy that produced it (LLM or scripted), and cards whose prompt came from a template say "Offline template prompt". The deterministic policy is also what the unit tests and the fixture-mode demo use, so the demo never depends on model latency or availability.
+When no LLM key is configured, or the model fails or misbehaves, the same loop runs a deterministic policy that performs the same tool calls in a fixed order and writes prompts from templates. In the Why Qloo panel, every step in the "How this session was built" timeline carries a small word naming the policy that produced it ("model" or "scripted"), and the panel's "This card" section notes "Prompt written from a template, not by a model" when a card's prompt came from a template. The deterministic policy is also what the unit tests and the fixture-mode demo use, so the demo never depends on model latency or availability.
 
 ### Youth window and age signal
 

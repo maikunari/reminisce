@@ -182,7 +182,7 @@ export function whyLine(domain: Domain, signals: CardSignals): string {
   if (signals.yearRange) head += ` from ${signals.yearRange[0]} to ${signals.yearRange[1]}`;
   const country = signals.params["filter.release_country"];
   if (country) head += ` released in ${country}`;
-  const seeds = signals.seedNames.filter((n) => n.trim().length > 0 && !/^[0-9a-f]{8}$/i.test(n));
+  const seeds = signals.seedNames.filter((n) => n.trim().length > 0);
   if (seeds.length > 0) head += ` close to ${joinNames(seeds)}`;
   const parts = [head];
   if (signals.locationQuery) {

@@ -141,6 +141,11 @@ export function TracePanel({ open, onClose, session, card, liveEvents }: Props) 
             Rank {card.signals.rank} of {take}
             {typeof card.signals.popularity === "number" ? ` · popularity ${card.signals.popularity.toFixed(2)}` : ""}
           </p>
+          {card.promptSource === "template" ? (
+            <p className="mt-3 text-sm text-ink-700" data-testid="trace-prompt-source">
+              Prompt written from a template, not by a model
+            </p>
+          ) : null}
 
           {card.signals.explainability ? (
             <div className="mt-6 border-t border-paper-200 pt-4">
@@ -201,14 +206,17 @@ export function TracePanel({ open, onClose, session, card, liveEvents }: Props) 
                 ) : (
                   <p className={`text-sm leading-[1.4] ${e.kind === "error" ? "text-ember-700" : "text-ink-900"}`}>{e.summary}</p>
                 )}
-                {e.qloo ? (
+                {e.qloo || e.policy ? (
                   <p className="mt-0.5 text-xs text-ink-500">
-                    {e.qloo.resultCount} result{e.qloo.resultCount === 1 ? "" : "s"} · {e.qloo.durationMs} ms · {e.qloo.path} · {e.qloo.source}
-                    {e.qloo.warnings.length > 0 ? ` · ${e.qloo.warnings.length} dropped` : ""}
+                    {e.policy ? (
+                      <span className="label" data-testid="trace-step-policy">
+                        {e.policy === "llm" ? "model" : "scripted"}
+                      </span>
+                    ) : null}
+                    {e.policy && e.qloo ? " · " : ""}
+                    {e.qloo ? `${e.qloo.resultCount} result${e.qloo.resultCount === 1 ? "" : "s"} · ${e.qloo.durationMs} ms · ${e.qloo.path} · ${e.qloo.source}` : ""}
+                    {e.qloo && e.qloo.warnings.length > 0 ? ` · ${e.qloo.warnings.length} dropped` : ""}
                   </p>
-                ) : null}
-                {e.policy && e.policy !== sessionPolicy ? (
-                  <p className="mt-0.5 text-xs text-ink-500">{e.policy === "scripted" ? "Offline fallback step" : "Model step"}</p>
                 ) : null}
                 {e.kind === "tool_call" && e.args ? (
                   <details className="mt-1">

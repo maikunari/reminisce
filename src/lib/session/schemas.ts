@@ -25,6 +25,7 @@ export const PersonSchema = z.object({
   favorites: z.array(FavoriteSchema).min(1).max(3),
   language: z.enum(["en", "ja", "es"]),
   presetId: z.string().trim().max(40).optional(),
+  pronoun: z.enum(["she", "he", "they"]).optional(),
 });
 
 export const PlanRequestSchema = z.object({ person: PersonSchema });
