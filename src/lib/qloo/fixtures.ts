@@ -194,22 +194,20 @@ function tokens(text: string): string[] {
     .filter((t) => t.length > 0);
 }
 
-/** Whether `needle` appears in `haystack` as a contiguous run of whole tokens. */
-function containsRun(haystack: string[], needle: string[]): boolean {
-  if (needle.length === 0) return false;
-  for (let i = 0; i + needle.length <= haystack.length; i++) {
-    if (needle.every((w, j) => haystack[i + j] === w)) return true;
+/** Length of the longest whole-token run of `phrases` found in `words`, or 0. */
+function longestRun(words: string[], phrases: string[]): number {
+  let best = 0;
+  for (const phrase of phrases) {
+    const needle = tokens(phrase);
+    if (needle.length <= best || needle.length > words.length) continue;
+    for (let i = 0; i + needle.length <= words.length; i++) {
+      if (needle.every((w, k) => words[i + k] === w)) {
+        best = needle.length;
+        break;
+      }
+    }
   }
-  return false;
-}
-
-/**
- * Whether `typed` opens `name` word for word, its last word possibly still
- * being typed: "mexico ci" opens "mexico city", "chester" does not open "manchester".
- */
-function startsName(name: string[], typed: string[]): boolean {
-  if (typed.length === 0 || typed.length > name.length) return false;
-  return typed.every((w, j) => name[j] === w || (j === typed.length - 1 && (name[j] ?? "").startsWith(w)));
+  return best;
 }
 
 function fold(text: string): string {
@@ -268,37 +266,32 @@ export class SyntheticQloo {
   inferRegion(query: string): SyntheticRegion | null {
     const words = tokens(query);
     if (words.length === 0) return null;
-    const phrase = words.join(" ");
-    const hasToken = (keyword: string) => {
-      const k = tokens(keyword).join(" ");
-      return k.length > 0 && (` ${phrase} `).includes(` ${k} `);
-    };
-    // A city name is more specific than a country word, so it wins when both appear.
-    const byCity = this.regions.find((r) => r.cities.some(hasToken));
-    if (byCity) return byCity;
-    return this.regions.find((r) => r.keywords.some(hasToken)) ?? null;
+    // The longest matching name is the most specific ("buffalo, new york" is
+    // not York; "la paz, bolivia" is not La Paz, Mexico); at equal length a
+    // city beats a country word, then file order decides.
+    let best: { region: SyntheticRegion; score: number } | null = null;
+    for (const region of this.regions) {
+      const score = Math.max(longestRun(words, region.cities) * 2 + 1, longestRun(words, region.keywords) * 2);
+      if (score > 1 && (!best || score > best.score)) best = { region, score };
+    }
+    return best?.region ?? null;
   }
 
   resolveLocality(query: string | undefined): SyntheticLocality | null {
     if (!query) return null;
-    const q = fold(query);
-    const words = tokens(query);
-    const exact = this.localities.find((l) => fold(l.name) === q || l.akas.some((a) => fold(a) === q));
-    if (exact) return exact;
+    const [head = "", ...qualifiers] = query.split(",");
+    const whole = tokens(query).join(" ");
+    const leading = tokens(head).join(" ");
+    const located = this.localities.find((l) => {
+      const names = [l.name, ...l.akas].map((n) => tokens(n).join(" "));
+      if (names.includes(whole)) return true;
+      // "Osaka, Japan" or "Chicago, Illinois" still mean the catalogue city;
+      // "London, Ontario" or "Hollywood, Florida" are other places.
+      return qualifiers.length > 0 && names.includes(leading) && qualifiers.every((q) => this.namesHomeOf(l, q));
+    });
+    if (located) return located;
     const name = query.trim();
     const region = this.inferRegion(name);
-    // "Osaka, Japan" still means Osaka; "Santiago de Cuba" or "London, Ontario"
-    // name a different country than the catalog city, so they fall through.
-    const sameCountry = (l: SyntheticLocality) => !region || l.properties?.geocode?.country_code === region.code;
-    const partial = this.localities.find(
-      (l) =>
-        sameCountry(l) &&
-        [l.name, ...l.akas].some((n) => {
-          const nameWords = tokens(n);
-          return containsRun(words, nameWords) || startsName(nameWords, words);
-        }),
-    );
-    if (partial) return partial;
     // Unknown place: synthesize a locality so the location signal still flows
     // through the trace. Its world comes from the country or region the name
     // mentions, or the generic world when nothing is recognised.
@@ -313,6 +306,14 @@ export class SyntheticQloo {
       disambiguation: region ? `${name}, ${region.name}` : name,
       inferred: true,
     };
+  }
+
+  /** Whether a comma-separated qualifier names the locality's own region or country. */
+  private namesHomeOf(l: SyntheticLocality, qualifier: string): boolean {
+    const q = tokens(qualifier).join(" ");
+    const geocode = l.properties?.geocode;
+    const country = this.regions.find((r) => r.code === geocode?.country_code);
+    return [geocode?.admin1_region, country?.name, country?.code].some((n) => n !== undefined && tokens(n).join(" ") === q);
   }
 
   private localityToSearchResult(l: SyntheticLocality): QlooSearchResult {

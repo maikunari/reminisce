@@ -168,19 +168,49 @@ describe("hometown resolution", () => {
     expect(engine.resolveLocality("Santiago de Chile")?.key).toBe("santiago");
   });
 
-  it("matches a catalogue city only on whole words, never on letters inside another town's name", () => {
-    for (const query of ["Atlanta", "Dallas", "Orlando", "Lagos", "Lagos, Nigeria", "Casablanca"]) {
+  it("commits to a catalogue city only for its own name, never a lookalike town", () => {
+    for (const [query, key] of [
+      ["Osaka, Japan", "osaka"],
+      ["London, England", "london"],
+      ["London, UK", "london"],
+      ["Chicago, Illinois", "chicago"],
+      ["Chicago, Illinois, United States", "chicago"],
+      ["Hollywood", "los_angeles"],
+    ] as const) {
       const l = engine.resolveLocality(query);
-      expect(l?.key, query).not.toBe("los_angeles");
-      expect(l?.inferred, query).toBe(true);
+      expect(l?.key, query).toBe(key);
+      expect(l?.inferred, query).toBeUndefined();
     }
-    const chester = engine.resolveLocality("Chester");
-    expect(chester?.key).not.toBe("manchester");
-    expect(chester?.inferred).toBe(true);
-    expect(chester?.properties?.geocode?.country_code).toBe("GB");
-    expect(engine.resolveLocality("Osaka, Japan")?.key).toBe("osaka");
-    expect(engine.resolveLocality("Mexico Ci")?.key).toBe("mexico_city");
-    expect(engine.resolveLocality("Santiago de Cuba")?.properties?.geocode?.country_code).toBe("CU");
+    for (const [query, code] of [
+      ["Atlanta", "US"],
+      ["Dallas", "US"],
+      ["Orlando", "US"],
+      ["Lagos", undefined],
+      ["Lagos, Nigeria", undefined],
+      ["Casablanca", undefined],
+      ["New Orleans, LA", "US"],
+      ["Baton Rouge, LA", "US"],
+      ["La Jolla", undefined],
+      ["La Crosse, Wisconsin", "US"],
+      ["Hollywood, Florida", "US"],
+      ["Brooklyn Park, Minnesota", "US"],
+      ["Rio Grande City", undefined],
+      ["Chester", "GB"],
+      ["London, Ontario", "CA"],
+      ["Santiago de Cuba", "CU"],
+      ["L", undefined],
+      ["Los", undefined],
+      ["San Juan", "PR"],
+      ["Puebla, Mexico", "MX"],
+      ["Buffalo, New York", "US"],
+      ["Albany, New York", "US"],
+      ["Las Cruces, New Mexico", "US"],
+      ["La Paz, Bolivia", "BO"],
+    ] as const) {
+      const l = engine.resolveLocality(query);
+      expect(l?.inferred, query).toBe(true);
+      expect(l?.properties?.geocode?.country_code, query).toBe(code);
+    }
   });
 
   it("offers an inferred locality to the autocomplete, and a plain unknown town to nobody", () => {
