@@ -11,7 +11,7 @@ import type { Person, PlanResult } from "@/lib/session/types";
 import { createBudget, readBudgetLimits, type Budget } from "./budget";
 import { createGuard, type Guard, type GuardKind } from "./index";
 import { redisFromEnv, type UpstashRedis } from "./redis";
-import { loadSnapshot, matchingPreset, storeSnapshot, type PresetSnapshot } from "./snapshots";
+import { isFullStrength, loadSnapshot, matchingPreset, storeSnapshot, type PresetSnapshot } from "./snapshots";
 
 interface Runtime {
   redis: UpstashRedis | null;
@@ -68,8 +68,7 @@ export async function presetSnapshotFor(person: Person, env: ServerEnv = readSer
  */
 export async function rememberPreset(person: Person, result: PlanResult, guard: Guard, now = new Date()): Promise<boolean> {
   const rt = getRuntime();
-  if (!rt.redis || guard.env.qlooMode !== "live" || guard.degraded.llm || guard.degraded.qloo) return false;
-  if (guard.fallbacks.budget > 0 || guard.fallbacks.error > 0 || result.cards.length < 8) return false;
+  if (!rt.redis || !isFullStrength(result, guard)) return false;
   const preset = matchingPreset(person);
   if (!preset) return false;
   try {

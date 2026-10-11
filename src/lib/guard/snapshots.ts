@@ -14,6 +14,7 @@
 import { PRESETS, type Preset } from "@/lib/session/presets";
 import type { Person, PlanResult, TraceEvent } from "@/lib/session/types";
 
+import type { Guard } from "./index";
 import type { RedisLike } from "./redis";
 
 export const SNAPSHOT_VERSION = 1;
@@ -29,6 +30,17 @@ export interface PresetSnapshot {
   /** When the live run happened (ISO 8601, UTC). */
   recordedAt: string;
   result: PlanResult;
+}
+
+/**
+ * Whether a plan is worth replaying all day: Qloo live and undegraded, a full
+ * deck, and the model's own prompts whenever the model was configured to write them.
+ */
+export function isFullStrength(result: PlanResult, guard: Pick<Guard, "env" | "degraded" | "fallbacks">): boolean {
+  if (guard.env.qlooMode !== "live" || guard.degraded.llm || guard.degraded.qloo) return false;
+  if (guard.fallbacks.budget > 0 || guard.fallbacks.error > 0 || result.cards.length < 8) return false;
+  const modelConfigured = guard.env.llmMode === "live" && Boolean(guard.env.llmApiKey);
+  return !modelConfigured || result.planner === "llm";
 }
 
 export function snapshotKey(presetId: string, prefix = "reminisce:"): string {

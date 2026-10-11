@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { planSession } from "@/lib/agent";
 import { readServerEnv } from "@/lib/env";
-import { describeRecordedAt, loadSnapshot, matchingPreset, replaySnapshot, snapshotKey, storeSnapshot } from "@/lib/guard/snapshots";
+import { describeRecordedAt, isFullStrength, loadSnapshot, matchingPreset, replaySnapshot, snapshotKey, storeSnapshot } from "@/lib/guard/snapshots";
 import { QlooClient } from "@/lib/qloo/client";
 import { PRESETS } from "@/lib/session/presets";
 import type { TraceEvent } from "@/lib/session/types";
@@ -22,6 +22,27 @@ describe("matchingPreset", () => {
     expect(matchingPreset({ ...michiko, hometown: "Kyoto" })).toBeUndefined();
     expect(matchingPreset({ ...michiko, presetId: undefined })).toBeUndefined();
     expect(matchingPreset({ ...michiko, presetId: "frank" })).toBeUndefined();
+  });
+});
+
+describe("isFullStrength", () => {
+  const liveEnv = readServerEnv({ QLOO_MODE: "live", QLOO_API_KEY: "k", LLM_MODE: "live", LLM_API_KEY: "k" });
+  const guard = (over: Partial<Parameters<typeof isFullStrength>[1]> = {}) => ({ env: liveEnv, degraded: { llm: false, qloo: false }, fallbacks: { budget: 0, error: 0 }, ...over });
+
+  it("refuses a run whose configured model fell back to the deterministic planner", async () => {
+    const result = await planSession(michiko, { env, qloo, now: RECORDED });
+    expect(result.planner).toBe("deterministic");
+    expect(isFullStrength(result, guard())).toBe(false);
+    expect(isFullStrength({ ...result, planner: "llm" }, guard())).toBe(true);
+  });
+
+  it("keeps a deterministic run when no model is configured, and refuses degraded ones", async () => {
+    const result = await planSession(michiko, { env, qloo, now: RECORDED });
+    expect(isFullStrength(result, guard({ env: { ...liveEnv, llmMode: "fixture" } }))).toBe(true);
+    expect(isFullStrength(result, guard({ env: { ...liveEnv, llmApiKey: "" } }))).toBe(true);
+    expect(isFullStrength(result, guard({ env: { ...liveEnv, llmMode: "fixture" }, degraded: { llm: true, qloo: false } }))).toBe(false);
+    expect(isFullStrength(result, guard({ env: { ...liveEnv, llmMode: "fixture" }, fallbacks: { budget: 0, error: 1 } }))).toBe(false);
+    expect(isFullStrength(result, guard({ env: { ...liveEnv, llmMode: "fixture", qlooMode: "fixture" } }))).toBe(false);
   });
 });
 

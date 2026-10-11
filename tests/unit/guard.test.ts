@@ -106,6 +106,8 @@ describe("createGuard: the degradation ladder", () => {
     const guard = await createGuard("plan", deps(budget, respond(200)));
     expect(guard.notes).toEqual([GUARD_COPY.llmUnknown, GUARD_COPY.qlooUnknownNote]);
     expect(guard.notice()).toBe(GUARD_COPY.qlooUnknownBanner);
+    const adapt = await createGuard("adapt", deps(scriptedBudget({ qloo: { allowed: false, reason: "error" } }), respond(200)));
+    expect(adapt.notice()).toBe(GUARD_COPY.adaptUnknown);
   });
 
   it("asks only the per-call hook for autocomplete, and never the model budget", async () => {

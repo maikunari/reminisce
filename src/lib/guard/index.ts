@@ -53,6 +53,7 @@ export const GUARD_COPY = {
   qlooPartBudget: "Reminisce has had a busy day. Part of this session uses the offline catalog; Qloo returns tomorrow.",
   qlooPartError: "Qloo was briefly unavailable, so part of this session comes from the offline catalog.",
   adaptBudget: "Qloo's daily allowance is used up, so these cards come from the offline catalog.",
+  adaptUnknown: "Reminisce couldn't check its daily allowance, so these cards come from the offline catalog for now.",
   adaptError: "Qloo was briefly unavailable, so these cards come from the offline catalog.",
 } as const;
 
@@ -103,8 +104,9 @@ export async function createGuard(kind: GuardKind, deps: GuardDeps): Promise<Gua
     fallbacks,
     notice() {
       if (degraded.qloo) {
-        if (kind === "adapt") return GUARD_COPY.adaptBudget;
-        return qlooDecision?.reason === "error" ? GUARD_COPY.qlooUnknownBanner : GUARD_COPY.qlooSpentBanner;
+        const unknown = qlooDecision?.reason === "error";
+        if (kind === "adapt") return unknown ? GUARD_COPY.adaptUnknown : GUARD_COPY.adaptBudget;
+        return unknown ? GUARD_COPY.qlooUnknownBanner : GUARD_COPY.qlooSpentBanner;
       }
       if (fallbacks.budget > 0) return kind === "adapt" ? GUARD_COPY.adaptBudget : GUARD_COPY.qlooPartBudget;
       if (fallbacks.error > 0) return kind === "adapt" ? GUARD_COPY.adaptError : GUARD_COPY.qlooPartError;
