@@ -272,7 +272,7 @@ Residual risk is a headless-browser farm rotating IPs: it passes the challenge a
 src/app/                 pages, layout, API routes (/api/plan, /api/adapt, /api/search)
 src/components/home/     intake form, Qloo autocomplete, presets
 src/components/session/  memory card, deck strip, planning and re-tuning views, Why Qloo panel
-src/lib/qloo/            client (live + fixture), response cache, parameter validation tables, fixture engine, types
+src/lib/qloo/            client (live + fixture), response cache, parameter validation tables, fixture engine, place-name matching, types
 src/lib/agent/           tool definitions, tool execution + entity pool, loop, LLM and scripted policies, prompts
 src/lib/session/         person/session types, youth window, presets, localStorage, zod schemas, deck size, provenance wording, auto-advance
 src/lib/i18n/            typed UI dictionaries: en, es, ja
