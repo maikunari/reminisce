@@ -86,10 +86,10 @@ export class QlooClient {
 
   async search(
     query: string,
-    opts: { types?: readonly string[]; take?: number } = {},
+    opts: { types?: readonly string[]; take?: number; deadline?: number } = {},
   ): Promise<QlooResult<QlooSearchResponse>> {
     const params = buildSearchParams({ query, types: opts.types, take: opts.take });
-    const result = await this.request<QlooSearchResponse>({ path: "/search", params }, []);
+    const result = await this.request<QlooSearchResponse>({ path: "/search", params }, [], opts.deadline);
     // The search endpoint answers 404 for "no results"; normalise to an empty list.
     if (!Array.isArray(result.body?.results)) {
       result.body = { ...(result.body ?? {}), results: [] };
@@ -99,10 +99,10 @@ export class QlooClient {
 
   async searchTags(
     query: string,
-    opts: { parentTypes?: readonly string[]; tagTypes?: readonly string[]; take?: number } = {},
+    opts: { parentTypes?: readonly string[]; tagTypes?: readonly string[]; take?: number; deadline?: number } = {},
   ): Promise<QlooResult<QlooTagsResponse>> {
     const params = buildTagsParams({ query, parentTypes: opts.parentTypes, tagTypes: opts.tagTypes, take: opts.take });
-    const result = await this.request<QlooTagsResponse>({ path: "/v2/tags", params }, []);
+    const result = await this.request<QlooTagsResponse>({ path: "/v2/tags", params }, [], opts.deadline);
     const tags = result.body?.results?.tags;
     if (!Array.isArray(tags)) {
       result.body = { success: true, results: { tags: [] } };
@@ -110,16 +110,17 @@ export class QlooClient {
     return result;
   }
 
-  async insights(req: InsightsRequest): Promise<QlooResult<QlooInsightsResponse>> {
+  async insights(req: InsightsRequest, opts: { deadline?: number } = {}): Promise<QlooResult<QlooInsightsResponse>> {
     const { params, warnings } = buildInsightsParams(req);
-    const result = await this.request<QlooInsightsResponse>({ path: "/v2/insights", params }, warnings);
+    const result = await this.request<QlooInsightsResponse>({ path: "/v2/insights", params }, warnings, opts.deadline);
     if (!Array.isArray(result.body?.results?.entities)) {
       result.body = { ...(result.body ?? { success: true }), results: { entities: [] } } as QlooInsightsResponse;
     }
     return result;
   }
 
-  async request<T>(req: QlooRequest, warnings: string[]): Promise<QlooResult<T>> {
+  /** `deadline` (epoch ms) caps a live request's timeout at the time left before it. */
+  async request<T>(req: QlooRequest, warnings: string[], deadline?: number): Promise<QlooResult<T>> {
     const started = Date.now();
     if (this.mode === "fixture") {
       const recorded = await findRecordedFixture<T>(req, this.recordedRoot);
@@ -137,11 +138,13 @@ export class QlooClient {
       return { request: req, body, source: "synthetic", status: 200, durationMs: Date.now() - started, warnings };
     }
 
+    const timeoutMs = deadline === undefined ? this.timeoutMs : Math.min(this.timeoutMs, deadline - Date.now());
+    if (timeoutMs <= 0) throw new QlooError(`Qloo ${req.path} skipped: time budget exhausted`, 0, req);
     const url = `${this.baseUrl}${req.path}?${toQueryString(req.params)}`;
     const response = await this.fetchImpl(url, {
       method: "GET",
       headers: { "X-Api-Key": this.apiKey, Accept: "application/json" },
-      signal: AbortSignal.timeout(this.timeoutMs),
+      signal: AbortSignal.timeout(timeoutMs),
     });
     const text = await response.text();
     let body: unknown = null;

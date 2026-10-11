@@ -44,7 +44,7 @@ interface Run {
 }
 
 async function runWithFallback(
-  makeCtx: () => ToolContext,
+  makeCtx: (deadline: number) => ToolContext,
   env: ServerEnv,
   emit: (event: TraceEvent) => void,
   fetchImpl: typeof fetch | undefined,
@@ -52,11 +52,11 @@ async function runWithFallback(
   deadline: number,
 ): Promise<Run> {
   if (env.llmMode === "live" && env.llmApiKey) {
-    const ctx = makeCtx();
     const llmDeadline = deadline - FALLBACK_RESERVE_MS;
+    const ctx = makeCtx(llmDeadline);
     try {
       const policy: Policy = new LlmPolicy({ env, ctx, fetchImpl, deadline: llmDeadline });
-      const { final } = await runLoop({ policy, ctx, emit, maxSteps: 22, deadline: llmDeadline });
+      const { final } = await runLoop({ policy, ctx, emit, maxSteps: 22 });
       return { final, planner: "llm", ctx };
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
@@ -69,13 +69,13 @@ async function runWithFallback(
       );
     }
   }
-  const ctx = makeCtx();
+  const ctx = makeCtx(deadline);
   const policy: Policy = phase === "plan" ? new ScriptedPlanPolicy(ctx) : new ScriptedAdaptPolicy(ctx);
-  const { final } = await runLoop({ policy, ctx, emit, maxSteps: 30, deadline });
+  const { final } = await runLoop({ policy, ctx, emit, maxSteps: 30 });
   return { final, planner: "deterministic", ctx };
 }
 
-function baseContext(person: Person, qloo: QlooClient, now: Date, phase: "plan" | "adapt"): Omit<ToolContext, "existingCards" | "feedback"> {
+function baseContext(person: Person, qloo: QlooClient, now: Date, phase: "plan" | "adapt"): Omit<ToolContext, "existingCards" | "feedback" | "deadline"> {
   return {
     qloo,
     person,
@@ -101,7 +101,7 @@ export async function planSession(person: Person, opts: AgentOptions = {}): Prom
     trace.push(event);
     opts.emit?.(event);
   };
-  const makeCtx = (): ToolContext => ({ ...baseContext(person, qloo, now, "plan"), existingCards: [] });
+  const makeCtx = (deadline: number): ToolContext => ({ ...baseContext(person, qloo, now, "plan"), existingCards: [], deadline });
   const run = await runWithFallback(makeCtx, env, emit, opts.fetchImpl, "plan", deadline);
   if (run.final.kind !== "plan") throw new LoopError("planner committed the wrong kind of result", "no-final");
   return {
@@ -143,9 +143,10 @@ export async function adaptSession(input: AdaptInput, opts: AgentOptions = {}): 
     emit(traceEvent({ phase: "adapt", kind: "note", summary: "No upcoming cards left to re-tune." }));
     return { replacements: [], trace, planner: "deterministic" };
   }
-  const makeCtx = (): ToolContext => ({
+  const makeCtx = (deadline: number): ToolContext => ({
     ...baseContext(input.person, qloo, now, "adapt"),
     existingCards: cards,
+    deadline,
     feedback: { card: { ...card, reaction: input.feedback.reaction }, reaction: input.feedback.reaction, currentIndex },
   });
   try {

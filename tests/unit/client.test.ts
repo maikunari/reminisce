@@ -57,6 +57,40 @@ describe("QlooClient live mode", () => {
   });
 });
 
+describe("QlooClient deadline", () => {
+  const hangingFetch = ((_input: RequestInfo | URL, init?: RequestInit) =>
+    new Promise<Response>((_resolve, reject) => {
+      init?.signal?.addEventListener("abort", () => reject(init.signal?.reason));
+    })) as typeof fetch;
+
+  it("cuts a request started near the deadline short instead of waiting the default timeout", async () => {
+    const client = new QlooClient({ mode: "live", apiKey: "secret", fetchImpl: hangingFetch, timeoutMs: 15_000 });
+    const started = Date.now();
+    await expect(client.insights({ type: "urn:entity:artist" }, { deadline: started + 80 })).rejects.toThrow();
+    expect(Date.now() - started).toBeLessThan(2_000);
+  });
+
+  it("does not start a request once the deadline has passed", async () => {
+    let called = false;
+    const client = new QlooClient({
+      mode: "live",
+      apiKey: "secret",
+      fetchImpl: (() => {
+        called = true;
+        return hangingFetch("");
+      }) as unknown as typeof fetch,
+    });
+    await expect(client.search("Sinatra", { deadline: Date.now() - 1 })).rejects.toBeInstanceOf(QlooError);
+    expect(called).toBe(false);
+  });
+
+  it("leaves fixture mode unaffected by an elapsed deadline", async () => {
+    const client = new QlooClient({ mode: "fixture" });
+    const res = await client.insights({ type: "urn:entity:artist", take: 1 }, { deadline: Date.now() - 1 });
+    expect(res.source).toBe("synthetic");
+  });
+});
+
 describe("QlooClient fixture mode", () => {
   it("is a pure switch: same calls, synthetic source, no network", async () => {
     const client = new QlooClient({ mode: "fixture", fetchImpl: (() => { throw new Error("network used"); }) as unknown as typeof fetch });

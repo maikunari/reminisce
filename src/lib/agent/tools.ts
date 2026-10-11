@@ -257,6 +257,8 @@ export interface ToolContext {
   existingCards: Card[];
   feedback?: Feedback;
   now: Date;
+  /** Epoch-ms deadline shared by the loop and every Qloo request it makes. */
+  deadline: number;
 }
 
 export type ToolFinal = { kind: "plan"; cards: Card[] } | { kind: "adapt"; replacements: Card[] };
@@ -335,7 +337,7 @@ async function runSearchEntity(rawArgs: unknown, ctx: ToolContext): Promise<Tool
   const parsed = SearchEntityArgs.safeParse(rawArgs);
   if (!parsed.success) return argError("qloo_search_entity", parsed.error);
   const args = parsed.data;
-  const res = await ctx.qloo.search(args.query, { types: args.types, take: args.take ?? 5 });
+  const res = await ctx.qloo.search(args.query, { types: args.types, take: args.take ?? 5, deadline: ctx.deadline });
   const results = res.body.results.map((r) => {
     ctx.names.set(r.entity_id, r.name);
     return {
@@ -376,6 +378,7 @@ async function runSearchTags(rawArgs: unknown, ctx: ToolContext): Promise<ToolOu
   const res = await ctx.qloo.searchTags(args.query, {
     parentTypes: args.parent_type ? [args.parent_type] : undefined,
     take: args.take ?? 8,
+    deadline: ctx.deadline,
   });
   const tags = res.body.results.tags.map((t) => ({ id: t.id, name: t.name, type: t.type ?? t.subtype }));
   return {
@@ -413,7 +416,7 @@ async function runInsights(rawArgs: unknown, ctx: ToolContext): Promise<ToolOutc
   if (!parsed.success) return argError("qloo_insights", parsed.error);
   const args = parsed.data;
   const req = insightsRequestFromArgs(args);
-  const res = await ctx.qloo.insights(req);
+  const res = await ctx.qloo.insights(req, { deadline: ctx.deadline });
   const seedIds = args.signal_entities ?? [];
   const seedNames = seedIds.map((id) => ctx.names.get(id) ?? ctx.pool.get(id)?.entity.name ?? id.slice(0, 8));
   const entities = res.body.results.entities;

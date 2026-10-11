@@ -32,8 +32,6 @@ export interface LoopOptions {
   ctx: ToolContext;
   emit: (event: TraceEvent) => void;
   maxSteps?: number;
-  /** Abort the loop once Date.now() passes this epoch-ms deadline. */
-  deadline: number;
 }
 
 export class LoopError extends Error {
@@ -58,7 +56,8 @@ function summariseArgs(args: unknown): Record<string, unknown> | undefined {
 }
 
 export async function runLoop(opts: LoopOptions): Promise<{ final: ToolFinal; steps: number }> {
-  const { policy, ctx, deadline } = opts;
+  const { policy, ctx } = opts;
+  const { deadline } = ctx;
   const tag = policy.kind === "llm" ? "llm" : "scripted";
   const emit = (event: TraceEvent) => opts.emit({ ...event, policy: tag });
   const maxSteps = opts.maxSteps ?? 24;
@@ -83,6 +82,7 @@ export async function runLoop(opts: LoopOptions): Promise<{ final: ToolFinal; st
         policy.observe(call, outcome);
         continue;
       }
+      if (Date.now() > deadline) throw new LoopError("agent budget exceeded", "budget");
       emit(traceEvent({ phase: ctx.phase, kind: "tool_call", tool: call.name, args: summariseArgs(call.args), summary: describeCall(call) }));
       let outcome: ToolOutcome;
       try {
