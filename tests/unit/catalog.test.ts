@@ -168,6 +168,21 @@ describe("hometown resolution", () => {
     expect(engine.resolveLocality("Santiago de Chile")?.key).toBe("santiago");
   });
 
+  it("matches a catalogue city only on whole words, never on letters inside another town's name", () => {
+    for (const query of ["Atlanta", "Dallas", "Orlando", "Lagos", "Lagos, Nigeria", "Casablanca"]) {
+      const l = engine.resolveLocality(query);
+      expect(l?.key, query).not.toBe("los_angeles");
+      expect(l?.inferred, query).toBe(true);
+    }
+    const chester = engine.resolveLocality("Chester");
+    expect(chester?.key).not.toBe("manchester");
+    expect(chester?.inferred).toBe(true);
+    expect(chester?.properties?.geocode?.country_code).toBe("GB");
+    expect(engine.resolveLocality("Osaka, Japan")?.key).toBe("osaka");
+    expect(engine.resolveLocality("Mexico Ci")?.key).toBe("mexico_city");
+    expect(engine.resolveLocality("Santiago de Cuba")?.properties?.geocode?.country_code).toBe("CU");
+  });
+
   it("offers an inferred locality to the autocomplete, and a plain unknown town to nobody", () => {
     const puebla = engine.search({ query: "Puebla", types: "urn:entity:locality", take: "5" });
     expect(puebla.results[0]?.name).toBe("Puebla");

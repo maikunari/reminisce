@@ -5,7 +5,7 @@ import type { QlooEntity } from "@/lib/qloo/types";
 import { subtitleFor } from "@/lib/agent/tools";
 import { DICTIONARIES, dictionary } from "@/lib/i18n";
 import { en } from "@/lib/i18n/en";
-import { PROVENANCE_EN, SOURCE_LABEL, sessionModeLabel } from "@/lib/session/provenance";
+import { PROVENANCE_EN, sessionModeLabel } from "@/lib/session/provenance";
 import { LANGUAGES, pronounsFor, type CardSignals } from "@/lib/session/types";
 
 /** Every leaf of `expected` exists in `actual` with the same type, so a language cannot ship a hole. */
@@ -85,7 +85,6 @@ describe("dictionaries", () => {
 
   it("keeps provenance wording in one place and never calls a live session canned", () => {
     expect(en.provenance).toBe(PROVENANCE_EN);
-    expect(SOURCE_LABEL).toBe(PROVENANCE_EN.source);
     for (const t of Object.values(DICTIONARIES)) {
       for (const text of [...Object.values(t.provenance.source), ...Object.values(t.provenance.sourceWord), ...Object.values(t.provenance.mode)]) {
         expect(text.toLowerCase()).not.toContain("fixture");

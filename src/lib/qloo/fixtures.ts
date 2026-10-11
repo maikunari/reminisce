@@ -194,6 +194,24 @@ function tokens(text: string): string[] {
     .filter((t) => t.length > 0);
 }
 
+/** Whether `needle` appears in `haystack` as a contiguous run of whole tokens. */
+function containsRun(haystack: string[], needle: string[]): boolean {
+  if (needle.length === 0) return false;
+  for (let i = 0; i + needle.length <= haystack.length; i++) {
+    if (needle.every((w, j) => haystack[i + j] === w)) return true;
+  }
+  return false;
+}
+
+/**
+ * Whether `typed` opens `name` word for word, its last word possibly still
+ * being typed: "mexico ci" opens "mexico city", "chester" does not open "manchester".
+ */
+function startsName(name: string[], typed: string[]): boolean {
+  if (typed.length === 0 || typed.length > name.length) return false;
+  return typed.every((w, j) => name[j] === w || (j === typed.length - 1 && (name[j] ?? "").startsWith(w)));
+}
+
 function fold(text: string): string {
   return text
     .normalize("NFKD")
@@ -264,6 +282,7 @@ export class SyntheticQloo {
   resolveLocality(query: string | undefined): SyntheticLocality | null {
     if (!query) return null;
     const q = fold(query);
+    const words = tokens(query);
     const exact = this.localities.find((l) => fold(l.name) === q || l.akas.some((a) => fold(a) === q));
     if (exact) return exact;
     const name = query.trim();
@@ -272,7 +291,12 @@ export class SyntheticQloo {
     // name a different country than the catalog city, so they fall through.
     const sameCountry = (l: SyntheticLocality) => !region || l.properties?.geocode?.country_code === region.code;
     const partial = this.localities.find(
-      (l) => sameCountry(l) && (fold(l.name).includes(q) || q.includes(fold(l.name)) || l.akas.some((a) => fold(a).startsWith(q) || q.includes(fold(a)))),
+      (l) =>
+        sameCountry(l) &&
+        [l.name, ...l.akas].some((n) => {
+          const nameWords = tokens(n);
+          return containsRun(words, nameWords) || startsName(nameWords, words);
+        }),
     );
     if (partial) return partial;
     // Unknown place: synthesize a locality so the location signal still flows

@@ -18,6 +18,7 @@ for (const preset of PRESETS) {
   test(`preset ${preset.name}: builds a session, explains Qloo, re-tunes on feedback, persists`, async ({ page }) => {
     await page.goto("/");
     await expect(page.getByRole("heading", { level: 1 })).toContainText("Music and memories");
+    await expect(page.locator("body")).toContainText("eight to ten cards");
     await page.getByTestId(`preset-${preset.id}`).click();
     await expect(page).toHaveURL(/\/session\/[a-z0-9-]+/);
     await expect(page.getByTestId("person-summary")).toContainText(preset.hometown);

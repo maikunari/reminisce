@@ -42,9 +42,6 @@ export const PROVENANCE_EN: ProvenanceStrings = {
   cached: "cached",
 };
 
-/** Kept for callers that only need English: the Why Qloo panel reads its dictionary instead. */
-export const SOURCE_LABEL = PROVENANCE_EN.source;
-
 /**
  * Live sessions say nothing extra: "live Qloo API" is the normal case, not a
  * disclosure. Everything else says plainly that the answers were replayed.

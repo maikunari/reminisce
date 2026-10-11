@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { PLAN_MAX_CARDS, PLAN_MIN_CARDS } from "@/lib/agent/tools";
@@ -18,11 +16,5 @@ describe("deck size", () => {
     expect(deckSizeLabel("es")).toBe("ocho a diez");
     expect(deckSizeLabel("ja")).toBe("8〜10");
     expect(numberWord(13)).toBe("13");
-  });
-
-  it("is what the home page prints, not a hard-coded number", () => {
-    const page = readFileSync(new URL("../../src/app/page.tsx", import.meta.url), "utf8");
-    expect(page).toContain("deckSizeLabel()");
-    expect(page).not.toMatch(/deck of (nine|eight|ten|\d+) cards/);
   });
 });
