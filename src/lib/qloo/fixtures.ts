@@ -28,6 +28,7 @@ import usCatalog from "../../../fixtures/synthetic/us.json";
 import worldCatalog from "../../../fixtures/synthetic/world.json";
 import zhCatalog from "../../../fixtures/synthetic/zh.json";
 import { toQueryString } from "./params";
+import { fold, namesPlace, phrase, tokens } from "./place";
 import type {
   QlooEntity,
   QlooInsightsResponse,
@@ -187,18 +188,11 @@ export function worldsOf(hints: Pick<SyntheticHints, "world">): string[] {
   return Array.isArray(hints.world) ? hints.world : [hints.world];
 }
 
-/** Whole-token match: "mexico city" contains the token "mexico", "new mexico" too, "mexicali" does not. */
-function tokens(text: string): string[] {
-  return fold(text)
-    .split(/[^\p{L}\p{N}]+/u)
-    .filter((t) => t.length > 0);
-}
-
 /** Length of the longest whole-token run of `phrases` found in `words`, or 0. */
 function longestRun(words: string[], phrases: string[]): number {
   let best = 0;
-  for (const phrase of phrases) {
-    const needle = tokens(phrase);
+  for (const candidate of phrases) {
+    const needle = tokens(candidate);
     if (needle.length <= best || needle.length > words.length) continue;
     for (let i = 0; i + needle.length <= words.length; i++) {
       if (needle.every((w, k) => words[i + k] === w)) {
@@ -208,14 +202,6 @@ function longestRun(words: string[], phrases: string[]): number {
     }
   }
   return best;
-}
-
-function fold(text: string): string {
-  return text
-    .normalize("NFKD")
-    .replace(/[̀-ͯ]/g, "")
-    .toLowerCase()
-    .trim();
 }
 
 function splitList(value: string | undefined): string[] {
@@ -279,16 +265,12 @@ export class SyntheticQloo {
 
   resolveLocality(query: string | undefined): SyntheticLocality | null {
     if (!query) return null;
-    const [head = "", ...qualifiers] = query.split(",");
-    const whole = tokens(query).join(" ");
-    const leading = tokens(head).join(" ");
-    const located = this.localities.find((l) => {
-      const names = [l.name, ...l.akas].map((n) => tokens(n).join(" "));
-      if (names.includes(whole)) return true;
-      // "Osaka, Japan" or "Chicago, Illinois" still mean the catalogue city;
-      // "London, Ontario" or "Hollywood, Florida" are other places.
-      return qualifiers.length > 0 && names.includes(leading) && qualifiers.every((q) => this.namesHomeOf(l, q));
-    });
+    // A nickname or district ("Hollywood", "Brooklyn") also names towns
+    // elsewhere in the country, so only the city's own name takes a bare
+    // country word ("Chicago, USA", "Tokyo, Nippon").
+    const located = this.localities.find(
+      (l) => namesPlace(query, [l.name, ...l.akas], (q) => this.namesHomeOf(l, q)) || namesPlace(query, [l.name], (q) => this.namesCountryOf(l, q)),
+    );
     if (located) return located;
     const name = query.trim();
     const region = this.inferRegion(name);
@@ -310,10 +292,15 @@ export class SyntheticQloo {
 
   /** Whether a comma-separated qualifier names the locality's own region or country. */
   private namesHomeOf(l: SyntheticLocality, qualifier: string): boolean {
-    const q = tokens(qualifier).join(" ");
     const geocode = l.properties?.geocode;
     const country = this.regions.find((r) => r.code === geocode?.country_code);
-    return [geocode?.admin1_region, country?.name, country?.code].some((n) => n !== undefined && tokens(n).join(" ") === q);
+    const home = [geocode?.admin1_region, country?.name, country?.code, ...(l.disambiguation?.split(",") ?? [])];
+    return home.some((n) => n !== undefined && phrase(n) === qualifier);
+  }
+
+  private namesCountryOf(l: SyntheticLocality, qualifier: string): boolean {
+    const country = this.regions.find((r) => r.code === l.properties?.geocode?.country_code);
+    return this.namesHomeOf(l, qualifier) || (country?.keywords ?? []).some((k) => phrase(k) === qualifier);
   }
 
   private localityToSearchResult(l: SyntheticLocality): QlooSearchResult {
@@ -388,9 +375,9 @@ export class SyntheticQloo {
       // A town the catalog does not list but whose country it recognises still
       // resolves, so the planner learns the country and the deck stays regional.
       if (localityHits === 0 && types.includes("urn:entity:locality")) {
-        const inferred = this.resolveLocality(params.query);
-        if (inferred?.inferred && inferred.world !== GENERIC_WORLD) {
-          scored.push({ score: 0.5, result: this.localityToSearchResult(inferred) });
+        const resolved = this.resolveLocality(params.query);
+        if (resolved && (!resolved.inferred || resolved.world !== GENERIC_WORLD)) {
+          scored.push({ score: 0.5, result: this.localityToSearchResult(resolved) });
         }
       }
     }

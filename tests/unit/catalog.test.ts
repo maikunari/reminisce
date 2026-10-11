@@ -107,6 +107,33 @@ describe("regional synthetic catalogue", () => {
     for (const worlds of worldsOfDeck(frank.cards)) expect(worlds).toContain("us");
   });
 
+  it.each([
+    ["Chester", "uk", "GB"],
+    ["York", "uk", "GB"],
+    ["San Juan", "latam", "PR"],
+    ["Angeles", "ph", "PH"],
+  ])("a town that only looks like a catalogue city (%s) keeps its own name and gets no other city's streets", async (hometown, world, code) => {
+    const result = await plan(person("Pat", 1948, hometown, []));
+    expect(result.cards.length).toBeGreaterThanOrEqual(PLAN_MIN_CARDS);
+    expect(engine.resolveLocality(hometown)?.properties?.geocode?.country_code).toBe(code);
+    for (const worlds of worldsOfDeck(result.cards)) expect(worlds).toContain(world);
+    for (const card of result.cards) {
+      expect(card.signals.locationQuery, card.title).toBe(hometown);
+      if (card.domain === "dining" || card.domain === "place") {
+        const localities = engine.hintsFor(card.entityId)?.localities ?? [];
+        for (const other of ["manchester", "leeds", "manila", "los_angeles"]) expect(localities, card.title).not.toContain(other);
+      }
+    }
+  });
+
+  it("a catalogue city named with its own country still gets its streets and its release country", async () => {
+    const result = await plan(person("Michi", 1948, "Osaka, Japan", ["Hibari Misora"]));
+    for (const worlds of worldsOfDeck(result.cards)) expect(worlds).toContain("jp");
+    const byDomain = new Map(result.cards.map((c) => [c.domain, c]));
+    expect(engine.hintsFor(byDomain.get("place")!.entityId)?.localities).toContain("osaka");
+    expect(byDomain.get("film")?.signals.params["filter.release_country"]).toBe("Japan");
+  });
+
   it("a hometown outside every regional world gets international names, never another region's", async () => {
     for (const p of [person("Maria", 1948, "Madrid", ["Julio Iglesias"]), person("Hans", 1948, "Berlin", []), person("Ingrid", 1950, "Stockholm", ["ABBA"])]) {
       const result = await plan(p);
@@ -176,6 +203,10 @@ describe("hometown resolution", () => {
       ["Chicago, Illinois", "chicago"],
       ["Chicago, Illinois, United States", "chicago"],
       ["Hollywood", "los_angeles"],
+      ["Chicago, Illinois, United States of America", "chicago"],
+      ["Chicago, USA", "chicago"],
+      ["Tokyo, Nippon", "tokyo"],
+      ["Mexico City, México", "mexico_city"],
     ] as const) {
       const l = engine.resolveLocality(query);
       expect(l?.key, query).toBe(key);
@@ -210,6 +241,16 @@ describe("hometown resolution", () => {
       const l = engine.resolveLocality(query);
       expect(l?.inferred, query).toBe(true);
       expect(l?.properties?.geocode?.country_code, query).toBe(code);
+    }
+  });
+
+  it("offers a catalogue city named with its country to the autocomplete", () => {
+    for (const [query, name] of [
+      ["Osaka, Japan", "Osaka"],
+      ["Seoul, South Korea", "Seoul"],
+    ] as const) {
+      const hits = engine.search({ query, types: "urn:entity:locality" }).results;
+      expect(hits[0]?.name, query).toBe(name);
     }
   });
 
