@@ -1,0 +1,140 @@
+/**
+ * A small tool-calling loop. A Policy decides the next tool calls (an LLM, or
+ * the deterministic planner); the loop executes them, records a trace, and
+ * stops when plan_session / adapt_session commits a result.
+ */
+import type { TraceEvent } from "@/lib/session/types";
+
+import { executeTool, isToolName, type ToolContext, type ToolFinal, type ToolName, type ToolOutcome } from "./tools";
+
+export interface ToolCall {
+  id: string;
+  name: ToolName;
+  args: unknown;
+}
+
+export interface PolicyStep {
+  /** Free-text thinking to show in the trace. */
+  narration?: string;
+  toolCalls?: ToolCall[];
+  /** The policy has nothing more to do. */
+  done?: boolean;
+}
+
+export interface Policy {
+  readonly kind: "llm" | "deterministic";
+  next(): Promise<PolicyStep>;
+  observe(call: ToolCall, outcome: ToolOutcome): void;
+}
+
+export interface LoopOptions {
+  policy: Policy;
+  ctx: ToolContext;
+  emit: (event: TraceEvent) => void;
+  maxSteps?: number;
+  /** Abort the whole loop after this many milliseconds. */
+  budgetMs?: number;
+}
+
+export class LoopError extends Error {
+  constructor(
+    message: string,
+    readonly reason: "no-final" | "max-steps" | "budget" | "policy",
+  ) {
+    super(message);
+    this.name = "LoopError";
+  }
+}
+
+let counter = 0;
+export function traceEvent(partial: Omit<TraceEvent, "id" | "at">): TraceEvent {
+  counter += 1;
+  return { id: `t${Date.now().toString(36)}${counter}`, at: Date.now(), ...partial };
+}
+
+function summariseArgs(args: unknown): Record<string, unknown> | undefined {
+  if (!args || typeof args !== "object") return undefined;
+  return args as Record<string, unknown>;
+}
+
+export async function runLoop(opts: LoopOptions): Promise<{ final: ToolFinal; steps: number }> {
+  const { policy, ctx, emit } = opts;
+  const maxSteps = opts.maxSteps ?? 24;
+  const deadline = Date.now() + (opts.budgetMs ?? 120_000);
+  let steps = 0;
+  let final: ToolFinal | undefined;
+
+  while (steps < maxSteps) {
+    if (Date.now() > deadline) throw new LoopError("agent budget exceeded", "budget");
+    steps += 1;
+    const step = await policy.next();
+    if (step.narration) {
+      emit(traceEvent({ phase: ctx.phase, kind: "narration", summary: step.narration }));
+    }
+    for (const call of step.toolCalls ?? []) {
+      if (!isToolName(call.name)) {
+        const outcome: ToolOutcome = {
+          ok: false,
+          result: { ok: false, error: `unknown tool ${call.name}` },
+          summary: `unknown tool ${call.name}`,
+        };
+        emit(traceEvent({ phase: ctx.phase, kind: "error", tool: call.name, summary: outcome.summary }));
+        policy.observe(call, outcome);
+        continue;
+      }
+      emit(traceEvent({ phase: ctx.phase, kind: "tool_call", tool: call.name, args: summariseArgs(call.args), summary: describeCall(call) }));
+      let outcome: ToolOutcome;
+      try {
+        outcome = await executeTool(call.name, call.args, ctx);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        outcome = { ok: false, result: { ok: false, error: message }, summary: `${call.name} failed: ${message}` };
+      }
+      emit(
+        traceEvent({
+          phase: ctx.phase,
+          kind: outcome.ok ? "tool_result" : "error",
+          tool: call.name,
+          summary: outcome.summary,
+          qloo: outcome.qloo,
+        }),
+      );
+      policy.observe(call, outcome);
+      if (outcome.final) final = outcome.final;
+    }
+    if (final) return { final, steps };
+    if (step.done) break;
+  }
+  if (steps >= maxSteps) throw new LoopError(`agent stopped after ${maxSteps} steps without committing`, "max-steps");
+  throw new LoopError("agent finished without committing a session", "no-final");
+}
+
+function describeCall(call: ToolCall): string {
+  const a = (call.args ?? {}) as Record<string, unknown>;
+  switch (call.name) {
+    case "qloo_search_entity":
+      return `search "${String(a.query ?? "")}"${Array.isArray(a.types) ? ` in ${a.types.join(", ")}` : ""}`;
+    case "qloo_search_tags":
+      return `tags "${String(a.query ?? "")}"${a.parent_type ? ` for ${String(a.parent_type)}` : ""}`;
+    case "qloo_insights": {
+      const bits: string[] = [String(a.filter_type ?? "")];
+      if (Array.isArray(a.signal_entities) && a.signal_entities.length > 0) bits.push(`${a.signal_entities.length} seed${a.signal_entities.length === 1 ? "" : "s"}`);
+      if (a.signal_location_query) bits.push(`near ${String(a.signal_location_query)}`);
+      if (a.filter_location_query) bits.push(`in ${String(a.filter_location_query)}`);
+      if (a.release_year_min || a.release_year_max) bits.push(`${String(a.release_year_min ?? "")}–${String(a.release_year_max ?? "")}`);
+      if (a.signal_age) bits.push(String(a.signal_age));
+      return `insights ${bits.join(" · ")}`;
+    }
+    case "plan_session":
+      return `plan_session with ${Array.isArray(a.cards) ? a.cards.length : 0} cards`;
+    case "adapt_session":
+      return `adapt_session with ${Array.isArray(a.replacements) ? a.replacements.length : 0} replacements`;
+    default:
+      return call.name;
+  }
+}
+
+export function newCallId(): string {
+  counter += 1;
+  return `call_${counter.toString(36)}_${Math.random().toString(36).slice(2, 7)}`;
+}

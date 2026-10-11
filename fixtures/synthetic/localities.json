@@ -1,0 +1,138 @@
+{
+  "_meta": {
+    "synthetic": true,
+    "note": "Hand-authored localities shaped like /search results with types=urn:entity:locality. Not Qloo data."
+  },
+  "localities": [
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c001",
+      "name": "Osaka",
+      "key": "osaka",
+      "world": "jp",
+      "akas": ["Ōsaka", "大阪", "大阪市", "Osaka City", "Osaka-shi"],
+      "properties": { "geocode": { "name": "Osaka", "admin1_region": "Osaka Prefecture", "country_code": "JP" }, "population": 2750000 },
+      "location": { "lat": 34.6937, "lon": 135.5023 },
+      "disambiguation": "Osaka, Osaka Prefecture, Japan"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c002",
+      "name": "Tokyo",
+      "key": "tokyo",
+      "world": "jp",
+      "akas": ["Tōkyō", "東京", "Tokyo City"],
+      "properties": { "geocode": { "name": "Tokyo", "admin1_region": "Tokyo", "country_code": "JP" }, "population": 13960000 },
+      "location": { "lat": 35.6762, "lon": 139.6503 },
+      "disambiguation": "Tokyo, Japan"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c003",
+      "name": "Kyoto",
+      "key": "kyoto",
+      "world": "jp",
+      "akas": ["Kyōto", "京都", "Kyoto City"],
+      "properties": { "geocode": { "name": "Kyoto", "admin1_region": "Kyoto Prefecture", "country_code": "JP" }, "population": 1460000 },
+      "location": { "lat": 35.0116, "lon": 135.7681 },
+      "disambiguation": "Kyoto, Kyoto Prefecture, Japan"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c004",
+      "name": "Kobe",
+      "key": "kobe",
+      "world": "jp",
+      "akas": ["Kōbe", "神戸"],
+      "properties": { "geocode": { "name": "Kobe", "admin1_region": "Hyogo Prefecture", "country_code": "JP" }, "population": 1520000 },
+      "location": { "lat": 34.6901, "lon": 135.1955 },
+      "disambiguation": "Kobe, Hyogo Prefecture, Japan"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c005",
+      "name": "Yokohama",
+      "key": "yokohama",
+      "world": "jp",
+      "akas": ["横浜"],
+      "properties": { "geocode": { "name": "Yokohama", "admin1_region": "Kanagawa Prefecture", "country_code": "JP" }, "population": 3770000 },
+      "location": { "lat": 35.4437, "lon": 139.638 },
+      "disambiguation": "Yokohama, Kanagawa Prefecture, Japan"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c011",
+      "name": "Chicago",
+      "key": "chicago",
+      "world": "us",
+      "akas": ["Chicago, Illinois", "Chicago, IL", "The Windy City", "Chi-Town"],
+      "properties": { "geocode": { "name": "Chicago", "admin1_region": "Illinois", "country_code": "US" }, "population": 2700000 },
+      "location": { "lat": 41.8781, "lon": -87.6298 },
+      "disambiguation": "Chicago, Illinois, United States of America"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c012",
+      "name": "New York City",
+      "key": "new_york",
+      "world": "us",
+      "akas": ["New York", "NYC", "The Big Apple", "Manhattan", "Brooklyn"],
+      "properties": { "geocode": { "name": "New York", "admin1_region": "New York", "country_code": "US" }, "population": 8470000 },
+      "location": { "lat": 40.7128, "lon": -74.006 },
+      "disambiguation": "New York, New York, United States of America"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c013",
+      "name": "Los Angeles",
+      "key": "los_angeles",
+      "world": "us",
+      "akas": ["LA", "L.A.", "Hollywood"],
+      "properties": { "geocode": { "name": "Los Angeles", "admin1_region": "California", "country_code": "US" }, "population": 3900000 },
+      "location": { "lat": 34.0522, "lon": -118.2437 },
+      "disambiguation": "Los Angeles, California, United States of America"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c014",
+      "name": "Milwaukee",
+      "key": "milwaukee",
+      "world": "us",
+      "akas": ["Milwaukee, Wisconsin"],
+      "properties": { "geocode": { "name": "Milwaukee", "admin1_region": "Wisconsin", "country_code": "US" }, "population": 577000 },
+      "location": { "lat": 43.0389, "lon": -87.9065 },
+      "disambiguation": "Milwaukee, Wisconsin, United States of America"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c021",
+      "name": "London",
+      "key": "london",
+      "world": "generic",
+      "akas": ["London, England", "London, UK"],
+      "properties": { "geocode": { "name": "London", "admin1_region": "England", "country_code": "GB" }, "population": 8800000 },
+      "location": { "lat": 51.5072, "lon": -0.1276 },
+      "disambiguation": "London, England, United Kingdom"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c022",
+      "name": "Paris",
+      "key": "paris",
+      "world": "generic",
+      "akas": ["Paris, France"],
+      "properties": { "geocode": { "name": "Paris", "admin1_region": "Île-de-France", "country_code": "FR" }, "population": 2100000 },
+      "location": { "lat": 48.8566, "lon": 2.3522 },
+      "disambiguation": "Paris, Île-de-France, France"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c023",
+      "name": "Madrid",
+      "key": "madrid",
+      "world": "generic",
+      "akas": ["Madrid, Spain", "Madrid, España"],
+      "properties": { "geocode": { "name": "Madrid", "admin1_region": "Community of Madrid", "country_code": "ES" }, "population": 3300000 },
+      "location": { "lat": 40.4168, "lon": -3.7038 },
+      "disambiguation": "Madrid, Community of Madrid, Spain"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c024",
+      "name": "Rome",
+      "key": "rome",
+      "world": "generic",
+      "akas": ["Roma", "Rome, Italy"],
+      "properties": { "geocode": { "name": "Rome", "admin1_region": "Lazio", "country_code": "IT" }, "population": 2800000 },
+      "location": { "lat": 41.9028, "lon": 12.4964 },
+      "disambiguation": "Rome, Lazio, Italy"
+    }
+  ]
+}
