@@ -15,11 +15,18 @@ import { createHash } from "node:crypto";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 
+import inCatalog from "../../../fixtures/synthetic/in.json";
 import jpCatalog from "../../../fixtures/synthetic/jp.json";
+import krCatalog from "../../../fixtures/synthetic/kr.json";
+import latamCatalog from "../../../fixtures/synthetic/latam.json";
+import localitiesData from "../../../fixtures/synthetic/localities.json";
+import phCatalog from "../../../fixtures/synthetic/ph.json";
+import regionsData from "../../../fixtures/synthetic/regions.json";
+import tagsData from "../../../fixtures/synthetic/tags.json";
+import ukCatalog from "../../../fixtures/synthetic/uk.json";
 import usCatalog from "../../../fixtures/synthetic/us.json";
 import worldCatalog from "../../../fixtures/synthetic/world.json";
-import localitiesData from "../../../fixtures/synthetic/localities.json";
-import tagsData from "../../../fixtures/synthetic/tags.json";
+import zhCatalog from "../../../fixtures/synthetic/zh.json";
 import { toQueryString } from "./params";
 import type {
   QlooEntity,
@@ -107,7 +114,10 @@ export async function writeRecordedFixture(
 
 /** Authoring metadata attached to synthetic entities; stripped before serving. */
 export interface SyntheticHints {
-  world: string;
+  /** Cultural world(s) the entity belongs to: jp, us, uk, latam, ph, in, kr, zh, or generic (international). */
+  world: string | string[];
+  /** ISO country codes the entity is specific to; empty means the whole world. */
+  countries?: string[];
   localities?: string[];
   /** [firstYear, lastYear] of the entity's cultural relevance. */
   era?: [number, number];
@@ -127,6 +137,19 @@ export interface SyntheticLocality {
   properties: QlooEntity["properties"];
   location: { lat: number; lon: number };
   disambiguation: string;
+  /** True when the place is not in the catalog and only its country or region was inferred from the name. */
+  inferred?: boolean;
+}
+
+/** One country in regions.json: how a hometown that is not a catalog locality maps to a world. */
+export interface SyntheticRegion {
+  code: string;
+  name: string;
+  world: string;
+  /** Words that name the country or its regions ("mexico", "jalisco"). Matched as whole tokens after folding. */
+  keywords: string[];
+  /** Towns and cities without their own catalog entry. */
+  cities: string[];
 }
 
 export interface SyntheticCatalog {
@@ -145,14 +168,30 @@ export function loadSyntheticCatalog(): {
   entities: SyntheticEntity[];
   localities: SyntheticLocality[];
   tags: SyntheticTag[];
+  regions: SyntheticRegion[];
 } {
-  const catalogs = [jpCatalog, usCatalog, worldCatalog] as unknown as SyntheticCatalog[];
+  const catalogs = [jpCatalog, usCatalog, ukCatalog, latamCatalog, phCatalog, inCatalog, krCatalog, zhCatalog, worldCatalog] as unknown as SyntheticCatalog[];
   const entities = catalogs.flatMap((c) => c.entities);
   return {
     entities,
     localities: (localitiesData as { localities: SyntheticLocality[] }).localities,
     tags: (tagsData as { tags: SyntheticTag[] }).tags,
+    regions: (regionsData as { countries: SyntheticRegion[] }).countries,
   };
+}
+
+/** The generic world: international names that are not tied to one region. */
+export const GENERIC_WORLD = "generic";
+
+export function worldsOf(hints: Pick<SyntheticHints, "world">): string[] {
+  return Array.isArray(hints.world) ? hints.world : [hints.world];
+}
+
+/** Whole-token match: "mexico city" contains the token "mexico", "new mexico" too, "mexicali" does not. */
+function tokens(text: string): string[] {
+  return fold(text)
+    .split(/[^\p{L}\p{N}]+/u)
+    .filter((t) => t.length > 0);
 }
 
 function fold(text: string): string {
@@ -187,12 +226,39 @@ export class SyntheticQloo {
   private readonly byId: Map<string, SyntheticEntity>;
   private readonly localities: SyntheticLocality[];
   private readonly tagList: SyntheticTag[];
+  private readonly regions: SyntheticRegion[];
 
   constructor(data = loadSyntheticCatalog()) {
     this.entities = data.entities;
     this.byId = new Map(data.entities.map((e) => [e.entity_id, e]));
     this.localities = data.localities;
     this.tagList = data.tags;
+    this.regions = data.regions;
+  }
+
+  /** Authoring hints for an entity id (tests and tooling only; never served). */
+  hintsFor(entityId: string): SyntheticHints | undefined {
+    return this.byId.get(entityId)?._syn;
+  }
+
+  /**
+   * A hometown that is not a catalog locality may still name a country or a
+   * region ("Puebla", "Puebla, Mexico", "Cebu", "Boston, Massachusetts"): the
+   * country-level world then still shapes the deck, while nothing claims to be
+   * a place in that town.
+   */
+  inferRegion(query: string): SyntheticRegion | null {
+    const words = tokens(query);
+    if (words.length === 0) return null;
+    const phrase = words.join(" ");
+    const hasToken = (keyword: string) => {
+      const k = tokens(keyword).join(" ");
+      return k.length > 0 && (` ${phrase} `).includes(` ${k} `);
+    };
+    // A city name is more specific than a country word, so it wins when both appear.
+    const byCity = this.regions.find((r) => r.cities.some(hasToken));
+    if (byCity) return byCity;
+    return this.regions.find((r) => r.keywords.some(hasToken)) ?? null;
   }
 
   resolveLocality(query: string | undefined): SyntheticLocality | null {
@@ -200,22 +266,28 @@ export class SyntheticQloo {
     const q = fold(query);
     const exact = this.localities.find((l) => fold(l.name) === q || l.akas.some((a) => fold(a) === q));
     if (exact) return exact;
+    const name = query.trim();
+    const region = this.inferRegion(name);
+    // "Osaka, Japan" still means Osaka; "Santiago de Cuba" or "London, Ontario"
+    // name a different country than the catalog city, so they fall through.
+    const sameCountry = (l: SyntheticLocality) => !region || l.properties?.geocode?.country_code === region.code;
     const partial = this.localities.find(
-      (l) => fold(l.name).includes(q) || q.includes(fold(l.name)) || l.akas.some((a) => fold(a).includes(q)),
+      (l) => sameCountry(l) && (fold(l.name).includes(q) || q.includes(fold(l.name)) || l.akas.some((a) => fold(a).startsWith(q) || q.includes(fold(a)))),
     );
     if (partial) return partial;
     // Unknown place: synthesize a locality so the location signal still flows
-    // through the trace. Marked by the generic world.
-    const name = query.trim();
+    // through the trace. Its world comes from the country or region the name
+    // mentions, or the generic world when nothing is recognised.
     return {
       entity_id: `ffffffff-0000-4000-8000-${createHash("sha256").update(fold(name)).digest("hex").slice(0, 12)}`,
       name,
       key: fold(name).replace(/\s+/g, "_"),
-      world: "generic",
+      world: region?.world ?? GENERIC_WORLD,
       akas: [],
-      properties: { geocode: { name } },
+      properties: { geocode: region ? { name, country_code: region.code } : { name } },
       location: { lat: 0, lon: 0 },
-      disambiguation: name,
+      disambiguation: region ? `${name}, ${region.name}` : name,
+      inferred: true,
     };
   }
 
@@ -274,6 +346,7 @@ export class SyntheticQloo {
       });
     }
     if (wantsLocality) {
+      let localityHits = 0;
       for (const l of this.localities) {
         const names = [l.name, ...l.akas].map(fold);
         let score = 0;
@@ -282,7 +355,18 @@ export class SyntheticQloo {
           else if (n.startsWith(query)) score = Math.max(score, 2);
           else if (n.includes(query)) score = Math.max(score, 1);
         }
-        if (score > 0) scored.push({ score: score + 0.5, result: this.localityToSearchResult(l) });
+        if (score > 0) {
+          localityHits += 1;
+          scored.push({ score: score + 0.5, result: this.localityToSearchResult(l) });
+        }
+      }
+      // A town the catalog does not list but whose country it recognises still
+      // resolves, so the planner learns the country and the deck stays regional.
+      if (localityHits === 0 && types.includes("urn:entity:locality")) {
+        const inferred = this.resolveLocality(params.query);
+        if (inferred?.inferred && inferred.world !== GENERIC_WORLD) {
+          scored.push({ score: 0.5, result: this.localityToSearchResult(inferred) });
+        }
       }
     }
     scored.sort((a, b) => b.score - a.score || a.result.name.localeCompare(b.result.name));
@@ -332,7 +416,30 @@ export class SyntheticQloo {
     const signalLocality = this.resolveLocality(params["signal.location.query"]);
     const filterLocality = this.resolveLocality(params["filter.location.query"]);
     const seedEntities = seeds.map((id) => this.byId.get(id)).filter((e): e is SyntheticEntity => !!e);
-    const seedWorlds = new Set(seedEntities.map((e) => e._syn.world));
+    // Favourites tied to one region (Pedro Infante) say where someone is from;
+    // names the whole world shares (The Beatles) do not.
+    const regionalSeeds = seedEntities.filter((e) => !worldsOf(e._syn).includes(GENERIC_WORLD));
+    const seedWorlds = new Set(regionalSeeds.flatMap((e) => worldsOf(e._syn)));
+    const seedCountries = new Set(regionalSeeds.flatMap((e) => e._syn.countries ?? []));
+    // A hometown in the generic world: a catalog city (Madrid) or a town whose
+    // country was recognised but has no regional catalogue (Berlin).
+    const homeIsGeneric =
+      !!signalLocality && signalLocality.world === GENERIC_WORLD && (!signalLocality.inferred || !!signalLocality.properties?.geocode?.country_code);
+
+    // The "home" taste profile: the hometown's world when it is known or can be
+    // inferred, otherwise the world(s) of the regional favourites. A person from
+    // Mexico City, or one who loved Pedro Infante, is scored against Mexico either way.
+    const homeWorlds = new Set<string>();
+    let homeCountry: string | undefined;
+    if (signalLocality && signalLocality.world !== GENERIC_WORLD) {
+      homeWorlds.add(signalLocality.world);
+      homeCountry = signalLocality.properties?.geocode?.country_code;
+    } else if (!homeIsGeneric && seedWorlds.size > 0) {
+      for (const w of seedWorlds) homeWorlds.add(w);
+      if (seedCountries.size === 1) homeCountry = [...seedCountries][0];
+    }
+    // No regional home: international names only, plus regional names a favourite points at.
+    const internationalOnly = homeWorlds.size === 0 && !!signalLocality;
 
     const scored: { entity: SyntheticEntity; affinity: number; contributions: Record<string, number> }[] = [];
     for (const e of this.entities) {
@@ -352,18 +459,27 @@ export class SyntheticQloo {
       const tagIds = new Set((e.tags ?? []).map((t) => t.id));
       if (filterTags.length > 0 && !filterTags.some((t) => tagIds.has(t))) continue;
       if (filterLocality) {
+        // A place is only "in" a town the catalog lists it under. A town the
+        // catalog does not know gets no places at all rather than another city's.
         const locs = e._syn.localities ?? [];
-        const inLocality = locs.includes(filterLocality.key) || (filterLocality.world === "generic" && e._syn.world === "generic");
-        if (!inLocality) continue;
+        if (!locs.includes(filterLocality.key)) continue;
       }
+
+      const eWorlds = worldsOf(e._syn);
+      const eCountries = e._syn.countries ?? [];
+      const isGeneric = eWorlds.includes(GENERIC_WORLD);
+      const inHomeWorld = eWorlds.some((w) => homeWorlds.has(w));
+      if (internationalOnly && !isGeneric && !seedEntities.some((seed) => e._syn.related?.[seed.entity_id] !== undefined)) continue;
 
       let score = 0.3 * (e.popularity ?? 0.5);
       const contributions: Record<string, number> = {};
       let bestSeed = 0;
       for (const seed of seedEntities) {
         const explicit = e._syn.related?.[seed.entity_id];
-        const sameWorld = seed._syn.world === e._syn.world;
-        const r = explicit ?? (sameWorld ? (e._syn.world === "generic" ? 0.2 : 0.35) : 0.05);
+        const sWorlds = worldsOf(seed._syn);
+        const sameWorld = sWorlds.some((w) => eWorlds.includes(w));
+        const sameCountry = (seed._syn.countries ?? []).some((c) => eCountries.includes(c));
+        const r = explicit ?? (sameWorld ? (isGeneric && sWorlds.includes(GENERIC_WORLD) ? 0.2 : sameCountry || eCountries.length === 0 ? 0.35 : 0.25) : 0.05);
         contributions[seed.entity_id] = round4(r);
         bestSeed = Math.max(bestSeed, r);
       }
@@ -375,12 +491,21 @@ export class SyntheticQloo {
         score += 0.15 * Math.min(1, hits / signalTags.length);
       }
 
-      if (signalLocality) {
+      if (homeWorlds.size > 0) {
         const locs = e._syn.localities ?? [];
-        if (locs.includes(signalLocality.key)) score += 0.18;
-        else if (signalLocality.world !== "generic" && e._syn.world === signalLocality.world) score += 0.08;
-        else if (signalLocality.world !== "generic" && e._syn.world !== "generic") score -= 0.2;
-        else if (signalLocality.world === "generic" && e._syn.world !== "generic") score -= 0.12;
+        if (signalLocality && !signalLocality.inferred && locs.includes(signalLocality.key)) score += 0.18;
+        else if (inHomeWorld && homeCountry && eCountries.includes(homeCountry)) score += 0.12;
+        else if (inHomeWorld && eCountries.length === 0) score += 0.08;
+        else if (inHomeWorld) score += 0.02;
+        else if (isGeneric) score -= 0.12;
+        else score -= 0.2;
+      } else if (signalLocality) {
+        // A generic-world or unknown hometown: its own places first (Madrid), then
+        // international names, then regional names a favourite points at.
+        const locs = e._syn.localities ?? [];
+        if (!signalLocality.inferred && locs.includes(signalLocality.key)) score += 0.18;
+        else if (isGeneric) score += 0.08;
+        else score -= 0.12;
       }
 
       if (ages.length > 0 && e._syn.era) {

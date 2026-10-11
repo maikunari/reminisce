@@ -1,0 +1,5856 @@
+{
+  "_meta": {
+    "synthetic": true,
+    "note": "Hand-authored Korean catalog: Seoul, Busan, Daegu, Incheon, Gwangju and Daejeon. Shaped like Qloo Insights entities plus a `_syn` block used for scoring and stripped before serving. Entity ids are fake. Not Qloo data.",
+    "world": "kr"
+  },
+  "entities": [
+    {
+      "name": "Lee Mi-ja",
+      "entity_id": "ffffffff-0000-4000-8000-000000030001",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "The Queen of Elegy: 'Camellia Lady' (동백아가씨, 1964), 'Island Village Teacher', the trot voice of a generation.",
+        "date_of_birth": "1941-10-30",
+        "place_of_birth": "Seoul, South Korea",
+        "akas": [
+          {
+            "value": "이미자",
+            "languages": [
+              "ko"
+            ]
+          },
+          {
+            "value": "Queen of Elegy",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.95,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:trot",
+          "name": "Trot",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1959,
+          2010
+        ]
+      }
+    },
+    {
+      "name": "Patti Kim",
+      "entity_id": "ffffffff-0000-4000-8000-000000030002",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Autumn Letter' (가을 편지), 'Farewell' (이별), 'Seoul Hymn': Korea's first singer at Carnegie Hall.",
+        "date_of_birth": "1938-02-28",
+        "place_of_birth": "Seoul, South Korea",
+        "akas": [
+          {
+            "value": "패티김",
+            "languages": [
+              "ko"
+            ]
+          },
+          {
+            "value": "Kim Hye-ja",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:pop",
+          "name": "Pop",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:easy_listening",
+          "name": "Easy Listening",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1958,
+          2012
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.8
+        }
+      }
+    },
+    {
+      "name": "Nam Jin",
+      "entity_id": "ffffffff-0000-4000-8000-000000030003",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Nim-gwa Hamkke' (님과 함께, 1972), 'A Farmer's Heart'; the Elvis of Korea.",
+        "date_of_birth": "1946-09-27",
+        "place_of_birth": "Mokpo, South Korea",
+        "akas": [
+          {
+            "value": "남진",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:trot",
+          "name": "Trot",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul",
+          "gwangju"
+        ],
+        "era": [
+          1965,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.9
+        }
+      }
+    },
+    {
+      "name": "Na Hoon-a",
+      "entity_id": "ffffffff-0000-4000-8000-000000030004",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Muddy Stream of Tears' (1973), 'Hometown Station', 'Tess': the rival of Nam Jin and the emperor of trot.",
+        "date_of_birth": "1947-02-11",
+        "place_of_birth": "Busan, South Korea",
+        "akas": [
+          {
+            "value": "나훈아",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.92,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:trot",
+          "name": "Trot",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "busan",
+          "seoul"
+        ],
+        "era": [
+          1966,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.9
+        }
+      }
+    },
+    {
+      "name": "Cho Yong-pil",
+      "entity_id": "ffffffff-0000-4000-8000-000000030005",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Come Back to Busan Port' (돌아와요 부산항에, 1976), 'Short Hair', 'The Woman Outside the Window': the King of Korean pop.",
+        "date_of_birth": "1950-03-21",
+        "place_of_birth": "Hwaseong, South Korea",
+        "akas": [
+          {
+            "value": "조용필",
+            "languages": [
+              "ko"
+            ]
+          },
+          {
+            "value": "Ga-wang",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.97,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:pop",
+          "name": "Pop",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:rock",
+          "name": "Rock",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:trot",
+          "name": "Trot",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul",
+          "busan"
+        ],
+        "era": [
+          1968,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.8
+        }
+      }
+    },
+    {
+      "name": "Bae Ho",
+      "entity_id": "ffffffff-0000-4000-8000-000000030006",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Turn Around at Samgakji' (돌아가는 삼각지, 1967), 'Foggy Jangchungdan Park': the husky voice lost at 29.",
+        "date_of_birth": "1942-04-24",
+        "year_of_death": 1971,
+        "place_of_birth": "Beijing, China",
+        "akas": [
+          {
+            "value": "배호",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:trot",
+          "name": "Trot",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1963,
+          1971
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.9
+        }
+      }
+    },
+    {
+      "name": "Hyun In",
+      "entity_id": "ffffffff-0000-4000-8000-000000030007",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Be Strong, Geum-sun' (굳세어라 금순아, 1953), 'Shilla's Moonlit Night': the voice of the refugees in Busan.",
+        "date_of_birth": "1919-12-14",
+        "year_of_death": 2002,
+        "place_of_birth": "Busan, South Korea",
+        "akas": [
+          {
+            "value": "현인",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:trot",
+          "name": "Trot",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "busan",
+          "seoul"
+        ],
+        "era": [
+          1947,
+          1980
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.8
+        }
+      }
+    },
+    {
+      "name": "Lee Nan-young",
+      "entity_id": "ffffffff-0000-4000-8000-000000030008",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Tears of Mokpo' (목포의 눈물, 1935), the first great Korean pop record.",
+        "date_of_birth": "1916-06-06",
+        "year_of_death": 1965,
+        "place_of_birth": "Mokpo, Korea",
+        "akas": [
+          {
+            "value": "이난영",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:trot",
+          "name": "Trot",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "gwangju",
+          "seoul"
+        ],
+        "era": [
+          1935,
+          1965
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.8
+        }
+      }
+    },
+    {
+      "name": "Kim Choo-ja",
+      "entity_id": "ffffffff-0000-4000-8000-000000030009",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Nim-eun Meon Gose' (님은 먼곳에, 1970), 'Coffee Once More': Shin Joong-hyun's soul singer.",
+        "date_of_birth": "1951-05-09",
+        "place_of_birth": "Seoul, South Korea",
+        "akas": [
+          {
+            "value": "김추자",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.78,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:soul",
+          "name": "Soul",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:rock",
+          "name": "Rock",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1969,
+          1980
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Shin Joong-hyun",
+      "entity_id": "ffffffff-0000-4000-8000-000000030010",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Beautiful Rivers and Mountains', 'Mi-in' (미인, 1974): the godfather of Korean rock and his guitar.",
+        "date_of_birth": "1938-01-04",
+        "place_of_birth": "Seoul, South Korea",
+        "akas": [
+          {
+            "value": "신중현",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.82,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:rock",
+          "name": "Rock",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1962,
+          2000
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Pearl Sisters",
+      "entity_id": "ffffffff-0000-4000-8000-000000030011",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Cup of Coffee' (커피 한잔, 1968), 'Nima': the sister duo in miniskirts, Shin Joong-hyun's first stars.",
+        "akas": [
+          {
+            "value": "펄 시스터즈",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.72,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:soul",
+          "name": "Soul",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:pop",
+          "name": "Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1968,
+          1975
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Song Chang-sik",
+      "entity_id": "ffffffff-0000-4000-8000-000000030012",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Whale Hunting' (고래사냥, 1975), 'Why Did You Call Me' (왜 불러): the Twin Folio singer with the beard.",
+        "date_of_birth": "1947-02-02",
+        "place_of_birth": "Incheon, South Korea",
+        "akas": [
+          {
+            "value": "송창식",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.84,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:folk",
+          "name": "Folk",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul",
+          "incheon"
+        ],
+        "era": [
+          1968,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Yang Hee-eun",
+      "entity_id": "ffffffff-0000-4000-8000-000000030013",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Morning Dew' (아침 이슬, 1971), 'Evergreen Tree': the folk voice that became the song of the protests.",
+        "date_of_birth": "1952-08-13",
+        "place_of_birth": "Seoul, South Korea",
+        "akas": [
+          {
+            "value": "양희은",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.86,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:folk",
+          "name": "Folk",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1971,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Kim Min-ki",
+      "entity_id": "ffffffff-0000-4000-8000-000000030014",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Morning Dew', 'Friend': the student songwriter whose records were banned and sung anyway.",
+        "date_of_birth": "1951-03-31",
+        "year_of_death": 2024,
+        "place_of_birth": "Iksan, South Korea",
+        "akas": [
+          {
+            "value": "김민기",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:folk",
+          "name": "Folk",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1971,
+          2000
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Hye Eun-i",
+      "entity_id": "ffffffff-0000-4000-8000-000000030015",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'That's You' (당신은 모르실거야, 1975), 'The Third Han River Bridge': the 1970s' sweet voice.",
+        "date_of_birth": "1956-10-13",
+        "place_of_birth": "Seoul, South Korea",
+        "akas": [
+          {
+            "value": "혜은이",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:pop",
+          "name": "Pop",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:trot",
+          "name": "Trot",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1975,
+          1995
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.7
+        }
+      }
+    },
+    {
+      "name": "Sanulrim",
+      "entity_id": "ffffffff-0000-4000-8000-000000030016",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Already Now' (아니 벌써, 1977), 'My Heart Is a Lake': the three Kim brothers and Korean psychedelic rock.",
+        "akas": [
+          {
+            "value": "산울림",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.78,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:rock",
+          "name": "Rock",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1977,
+          1997
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.3
+        }
+      }
+    },
+    {
+      "name": "Ha Choon-hwa",
+      "entity_id": "ffffffff-0000-4000-8000-000000030017",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "The child star of 1961 who became the trot queen of the 1970s: 'Dream in Mulbangagol', 'Daughter of the Sea'.",
+        "date_of_birth": "1955-06-28",
+        "place_of_birth": "Yeongam, South Korea",
+        "akas": [
+          {
+            "value": "하춘화",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.78,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:trot",
+          "name": "Trot",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1961,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.9
+        }
+      }
+    },
+    {
+      "name": "Jung Hoon-hee",
+      "entity_id": "ffffffff-0000-4000-8000-000000030018",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Fog' (안개, 1967), 'Flower Path': the first Korean singer to win an international song festival.",
+        "date_of_birth": "1951-05-11",
+        "place_of_birth": "Busan, South Korea",
+        "akas": [
+          {
+            "value": "정훈희",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.72,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:pop",
+          "name": "Pop",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:easy_listening",
+          "name": "Easy Listening",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "busan",
+          "seoul"
+        ],
+        "era": [
+          1967,
+          2000
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.6
+        }
+      }
+    },
+    {
+      "name": "Choi Hee-jun",
+      "entity_id": "ffffffff-0000-4000-8000-000000030019",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Wedding Dress' (우리 애인은 올드미스), 'A Pebble on the Road': the low baritone of the sixties.",
+        "date_of_birth": "1936-10-05",
+        "year_of_death": 2018,
+        "place_of_birth": "Seoul, South Korea",
+        "akas": [
+          {
+            "value": "최희준",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.68,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:easy_listening",
+          "name": "Easy Listening",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:pop",
+          "name": "Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1960,
+          1990
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.7
+        }
+      }
+    },
+    {
+      "name": "Lee Mun-se",
+      "entity_id": "ffffffff-0000-4000-8000-000000030020",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Red Sunset' (붉은 노을, 1988), 'Old Love': the ballad king of the late 1980s.",
+        "date_of_birth": "1959-01-17",
+        "place_of_birth": "Seoul, South Korea",
+        "akas": [
+          {
+            "value": "이문세",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.82,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:pop",
+          "name": "Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1983,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.4
+        }
+      }
+    },
+    {
+      "name": "The Housemaid",
+      "entity_id": "ffffffff-0000-4000-8000-000000031001",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1960,
+        "description": "Kim Ki-young's two-storey house and the maid on the stairs; the most unsettling film of its decade.",
+        "release_country": [
+          "South Korea"
+        ],
+        "akas": [
+          {
+            "value": "하녀",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.84,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:thriller",
+          "name": "Thriller",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1960,
+          1985
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Aimless Bullet",
+      "entity_id": "ffffffff-0000-4000-8000-000000031002",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1961,
+        "description": "Yu Hyun-mok's post-war Seoul, a clerk with a toothache and a mother who cries 'Let's go!'",
+        "release_country": [
+          "South Korea"
+        ],
+        "akas": [
+          {
+            "value": "오발탄",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1961,
+          1985
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.4
+        }
+      }
+    },
+    {
+      "name": "The Coachman",
+      "entity_id": "ffffffff-0000-4000-8000-000000031003",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1961,
+        "description": "Kim Seung-ho as the Seoul coachman and his family; the Berlin Silver Bear.",
+        "release_country": [
+          "South Korea"
+        ],
+        "akas": [
+          {
+            "value": "마부",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.76,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:family",
+          "name": "Family",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1961,
+          1985
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Seong Chun-hyang",
+      "entity_id": "ffffffff-0000-4000-8000-000000031004",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1961,
+        "description": "Shin Sang-ok's colour Chunhyang with Choi Eun-hee, the first great box-office hit.",
+        "release_country": [
+          "South Korea"
+        ],
+        "akas": [
+          {
+            "value": "성춘향",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:romance",
+          "name": "Romance",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:history",
+          "name": "History",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "era": [
+          1961,
+          1985
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.6
+        }
+      }
+    },
+    {
+      "name": "The Barefooted Youth",
+      "entity_id": "ffffffff-0000-4000-8000-000000031005",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1964,
+        "description": "Shin Seong-il and Um Aing-ran, the hoodlum and the diplomat's daughter; the youth film of the decade.",
+        "release_country": [
+          "South Korea"
+        ],
+        "akas": [
+          {
+            "value": "맨발의 청춘",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.82,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:romance",
+          "name": "Romance",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1964,
+          1985
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.6
+        }
+      }
+    },
+    {
+      "name": "Late Autumn",
+      "entity_id": "ffffffff-0000-4000-8000-000000031006",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1966,
+        "description": "Lee Man-hee's woman on parole and the counterfeiter, three days in Seoul.",
+        "release_country": [
+          "South Korea"
+        ],
+        "akas": [
+          {
+            "value": "만추",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:romance",
+          "name": "Romance",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1966,
+          1985
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Mist",
+      "entity_id": "ffffffff-0000-4000-8000-000000031007",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1967,
+        "description": "Kim Soo-yong's Shin Seong-il goes back to his foggy hometown; Jung Hoon-hee's title song.",
+        "release_country": [
+          "South Korea"
+        ],
+        "akas": [
+          {
+            "value": "안개",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.72,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:romance",
+          "name": "Romance",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "era": [
+          1967,
+          1985
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "The General's Mustache",
+      "entity_id": "ffffffff-0000-4000-8000-000000031008",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1968,
+        "description": "Lee Seong-gu's photographer found dead and the Seoul of the sixties reconstructed.",
+        "release_country": [
+          "South Korea"
+        ],
+        "akas": [
+          {
+            "value": "장군의 수염",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.64,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1968,
+          1985
+        ]
+      }
+    },
+    {
+      "name": "A Day Off",
+      "entity_id": "ffffffff-0000-4000-8000-000000031009",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1968,
+        "description": "Lee Man-hee's Sunday in Seoul with no money, lost for decades and found.",
+        "release_country": [
+          "South Korea"
+        ],
+        "akas": [
+          {
+            "value": "휴일",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.62,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1968,
+          1985
+        ]
+      }
+    },
+    {
+      "name": "Heavenly Homecoming to Stars",
+      "entity_id": "ffffffff-0000-4000-8000-000000031010",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1974,
+        "description": "Lee Jang-ho's Gyeong-a, the hostess bar and the snow; the sensation of 1974.",
+        "release_country": [
+          "South Korea"
+        ],
+        "akas": [
+          {
+            "value": "별들의 고향",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.84,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:romance",
+          "name": "Romance",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1974,
+          1990
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Yeong-ja's Heydays",
+      "entity_id": "ffffffff-0000-4000-8000-000000031011",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1975,
+        "description": "Kim Ho-sun's country girl who loses an arm and keeps going; the biggest Korean film of its year.",
+        "release_country": [
+          "South Korea"
+        ],
+        "akas": [
+          {
+            "value": "영자의 전성시대",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1975,
+          1990
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "The March of Fools",
+      "entity_id": "ffffffff-0000-4000-8000-000000031012",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1975,
+        "description": "Ha Gil-jong's students, the whale hunt and Song Chang-sik's songs.",
+        "release_country": [
+          "South Korea"
+        ],
+        "akas": [
+          {
+            "value": "바보들의 행진",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1975,
+          1990
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Yalkae, a Joker in High School",
+      "entity_id": "ffffffff-0000-4000-8000-000000031013",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1976,
+        "description": "Lee Seung-hyeon as the prankster Du-su; the high-school comedy of the seventies.",
+        "release_country": [
+          "South Korea"
+        ],
+        "akas": [
+          {
+            "value": "고교얄개",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.76,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:family",
+          "name": "Family",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "era": [
+          1976,
+          1990
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Winter Woman",
+      "entity_id": "ffffffff-0000-4000-8000-000000031014",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1977,
+        "description": "Kim Ho-sun's Jang Mi-hee and the record audience of the 1970s.",
+        "release_country": [
+          "South Korea"
+        ],
+        "akas": [
+          {
+            "value": "겨울여자",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.78,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:romance",
+          "name": "Romance",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1977,
+          1990
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Madame Freedom",
+      "entity_id": "ffffffff-0000-4000-8000-000000031015",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1956,
+        "description": "Han Hyung-mo's professor's wife, the dance hall and the scandal of 1956.",
+        "release_country": [
+          "South Korea"
+        ],
+        "akas": [
+          {
+            "value": "자유부인",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:romance",
+          "name": "Romance",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1956,
+          1975
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Romance Papa",
+      "entity_id": "ffffffff-0000-4000-8000-000000031016",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1960,
+        "description": "Shin Sang-ok's family comedy, Kim Seung-ho as the father who loses his job.",
+        "release_country": [
+          "South Korea"
+        ],
+        "akas": [
+          {
+            "value": "로맨스 빠빠",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.68,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:family",
+          "name": "Family",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1960,
+          1980
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Eunuch",
+      "entity_id": "ffffffff-0000-4000-8000-000000031017",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1968,
+        "description": "Shin Sang-ok's palace tragedy, Shin Seong-il and Yoon Jeong-hee.",
+        "release_country": [
+          "South Korea"
+        ],
+        "akas": [
+          {
+            "value": "내시",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.66,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:history",
+          "name": "History",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "era": [
+          1968,
+          1985
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.4
+        }
+      }
+    },
+    {
+      "name": "The Pollen of Flowers",
+      "entity_id": "ffffffff-0000-4000-8000-000000031018",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1972,
+        "description": "Ha Gil-jong's blue house and its secrets; the decade's strangest film.",
+        "release_country": [
+          "South Korea"
+        ],
+        "akas": [
+          {
+            "value": "화분",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.6,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1972,
+          1985
+        ]
+      }
+    },
+    {
+      "name": "Mandala",
+      "entity_id": "ffffffff-0000-4000-8000-000000031019",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1981,
+        "description": "Im Kwon-taek's two monks on the road.",
+        "release_country": [
+          "South Korea"
+        ],
+        "akas": [
+          {
+            "value": "만다라",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "era": [
+          1981,
+          1995
+        ]
+      }
+    },
+    {
+      "name": "Assi",
+      "entity_id": "ffffffff-0000-4000-8000-000000032001",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1970,
+        "description": "TBC's daily drama of a yangban daughter-in-law's patient life; the first television sensation.",
+        "release_country": [
+          "South Korea"
+        ],
+        "akas": [
+          {
+            "value": "아씨",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:soap_opera",
+          "name": "Soap Opera",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1970,
+          1971
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.6
+        }
+      }
+    },
+    {
+      "name": "Yeoro",
+      "entity_id": "ffffffff-0000-4000-8000-000000032002",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1972,
+        "description": "KBS's Bun-i and her simple husband Yeong-gu; the streets emptied at 7:30 every evening.",
+        "release_country": [
+          "South Korea"
+        ],
+        "akas": [
+          {
+            "value": "여로",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:soap_opera",
+          "name": "Soap Opera",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "era": [
+          1972,
+          1973
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.6
+        }
+      }
+    },
+    {
+      "name": "Chief Inspector",
+      "entity_id": "ffffffff-0000-4000-8000-000000032003",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1971,
+        "description": "MBC's Choi Bul-am as Detective Park, 880 episodes of Seoul crime.",
+        "release_country": [
+          "South Korea"
+        ],
+        "akas": [
+          {
+            "value": "수사반장",
+            "languages": [
+              "ko"
+            ]
+          },
+          {
+            "value": "Susa Banjang",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.86,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:crime",
+          "name": "Crime",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1971,
+          1989
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Show Show Show",
+      "entity_id": "ffffffff-0000-4000-8000-000000032004",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1966,
+        "description": "TBC's Saturday night variety show, every singer of the day on its stage.",
+        "release_country": [
+          "South Korea"
+        ],
+        "akas": [
+          {
+            "value": "쇼쇼쇼",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.82,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:variety",
+          "name": "Variety",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:music",
+          "name": "Music",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1966,
+          1983
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.9
+        }
+      }
+    },
+    {
+      "name": "Korean Ghost Stories",
+      "entity_id": "ffffffff-0000-4000-8000-000000032005",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1977,
+        "description": "KBS's folk tales of fox spirits and vengeful ghosts, Thursday nights behind the blanket.",
+        "release_country": [
+          "South Korea"
+        ],
+        "akas": [
+          {
+            "value": "전설의 고향",
+            "languages": [
+              "ko"
+            ]
+          },
+          {
+            "value": "Jeonseol-ui Gohyang",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.84,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:horror",
+          "name": "Horror",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:fantasy",
+          "name": "Fantasy",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "era": [
+          1977,
+          1989
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Country Diaries",
+      "entity_id": "ffffffff-0000-4000-8000-000000032006",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1980,
+        "description": "MBC's Yangchon village and the Kim family, 22 years of Sunday mornings.",
+        "release_country": [
+          "South Korea"
+        ],
+        "akas": [
+          {
+            "value": "전원일기",
+            "languages": [
+              "ko"
+            ]
+          },
+          {
+            "value": "Jeonwon Ilgi",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.88,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:family",
+          "name": "Family",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "era": [
+          1980,
+          2002
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Land",
+      "entity_id": "ffffffff-0000-4000-8000-000000032007",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1979,
+        "description": "KBS's first adaptation of Park Kyong-ni's Toji, Han Hye-sook as Seo-hui.",
+        "release_country": [
+          "South Korea"
+        ],
+        "akas": [
+          {
+            "value": "토지",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.72,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:history",
+          "name": "History",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "era": [
+          1979,
+          1980
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.4
+        }
+      }
+    },
+    {
+      "name": "The 113 Investigation Headquarters",
+      "entity_id": "ffffffff-0000-4000-8000-000000032008",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1973,
+        "description": "KBS's counter-espionage drama, the spies caught every week.",
+        "release_country": [
+          "South Korea"
+        ],
+        "akas": [
+          {
+            "value": "113 수사본부",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.66,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:thriller",
+          "name": "Thriller",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:crime",
+          "name": "Crime",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "era": [
+          1973,
+          1983
+        ]
+      }
+    },
+    {
+      "name": "Gag Parade",
+      "entity_id": "ffffffff-0000-4000-8000-000000032009",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1983,
+        "description": "MBC's sketch comedy, the start of Korean gag television.",
+        "release_country": [
+          "South Korea"
+        ],
+        "akas": [
+          {
+            "value": "청춘만만세",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.6,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:variety",
+          "name": "Variety",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1983,
+          1990
+        ]
+      }
+    },
+    {
+      "name": "Sandglass",
+      "entity_id": "ffffffff-0000-4000-8000-000000032010",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1995,
+        "description": "SBS's Choi Min-soo and the Gwangju years; the drama that sent people home early.",
+        "release_country": [
+          "South Korea"
+        ],
+        "akas": [
+          {
+            "value": "모래시계",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.86,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:history",
+          "name": "History",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "era": [
+          1995,
+          2000
+        ]
+      }
+    },
+    {
+      "name": "Imun Seolnongtang",
+      "entity_id": "ffffffff-0000-4000-8000-000000033001",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Seoul's oldest restaurant, ox-bone soup since 1904.",
+        "address": "38-13 Ujeongguk-ro, Jongno-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "business_rating": 4.3,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "이문설농탕",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.82,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:korean",
+          "name": "Korean Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "dining",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1904,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Woo Lae Oak",
+      "entity_id": "ffffffff-0000-4000-8000-000000033002",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Pyongyang naengmyeon and bulgogi at the Jugyo-dong restaurant of 1946.",
+        "address": "62-29 Changgyeonggung-ro, Jung-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "business_rating": 4.4,
+        "price_level": 2,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "우래옥",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.86,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:korean",
+          "name": "Korean Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:noodle",
+          "name": "Noodle Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "dining",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1946,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Hadongkwan",
+      "entity_id": "ffffffff-0000-4000-8000-000000033003",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Gomtang in a brass bowl at Myeong-dong since 1939.",
+        "address": "12 Myeongdong 9-gil, Jung-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "business_rating": 4.3,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "하동관",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:korean",
+          "name": "Korean Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "dining",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1939,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Myeongdong Kyoja",
+      "entity_id": "ffffffff-0000-4000-8000-000000033004",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Kalguksu and mandu in the Myeong-dong noodle house of 1966.",
+        "address": "29 Myeongdong 10-gil, Jung-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "business_rating": 4.4,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "명동교자",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.88,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:korean",
+          "name": "Korean Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:noodle",
+          "name": "Noodle Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "dining",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1966,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Jinju Hoegwan",
+      "entity_id": "ffffffff-0000-4000-8000-000000033005",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Kongguksu, the cold soybean noodles, since 1962 near City Hall.",
+        "address": "26 Sejong-daero 11-gil, Jung-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "business_rating": 4.3,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "진주회관",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:korean",
+          "name": "Korean Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:noodle",
+          "name": "Noodle Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "dining",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1962,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Ojangdong Hamheung Naengmyeon",
+      "entity_id": "ffffffff-0000-4000-8000-000000033006",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The Hamhung-style spicy noodles of the refugees, Ojang-dong since 1953.",
+        "address": "108 Mareunnae-ro, Jung-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "business_rating": 4.2,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "오장동 함흥냉면",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:korean",
+          "name": "Korean Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:noodle",
+          "name": "Noodle Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "dining",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1953,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Hanilkwan",
+      "entity_id": "ffffffff-0000-4000-8000-000000033007",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Bulgogi on the brass grill at the 1939 restaurant of Jongno, now Apgujeong.",
+        "address": "Apgujeong-ro, Gangnam-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "business_rating": 4.2,
+        "price_level": 2,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "한일관",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.76,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:korean",
+          "name": "Korean Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "dining",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1939,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Cheongjinok",
+      "entity_id": "ffffffff-0000-4000-8000-000000033008",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Haejangguk, the hangover soup, in the Cheongjin-dong alley since 1937.",
+        "address": "32 Jong-ro 3-gil, Jongno-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "business_rating": 4.2,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "청진옥",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.72,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:korean",
+          "name": "Korean Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "dining",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1937,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Taegeukdang",
+      "entity_id": "ffffffff-0000-4000-8000-000000033009",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The 1946 bakery of Jangchung-dong: monaka ice cream and the sara bread.",
+        "address": "7 Dongho-ro 24-gil, Jung-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "business_rating": 4.3,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "태극당",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.78,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:bakery",
+          "name": "Bakery",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:ice_cream_parlor",
+          "name": "Ice Cream Parlor",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "dining",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1946,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Yeongyang Center",
+      "entity_id": "ffffffff-0000-4000-8000-000000033010",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Rotisserie chicken and ginseng soup in Myeong-dong since 1960.",
+        "address": "52 Myeongdong 2-gil, Jung-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "business_rating": 4.1,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "영양센터",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.72,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:korean",
+          "name": "Korean Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "dining",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1960,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Gwangjang Market",
+      "entity_id": "ffffffff-0000-4000-8000-000000033011",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Bindaetteok and mayak gimbap at the stalls of the 1905 market.",
+        "address": "88 Changgyeonggung-ro, Jongno-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "business_rating": 4.4,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "광장시장",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:food_stall",
+          "name": "Food Stall",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:korean",
+          "name": "Korean Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "dining",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1905,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Samwon Garden",
+      "entity_id": "ffffffff-0000-4000-8000-000000033012",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Galbi in the garden with the waterfall, Apgujeong since 1976.",
+        "address": "835 Eonju-ro, Gangnam-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "business_rating": 4.2,
+        "price_level": 3,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "삼원가든",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:korean",
+          "name": "Korean Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "dining",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1976,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Jinokhwa Halmae Wonjo Dakhanmari",
+      "entity_id": "ffffffff-0000-4000-8000-000000033013",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Whole chicken in the pot, in the Dongdaemun alley since 1978.",
+        "address": "18 Jong-ro 40ga-gil, Jongno-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "business_rating": 4.3,
+        "price_level": 2,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "진옥화할매원조닭한마리",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.78,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:korean",
+          "name": "Korean Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "dining",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1978,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Halmae Gukbap",
+      "entity_id": "ffffffff-0000-4000-8000-000000033014",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Pork soup rice at Beomil-dong since 1956.",
+        "address": "Beomil-dong, Dong-gu, Busan",
+        "geocode": {
+          "name": "Busan",
+          "admin1_region": "Busan",
+          "country_code": "KR"
+        },
+        "business_rating": 4.2,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "할매국밥",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:korean",
+          "name": "Korean Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "dining",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "busan"
+        ],
+        "era": [
+          1956,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Gaegeum Milmyeon",
+      "entity_id": "ffffffff-0000-4000-8000-000000033015",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Busan's wheat noodles, the refugees' naengmyeon, since 1966.",
+        "address": "Gaegeum-dong, Busanjin-gu, Busan",
+        "geocode": {
+          "name": "Busan",
+          "admin1_region": "Busan",
+          "country_code": "KR"
+        },
+        "business_rating": 4.3,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "개금밀면",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.72,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:korean",
+          "name": "Korean Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:noodle",
+          "name": "Noodle Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "dining",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "busan"
+        ],
+        "era": [
+          1966,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Jagalchi Market",
+      "entity_id": "ffffffff-0000-4000-8000-000000033016",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The fish market by the harbour, the ajimae and the raw fish upstairs.",
+        "address": "52 Jagalchihaean-ro, Jung-gu, Busan",
+        "geocode": {
+          "name": "Busan",
+          "admin1_region": "Busan",
+          "country_code": "KR"
+        },
+        "business_rating": 4.3,
+        "price_level": 2,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "자갈치시장",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:food_stall",
+          "name": "Food Stall",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:korean",
+          "name": "Korean Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "dining",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "busan"
+        ],
+        "era": [
+          1945,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Ttukbaegi Bulgogi Alley",
+      "entity_id": "ffffffff-0000-4000-8000-000000033017",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Daegu's dongin-dong jjim galbi, braised ribs in the alley since the 1970s.",
+        "address": "Dongin-dong, Jung-gu, Daegu",
+        "geocode": {
+          "name": "Daegu",
+          "admin1_region": "Daegu",
+          "country_code": "KR"
+        },
+        "business_rating": 4.2,
+        "price_level": 2,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "동인동 찜갈비골목",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.66,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:korean",
+          "name": "Korean Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "dining",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "daegu"
+        ],
+        "era": [
+          1970,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Seomun Market",
+      "entity_id": "ffffffff-0000-4000-8000-000000033018",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The great market of Daegu, kalguksu and napjak mandu at the stalls.",
+        "address": "45 Keunjang-ro 26-gil, Jung-gu, Daegu",
+        "geocode": {
+          "name": "Daegu",
+          "admin1_region": "Daegu",
+          "country_code": "KR"
+        },
+        "business_rating": 4.3,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "서문시장",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:food_stall",
+          "name": "Food Stall",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:korean",
+          "name": "Korean Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "dining",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "daegu"
+        ],
+        "era": [
+          1920,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Gyeongbokgung",
+      "entity_id": "ffffffff-0000-4000-8000-000000034001",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The main palace of the Joseon kings, Gwanghwamun gate and the guard ceremony.",
+        "address": "161 Sajik-ro, Jongno-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "경복궁",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.94,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:palace",
+          "name": "Palace",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1395,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Namsan",
+      "entity_id": "ffffffff-0000-4000-8000-000000034002",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The mountain in the middle of the city: the cable car, the tower of 1975 and the view of all Seoul.",
+        "address": "Namsan, Jung-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "남산",
+            "languages": [
+              "ko"
+            ]
+          },
+          {
+            "value": "N Seoul Tower",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.92,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:viewpoint",
+          "name": "Viewpoint",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:park",
+          "name": "Park",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:tower",
+          "name": "Tower",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Changgyeongwon",
+      "entity_id": "ffffffff-0000-4000-8000-000000034003",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The palace turned zoo and botanical garden of 1909, cherry blossoms at night; the animals left in 1983.",
+        "address": "185 Changgyeonggung-ro, Jongno-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "is_closed": true,
+        "akas": [
+          {
+            "value": "창경원",
+            "languages": [
+              "ko"
+            ]
+          },
+          {
+            "value": "Changgyeonggung",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.78,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:zoo",
+          "name": "Zoo",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:amusement_park",
+          "name": "Amusement Park",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:palace",
+          "name": "Palace",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1909,
+          1983
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.6
+        }
+      }
+    },
+    {
+      "name": "Myeong-dong",
+      "entity_id": "ffffffff-0000-4000-8000-000000034004",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The shopping streets, the cathedral and the music halls of the sixties.",
+        "address": "Myeong-dong, Jung-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "명동",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:neighborhood",
+          "name": "Neighborhood",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:street",
+          "name": "Street",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1950,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.6
+        }
+      }
+    },
+    {
+      "name": "Tapgol Park",
+      "entity_id": "ffffffff-0000-4000-8000-000000034005",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Pagoda Park, where the Declaration of Independence was read in 1919.",
+        "address": "99 Jong-ro, Jongno-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "탑골공원",
+            "languages": [
+              "ko"
+            ]
+          },
+          {
+            "value": "Pagoda Park",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.78,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:park",
+          "name": "Park",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:monument",
+          "name": "Monument",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1897,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Deoksugung Stone Wall Road",
+      "entity_id": "ffffffff-0000-4000-8000-000000034006",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The ginkgo-lined walk along the palace wall, the lovers' road of every song.",
+        "address": "Deoksugung-gil, Jung-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "덕수궁 돌담길",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.84,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:street",
+          "name": "Street",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.6
+        }
+      }
+    },
+    {
+      "name": "Namdaemun Market",
+      "entity_id": "ffffffff-0000-4000-8000-000000034007",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The market by the great south gate, open since 1414.",
+        "address": "21 Namdaemunsijang 4-gil, Jung-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "남대문시장",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.86,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:market",
+          "name": "Market",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1414,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Dongdaemun Stadium",
+      "entity_id": "ffffffff-0000-4000-8000-000000034008",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The Gyeongseong Stadium of 1925, baseball and football and the night market around it, demolished in 2008.",
+        "address": "Euljiro 7-ga, Jung-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "is_closed": true,
+        "akas": [
+          {
+            "value": "동대문운동장",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.72,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:stadium",
+          "name": "Stadium",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1925,
+          2008
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Hwashin Department Store",
+      "entity_id": "ffffffff-0000-4000-8000-000000034009",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Korea's first department store, at Jongno crossroads from 1931 until 1987.",
+        "address": "Jongno 2-ga, Jongno-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "is_closed": true,
+        "akas": [
+          {
+            "value": "화신백화점",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.66,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:department_store",
+          "name": "Department Store",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1931,
+          1987
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Shinsegae Department Store",
+      "entity_id": "ffffffff-0000-4000-8000-000000034010",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The Mitsukoshi building of 1930, Shinsegae since 1963, Korea's first department store still standing.",
+        "address": "63 Sogong-ro, Jung-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "신세계백화점",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.78,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:department_store",
+          "name": "Department Store",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1963,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Jangchung Arena",
+      "entity_id": "ffffffff-0000-4000-8000-000000034011",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The domed gymnasium of 1963, wrestling, boxing and the Miss Korea pageant.",
+        "address": "241 Dongho-ro, Jung-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "장충체육관",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.72,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:stadium",
+          "name": "Stadium",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1963,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.6
+        }
+      }
+    },
+    {
+      "name": "Seoul Station",
+      "entity_id": "ffffffff-0000-4000-8000-000000034012",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The red-brick station of 1925 with its dome, the trains to Busan.",
+        "address": "Hangang-daero, Jung-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "서울역",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.82,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:railway_station",
+          "name": "Railway Station",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1925,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Dansungsa",
+      "entity_id": "ffffffff-0000-4000-8000-000000034013",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Korea's first cinema, Jongno 3-ga since 1907.",
+        "address": "Donhwamun-ro, Jongno-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "is_closed": true,
+        "akas": [
+          {
+            "value": "단성사",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:cinema",
+          "name": "Cinema",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1907,
+          2008
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.7
+        }
+      }
+    },
+    {
+      "name": "Piccadilly Theatre",
+      "entity_id": "ffffffff-0000-4000-8000-000000034014",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The Jongno cinema of 1958 across from Dansungsa, the premieres and the queues.",
+        "address": "Donhwamun-ro, Jongno-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "피카디리극장",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.68,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:cinema",
+          "name": "Cinema",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1958,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.7
+        }
+      }
+    },
+    {
+      "name": "Children's Grand Park",
+      "entity_id": "ffffffff-0000-4000-8000-000000034015",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The park of 1973 on the old golf course at Neung-dong, the zoo and the rides on Children's Day.",
+        "address": "216 Neungdong-ro, Gwangjin-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "어린이대공원",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:park",
+          "name": "Park",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:zoo",
+          "name": "Zoo",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:amusement_park",
+          "name": "Amusement Park",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1973,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Sejong Center",
+      "entity_id": "ffffffff-0000-4000-8000-000000034016",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The grand hall of 1978 on Sejong-daero, concerts and the pipe organ.",
+        "address": "175 Sejong-daero, Jongno-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "세종문화회관",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.76,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:concert_hall",
+          "name": "Concert Hall",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:theater",
+          "name": "Theater",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1978,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.7
+        }
+      }
+    },
+    {
+      "name": "Han River",
+      "entity_id": "ffffffff-0000-4000-8000-000000034017",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The river through the city, the bridges, the sand of Ttukseom and the Yeouido lawns.",
+        "address": "Hangang, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "한강",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:viewpoint",
+          "name": "Viewpoint",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:park",
+          "name": "Park",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Bugak Skyway",
+      "entity_id": "ffffffff-0000-4000-8000-000000034018",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The 1968 road over the ridge behind the Blue House, Palgakjeong and the night view.",
+        "address": "Bugaksan-ro, Jongno-gu, Seoul",
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "북악스카이웨이",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.66,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:viewpoint",
+          "name": "Viewpoint",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul"
+        ],
+        "era": [
+          1968,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Haeundae Beach",
+      "entity_id": "ffffffff-0000-4000-8000-000000034019",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The great beach of Busan, the parasols in August and the Chosun Beach Hotel.",
+        "address": "Haeundae-gu, Busan",
+        "geocode": {
+          "name": "Busan",
+          "admin1_region": "Busan",
+          "country_code": "KR"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "해운대해수욕장",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.94,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:beach",
+          "name": "Beach",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "busan"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Yongdusan Park",
+      "entity_id": "ffffffff-0000-4000-8000-000000034020",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The hill above Nampo-dong, the Busan Tower of 1973 and the view of the harbour.",
+        "address": "37-55 Yongdusan-gil, Jung-gu, Busan",
+        "geocode": {
+          "name": "Busan",
+          "admin1_region": "Busan",
+          "country_code": "KR"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "용두산공원",
+            "languages": [
+              "ko"
+            ]
+          },
+          {
+            "value": "Busan Tower",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.84,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:park",
+          "name": "Park",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:tower",
+          "name": "Tower",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:viewpoint",
+          "name": "Viewpoint",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "busan"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Gukje Market",
+      "entity_id": "ffffffff-0000-4000-8000-000000034021",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The international market of the refugees, Nampo-dong since 1950.",
+        "address": "Sinchang-dong, Jung-gu, Busan",
+        "geocode": {
+          "name": "Busan",
+          "admin1_region": "Busan",
+          "country_code": "KR"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "국제시장",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.86,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:market",
+          "name": "Market",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "busan"
+        ],
+        "era": [
+          1950,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Taejongdae",
+      "entity_id": "ffffffff-0000-4000-8000-000000034022",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The cliffs and the lighthouse at the end of Yeongdo.",
+        "address": "Yeongdo-gu, Busan",
+        "geocode": {
+          "name": "Busan",
+          "admin1_region": "Busan",
+          "country_code": "KR"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "태종대",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.84,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:viewpoint",
+          "name": "Viewpoint",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:park",
+          "name": "Park",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "busan"
+        ],
+        "era": [
+          1900,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Songdo Beach",
+      "entity_id": "ffffffff-0000-4000-8000-000000034023",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Korea's first public beach, 1913, the diving platform and the cable car.",
+        "address": "Seo-gu, Busan",
+        "geocode": {
+          "name": "Busan",
+          "admin1_region": "Busan",
+          "country_code": "KR"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "송도해수욕장",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:beach",
+          "name": "Beach",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "busan"
+        ],
+        "era": [
+          1913,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Beomeosa",
+      "entity_id": "ffffffff-0000-4000-8000-000000034024",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The temple of 678 on Geumjeongsan, the wisteria and the Iljumun gate.",
+        "address": "250 Beomeosa-ro, Geumjeong-gu, Busan",
+        "geocode": {
+          "name": "Busan",
+          "admin1_region": "Busan",
+          "country_code": "KR"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "범어사",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:temple",
+          "name": "Temple",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "busan"
+        ],
+        "era": [
+          678,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Dalseong Park",
+      "entity_id": "ffffffff-0000-4000-8000-000000034025",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The earthen fort turned park of 1905, the zoo and the Sunday families.",
+        "address": "35 Dalseonggongwon-ro, Jung-gu, Daegu",
+        "geocode": {
+          "name": "Daegu",
+          "admin1_region": "Daegu",
+          "country_code": "KR"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "달성공원",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:park",
+          "name": "Park",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:zoo",
+          "name": "Zoo",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "daegu"
+        ],
+        "era": [
+          1905,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Dongseong-ro",
+      "entity_id": "ffffffff-0000-4000-8000-000000034026",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Daegu's main shopping street, the cinemas and the department stores.",
+        "address": "Dongseong-ro, Jung-gu, Daegu",
+        "geocode": {
+          "name": "Daegu",
+          "admin1_region": "Daegu",
+          "country_code": "KR"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "동성로",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.76,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:street",
+          "name": "Street",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "daegu"
+        ],
+        "era": [
+          1950,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Apsan Park",
+      "entity_id": "ffffffff-0000-4000-8000-000000034027",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The cable car up the mountain south of the city and the view over Daegu.",
+        "address": "Daemyeong-dong, Nam-gu, Daegu",
+        "geocode": {
+          "name": "Daegu",
+          "admin1_region": "Daegu",
+          "country_code": "KR"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "앞산공원",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.68,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:park",
+          "name": "Park",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:viewpoint",
+          "name": "Viewpoint",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "daegu"
+        ],
+        "era": [
+          1970,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Wolmido",
+      "entity_id": "ffffffff-0000-4000-8000-000000034028",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The island promenade of Incheon, the rides and the sea.",
+        "address": "Wolmi-dong, Jung-gu, Incheon",
+        "geocode": {
+          "name": "Incheon",
+          "admin1_region": "Incheon",
+          "country_code": "KR"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "월미도",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:amusement_park",
+          "name": "Amusement Park",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:viewpoint",
+          "name": "Viewpoint",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "incheon"
+        ],
+        "era": [
+          1900,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Jayu Park",
+      "entity_id": "ffffffff-0000-4000-8000-000000034029",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Korea's first Western-style park, 1888, the MacArthur statue and the harbour view.",
+        "address": "Songhak-dong, Jung-gu, Incheon",
+        "geocode": {
+          "name": "Incheon",
+          "admin1_region": "Incheon",
+          "country_code": "KR"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "자유공원",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:park",
+          "name": "Park",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:viewpoint",
+          "name": "Viewpoint",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "incheon"
+        ],
+        "era": [
+          1888,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Mudeungsan",
+      "entity_id": "ffffffff-0000-4000-8000-000000034030",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The mountain above Gwangju, the stone columns of Seoseokdae.",
+        "address": "Mudeungsan, Gwangju",
+        "geocode": {
+          "name": "Gwangju",
+          "admin1_region": "Gwangju",
+          "country_code": "KR"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "무등산",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.76,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:viewpoint",
+          "name": "Viewpoint",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:park",
+          "name": "Park",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "gwangju"
+        ],
+        "era": [
+          1900,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Chungjangno",
+      "entity_id": "ffffffff-0000-4000-8000-000000034031",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Gwangju's main street of shops and cinemas, the city's meeting place.",
+        "address": "Chungjang-ro, Dong-gu, Gwangju",
+        "geocode": {
+          "name": "Gwangju",
+          "admin1_region": "Gwangju",
+          "country_code": "KR"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "충장로",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:street",
+          "name": "Street",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "gwangju"
+        ],
+        "era": [
+          1950,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Yuseong Hot Springs",
+      "entity_id": "ffffffff-0000-4000-8000-000000034032",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The hot-spring district of Daejeon, the honeymoon hotels of the sixties.",
+        "address": "Yuseong-gu, Daejeon",
+        "geocode": {
+          "name": "Daejeon",
+          "admin1_region": "Daejeon",
+          "country_code": "KR"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "유성온천",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:tourist_attraction",
+          "name": "Tourist Attraction",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "daejeon"
+        ],
+        "era": [
+          1915,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Expo Science Park",
+      "entity_id": "ffffffff-0000-4000-8000-000000034033",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The Hanbit Tower and the grounds of the 1993 Expo.",
+        "address": "Doryong-dong, Yuseong-gu, Daejeon",
+        "geocode": {
+          "name": "Daejeon",
+          "admin1_region": "Daejeon",
+          "country_code": "KR"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "엑스포과학공원",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.62,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:park",
+          "name": "Park",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:tourist_attraction",
+          "name": "Tourist Attraction",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "kind": "landmark",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "daejeon"
+        ],
+        "era": [
+          1993,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Jeju Island",
+      "entity_id": "ffffffff-0000-4000-8000-000000035001",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Hallasan, the haenyeo divers and the stone grandfathers; the honeymoon island of every couple.",
+        "geocode": {
+          "name": "Jeju",
+          "admin1_region": "Jeju",
+          "country_code": "KR"
+        },
+        "akas": [
+          {
+            "value": "제주도",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.95,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:island",
+          "name": "Island",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:beach",
+          "name": "Beach",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul",
+          "busan",
+          "daegu",
+          "incheon",
+          "gwangju",
+          "daejeon"
+        ],
+        "era": [
+          1950,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.6
+        }
+      }
+    },
+    {
+      "name": "Gyeongju",
+      "entity_id": "ffffffff-0000-4000-8000-000000035002",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "The Silla capital: Bulguksa, Seokguram and the royal tombs; the school trip of every Korean.",
+        "geocode": {
+          "name": "Gyeongju",
+          "admin1_region": "North Gyeongsang",
+          "country_code": "KR"
+        },
+        "akas": [
+          {
+            "value": "경주",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.92,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:historic",
+          "name": "Historic",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul",
+          "busan",
+          "daegu"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Seoraksan",
+      "entity_id": "ffffffff-0000-4000-8000-000000035003",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "The autumn leaves on the peaks, Ulsanbawi and the cable car.",
+        "geocode": {
+          "name": "Sokcho",
+          "admin1_region": "Gangwon",
+          "country_code": "KR"
+        },
+        "akas": [
+          {
+            "value": "설악산",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:mountain",
+          "name": "Mountain",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:nature",
+          "name": "Nature",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul",
+          "incheon"
+        ],
+        "era": [
+          1900,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Onyang Hot Springs",
+      "entity_id": "ffffffff-0000-4000-8000-000000035004",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "The oldest hot spring in Korea, the kings' bath and the honeymoon hotel of the 1960s.",
+        "geocode": {
+          "name": "Asan",
+          "admin1_region": "South Chungcheong",
+          "country_code": "KR"
+        },
+        "akas": [
+          {
+            "value": "온양온천",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:hot_springs",
+          "name": "Hot Springs",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul",
+          "daejeon",
+          "incheon"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Daecheon Beach",
+      "entity_id": "ffffffff-0000-4000-8000-000000035005",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "The west-coast beach of shells and sunsets, the mud festival later on.",
+        "geocode": {
+          "name": "Boryeong",
+          "admin1_region": "South Chungcheong",
+          "country_code": "KR"
+        },
+        "akas": [
+          {
+            "value": "대천해수욕장",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:beach",
+          "name": "Beach",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul",
+          "daejeon"
+        ],
+        "era": [
+          1930,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Songnisan",
+      "entity_id": "ffffffff-0000-4000-8000-000000035006",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Beopjusa's five-storey wooden pagoda and the pine that was given a title by a king.",
+        "geocode": {
+          "name": "Boeun",
+          "admin1_region": "North Chungcheong",
+          "country_code": "KR"
+        },
+        "akas": [
+          {
+            "value": "속리산",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.76,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:mountain",
+          "name": "Mountain",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:pilgrimage",
+          "name": "Pilgrimage",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul",
+          "daejeon",
+          "daegu"
+        ],
+        "era": [
+          1900,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Jirisan",
+      "entity_id": "ffffffff-0000-4000-8000-000000035007",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "The great southern mountain, Hwaeomsa and the Cheonwangbong sunrise.",
+        "geocode": {
+          "name": "Hadong",
+          "admin1_region": "South Gyeongsang",
+          "country_code": "KR"
+        },
+        "akas": [
+          {
+            "value": "지리산",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:mountain",
+          "name": "Mountain",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:nature",
+          "name": "Nature",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "busan",
+          "gwangju",
+          "daegu"
+        ],
+        "era": [
+          1900,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Andong",
+      "entity_id": "ffffffff-0000-4000-8000-000000035008",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "The Hahoe village, the mask dance and the salted mackerel.",
+        "geocode": {
+          "name": "Andong",
+          "admin1_region": "North Gyeongsang",
+          "country_code": "KR"
+        },
+        "akas": [
+          {
+            "value": "안동",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:historic",
+          "name": "Historic",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:countryside",
+          "name": "Countryside",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "daegu",
+          "seoul"
+        ],
+        "era": [
+          1900,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Haeundae",
+      "entity_id": "ffffffff-0000-4000-8000-000000035009",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Busan's beach in August, the parasols as far as you can see.",
+        "geocode": {
+          "name": "Busan",
+          "admin1_region": "Busan",
+          "country_code": "KR"
+        },
+        "akas": [
+          {
+            "value": "해운대",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:beach",
+          "name": "Beach",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:seaside_resort",
+          "name": "Seaside Resort",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul",
+          "daegu",
+          "gwangju",
+          "daejeon",
+          "incheon"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000030001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Suanbo Hot Springs",
+      "entity_id": "ffffffff-0000-4000-8000-000000035010",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "The hot-spring village in the hills, pheasant dishes and the baths.",
+        "geocode": {
+          "name": "Chungju",
+          "admin1_region": "North Chungcheong",
+          "country_code": "KR"
+        },
+        "akas": [
+          {
+            "value": "수안보온천",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.66,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:hot_springs",
+          "name": "Hot Springs",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "seoul",
+          "daejeon"
+        ],
+        "era": [
+          1930,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Buyeo",
+      "entity_id": "ffffffff-0000-4000-8000-000000035011",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "The Baekje capital, Nakhwaam rock and the Baengma River boats.",
+        "geocode": {
+          "name": "Buyeo",
+          "admin1_region": "South Chungcheong",
+          "country_code": "KR"
+        },
+        "akas": [
+          {
+            "value": "부여",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.68,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:historic",
+          "name": "Historic",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "daejeon",
+          "seoul"
+        ],
+        "era": [
+          1900,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Ulleungdo",
+      "entity_id": "ffffffff-0000-4000-8000-000000035012",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "The volcanic island in the East Sea, squid drying on the lines.",
+        "geocode": {
+          "name": "Ulleung",
+          "admin1_region": "North Gyeongsang",
+          "country_code": "KR"
+        },
+        "akas": [
+          {
+            "value": "울릉도",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.66,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:island",
+          "name": "Island",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:nature",
+          "name": "Nature",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "daegu",
+          "busan"
+        ],
+        "era": [
+          1960,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Naejangsan",
+      "entity_id": "ffffffff-0000-4000-8000-000000035013",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "The autumn maples of the south, the red tunnel to the temple.",
+        "geocode": {
+          "name": "Jeongeup",
+          "admin1_region": "North Jeolla",
+          "country_code": "KR"
+        },
+        "akas": [
+          {
+            "value": "내장산",
+            "languages": [
+              "ko"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:mountain",
+          "name": "Mountain",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:nature",
+          "name": "Nature",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "kr",
+        "countries": [
+          "KR"
+        ],
+        "localities": [
+          "gwangju"
+        ],
+        "era": [
+          1900,
+          2026
+        ]
+      }
+    }
+  ]
+}

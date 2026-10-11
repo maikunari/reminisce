@@ -4,13 +4,15 @@ import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 
 import { useCurrentYear } from "@/lib/client/hooks";
+import { dictionary } from "@/lib/i18n";
 import { createSessionShell } from "@/lib/session/storage";
 import { LANGUAGES, type Favorite, type Language } from "@/lib/session/types";
 import { MIN_BIRTH_YEAR, computeYouthWindow } from "@/lib/session/youth-window";
 
-import { EntityAutocomplete, TYPE_LABEL, type Suggestion } from "./EntityAutocomplete";
+import { EntityAutocomplete, type Suggestion } from "./EntityAutocomplete";
 
 const FAVORITE_TYPES = "urn:entity:artist,urn:entity:movie,urn:entity:tv_show,urn:entity:book,urn:entity:person,urn:entity:brand,urn:entity:place";
+const MAX_FAVORITES = 3;
 
 export function IntakeForm() {
   const router = useRouter();
@@ -22,6 +24,7 @@ export function IntakeForm() {
   const [language, setLanguage] = useState<Language>("en");
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const t = dictionary(language).intake;
 
   const year = Number.parseInt(birthYear, 10);
   const thisYear = useCurrentYear();
@@ -30,7 +33,7 @@ export function IntakeForm() {
   const window = yearValid && thisYear !== null ? computeYouthWindow(year, thisYear) : null;
 
   const addFavorite = (fav: Favorite) => {
-    if (favorites.length >= 3) return;
+    if (favorites.length >= MAX_FAVORITES) return;
     if (favorites.some((f) => f.name.toLowerCase() === fav.name.toLowerCase())) return;
     setFavorites((list) => [...list, fav]);
     setFavoriteText("");
@@ -40,35 +43,36 @@ export function IntakeForm() {
     e.preventDefault();
     setError(null);
     const list = [...favorites];
+    // Free text still counts: a name Qloo did not suggest is resolved by the planner, or used as typed.
     if (list.length === 0 && favoriteText.trim()) list.push({ name: favoriteText.trim() });
-    if (!name.trim()) return setError("Please add their name, or what you call them.");
-    if (!yearValid) return setError(`The birth year should be between ${MIN_BIRTH_YEAR} and ${maxYear ?? "today"}.`);
-    if (!hometown.trim()) return setError("Please add where they grew up.");
-    if (list.length === 0) return setError("Add at least one thing they loved: a singer, a film, a dish, a place.");
+    if (!name.trim()) return setError(t.errorName);
+    if (!yearValid) return setError(t.errorYear(MIN_BIRTH_YEAR, maxYear ?? "today"));
+    if (!hometown.trim()) return setError(t.errorHometown);
+    if (list.length === 0) return setError(t.errorFavorite);
     setBusy(true);
     const session = createSessionShell({
       name: name.trim(),
       birthYear: year,
       hometown: hometown.trim(),
-      favorites: list.slice(0, 3),
+      favorites: list.slice(0, MAX_FAVORITES),
       language,
     });
     router.push(`/session/${session.id}`);
   };
 
   return (
-    <form onSubmit={submit} noValidate className="surface p-6 sm:p-8" aria-describedby={error ? "intake-error" : undefined}>
+    <form onSubmit={submit} noValidate className="surface p-6 sm:p-8" aria-describedby={error ? "intake-error" : undefined} lang={language}>
       <div className="grid gap-6 md:grid-cols-2 md:gap-x-8">
         <div>
           <label htmlFor="person-name" className="field-label">
-            Their name
+            {t.name}
           </label>
-          <input id="person-name" name="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Grandma Michiko" autoComplete="off" className="field-input" />
-          <p className="hint">Or what you call them.</p>
+          <input id="person-name" name="name" value={name} onChange={(e) => setName(e.target.value)} placeholder={t.namePlaceholder} autoComplete="off" className="field-input" />
+          <p className="hint">{t.nameHint}</p>
         </div>
         <div>
           <label htmlFor="birth-year" className="field-label">
-            Year they were born
+            {t.birthYear}
           </label>
           <input
             id="birth-year"
@@ -82,30 +86,31 @@ export function IntakeForm() {
             className="field-input"
           />
           <p id="birth-year-hint" className="hint" aria-live="polite">
-            {window ? `They were 15 to 30 from ${window.start} to ${window.end}. That is where we will look.` : "We build around the years they were 15 to 30."}
+            {window ? t.birthHint(window.start, window.end) : t.birthHintDefault}
           </p>
         </div>
         <div>
           <EntityAutocomplete
             id="hometown"
-            label="Where they grew up"
-            placeholder="Osaka"
+            label={t.hometown}
+            placeholder={t.hometownPlaceholder}
             types="urn:entity:locality"
             value={hometown}
             onChange={setHometown}
             onSelect={(s) => setHometown(s.name)}
-            onFreeText={(t) => setHometown(t)}
-            hint="A city or town. Qloo uses it as a location signal."
+            onFreeText={(text) => setHometown(text)}
+            hint={t.hometownHint}
             autoComplete="off"
+            language={language}
           />
         </div>
         <div>
           <label htmlFor="language" className="field-label">
-            Language for the prompts
+            {t.language}
           </label>
           <select id="language" name="language" value={language} onChange={(e) => setLanguage(e.target.value as Language)} className="field-input">
             {LANGUAGES.map((l) => (
-              <option key={l.code} value={l.code}>
+              <option key={l.code} value={l.code} lang={l.code}>
                 {l.nativeLabel}
                 {l.nativeLabel !== l.label ? ` (${l.label})` : ""}
               </option>
@@ -115,26 +120,27 @@ export function IntakeForm() {
         <div className="md:col-span-2">
           <EntityAutocomplete
             id="favorite"
-            label={`Things they loved (${favorites.length}/3)`}
-            placeholder="A singer, a film, a dish, a place…"
+            label={t.favorites(favorites.length, MAX_FAVORITES)}
+            placeholder={t.favoritesPlaceholder}
             types={FAVORITE_TYPES}
             value={favoriteText}
             onChange={setFavoriteText}
             onSelect={(s: Suggestion) => addFavorite({ name: s.name, entityId: s.entityId, type: s.type, imageUrl: s.imageUrl })}
-            onFreeText={(t) => addFavorite({ name: t })}
-            hint="Up to three. Pick from the suggestions when you can; Qloo uses them as seeds. Press Enter to add a name as typed."
+            onFreeText={(text) => addFavorite({ name: text })}
+            hint={t.favoritesHint}
             autoComplete="off"
+            language={language}
           />
           {favorites.length > 0 ? (
-            <ul className="mt-3 flex flex-wrap gap-2" aria-label="Chosen favorites">
+            <ul className="mt-3 flex flex-wrap gap-2" aria-label={t.chosenFavorites}>
               {favorites.map((f) => (
                 <li key={f.name} className="tag">
                   {f.name}
-                  <small>{f.type ? (TYPE_LABEL[f.type] ?? "").toLowerCase() : "as typed"}</small>
+                  <small>{f.type ? (t.typeLabel[f.type] ?? "").toLowerCase() : t.asTyped}</small>
                   <button
                     type="button"
                     onClick={() => setFavorites((list) => list.filter((x) => x.name !== f.name))}
-                    aria-label={`Remove ${f.name}`}
+                    aria-label={t.remove(f.name)}
                     className="flex h-8 w-8 items-center justify-center rounded-sm text-xl text-ink-500 hover:bg-paper-100 hover:text-ember-700"
                   >
                     ×
@@ -151,9 +157,9 @@ export function IntakeForm() {
         </p>
       ) : null}
       <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-paper-200 pt-6">
-        <p className="max-w-[42ch] text-sm text-ink-500">Nothing here leaves your browser except the search terms sent to Qloo.</p>
+        <p className="max-w-[42ch] text-sm text-ink-500">{t.privacy}</p>
         <button type="submit" disabled={busy} className="btn btn-primary btn-lg">
-          {busy ? "Opening…" : "Make their session"}
+          {busy ? t.opening : t.submit}
         </button>
       </div>
     </form>

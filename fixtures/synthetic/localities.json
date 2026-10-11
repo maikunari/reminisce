@@ -1,7 +1,7 @@
 {
   "_meta": {
     "synthetic": true,
-    "note": "Hand-authored localities shaped like /search results with types=urn:entity:locality. Not Qloo data."
+    "note": "Hand-authored localities shaped like /search results with types=urn:entity:locality. `key` and `world` are authoring hints used for scoring and stripped before serving. Not Qloo data."
   },
   "localities": [
     {
@@ -9,9 +9,25 @@
       "name": "Osaka",
       "key": "osaka",
       "world": "jp",
-      "akas": ["Ōsaka", "大阪", "大阪市", "Osaka City", "Osaka-shi"],
-      "properties": { "geocode": { "name": "Osaka", "admin1_region": "Osaka Prefecture", "country_code": "JP" }, "population": 2750000 },
-      "location": { "lat": 34.6937, "lon": 135.5023 },
+      "akas": [
+        "Ōsaka",
+        "大阪",
+        "大阪市",
+        "Osaka City",
+        "Osaka-shi"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Osaka",
+          "admin1_region": "Osaka Prefecture",
+          "country_code": "JP"
+        },
+        "population": 2750000
+      },
+      "location": {
+        "lat": 34.6937,
+        "lon": 135.5023
+      },
       "disambiguation": "Osaka, Osaka Prefecture, Japan"
     },
     {
@@ -19,9 +35,23 @@
       "name": "Tokyo",
       "key": "tokyo",
       "world": "jp",
-      "akas": ["Tōkyō", "東京", "Tokyo City"],
-      "properties": { "geocode": { "name": "Tokyo", "admin1_region": "Tokyo", "country_code": "JP" }, "population": 13960000 },
-      "location": { "lat": 35.6762, "lon": 139.6503 },
+      "akas": [
+        "Tōkyō",
+        "東京",
+        "Tokyo City"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Tokyo",
+          "admin1_region": "Tokyo",
+          "country_code": "JP"
+        },
+        "population": 13960000
+      },
+      "location": {
+        "lat": 35.6762,
+        "lon": 139.6503
+      },
       "disambiguation": "Tokyo, Japan"
     },
     {
@@ -29,9 +59,23 @@
       "name": "Kyoto",
       "key": "kyoto",
       "world": "jp",
-      "akas": ["Kyōto", "京都", "Kyoto City"],
-      "properties": { "geocode": { "name": "Kyoto", "admin1_region": "Kyoto Prefecture", "country_code": "JP" }, "population": 1460000 },
-      "location": { "lat": 35.0116, "lon": 135.7681 },
+      "akas": [
+        "Kyōto",
+        "京都",
+        "Kyoto City"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Kyoto",
+          "admin1_region": "Kyoto Prefecture",
+          "country_code": "JP"
+        },
+        "population": 1460000
+      },
+      "location": {
+        "lat": 35.0116,
+        "lon": 135.7681
+      },
       "disambiguation": "Kyoto, Kyoto Prefecture, Japan"
     },
     {
@@ -39,9 +83,22 @@
       "name": "Kobe",
       "key": "kobe",
       "world": "jp",
-      "akas": ["Kōbe", "神戸"],
-      "properties": { "geocode": { "name": "Kobe", "admin1_region": "Hyogo Prefecture", "country_code": "JP" }, "population": 1520000 },
-      "location": { "lat": 34.6901, "lon": 135.1955 },
+      "akas": [
+        "Kōbe",
+        "神戸"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Kobe",
+          "admin1_region": "Hyogo Prefecture",
+          "country_code": "JP"
+        },
+        "population": 1520000
+      },
+      "location": {
+        "lat": 34.6901,
+        "lon": 135.1955
+      },
       "disambiguation": "Kobe, Hyogo Prefecture, Japan"
     },
     {
@@ -49,9 +106,21 @@
       "name": "Yokohama",
       "key": "yokohama",
       "world": "jp",
-      "akas": ["横浜"],
-      "properties": { "geocode": { "name": "Yokohama", "admin1_region": "Kanagawa Prefecture", "country_code": "JP" }, "population": 3770000 },
-      "location": { "lat": 35.4437, "lon": 139.638 },
+      "akas": [
+        "横浜"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Yokohama",
+          "admin1_region": "Kanagawa Prefecture",
+          "country_code": "JP"
+        },
+        "population": 3770000
+      },
+      "location": {
+        "lat": 35.4437,
+        "lon": 139.638
+      },
       "disambiguation": "Yokohama, Kanagawa Prefecture, Japan"
     },
     {
@@ -59,9 +128,24 @@
       "name": "Chicago",
       "key": "chicago",
       "world": "us",
-      "akas": ["Chicago, Illinois", "Chicago, IL", "The Windy City", "Chi-Town"],
-      "properties": { "geocode": { "name": "Chicago", "admin1_region": "Illinois", "country_code": "US" }, "population": 2700000 },
-      "location": { "lat": 41.8781, "lon": -87.6298 },
+      "akas": [
+        "Chicago, Illinois",
+        "Chicago, IL",
+        "The Windy City",
+        "Chi-Town"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Chicago",
+          "admin1_region": "Illinois",
+          "country_code": "US"
+        },
+        "population": 2700000
+      },
+      "location": {
+        "lat": 41.8781,
+        "lon": -87.6298
+      },
       "disambiguation": "Chicago, Illinois, United States of America"
     },
     {
@@ -69,9 +153,25 @@
       "name": "New York City",
       "key": "new_york",
       "world": "us",
-      "akas": ["New York", "NYC", "The Big Apple", "Manhattan", "Brooklyn"],
-      "properties": { "geocode": { "name": "New York", "admin1_region": "New York", "country_code": "US" }, "population": 8470000 },
-      "location": { "lat": 40.7128, "lon": -74.006 },
+      "akas": [
+        "New York",
+        "NYC",
+        "The Big Apple",
+        "Manhattan",
+        "Brooklyn"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "New York",
+          "admin1_region": "New York",
+          "country_code": "US"
+        },
+        "population": 8470000
+      },
+      "location": {
+        "lat": 40.7128,
+        "lon": -74.006
+      },
       "disambiguation": "New York, New York, United States of America"
     },
     {
@@ -79,9 +179,23 @@
       "name": "Los Angeles",
       "key": "los_angeles",
       "world": "us",
-      "akas": ["LA", "L.A.", "Hollywood"],
-      "properties": { "geocode": { "name": "Los Angeles", "admin1_region": "California", "country_code": "US" }, "population": 3900000 },
-      "location": { "lat": 34.0522, "lon": -118.2437 },
+      "akas": [
+        "LA",
+        "L.A.",
+        "Hollywood"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Los Angeles",
+          "admin1_region": "California",
+          "country_code": "US"
+        },
+        "population": 3900000
+      },
+      "location": {
+        "lat": 34.0522,
+        "lon": -118.2437
+      },
       "disambiguation": "Los Angeles, California, United States of America"
     },
     {
@@ -89,19 +203,45 @@
       "name": "Milwaukee",
       "key": "milwaukee",
       "world": "us",
-      "akas": ["Milwaukee, Wisconsin"],
-      "properties": { "geocode": { "name": "Milwaukee", "admin1_region": "Wisconsin", "country_code": "US" }, "population": 577000 },
-      "location": { "lat": 43.0389, "lon": -87.9065 },
+      "akas": [
+        "Milwaukee, Wisconsin"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Milwaukee",
+          "admin1_region": "Wisconsin",
+          "country_code": "US"
+        },
+        "population": 577000
+      },
+      "location": {
+        "lat": 43.0389,
+        "lon": -87.9065
+      },
       "disambiguation": "Milwaukee, Wisconsin, United States of America"
     },
     {
       "entity_id": "ffffffff-0000-4000-8000-00000000c021",
       "name": "London",
       "key": "london",
-      "world": "generic",
-      "akas": ["London, England", "London, UK"],
-      "properties": { "geocode": { "name": "London", "admin1_region": "England", "country_code": "GB" }, "population": 8800000 },
-      "location": { "lat": 51.5072, "lon": -0.1276 },
+      "world": "uk",
+      "akas": [
+        "London, England",
+        "London, UK",
+        "Greater London"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "London",
+          "admin1_region": "England",
+          "country_code": "GB"
+        },
+        "population": 8800000
+      },
+      "location": {
+        "lat": 51.5072,
+        "lon": -0.1276
+      },
       "disambiguation": "London, England, United Kingdom"
     },
     {
@@ -109,9 +249,21 @@
       "name": "Paris",
       "key": "paris",
       "world": "generic",
-      "akas": ["Paris, France"],
-      "properties": { "geocode": { "name": "Paris", "admin1_region": "Île-de-France", "country_code": "FR" }, "population": 2100000 },
-      "location": { "lat": 48.8566, "lon": 2.3522 },
+      "akas": [
+        "Paris, France"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Paris",
+          "admin1_region": "Île-de-France",
+          "country_code": "FR"
+        },
+        "population": 2100000
+      },
+      "location": {
+        "lat": 48.8566,
+        "lon": 2.3522
+      },
       "disambiguation": "Paris, Île-de-France, France"
     },
     {
@@ -119,9 +271,22 @@
       "name": "Madrid",
       "key": "madrid",
       "world": "generic",
-      "akas": ["Madrid, Spain", "Madrid, España"],
-      "properties": { "geocode": { "name": "Madrid", "admin1_region": "Community of Madrid", "country_code": "ES" }, "population": 3300000 },
-      "location": { "lat": 40.4168, "lon": -3.7038 },
+      "akas": [
+        "Madrid, Spain",
+        "Madrid, España"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Madrid",
+          "admin1_region": "Community of Madrid",
+          "country_code": "ES"
+        },
+        "population": 3300000
+      },
+      "location": {
+        "lat": 40.4168,
+        "lon": -3.7038
+      },
       "disambiguation": "Madrid, Community of Madrid, Spain"
     },
     {
@@ -129,10 +294,1181 @@
       "name": "Rome",
       "key": "rome",
       "world": "generic",
-      "akas": ["Roma", "Rome, Italy"],
-      "properties": { "geocode": { "name": "Rome", "admin1_region": "Lazio", "country_code": "IT" }, "population": 2800000 },
-      "location": { "lat": 41.9028, "lon": 12.4964 },
+      "akas": [
+        "Roma",
+        "Rome, Italy"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Rome",
+          "admin1_region": "Lazio",
+          "country_code": "IT"
+        },
+        "population": 2800000
+      },
+      "location": {
+        "lat": 41.9028,
+        "lon": 12.4964
+      },
       "disambiguation": "Rome, Lazio, Italy"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c030",
+      "name": "Mexico City",
+      "key": "mexico_city",
+      "world": "latam",
+      "akas": [
+        "Ciudad de México",
+        "Ciudad de Mexico",
+        "CDMX",
+        "México D.F.",
+        "Mexico D.F.",
+        "Mexico DF",
+        "México, D.F.",
+        "Mexico City, Mexico"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Mexico City",
+          "admin1_region": "Mexico City",
+          "country_code": "MX"
+        },
+        "population": 9200000
+      },
+      "location": {
+        "lat": 19.4326,
+        "lon": -99.1332
+      },
+      "disambiguation": "Mexico City, Mexico"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c031",
+      "name": "Guadalajara",
+      "key": "guadalajara",
+      "world": "latam",
+      "akas": [
+        "Guadalajara, Jalisco",
+        "Guadalajara, Mexico",
+        "GDL"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Guadalajara",
+          "admin1_region": "Jalisco",
+          "country_code": "MX"
+        },
+        "population": 1385000
+      },
+      "location": {
+        "lat": 20.6597,
+        "lon": -103.3496
+      },
+      "disambiguation": "Guadalajara, Jalisco, Mexico"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c032",
+      "name": "Monterrey",
+      "key": "monterrey",
+      "world": "latam",
+      "akas": [
+        "Monterrey, Nuevo León",
+        "Monterrey, Mexico"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Monterrey",
+          "admin1_region": "Nuevo León",
+          "country_code": "MX"
+        },
+        "population": 1140000
+      },
+      "location": {
+        "lat": 25.6866,
+        "lon": -100.3161
+      },
+      "disambiguation": "Monterrey, Nuevo León, Mexico"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c033",
+      "name": "Buenos Aires",
+      "key": "buenos_aires",
+      "world": "latam",
+      "akas": [
+        "Buenos Aires, Argentina",
+        "Capital Federal",
+        "CABA",
+        "Ciudad Autónoma de Buenos Aires"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Buenos Aires",
+          "admin1_region": "Buenos Aires",
+          "country_code": "AR"
+        },
+        "population": 3120000
+      },
+      "location": {
+        "lat": -34.6037,
+        "lon": -58.3816
+      },
+      "disambiguation": "Buenos Aires, Argentina"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c034",
+      "name": "Bogotá",
+      "key": "bogota",
+      "world": "latam",
+      "akas": [
+        "Bogota",
+        "Santa Fe de Bogotá",
+        "Bogotá D.C.",
+        "Bogotá, Colombia"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Bogotá",
+          "admin1_region": "Bogotá",
+          "country_code": "CO"
+        },
+        "population": 7900000
+      },
+      "location": {
+        "lat": 4.711,
+        "lon": -74.0721
+      },
+      "disambiguation": "Bogotá, Colombia"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c035",
+      "name": "Lima",
+      "key": "lima",
+      "world": "latam",
+      "akas": [
+        "Lima, Peru",
+        "Lima, Perú"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Lima",
+          "admin1_region": "Lima",
+          "country_code": "PE"
+        },
+        "population": 9750000
+      },
+      "location": {
+        "lat": -12.0464,
+        "lon": -77.0428
+      },
+      "disambiguation": "Lima, Peru"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c036",
+      "name": "Havana",
+      "key": "havana",
+      "world": "latam",
+      "akas": [
+        "La Habana",
+        "Habana",
+        "Havana, Cuba"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Havana",
+          "admin1_region": "La Habana",
+          "country_code": "CU"
+        },
+        "population": 2130000
+      },
+      "location": {
+        "lat": 23.1136,
+        "lon": -82.3666
+      },
+      "disambiguation": "Havana, Cuba"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c037",
+      "name": "Santiago",
+      "key": "santiago",
+      "world": "latam",
+      "akas": [
+        "Santiago de Chile",
+        "Santiago, Chile"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Santiago",
+          "admin1_region": "Santiago Metropolitan",
+          "country_code": "CL"
+        },
+        "population": 6260000
+      },
+      "location": {
+        "lat": -33.4489,
+        "lon": -70.6693
+      },
+      "disambiguation": "Santiago, Chile"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c038",
+      "name": "Montevideo",
+      "key": "montevideo",
+      "world": "latam",
+      "akas": [
+        "Montevideo, Uruguay"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Montevideo",
+          "admin1_region": "Montevideo",
+          "country_code": "UY"
+        },
+        "population": 1380000
+      },
+      "location": {
+        "lat": -34.9011,
+        "lon": -56.1645
+      },
+      "disambiguation": "Montevideo, Uruguay"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c039",
+      "name": "Rio de Janeiro",
+      "key": "rio_de_janeiro",
+      "world": "latam",
+      "akas": [
+        "Rio",
+        "Rio de Janeiro, Brazil",
+        "Rio de Janeiro, Brasil"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Rio de Janeiro",
+          "admin1_region": "Rio de Janeiro",
+          "country_code": "BR"
+        },
+        "population": 6750000
+      },
+      "location": {
+        "lat": -22.9068,
+        "lon": -43.1729
+      },
+      "disambiguation": "Rio de Janeiro, Brazil"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c03a",
+      "name": "São Paulo",
+      "key": "sao_paulo",
+      "world": "latam",
+      "akas": [
+        "Sao Paulo",
+        "São Paulo, Brazil",
+        "Sao Paulo, Brasil",
+        "Sampa"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "São Paulo",
+          "admin1_region": "São Paulo",
+          "country_code": "BR"
+        },
+        "population": 12300000
+      },
+      "location": {
+        "lat": -23.5505,
+        "lon": -46.6333
+      },
+      "disambiguation": "São Paulo, Brazil"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c050",
+      "name": "Liverpool",
+      "key": "liverpool",
+      "world": "uk",
+      "akas": [
+        "Liverpool, England",
+        "Liverpool, Merseyside",
+        "Merseyside"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Liverpool",
+          "admin1_region": "England",
+          "country_code": "GB"
+        },
+        "population": 496000
+      },
+      "location": {
+        "lat": 53.4084,
+        "lon": -2.9916
+      },
+      "disambiguation": "Liverpool, England, United Kingdom"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c051",
+      "name": "Manchester",
+      "key": "manchester",
+      "world": "uk",
+      "akas": [
+        "Manchester, England",
+        "Greater Manchester"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Manchester",
+          "admin1_region": "England",
+          "country_code": "GB"
+        },
+        "population": 553000
+      },
+      "location": {
+        "lat": 53.4808,
+        "lon": -2.2426
+      },
+      "disambiguation": "Manchester, England, United Kingdom"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c052",
+      "name": "Birmingham",
+      "key": "birmingham",
+      "world": "uk",
+      "akas": [
+        "Birmingham, England",
+        "Brum"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Birmingham",
+          "admin1_region": "England",
+          "country_code": "GB"
+        },
+        "population": 1140000
+      },
+      "location": {
+        "lat": 52.4862,
+        "lon": -1.8904
+      },
+      "disambiguation": "Birmingham, England, United Kingdom"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c053",
+      "name": "Glasgow",
+      "key": "glasgow",
+      "world": "uk",
+      "akas": [
+        "Glasgow, Scotland",
+        "Glesga"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Glasgow",
+          "admin1_region": "Scotland",
+          "country_code": "GB"
+        },
+        "population": 635000
+      },
+      "location": {
+        "lat": 55.8642,
+        "lon": -4.2518
+      },
+      "disambiguation": "Glasgow, Scotland, United Kingdom"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c054",
+      "name": "Edinburgh",
+      "key": "edinburgh",
+      "world": "uk",
+      "akas": [
+        "Edinburgh, Scotland",
+        "Auld Reekie"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Edinburgh",
+          "admin1_region": "Scotland",
+          "country_code": "GB"
+        },
+        "population": 525000
+      },
+      "location": {
+        "lat": 55.9533,
+        "lon": -3.1883
+      },
+      "disambiguation": "Edinburgh, Scotland, United Kingdom"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c055",
+      "name": "Leeds",
+      "key": "leeds",
+      "world": "uk",
+      "akas": [
+        "Leeds, England",
+        "Leeds, Yorkshire",
+        "Leeds, West Yorkshire"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Leeds",
+          "admin1_region": "England",
+          "country_code": "GB"
+        },
+        "population": 812000
+      },
+      "location": {
+        "lat": 53.8008,
+        "lon": -1.5491
+      },
+      "disambiguation": "Leeds, England, United Kingdom"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c056",
+      "name": "Newcastle upon Tyne",
+      "key": "newcastle",
+      "world": "uk",
+      "akas": [
+        "Newcastle",
+        "Newcastle, England",
+        "Tyneside",
+        "Newcastle-upon-Tyne"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Newcastle upon Tyne",
+          "admin1_region": "England",
+          "country_code": "GB"
+        },
+        "population": 300000
+      },
+      "location": {
+        "lat": 54.9783,
+        "lon": -1.6178
+      },
+      "disambiguation": "Newcastle upon Tyne, England, United Kingdom"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c057",
+      "name": "Cardiff",
+      "key": "cardiff",
+      "world": "uk",
+      "akas": [
+        "Cardiff, Wales",
+        "Caerdydd"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Cardiff",
+          "admin1_region": "Wales",
+          "country_code": "GB"
+        },
+        "population": 362000
+      },
+      "location": {
+        "lat": 51.4816,
+        "lon": -3.1791
+      },
+      "disambiguation": "Cardiff, Wales, United Kingdom"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c058",
+      "name": "Belfast",
+      "key": "belfast",
+      "world": "uk",
+      "akas": [
+        "Belfast, Northern Ireland",
+        "Béal Feirste"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Belfast",
+          "admin1_region": "Northern Ireland",
+          "country_code": "GB"
+        },
+        "population": 345000
+      },
+      "location": {
+        "lat": 54.5973,
+        "lon": -5.9301
+      },
+      "disambiguation": "Belfast, Northern Ireland, United Kingdom"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c059",
+      "name": "Dublin",
+      "key": "dublin",
+      "world": "uk",
+      "akas": [
+        "Dublin, Ireland",
+        "Baile Átha Cliath"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Dublin",
+          "admin1_region": "Leinster",
+          "country_code": "IE"
+        },
+        "population": 592000
+      },
+      "location": {
+        "lat": 53.3498,
+        "lon": -6.2603
+      },
+      "disambiguation": "Dublin, Leinster, Ireland"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c060",
+      "name": "Manila",
+      "key": "manila",
+      "world": "ph",
+      "akas": [
+        "Maynila",
+        "Metro Manila",
+        "Manila, Philippines",
+        "Tondo",
+        "Sampaloc",
+        "Ermita",
+        "Malate",
+        "Binondo",
+        "Quiapo",
+        "Quezon City",
+        "Makati",
+        "Pasay",
+        "Caloocan",
+        "Pasig",
+        "Mandaluyong",
+        "Marikina",
+        "Parañaque",
+        "Paranaque",
+        "Las Piñas",
+        "Las Pinas",
+        "Muntinlupa",
+        "Taguig",
+        "Malabon",
+        "Navotas",
+        "Valenzuela",
+        "San Juan, Metro Manila"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Manila",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "population": 1850000
+      },
+      "location": {
+        "lat": 14.5995,
+        "lon": 120.9842
+      },
+      "disambiguation": "Manila, Metro Manila, Philippines"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c061",
+      "name": "Cebu City",
+      "key": "cebu",
+      "world": "ph",
+      "akas": [
+        "Cebu",
+        "Sugbo",
+        "Cebu, Philippines",
+        "Mandaue",
+        "Lapu-Lapu"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Cebu City",
+          "admin1_region": "Central Visayas",
+          "country_code": "PH"
+        },
+        "population": 964000
+      },
+      "location": {
+        "lat": 10.3157,
+        "lon": 123.8854
+      },
+      "disambiguation": "Cebu City, Central Visayas, Philippines"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c062",
+      "name": "Davao City",
+      "key": "davao",
+      "world": "ph",
+      "akas": [
+        "Davao",
+        "Davao, Philippines"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Davao City",
+          "admin1_region": "Davao Region",
+          "country_code": "PH"
+        },
+        "population": 1780000
+      },
+      "location": {
+        "lat": 7.1907,
+        "lon": 125.4553
+      },
+      "disambiguation": "Davao City, Davao Region, Philippines"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c063",
+      "name": "Iloilo City",
+      "key": "iloilo",
+      "world": "ph",
+      "akas": [
+        "Iloilo",
+        "Iloilo, Philippines"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Iloilo City",
+          "admin1_region": "Western Visayas",
+          "country_code": "PH"
+        },
+        "population": 457000
+      },
+      "location": {
+        "lat": 10.7202,
+        "lon": 122.5621
+      },
+      "disambiguation": "Iloilo City, Western Visayas, Philippines"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c064",
+      "name": "Baguio",
+      "key": "baguio",
+      "world": "ph",
+      "akas": [
+        "Baguio City",
+        "Baguio, Philippines"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Baguio",
+          "admin1_region": "Cordillera Administrative Region",
+          "country_code": "PH"
+        },
+        "population": 366000
+      },
+      "location": {
+        "lat": 16.4023,
+        "lon": 120.596
+      },
+      "disambiguation": "Baguio, Cordillera Administrative Region, Philippines"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c070",
+      "name": "Mumbai",
+      "key": "mumbai",
+      "world": "in",
+      "akas": [
+        "Bombay",
+        "Mumbai, Maharashtra",
+        "Bombay, India",
+        "Mumbai, India"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Mumbai",
+          "admin1_region": "Maharashtra",
+          "country_code": "IN"
+        },
+        "population": 12400000
+      },
+      "location": {
+        "lat": 19.076,
+        "lon": 72.8777
+      },
+      "disambiguation": "Mumbai, Maharashtra, India"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c071",
+      "name": "Delhi",
+      "key": "delhi",
+      "world": "in",
+      "akas": [
+        "New Delhi",
+        "Dilli",
+        "Delhi, India",
+        "Old Delhi",
+        "Purani Dilli"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Delhi",
+          "admin1_region": "Delhi",
+          "country_code": "IN"
+        },
+        "population": 16800000
+      },
+      "location": {
+        "lat": 28.7041,
+        "lon": 77.1025
+      },
+      "disambiguation": "Delhi, India"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c072",
+      "name": "Kolkata",
+      "key": "kolkata",
+      "world": "in",
+      "akas": [
+        "Calcutta",
+        "Kolkata, West Bengal",
+        "Calcutta, India"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Kolkata",
+          "admin1_region": "West Bengal",
+          "country_code": "IN"
+        },
+        "population": 4500000
+      },
+      "location": {
+        "lat": 22.5726,
+        "lon": 88.3639
+      },
+      "disambiguation": "Kolkata, West Bengal, India"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c073",
+      "name": "Chennai",
+      "key": "chennai",
+      "world": "in",
+      "akas": [
+        "Madras",
+        "Chennai, Tamil Nadu",
+        "Madras, India"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Chennai",
+          "admin1_region": "Tamil Nadu",
+          "country_code": "IN"
+        },
+        "population": 4650000
+      },
+      "location": {
+        "lat": 13.0827,
+        "lon": 80.2707
+      },
+      "disambiguation": "Chennai, Tamil Nadu, India"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c074",
+      "name": "Bangalore",
+      "key": "bangalore",
+      "world": "in",
+      "akas": [
+        "Bengaluru",
+        "Bangalore, Karnataka",
+        "Bangalore, India"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Bangalore",
+          "admin1_region": "Karnataka",
+          "country_code": "IN"
+        },
+        "population": 8440000
+      },
+      "location": {
+        "lat": 12.9716,
+        "lon": 77.5946
+      },
+      "disambiguation": "Bangalore, Karnataka, India"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c075",
+      "name": "Hyderabad",
+      "key": "hyderabad",
+      "world": "in",
+      "akas": [
+        "Hyderabad, Telangana",
+        "Hyderabad, India",
+        "Secunderabad",
+        "Hyderabad Deccan"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Hyderabad",
+          "admin1_region": "Telangana",
+          "country_code": "IN"
+        },
+        "population": 6800000
+      },
+      "location": {
+        "lat": 17.385,
+        "lon": 78.4867
+      },
+      "disambiguation": "Hyderabad, Telangana, India"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c076",
+      "name": "Karachi",
+      "key": "karachi",
+      "world": "in",
+      "akas": [
+        "Karachi, Pakistan",
+        "Karachi, Sindh"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Karachi",
+          "admin1_region": "Sindh",
+          "country_code": "PK"
+        },
+        "population": 14900000
+      },
+      "location": {
+        "lat": 24.8607,
+        "lon": 67.0011
+      },
+      "disambiguation": "Karachi, Sindh, Pakistan"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c077",
+      "name": "Lahore",
+      "key": "lahore",
+      "world": "in",
+      "akas": [
+        "Lahore, Pakistan",
+        "Lahore, Punjab"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Lahore",
+          "admin1_region": "Punjab",
+          "country_code": "PK"
+        },
+        "population": 11100000
+      },
+      "location": {
+        "lat": 31.5204,
+        "lon": 74.3587
+      },
+      "disambiguation": "Lahore, Punjab, Pakistan"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c080",
+      "name": "Seoul",
+      "key": "seoul",
+      "world": "kr",
+      "akas": [
+        "서울",
+        "Seoul, Korea",
+        "Seoul, South Korea",
+        "Keijō",
+        "Gyeongseong"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Seoul",
+          "admin1_region": "Seoul",
+          "country_code": "KR"
+        },
+        "population": 9700000
+      },
+      "location": {
+        "lat": 37.5665,
+        "lon": 126.978
+      },
+      "disambiguation": "Seoul, South Korea"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c081",
+      "name": "Busan",
+      "key": "busan",
+      "world": "kr",
+      "akas": [
+        "Pusan",
+        "부산",
+        "Busan, Korea",
+        "Busan, South Korea"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Busan",
+          "admin1_region": "Busan",
+          "country_code": "KR"
+        },
+        "population": 3400000
+      },
+      "location": {
+        "lat": 35.1796,
+        "lon": 129.0756
+      },
+      "disambiguation": "Busan, South Korea"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c082",
+      "name": "Daegu",
+      "key": "daegu",
+      "world": "kr",
+      "akas": [
+        "Taegu",
+        "대구"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Daegu",
+          "admin1_region": "Daegu",
+          "country_code": "KR"
+        },
+        "population": 2400000
+      },
+      "location": {
+        "lat": 35.8714,
+        "lon": 128.6014
+      },
+      "disambiguation": "Daegu, South Korea"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c083",
+      "name": "Incheon",
+      "key": "incheon",
+      "world": "kr",
+      "akas": [
+        "Inchon",
+        "인천",
+        "Chemulpo"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Incheon",
+          "admin1_region": "Incheon",
+          "country_code": "KR"
+        },
+        "population": 2950000
+      },
+      "location": {
+        "lat": 37.4563,
+        "lon": 126.7052
+      },
+      "disambiguation": "Incheon, South Korea"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c084",
+      "name": "Gwangju",
+      "key": "gwangju",
+      "world": "kr",
+      "akas": [
+        "Kwangju",
+        "광주"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Gwangju",
+          "admin1_region": "Gwangju",
+          "country_code": "KR"
+        },
+        "population": 1450000
+      },
+      "location": {
+        "lat": 35.1595,
+        "lon": 126.8526
+      },
+      "disambiguation": "Gwangju, South Korea"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c085",
+      "name": "Daejeon",
+      "key": "daejeon",
+      "world": "kr",
+      "akas": [
+        "Taejon",
+        "대전"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Daejeon",
+          "admin1_region": "Daejeon",
+          "country_code": "KR"
+        },
+        "population": 1470000
+      },
+      "location": {
+        "lat": 36.3504,
+        "lon": 127.3845
+      },
+      "disambiguation": "Daejeon, South Korea"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c090",
+      "name": "Taipei",
+      "key": "taipei",
+      "world": "zh",
+      "akas": [
+        "臺北",
+        "台北",
+        "Taipei City",
+        "Taipei, Taiwan",
+        "New Taipei"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Taipei",
+          "admin1_region": "Taipei",
+          "country_code": "TW"
+        },
+        "population": 2600000
+      },
+      "location": {
+        "lat": 25.033,
+        "lon": 121.5654
+      },
+      "disambiguation": "Taipei, Taiwan"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c091",
+      "name": "Kaohsiung",
+      "key": "kaohsiung",
+      "world": "zh",
+      "akas": [
+        "高雄",
+        "Kaohsiung City",
+        "Kaohsiung, Taiwan",
+        "Takao"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Kaohsiung",
+          "admin1_region": "Kaohsiung",
+          "country_code": "TW"
+        },
+        "population": 2750000
+      },
+      "location": {
+        "lat": 22.6273,
+        "lon": 120.3014
+      },
+      "disambiguation": "Kaohsiung, Taiwan"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c092",
+      "name": "Hong Kong",
+      "key": "hong_kong",
+      "world": "zh",
+      "akas": [
+        "香港",
+        "Hong Kong SAR",
+        "Hongkong",
+        "Kowloon",
+        "九龍",
+        "Hong Kong Island",
+        "HK"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Hong Kong",
+          "admin1_region": "Hong Kong",
+          "country_code": "HK"
+        },
+        "population": 7500000
+      },
+      "location": {
+        "lat": 22.3193,
+        "lon": 114.1694
+      },
+      "disambiguation": "Hong Kong"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c093",
+      "name": "Shanghai",
+      "key": "shanghai",
+      "world": "zh",
+      "akas": [
+        "上海",
+        "Shanghai, China"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Shanghai",
+          "admin1_region": "Shanghai",
+          "country_code": "CN"
+        },
+        "population": 24900000
+      },
+      "location": {
+        "lat": 31.2304,
+        "lon": 121.4737
+      },
+      "disambiguation": "Shanghai, China"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c094",
+      "name": "Beijing",
+      "key": "beijing",
+      "world": "zh",
+      "akas": [
+        "Peking",
+        "北京",
+        "Beijing, China",
+        "Peiping"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Beijing",
+          "admin1_region": "Beijing",
+          "country_code": "CN"
+        },
+        "population": 21500000
+      },
+      "location": {
+        "lat": 39.9042,
+        "lon": 116.4074
+      },
+      "disambiguation": "Beijing, China"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c095",
+      "name": "Guangzhou",
+      "key": "guangzhou",
+      "world": "zh",
+      "akas": [
+        "Canton",
+        "广州",
+        "廣州",
+        "Guangzhou, China",
+        "Kwangchow"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Guangzhou",
+          "admin1_region": "Guangdong",
+          "country_code": "CN"
+        },
+        "population": 18700000
+      },
+      "location": {
+        "lat": 23.1291,
+        "lon": 113.2644
+      },
+      "disambiguation": "Guangzhou, Guangdong, China"
+    },
+    {
+      "entity_id": "ffffffff-0000-4000-8000-00000000c096",
+      "name": "Singapore",
+      "key": "singapore",
+      "world": "zh",
+      "akas": [
+        "新加坡",
+        "Singapura",
+        "Singapore City"
+      ],
+      "properties": {
+        "geocode": {
+          "name": "Singapore",
+          "admin1_region": "Singapore",
+          "country_code": "SG"
+        },
+        "population": 5600000
+      },
+      "location": {
+        "lat": 1.3521,
+        "lon": 103.8198
+      },
+      "disambiguation": "Singapore"
     }
   ]
 }

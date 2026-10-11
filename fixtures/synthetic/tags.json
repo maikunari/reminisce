@@ -4,57 +4,2045 @@
     "note": "Hand-authored tags shaped like /v2/tags results. Tag ids follow Qloo's urn:tag:<type>:<domain>:<slug> pattern but are not verified Qloo ids. Not Qloo data."
   },
   "tags": [
-    { "id": "urn:tag:genre:place:restaurant", "name": "Restaurant", "type": "urn:tag:genre:place", "subtype": "urn:tag:genre:place", "parents": [{ "type": "urn:entity:place" }], "popularity": 0.99 },
-    { "id": "urn:tag:genre:place:restaurant:japanese", "name": "Japanese Restaurant", "type": "urn:tag:genre:place", "subtype": "urn:tag:genre:place", "parents": [{ "type": "urn:entity:place" }], "popularity": 0.92 },
-    { "id": "urn:tag:genre:place:restaurant:okonomiyaki", "name": "Okonomiyaki Restaurant", "type": "urn:tag:genre:place", "subtype": "urn:tag:genre:place", "parents": [{ "type": "urn:entity:place" }], "popularity": 0.6 },
-    { "id": "urn:tag:genre:place:restaurant:italian", "name": "Italian Restaurant", "type": "urn:tag:genre:place", "subtype": "urn:tag:genre:place", "parents": [{ "type": "urn:entity:place" }], "popularity": 0.93 },
-    { "id": "urn:tag:genre:place:restaurant:pizza", "name": "Pizza Restaurant", "type": "urn:tag:genre:place", "subtype": "urn:tag:genre:place", "parents": [{ "type": "urn:entity:place" }], "popularity": 0.9 },
-    { "id": "urn:tag:genre:place:restaurant:steakhouse", "name": "Steakhouse", "type": "urn:tag:genre:place", "subtype": "urn:tag:genre:place", "parents": [{ "type": "urn:entity:place" }], "popularity": 0.85 },
-    { "id": "urn:tag:genre:place:restaurant:german", "name": "German Restaurant", "type": "urn:tag:genre:place", "subtype": "urn:tag:genre:place", "parents": [{ "type": "urn:entity:place" }], "popularity": 0.7 },
-    { "id": "urn:tag:genre:place:restaurant:deli", "name": "Deli", "type": "urn:tag:genre:place", "subtype": "urn:tag:genre:place", "parents": [{ "type": "urn:entity:place" }], "popularity": 0.75 },
-    { "id": "urn:tag:genre:place:restaurant:hot_dog", "name": "Hot Dog Restaurant", "type": "urn:tag:genre:place", "subtype": "urn:tag:genre:place", "parents": [{ "type": "urn:entity:place" }], "popularity": 0.7 },
-    { "id": "urn:tag:genre:place:ice_cream_parlor", "name": "Ice Cream Parlor", "type": "urn:tag:genre:place", "subtype": "urn:tag:genre:place", "parents": [{ "type": "urn:entity:place" }], "popularity": 0.72 },
-    { "id": "urn:tag:genre:place:bar", "name": "Bar", "type": "urn:tag:genre:place", "subtype": "urn:tag:genre:place", "parents": [{ "type": "urn:entity:place" }], "popularity": 0.9 },
-    { "id": "urn:tag:genre:place:cafe", "name": "Cafe", "type": "urn:tag:genre:place", "subtype": "urn:tag:genre:place", "parents": [{ "type": "urn:entity:place" }], "popularity": 0.9 },
-    { "id": "urn:tag:category:place:landmark", "name": "Landmark", "type": "urn:tag:category:place", "subtype": "urn:tag:category:place", "parents": [{ "type": "urn:entity:place" }], "popularity": 0.95 },
-    { "id": "urn:tag:category:place:tourist_attraction", "name": "Tourist Attraction", "type": "urn:tag:category:place", "subtype": "urn:tag:category:place", "parents": [{ "type": "urn:entity:place" }], "popularity": 0.95 },
-    { "id": "urn:tag:category:place:park", "name": "Park", "type": "urn:tag:category:place", "subtype": "urn:tag:category:place", "parents": [{ "type": "urn:entity:place" }], "popularity": 0.9 },
-    { "id": "urn:tag:category:place:stadium", "name": "Stadium", "type": "urn:tag:category:place", "subtype": "urn:tag:category:place", "parents": [{ "type": "urn:entity:place" }], "popularity": 0.8 },
-    { "id": "urn:tag:category:place:theater", "name": "Theater", "type": "urn:tag:category:place", "subtype": "urn:tag:category:place", "parents": [{ "type": "urn:entity:place" }], "popularity": 0.8 },
-    { "id": "urn:tag:category:place:amusement_park", "name": "Amusement Park", "type": "urn:tag:category:place", "subtype": "urn:tag:category:place", "parents": [{ "type": "urn:entity:place" }], "popularity": 0.8 },
-    { "id": "urn:tag:category:place:zoo", "name": "Zoo", "type": "urn:tag:category:place", "subtype": "urn:tag:category:place", "parents": [{ "type": "urn:entity:place" }], "popularity": 0.75 },
-    { "id": "urn:tag:category:place:museum", "name": "Museum", "type": "urn:tag:category:place", "subtype": "urn:tag:category:place", "parents": [{ "type": "urn:entity:place" }], "popularity": 0.85 },
-    { "id": "urn:tag:category:place:shrine", "name": "Shrine", "type": "urn:tag:category:place", "subtype": "urn:tag:category:place", "parents": [{ "type": "urn:entity:place" }], "popularity": 0.7 },
-    { "id": "urn:tag:category:place:beach", "name": "Beach", "type": "urn:tag:category:place", "subtype": "urn:tag:category:place", "parents": [{ "type": "urn:entity:place" }], "popularity": 0.8 },
-    { "id": "urn:tag:category:place:department_store", "name": "Department Store", "type": "urn:tag:category:place", "subtype": "urn:tag:category:place", "parents": [{ "type": "urn:entity:place" }], "popularity": 0.7 },
-    { "id": "urn:tag:genre:music:enka", "name": "Enka", "type": "urn:tag:genre:music", "subtype": "urn:tag:genre:music", "parents": [{ "type": "urn:entity:artist" }], "popularity": 0.6 },
-    { "id": "urn:tag:genre:music:kayokyoku", "name": "Kayōkyoku", "type": "urn:tag:genre:music", "subtype": "urn:tag:genre:music", "parents": [{ "type": "urn:entity:artist" }], "popularity": 0.55 },
-    { "id": "urn:tag:genre:music:j_pop", "name": "J-Pop", "type": "urn:tag:genre:music", "subtype": "urn:tag:genre:music", "parents": [{ "type": "urn:entity:artist" }], "popularity": 0.85 },
-    { "id": "urn:tag:genre:music:traditional_pop", "name": "Traditional Pop", "type": "urn:tag:genre:music", "subtype": "urn:tag:genre:music", "parents": [{ "type": "urn:entity:artist" }], "popularity": 0.8 },
-    { "id": "urn:tag:genre:music:vocal_jazz", "name": "Vocal Jazz", "type": "urn:tag:genre:music", "subtype": "urn:tag:genre:music", "parents": [{ "type": "urn:entity:artist" }], "popularity": 0.8 },
-    { "id": "urn:tag:genre:music:swing", "name": "Swing", "type": "urn:tag:genre:music", "subtype": "urn:tag:genre:music", "parents": [{ "type": "urn:entity:artist" }], "popularity": 0.75 },
-    { "id": "urn:tag:genre:music:jazz", "name": "Jazz", "type": "urn:tag:genre:music", "subtype": "urn:tag:genre:music", "parents": [{ "type": "urn:entity:artist" }], "popularity": 0.9 },
-    { "id": "urn:tag:genre:music:blues", "name": "Blues", "type": "urn:tag:genre:music", "subtype": "urn:tag:genre:music", "parents": [{ "type": "urn:entity:artist" }], "popularity": 0.8 },
-    { "id": "urn:tag:genre:music:soul", "name": "Soul", "type": "urn:tag:genre:music", "subtype": "urn:tag:genre:music", "parents": [{ "type": "urn:entity:artist" }], "popularity": 0.85 },
-    { "id": "urn:tag:genre:music:rock", "name": "Rock", "type": "urn:tag:genre:music", "subtype": "urn:tag:genre:music", "parents": [{ "type": "urn:entity:artist" }], "popularity": 0.95 },
-    { "id": "urn:tag:genre:music:pop", "name": "Pop", "type": "urn:tag:genre:music", "subtype": "urn:tag:genre:music", "parents": [{ "type": "urn:entity:artist" }], "popularity": 0.95 },
-    { "id": "urn:tag:genre:music:folk", "name": "Folk", "type": "urn:tag:genre:music", "subtype": "urn:tag:genre:music", "parents": [{ "type": "urn:entity:artist" }], "popularity": 0.8 },
-    { "id": "urn:tag:genre:music:chanson", "name": "Chanson", "type": "urn:tag:genre:music", "subtype": "urn:tag:genre:music", "parents": [{ "type": "urn:entity:artist" }], "popularity": 0.6 },
-    { "id": "urn:tag:genre:music:latin", "name": "Latin", "type": "urn:tag:genre:music", "subtype": "urn:tag:genre:music", "parents": [{ "type": "urn:entity:artist" }], "popularity": 0.8 },
-    { "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media", "subtype": "urn:tag:genre:media", "parents": [{ "type": "urn:entity:movie" }, { "type": "urn:entity:tv_show" }], "popularity": 0.95 },
-    { "id": "urn:tag:genre:media:comedy", "name": "Comedy", "type": "urn:tag:genre:media", "subtype": "urn:tag:genre:media", "parents": [{ "type": "urn:entity:movie" }, { "type": "urn:entity:tv_show" }], "popularity": 0.95 },
-    { "id": "urn:tag:genre:media:musical", "name": "Musical", "type": "urn:tag:genre:media", "subtype": "urn:tag:genre:media", "parents": [{ "type": "urn:entity:movie" }, { "type": "urn:entity:tv_show" }], "popularity": 0.8 },
-    { "id": "urn:tag:genre:media:romance", "name": "Romance", "type": "urn:tag:genre:media", "subtype": "urn:tag:genre:media", "parents": [{ "type": "urn:entity:movie" }, { "type": "urn:entity:tv_show" }], "popularity": 0.9 },
-    { "id": "urn:tag:genre:media:family", "name": "Family", "type": "urn:tag:genre:media", "subtype": "urn:tag:genre:media", "parents": [{ "type": "urn:entity:movie" }, { "type": "urn:entity:tv_show" }], "popularity": 0.85 },
-    { "id": "urn:tag:genre:media:variety", "name": "Variety", "type": "urn:tag:genre:media", "subtype": "urn:tag:genre:media", "parents": [{ "type": "urn:entity:tv_show" }], "popularity": 0.7 },
-    { "id": "urn:tag:genre:media:western", "name": "Western", "type": "urn:tag:genre:media", "subtype": "urn:tag:genre:media", "parents": [{ "type": "urn:entity:movie" }, { "type": "urn:entity:tv_show" }], "popularity": 0.75 },
-    { "id": "urn:tag:genre:media:jidaigeki", "name": "Jidaigeki", "type": "urn:tag:genre:media", "subtype": "urn:tag:genre:media", "parents": [{ "type": "urn:entity:movie" }, { "type": "urn:entity:tv_show" }], "popularity": 0.5 },
-    { "id": "urn:tag:genre:media:crime", "name": "Crime", "type": "urn:tag:genre:media", "subtype": "urn:tag:genre:media", "parents": [{ "type": "urn:entity:movie" }, { "type": "urn:entity:tv_show" }], "popularity": 0.9 },
-    { "id": "urn:tag:genre:media:documentary", "name": "Documentary", "type": "urn:tag:genre:media", "subtype": "urn:tag:genre:media", "parents": [{ "type": "urn:entity:movie" }, { "type": "urn:entity:tv_show" }], "popularity": 0.8 },
-    { "id": "urn:tag:genre:destination:hot_springs", "name": "Hot Springs", "type": "urn:tag:genre:destination", "subtype": "urn:tag:genre:destination", "parents": [{ "type": "urn:entity:destination" }], "popularity": 0.6 },
-    { "id": "urn:tag:genre:destination:historic", "name": "Historic", "type": "urn:tag:genre:destination", "subtype": "urn:tag:genre:destination", "parents": [{ "type": "urn:entity:destination" }], "popularity": 0.8 },
-    { "id": "urn:tag:genre:destination:lake", "name": "Lake", "type": "urn:tag:genre:destination", "subtype": "urn:tag:genre:destination", "parents": [{ "type": "urn:entity:destination" }], "popularity": 0.7 },
-    { "id": "urn:tag:genre:destination:beach", "name": "Beach", "type": "urn:tag:genre:destination", "subtype": "urn:tag:genre:destination", "parents": [{ "type": "urn:entity:destination" }], "popularity": 0.8 },
-    { "id": "urn:tag:genre:destination:city_break", "name": "City Break", "type": "urn:tag:genre:destination", "subtype": "urn:tag:genre:destination", "parents": [{ "type": "urn:entity:destination" }], "popularity": 0.85 }
+    {
+      "id": "urn:tag:genre:place:restaurant",
+      "name": "Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.99
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:japanese",
+      "name": "Japanese Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.92
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:okonomiyaki",
+      "name": "Okonomiyaki Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.6
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:italian",
+      "name": "Italian Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.93
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:pizza",
+      "name": "Pizza Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.9
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:steakhouse",
+      "name": "Steakhouse",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.85
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:german",
+      "name": "German Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.7
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:deli",
+      "name": "Deli",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.75
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:hot_dog",
+      "name": "Hot Dog Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.7
+    },
+    {
+      "id": "urn:tag:genre:place:ice_cream_parlor",
+      "name": "Ice Cream Parlor",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.72
+    },
+    {
+      "id": "urn:tag:genre:place:bar",
+      "name": "Bar",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.9
+    },
+    {
+      "id": "urn:tag:genre:place:cafe",
+      "name": "Cafe",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.9
+    },
+    {
+      "id": "urn:tag:category:place:landmark",
+      "name": "Landmark",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.95
+    },
+    {
+      "id": "urn:tag:category:place:tourist_attraction",
+      "name": "Tourist Attraction",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.95
+    },
+    {
+      "id": "urn:tag:category:place:park",
+      "name": "Park",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.9
+    },
+    {
+      "id": "urn:tag:category:place:stadium",
+      "name": "Stadium",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.8
+    },
+    {
+      "id": "urn:tag:category:place:theater",
+      "name": "Theater",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.8
+    },
+    {
+      "id": "urn:tag:category:place:amusement_park",
+      "name": "Amusement Park",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.8
+    },
+    {
+      "id": "urn:tag:category:place:zoo",
+      "name": "Zoo",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.75
+    },
+    {
+      "id": "urn:tag:category:place:museum",
+      "name": "Museum",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.85
+    },
+    {
+      "id": "urn:tag:category:place:shrine",
+      "name": "Shrine",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.7
+    },
+    {
+      "id": "urn:tag:category:place:beach",
+      "name": "Beach",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.8
+    },
+    {
+      "id": "urn:tag:category:place:department_store",
+      "name": "Department Store",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.7
+    },
+    {
+      "id": "urn:tag:genre:music:enka",
+      "name": "Enka",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.6
+    },
+    {
+      "id": "urn:tag:genre:music:kayokyoku",
+      "name": "Kayōkyoku",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.55
+    },
+    {
+      "id": "urn:tag:genre:music:j_pop",
+      "name": "J-Pop",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.85
+    },
+    {
+      "id": "urn:tag:genre:music:traditional_pop",
+      "name": "Traditional Pop",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.8
+    },
+    {
+      "id": "urn:tag:genre:music:vocal_jazz",
+      "name": "Vocal Jazz",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.8
+    },
+    {
+      "id": "urn:tag:genre:music:swing",
+      "name": "Swing",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.75
+    },
+    {
+      "id": "urn:tag:genre:music:jazz",
+      "name": "Jazz",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.9
+    },
+    {
+      "id": "urn:tag:genre:music:blues",
+      "name": "Blues",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.8
+    },
+    {
+      "id": "urn:tag:genre:music:soul",
+      "name": "Soul",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.85
+    },
+    {
+      "id": "urn:tag:genre:music:rock",
+      "name": "Rock",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.95
+    },
+    {
+      "id": "urn:tag:genre:music:pop",
+      "name": "Pop",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.95
+    },
+    {
+      "id": "urn:tag:genre:music:folk",
+      "name": "Folk",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.8
+    },
+    {
+      "id": "urn:tag:genre:music:chanson",
+      "name": "Chanson",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.6
+    },
+    {
+      "id": "urn:tag:genre:music:latin",
+      "name": "Latin",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.8
+    },
+    {
+      "id": "urn:tag:genre:media:drama",
+      "name": "Drama",
+      "type": "urn:tag:genre:media",
+      "subtype": "urn:tag:genre:media",
+      "parents": [
+        {
+          "type": "urn:entity:movie"
+        },
+        {
+          "type": "urn:entity:tv_show"
+        }
+      ],
+      "popularity": 0.95
+    },
+    {
+      "id": "urn:tag:genre:media:comedy",
+      "name": "Comedy",
+      "type": "urn:tag:genre:media",
+      "subtype": "urn:tag:genre:media",
+      "parents": [
+        {
+          "type": "urn:entity:movie"
+        },
+        {
+          "type": "urn:entity:tv_show"
+        }
+      ],
+      "popularity": 0.95
+    },
+    {
+      "id": "urn:tag:genre:media:musical",
+      "name": "Musical",
+      "type": "urn:tag:genre:media",
+      "subtype": "urn:tag:genre:media",
+      "parents": [
+        {
+          "type": "urn:entity:movie"
+        },
+        {
+          "type": "urn:entity:tv_show"
+        }
+      ],
+      "popularity": 0.8
+    },
+    {
+      "id": "urn:tag:genre:media:romance",
+      "name": "Romance",
+      "type": "urn:tag:genre:media",
+      "subtype": "urn:tag:genre:media",
+      "parents": [
+        {
+          "type": "urn:entity:movie"
+        },
+        {
+          "type": "urn:entity:tv_show"
+        }
+      ],
+      "popularity": 0.9
+    },
+    {
+      "id": "urn:tag:genre:media:family",
+      "name": "Family",
+      "type": "urn:tag:genre:media",
+      "subtype": "urn:tag:genre:media",
+      "parents": [
+        {
+          "type": "urn:entity:movie"
+        },
+        {
+          "type": "urn:entity:tv_show"
+        }
+      ],
+      "popularity": 0.85
+    },
+    {
+      "id": "urn:tag:genre:media:variety",
+      "name": "Variety",
+      "type": "urn:tag:genre:media",
+      "subtype": "urn:tag:genre:media",
+      "parents": [
+        {
+          "type": "urn:entity:tv_show"
+        }
+      ],
+      "popularity": 0.7
+    },
+    {
+      "id": "urn:tag:genre:media:western",
+      "name": "Western",
+      "type": "urn:tag:genre:media",
+      "subtype": "urn:tag:genre:media",
+      "parents": [
+        {
+          "type": "urn:entity:movie"
+        },
+        {
+          "type": "urn:entity:tv_show"
+        }
+      ],
+      "popularity": 0.75
+    },
+    {
+      "id": "urn:tag:genre:media:jidaigeki",
+      "name": "Jidaigeki",
+      "type": "urn:tag:genre:media",
+      "subtype": "urn:tag:genre:media",
+      "parents": [
+        {
+          "type": "urn:entity:movie"
+        },
+        {
+          "type": "urn:entity:tv_show"
+        }
+      ],
+      "popularity": 0.5
+    },
+    {
+      "id": "urn:tag:genre:media:crime",
+      "name": "Crime",
+      "type": "urn:tag:genre:media",
+      "subtype": "urn:tag:genre:media",
+      "parents": [
+        {
+          "type": "urn:entity:movie"
+        },
+        {
+          "type": "urn:entity:tv_show"
+        }
+      ],
+      "popularity": 0.9
+    },
+    {
+      "id": "urn:tag:genre:media:documentary",
+      "name": "Documentary",
+      "type": "urn:tag:genre:media",
+      "subtype": "urn:tag:genre:media",
+      "parents": [
+        {
+          "type": "urn:entity:movie"
+        },
+        {
+          "type": "urn:entity:tv_show"
+        }
+      ],
+      "popularity": 0.8
+    },
+    {
+      "id": "urn:tag:genre:destination:hot_springs",
+      "name": "Hot Springs",
+      "type": "urn:tag:genre:destination",
+      "subtype": "urn:tag:genre:destination",
+      "parents": [
+        {
+          "type": "urn:entity:destination"
+        }
+      ],
+      "popularity": 0.6
+    },
+    {
+      "id": "urn:tag:genre:destination:historic",
+      "name": "Historic",
+      "type": "urn:tag:genre:destination",
+      "subtype": "urn:tag:genre:destination",
+      "parents": [
+        {
+          "type": "urn:entity:destination"
+        }
+      ],
+      "popularity": 0.8
+    },
+    {
+      "id": "urn:tag:genre:destination:lake",
+      "name": "Lake",
+      "type": "urn:tag:genre:destination",
+      "subtype": "urn:tag:genre:destination",
+      "parents": [
+        {
+          "type": "urn:entity:destination"
+        }
+      ],
+      "popularity": 0.7
+    },
+    {
+      "id": "urn:tag:genre:destination:beach",
+      "name": "Beach",
+      "type": "urn:tag:genre:destination",
+      "subtype": "urn:tag:genre:destination",
+      "parents": [
+        {
+          "type": "urn:entity:destination"
+        }
+      ],
+      "popularity": 0.8
+    },
+    {
+      "id": "urn:tag:genre:destination:city_break",
+      "name": "City Break",
+      "type": "urn:tag:genre:destination",
+      "subtype": "urn:tag:genre:destination",
+      "parents": [
+        {
+          "type": "urn:entity:destination"
+        }
+      ],
+      "popularity": 0.85
+    },
+    {
+      "id": "urn:tag:category:place:bridge",
+      "name": "Bridge",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.55
+    },
+    {
+      "id": "urn:tag:category:place:castle",
+      "name": "Castle",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.63
+    },
+    {
+      "id": "urn:tag:category:place:church",
+      "name": "Church",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.63
+    },
+    {
+      "id": "urn:tag:category:place:cinema",
+      "name": "Cinema",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.67
+    },
+    {
+      "id": "urn:tag:category:place:concert_hall",
+      "name": "Concert Hall",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.67
+    },
+    {
+      "id": "urn:tag:category:place:dance_hall",
+      "name": "Dance Hall",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.55
+    },
+    {
+      "id": "urn:tag:category:place:ferry",
+      "name": "Ferry",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.55
+    },
+    {
+      "id": "urn:tag:category:place:garden",
+      "name": "Garden",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.66
+    },
+    {
+      "id": "urn:tag:category:place:hotel",
+      "name": "Hotel",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.55
+    },
+    {
+      "id": "urn:tag:category:place:library",
+      "name": "Library",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.52
+    },
+    {
+      "id": "urn:tag:category:place:market",
+      "name": "Market",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.71
+    },
+    {
+      "id": "urn:tag:category:place:monument",
+      "name": "Monument",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.73
+    },
+    {
+      "id": "urn:tag:category:place:neighborhood",
+      "name": "Neighborhood",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.66
+    },
+    {
+      "id": "urn:tag:category:place:palace",
+      "name": "Palace",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.66
+    },
+    {
+      "id": "urn:tag:category:place:plaza",
+      "name": "Plaza",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.69
+    },
+    {
+      "id": "urn:tag:category:place:racecourse",
+      "name": "Racecourse",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.52
+    },
+    {
+      "id": "urn:tag:category:place:railway_station",
+      "name": "Railway Station",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.52
+    },
+    {
+      "id": "urn:tag:category:place:street",
+      "name": "Street",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.76
+    },
+    {
+      "id": "urn:tag:category:place:temple",
+      "name": "Temple",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.68
+    },
+    {
+      "id": "urn:tag:category:place:tower",
+      "name": "Tower",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.59
+    },
+    {
+      "id": "urn:tag:category:place:viewpoint",
+      "name": "Viewpoint",
+      "type": "urn:tag:category:place",
+      "subtype": "urn:tag:category:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.77
+    },
+    {
+      "id": "urn:tag:genre:destination:countryside",
+      "name": "Countryside",
+      "type": "urn:tag:genre:destination",
+      "subtype": "urn:tag:genre:destination",
+      "parents": [
+        {
+          "type": "urn:entity:destination"
+        }
+      ],
+      "popularity": 0.59
+    },
+    {
+      "id": "urn:tag:genre:destination:hill_station",
+      "name": "Hill Station",
+      "type": "urn:tag:genre:destination",
+      "subtype": "urn:tag:genre:destination",
+      "parents": [
+        {
+          "type": "urn:entity:destination"
+        }
+      ],
+      "popularity": 0.69
+    },
+    {
+      "id": "urn:tag:genre:destination:island",
+      "name": "Island",
+      "type": "urn:tag:genre:destination",
+      "subtype": "urn:tag:genre:destination",
+      "parents": [
+        {
+          "type": "urn:entity:destination"
+        }
+      ],
+      "popularity": 0.69
+    },
+    {
+      "id": "urn:tag:genre:destination:mountain",
+      "name": "Mountain",
+      "type": "urn:tag:genre:destination",
+      "subtype": "urn:tag:genre:destination",
+      "parents": [
+        {
+          "type": "urn:entity:destination"
+        }
+      ],
+      "popularity": 0.75
+    },
+    {
+      "id": "urn:tag:genre:destination:nature",
+      "name": "Nature",
+      "type": "urn:tag:genre:destination",
+      "subtype": "urn:tag:genre:destination",
+      "parents": [
+        {
+          "type": "urn:entity:destination"
+        }
+      ],
+      "popularity": 0.69
+    },
+    {
+      "id": "urn:tag:genre:destination:pilgrimage",
+      "name": "Pilgrimage",
+      "type": "urn:tag:genre:destination",
+      "subtype": "urn:tag:genre:destination",
+      "parents": [
+        {
+          "type": "urn:entity:destination"
+        }
+      ],
+      "popularity": 0.63
+    },
+    {
+      "id": "urn:tag:genre:destination:seaside_resort",
+      "name": "Seaside Resort",
+      "type": "urn:tag:genre:destination",
+      "subtype": "urn:tag:genre:destination",
+      "parents": [
+        {
+          "type": "urn:entity:destination"
+        }
+      ],
+      "popularity": 0.75
+    },
+    {
+      "id": "urn:tag:genre:media:action",
+      "name": "Action",
+      "type": "urn:tag:genre:media",
+      "subtype": "urn:tag:genre:media",
+      "parents": [
+        {
+          "type": "urn:entity:movie"
+        },
+        {
+          "type": "urn:entity:tv_show"
+        }
+      ],
+      "popularity": 0.71
+    },
+    {
+      "id": "urn:tag:genre:media:adventure",
+      "name": "Adventure",
+      "type": "urn:tag:genre:media",
+      "subtype": "urn:tag:genre:media",
+      "parents": [
+        {
+          "type": "urn:entity:movie"
+        },
+        {
+          "type": "urn:entity:tv_show"
+        }
+      ],
+      "popularity": 0.61
+    },
+    {
+      "id": "urn:tag:genre:media:children",
+      "name": "Children's",
+      "type": "urn:tag:genre:media",
+      "subtype": "urn:tag:genre:media",
+      "parents": [
+        {
+          "type": "urn:entity:movie"
+        },
+        {
+          "type": "urn:entity:tv_show"
+        }
+      ],
+      "popularity": 0.55
+    },
+    {
+      "id": "urn:tag:genre:media:fantasy",
+      "name": "Fantasy",
+      "type": "urn:tag:genre:media",
+      "subtype": "urn:tag:genre:media",
+      "parents": [
+        {
+          "type": "urn:entity:movie"
+        },
+        {
+          "type": "urn:entity:tv_show"
+        }
+      ],
+      "popularity": 0.66
+    },
+    {
+      "id": "urn:tag:genre:media:game_show",
+      "name": "Game Show",
+      "type": "urn:tag:genre:media",
+      "subtype": "urn:tag:genre:media",
+      "parents": [
+        {
+          "type": "urn:entity:movie"
+        },
+        {
+          "type": "urn:entity:tv_show"
+        }
+      ],
+      "popularity": 0.57
+    },
+    {
+      "id": "urn:tag:genre:media:history",
+      "name": "History",
+      "type": "urn:tag:genre:media",
+      "subtype": "urn:tag:genre:media",
+      "parents": [
+        {
+          "type": "urn:entity:movie"
+        },
+        {
+          "type": "urn:entity:tv_show"
+        }
+      ],
+      "popularity": 0.71
+    },
+    {
+      "id": "urn:tag:genre:media:horror",
+      "name": "Horror",
+      "type": "urn:tag:genre:media",
+      "subtype": "urn:tag:genre:media",
+      "parents": [
+        {
+          "type": "urn:entity:movie"
+        },
+        {
+          "type": "urn:entity:tv_show"
+        }
+      ],
+      "popularity": 0.52
+    },
+    {
+      "id": "urn:tag:genre:media:martial_arts",
+      "name": "Martial Arts",
+      "type": "urn:tag:genre:media",
+      "subtype": "urn:tag:genre:media",
+      "parents": [
+        {
+          "type": "urn:entity:movie"
+        },
+        {
+          "type": "urn:entity:tv_show"
+        }
+      ],
+      "popularity": 0.55
+    },
+    {
+      "id": "urn:tag:genre:media:music",
+      "name": "Music",
+      "type": "urn:tag:genre:media",
+      "subtype": "urn:tag:genre:media",
+      "parents": [
+        {
+          "type": "urn:entity:movie"
+        },
+        {
+          "type": "urn:entity:tv_show"
+        }
+      ],
+      "popularity": 0.66
+    },
+    {
+      "id": "urn:tag:genre:media:science_fiction",
+      "name": "Science Fiction",
+      "type": "urn:tag:genre:media",
+      "subtype": "urn:tag:genre:media",
+      "parents": [
+        {
+          "type": "urn:entity:movie"
+        },
+        {
+          "type": "urn:entity:tv_show"
+        }
+      ],
+      "popularity": 0.48
+    },
+    {
+      "id": "urn:tag:genre:media:sitcom",
+      "name": "Sitcom",
+      "type": "urn:tag:genre:media",
+      "subtype": "urn:tag:genre:media",
+      "parents": [
+        {
+          "type": "urn:entity:movie"
+        },
+        {
+          "type": "urn:entity:tv_show"
+        }
+      ],
+      "popularity": 0.67
+    },
+    {
+      "id": "urn:tag:genre:media:soap_opera",
+      "name": "Soap Opera",
+      "type": "urn:tag:genre:media",
+      "subtype": "urn:tag:genre:media",
+      "parents": [
+        {
+          "type": "urn:entity:movie"
+        },
+        {
+          "type": "urn:entity:tv_show"
+        }
+      ],
+      "popularity": 0.57
+    },
+    {
+      "id": "urn:tag:genre:media:sports",
+      "name": "Sports",
+      "type": "urn:tag:genre:media",
+      "subtype": "urn:tag:genre:media",
+      "parents": [
+        {
+          "type": "urn:entity:movie"
+        },
+        {
+          "type": "urn:entity:tv_show"
+        }
+      ],
+      "popularity": 0.48
+    },
+    {
+      "id": "urn:tag:genre:media:talent_show",
+      "name": "Talent Show",
+      "type": "urn:tag:genre:media",
+      "subtype": "urn:tag:genre:media",
+      "parents": [
+        {
+          "type": "urn:entity:movie"
+        },
+        {
+          "type": "urn:entity:tv_show"
+        }
+      ],
+      "popularity": 0.52
+    },
+    {
+      "id": "urn:tag:genre:media:talk_show",
+      "name": "Talk Show",
+      "type": "urn:tag:genre:media",
+      "subtype": "urn:tag:genre:media",
+      "parents": [
+        {
+          "type": "urn:entity:movie"
+        },
+        {
+          "type": "urn:entity:tv_show"
+        }
+      ],
+      "popularity": 0.55
+    },
+    {
+      "id": "urn:tag:genre:media:telenovela",
+      "name": "Telenovela",
+      "type": "urn:tag:genre:media",
+      "subtype": "urn:tag:genre:media",
+      "parents": [
+        {
+          "type": "urn:entity:movie"
+        },
+        {
+          "type": "urn:entity:tv_show"
+        }
+      ],
+      "popularity": 0.66
+    },
+    {
+      "id": "urn:tag:genre:media:thriller",
+      "name": "Thriller",
+      "type": "urn:tag:genre:media",
+      "subtype": "urn:tag:genre:media",
+      "parents": [
+        {
+          "type": "urn:entity:movie"
+        },
+        {
+          "type": "urn:entity:tv_show"
+        }
+      ],
+      "popularity": 0.64
+    },
+    {
+      "id": "urn:tag:genre:media:war",
+      "name": "War",
+      "type": "urn:tag:genre:media",
+      "subtype": "urn:tag:genre:media",
+      "parents": [
+        {
+          "type": "urn:entity:movie"
+        },
+        {
+          "type": "urn:entity:tv_show"
+        }
+      ],
+      "popularity": 0.61
+    },
+    {
+      "id": "urn:tag:genre:media:wuxia",
+      "name": "Wuxia",
+      "type": "urn:tag:genre:media",
+      "subtype": "urn:tag:genre:media",
+      "parents": [
+        {
+          "type": "urn:entity:movie"
+        },
+        {
+          "type": "urn:entity:tv_show"
+        }
+      ],
+      "popularity": 0.59
+    },
+    {
+      "id": "urn:tag:genre:music:beat",
+      "name": "Beat",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.55
+    },
+    {
+      "id": "urn:tag:genre:music:bolero",
+      "name": "Bolero",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.68
+    },
+    {
+      "id": "urn:tag:genre:music:bossa_nova",
+      "name": "Bossa Nova",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.55
+    },
+    {
+      "id": "urn:tag:genre:music:cantopop",
+      "name": "Cantopop",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.63
+    },
+    {
+      "id": "urn:tag:genre:music:carnatic",
+      "name": "Carnatic",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.52
+    },
+    {
+      "id": "urn:tag:genre:music:cumbia",
+      "name": "Cumbia",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.52
+    },
+    {
+      "id": "urn:tag:genre:music:easy_listening",
+      "name": "Easy Listening",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.63
+    },
+    {
+      "id": "urn:tag:genre:music:filmi",
+      "name": "Filmi",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.74
+    },
+    {
+      "id": "urn:tag:genre:music:ghazal",
+      "name": "Ghazal",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.59
+    },
+    {
+      "id": "urn:tag:genre:music:hindustani_classical",
+      "name": "Hindustani Classical",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.57
+    },
+    {
+      "id": "urn:tag:genre:music:hokkien_pop",
+      "name": "Hokkien Pop",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.52
+    },
+    {
+      "id": "urn:tag:genre:music:kundiman",
+      "name": "Kundiman",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.57
+    },
+    {
+      "id": "urn:tag:genre:music:mandopop",
+      "name": "Mandopop",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.69
+    },
+    {
+      "id": "urn:tag:genre:music:manila_sound",
+      "name": "Manila Sound",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.52
+    },
+    {
+      "id": "urn:tag:genre:music:mpb",
+      "name": "MPB",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.55
+    },
+    {
+      "id": "urn:tag:genre:music:music_hall",
+      "name": "Music Hall",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.48
+    },
+    {
+      "id": "urn:tag:genre:music:norteno",
+      "name": "Norteño",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.48
+    },
+    {
+      "id": "urn:tag:genre:music:opm",
+      "name": "OPM",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.71
+    },
+    {
+      "id": "urn:tag:genre:music:playback",
+      "name": "Playback Singing",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.7
+    },
+    {
+      "id": "urn:tag:genre:music:ranchera",
+      "name": "Ranchera",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.66
+    },
+    {
+      "id": "urn:tag:genre:music:revolutionary_song",
+      "name": "Revolutionary Song",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.52
+    },
+    {
+      "id": "urn:tag:genre:music:salsa",
+      "name": "Salsa",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.48
+    },
+    {
+      "id": "urn:tag:genre:music:shidaiqu",
+      "name": "Shidaiqu",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.65
+    },
+    {
+      "id": "urn:tag:genre:music:skiffle",
+      "name": "Skiffle",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.48
+    },
+    {
+      "id": "urn:tag:genre:music:tango",
+      "name": "Tango",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.55
+    },
+    {
+      "id": "urn:tag:genre:music:tropical",
+      "name": "Tropical",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.52
+    },
+    {
+      "id": "urn:tag:genre:music:trot",
+      "name": "Trot",
+      "type": "urn:tag:genre:music",
+      "subtype": "urn:tag:genre:music",
+      "parents": [
+        {
+          "type": "urn:entity:artist"
+        }
+      ],
+      "popularity": 0.65
+    },
+    {
+      "id": "urn:tag:genre:place:bakery",
+      "name": "Bakery",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.65
+    },
+    {
+      "id": "urn:tag:genre:place:cantina",
+      "name": "Cantina",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.52
+    },
+    {
+      "id": "urn:tag:genre:place:cha_chaan_teng",
+      "name": "Cha Chaan Teng",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.55
+    },
+    {
+      "id": "urn:tag:genre:place:food_stall",
+      "name": "Food Stall",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.7
+    },
+    {
+      "id": "urn:tag:genre:place:pub",
+      "name": "Pub",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.66
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:argentine",
+      "name": "Argentine Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.57
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:beijing",
+      "name": "Beijing Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.57
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:bengali",
+      "name": "Bengali Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.48
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:brazilian",
+      "name": "Brazilian Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.57
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:british",
+      "name": "British Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.68
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:cantonese",
+      "name": "Cantonese Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.67
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:chilean",
+      "name": "Chilean Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.48
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:chinese",
+      "name": "Chinese Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.64
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:colombian",
+      "name": "Colombian Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.48
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:cuban",
+      "name": "Cuban Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.55
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:dim_sum",
+      "name": "Dim Sum Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.59
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:fast_food",
+      "name": "Fast Food Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.55
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:filipino",
+      "name": "Filipino Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.7
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:fish_and_chips",
+      "name": "Fish and Chips",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.48
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:indian",
+      "name": "Indian Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.74
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:irish",
+      "name": "Irish Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.52
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:korean",
+      "name": "Korean Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.71
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:mexican",
+      "name": "Mexican Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.67
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:mughlai",
+      "name": "Mughlai Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.63
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:noodle",
+      "name": "Noodle Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.69
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:parsi",
+      "name": "Parsi Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.52
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:peruvian",
+      "name": "Peruvian Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.52
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:pie_and_mash",
+      "name": "Pie and Mash",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.48
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:russian",
+      "name": "Russian Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.52
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:shanghainese",
+      "name": "Shanghainese Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.59
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:south_indian",
+      "name": "South Indian Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.63
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:taiwanese",
+      "name": "Taiwanese Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.61
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:taqueria",
+      "name": "Taqueria",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.52
+    },
+    {
+      "id": "urn:tag:genre:place:restaurant:western",
+      "name": "Western Restaurant",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.66
+    },
+    {
+      "id": "urn:tag:genre:place:sweet_shop",
+      "name": "Sweet Shop",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.55
+    },
+    {
+      "id": "urn:tag:genre:place:tea_house",
+      "name": "Tea House",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.55
+    },
+    {
+      "id": "urn:tag:genre:place:tea_room",
+      "name": "Tea Room",
+      "type": "urn:tag:genre:place",
+      "subtype": "urn:tag:genre:place",
+      "parents": [
+        {
+          "type": "urn:entity:place"
+        }
+      ],
+      "popularity": 0.61
+    }
   ]
 }

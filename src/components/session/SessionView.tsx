@@ -5,8 +5,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { Footer } from "@/components/Footer";
 import { Masthead } from "@/components/Masthead";
-import { useIsClient } from "@/lib/client/hooks";
+import { useIsClient, useReducedMotion } from "@/lib/client/hooks";
 import { postNdjson } from "@/lib/client/ndjson";
+import { dictionary } from "@/lib/i18n";
+import { autoAdvanceDelay, nextCardIndex } from "@/lib/session/auto-advance";
 import { loadSession, saveSession } from "@/lib/session/storage";
 import { pronounsFor, type Reaction, type Session, type StreamEvent, type TraceEvent } from "@/lib/session/types";
 
@@ -18,11 +20,6 @@ import { RetuningBanner } from "./RetuningBanner";
 import { TracePanel } from "./TracePanel";
 
 type Loaded = { kind: "missing" } | { kind: "ready"; session: Session };
-
-const NUMBER_WORD = ["One", "Two", "Three", "Four", "Five", "Six"];
-function numberWord(n: number): string {
-  return NUMBER_WORD[n - 1] ?? String(n);
-}
 
 /** Sessions live in localStorage, so the view mounts only in the browser. */
 export function SessionView({ id }: { id: string }) {
@@ -47,8 +44,12 @@ function SessionClient({ id }: { id: string }) {
   const [traceOpen, setTraceOpen] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
   const sessionRef = useRef<Session | null>(null);
+  const advanceTimer = useRef<number | null>(null);
+  const reducedMotion = useReducedMotion();
 
   const session = state.kind === "ready" ? state.session : null;
+  const language = session?.person.language;
+  const t = dictionary(language);
   // Latest-session ref for event handlers; written in an effect, never during render.
   useEffect(() => {
     sessionRef.current = session;
@@ -69,6 +70,7 @@ function SessionClient({ id }: { id: string }) {
     if (!needsPlan) return;
     const person = sessionRef.current?.person;
     if (!person) return;
+    const strings = dictionary(person.language).session;
     const controller = new AbortController();
     setLiveEvents([]);
     (async () => {
@@ -102,21 +104,50 @@ function SessionClient({ id }: { id: string }) {
           },
           controller.signal,
         );
-        if (!planned) throw new Error("The planner stopped before finishing. Please try again.");
+        if (!planned) throw new Error(strings.plannerStopped);
       } catch (error) {
         if (controller.signal.aborted) return;
-        const message = error instanceof Error ? error.message : "Planning failed";
+        const message = error instanceof Error ? error.message : strings.planningFailed;
         update((s) => ({ ...s, status: "error", error: message }));
       }
     })();
     return () => controller.abort();
   }, [needsPlan, id, update]);
 
+  const cancelAdvance = useCallback(() => {
+    if (advanceTimer.current !== null) {
+      window.clearTimeout(advanceTimer.current);
+      advanceTimer.current = null;
+    }
+  }, []);
+  useEffect(() => cancelAdvance, [cancelAdvance]);
+
+  /** Any deliberate move cancels a pending automatic one. */
   const go = useCallback(
     (index: number) => {
+      cancelAdvance();
       update((s) => ({ ...s, currentIndex: Math.max(0, Math.min(s.cards.length - 1, index)) }));
     },
-    [update],
+    [update, cancelAdvance],
+  );
+
+  /**
+   * After a reaction the deck moves on by itself once the re-tune has
+   * finished: a short pause to read the notice, then the next card that has
+   * not been reacted to. Pressing a key or a card in the meantime wins.
+   */
+  const scheduleAdvance = useCallback(
+    (from: number) => {
+      cancelAdvance();
+      advanceTimer.current = window.setTimeout(() => {
+        advanceTimer.current = null;
+        const s = sessionRef.current;
+        if (!s || s.currentIndex !== from) return;
+        const next = nextCardIndex(s.cards, from);
+        if (next !== null) go(next);
+      }, autoAdvanceDelay(reducedMotion));
+    },
+    [cancelAdvance, go, reducedMotion],
   );
 
   useEffect(() => {
@@ -139,12 +170,14 @@ function SessionClient({ id }: { id: string }) {
       const index = s.cards.findIndex((c) => c.id === cardId);
       const card = s.cards[index];
       if (!card) return;
+      const strings = dictionary(s.person.language).session;
       const pronouns = pronounsFor(s.person.pronoun);
       const cards = s.cards.map((c) => (c.id === cardId ? { ...c, reaction } : c));
       const hasUpcoming = cards.some((c, i) => i > index && !c.reaction);
+      cancelAdvance();
       update((prev) => ({ ...prev, cards, status: hasUpcoming ? "retuning" : "ready" }));
       if (!hasUpcoming) {
-        setNotice(reaction === "lit_up" ? `Noted. That one lit ${pronouns.object} up.` : "Noted. Nothing left ahead to change.");
+        setNotice(reaction === "lit_up" ? strings.notedLitUp(pronouns) : strings.notedNothingAhead);
         return;
       }
       setLiveEvents([]);
@@ -164,23 +197,19 @@ function SessionClient({ id }: { id: string }) {
             }));
             setLiveEvents([]);
             const n = ev.result.replacements.length;
-            const line =
-              n === 0
-                ? "Nothing new came back for this one. The deck stays as it is."
-                : reaction === "lit_up"
-                  ? `${numberWord(n)} of the next cards now lean${n === 1 ? "s" : ""} toward ${card.title}.`
-                  : `${numberWord(n)} of the next cards now steer${n === 1 ? "s" : ""} away from that.`;
+            const line = n === 0 ? strings.nothingNew : reaction === "lit_up" ? strings.leanToward(n, card.title) : strings.steerAway(n);
             setNotice(ev.result.notice ? `${line} ${ev.result.notice}` : line);
           } else if (ev.type === "error") throw new Error(ev.message);
         });
-        if (!adapted) throw new Error("the agent stopped before finishing");
+        if (!adapted) throw new Error(strings.agentStopped);
       } catch (error) {
         setLiveEvents([]);
         update((prev) => ({ ...prev, status: "ready" }));
-        setNotice(`Couldn't re-tune: ${error instanceof Error ? error.message : "unknown error"}.`);
+        setNotice(strings.retuneFailed(error instanceof Error ? error.message : "unknown error"));
       }
+      scheduleAdvance(index);
     },
-    [update],
+    [update, cancelAdvance, scheduleAdvance],
   );
 
   if (state.kind === "missing") {
@@ -189,16 +218,16 @@ function SessionClient({ id }: { id: string }) {
         <Masthead
           actions={
             <Link href="/" className="btn-text btn-text-muted">
-              New session
+              {t.nav.newSession}
             </Link>
           }
         />
         <main id="main" className="flex-1 py-16 sm:py-24">
           <div className="mx-auto max-w-[36rem] text-center">
-            <h1 className="balance text-3xl sm:text-4xl">This session isn&apos;t on this device</h1>
-            <p className="lede mt-4">Sessions live in the browser that created them. Nothing is stored on a server.</p>
+            <h1 className="balance text-3xl sm:text-4xl">{t.missing.title}</h1>
+            <p className="lede mt-4">{t.missing.body}</p>
             <Link href="/" className="btn btn-primary mt-8">
-              Build a new session
+              {t.missing.cta}
             </Link>
           </div>
         </main>
@@ -215,12 +244,17 @@ function SessionClient({ id }: { id: string }) {
   const pronouns = pronounsFor(s.person.pronoun);
 
   return (
-    <div className="wrap wrap-wide flex flex-1 flex-col">
+    <div className="wrap wrap-wide flex flex-1 flex-col" lang={language} data-testid="session-root">
       <Masthead
         centre={
           <p className="label label-ink sm:truncate" data-testid="person-summary">
-            {s.person.name} · {s.person.hometown} · {s.youthWindow.start} to {s.youthWindow.end}
-            {s.person.favorites.length > 0 ? ` · loved ${s.person.favorites.map((f) => f.name).join(", ")}` : ""}
+            {t.session.summary({
+              name: s.person.name,
+              hometown: s.person.hometown,
+              start: s.youthWindow.start,
+              end: s.youthWindow.end,
+              favorites: s.person.favorites.map((f) => f.name),
+            })}
           </p>
         }
         actions={
@@ -233,10 +267,10 @@ function SessionClient({ id }: { id: string }) {
               data-testid="why-qloo-toggle"
               className="btn-text print-hide"
             >
-              Why Qloo
+              {t.nav.whyQloo}
             </button>
             <Link href="/" className="btn-text btn-text-muted print-hide">
-              New session
+              {t.nav.newSession}
             </Link>
           </>
         }
@@ -244,13 +278,13 @@ function SessionClient({ id }: { id: string }) {
 
       <div className={`flex-1 pt-6 ${traceOpen ? "xl:grid xl:grid-cols-[minmax(0,1fr)_26rem] xl:items-start xl:gap-8" : ""}`}>
         <main id="main" className="min-w-0">
-          <h1 className="sr-only">{s.person.name}&apos;s session</h1>
+          <h1 className="sr-only">{t.session.heading(s.person.name)}</h1>
           {s.status === "error" ? (
             <div role="alert" className="surface p-6">
-              <p className="notice font-semibold text-ember-700">Couldn&apos;t build the session.</p>
+              <p className="notice font-semibold text-ember-700">{t.session.buildFailed}</p>
               <p className="mt-2 text-md text-ink-700">{s.error}</p>
               <button type="button" onClick={() => update((prev) => ({ ...prev, status: "planning", error: undefined }))} className="btn btn-outline mt-4">
-                Try again
+                {t.session.tryAgain}
               </button>
             </div>
           ) : s.cards.length === 0 ? (
@@ -264,7 +298,7 @@ function SessionClient({ id }: { id: string }) {
               ) : null}
               <div className="print-hide mb-4 flex min-h-[2rem] items-baseline justify-between gap-4">
                 {retuning ? (
-                  <RetuningBanner events={liveEvents} label="Re-tuning the next cards with Qloo…" />
+                  <RetuningBanner events={liveEvents} label={t.session.retuning} />
                 ) : notice ? (
                   <p role="status" className="notice" data-testid="notice">
                     {notice}
@@ -272,7 +306,7 @@ function SessionClient({ id }: { id: string }) {
                 ) : (
                   <span />
                 )}
-                {litUp.length > 0 ? <p className="label flex-none">{litUp.length} lit up so far</p> : null}
+                {litUp.length > 0 ? <p className="label flex-none">{t.session.litUpCount(litUp.length)}</p> : null}
               </div>
               {current ? (
                 <div className={reactedAll ? "print-hide" : ""}>
@@ -291,17 +325,17 @@ function SessionClient({ id }: { id: string }) {
               ) : null}
               <div className="print-hide mt-6 grid grid-cols-2 items-center gap-4 sm:grid-cols-[auto_minmax(0,1fr)_auto]">
                 <button type="button" onClick={() => go(s.currentIndex - 1)} disabled={s.currentIndex === 0} className="btn btn-quiet">
-                  ← Previous
+                  {t.session.previous}
                 </button>
                 <p className="hidden text-center text-sm text-ink-500 sm:block" aria-live="polite">
-                  Tap how they respond. The rest of the deck follows their lead.
+                  {t.session.tapHint}
                 </p>
                 <button type="button" onClick={() => go(s.currentIndex + 1)} disabled={s.currentIndex >= s.cards.length - 1} data-testid="next-card" className="btn btn-quiet">
-                  Next →
+                  {t.session.next}
                 </button>
               </div>
               <div className="mt-6">
-                <DeckStrip cards={s.cards} currentIndex={s.currentIndex} onSelect={go} retuning={retuning} />
+                <DeckStrip cards={s.cards} currentIndex={s.currentIndex} onSelect={go} retuning={retuning} language={s.person.language} />
               </div>
               {reactedAll ? <Keepsake session={s} /> : null}
             </>
@@ -309,7 +343,7 @@ function SessionClient({ id }: { id: string }) {
         </main>
         <TracePanel open={traceOpen} onClose={() => setTraceOpen(false)} session={s} card={current} liveEvents={liveEvents} />
       </div>
-      <Footer />
+      <Footer language={language} />
     </div>
   );
 }

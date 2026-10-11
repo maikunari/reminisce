@@ -1,0 +1,5062 @@
+{
+  "_meta": {
+    "synthetic": true,
+    "note": "Hand-authored Philippine catalog: Manila and Metro Manila, Cebu, Davao, Iloilo and Baguio. Shaped like Qloo Insights entities plus a `_syn` block used for scoring and stripped before serving. Entity ids are fake. Not Qloo data.",
+    "world": "ph"
+  },
+  "entities": [
+    {
+      "name": "Pilita Corrales",
+      "entity_id": "ffffffff-0000-4000-8000-000000010001",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Asia's Queen of Songs': 'Kapantay ay Langit', 'A Million Thanks to You', the backbend at the microphone.",
+        "date_of_birth": "1937-08-22",
+        "place_of_birth": "Cebu City, Philippines",
+        "akas": [
+          {
+            "value": "Asia's Queen of Songs",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:opm",
+          "name": "OPM",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:kundiman",
+          "name": "Kundiman",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:traditional_pop",
+          "name": "Traditional Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila",
+          "cebu"
+        ],
+        "era": [
+          1959,
+          2000
+        ]
+      }
+    },
+    {
+      "name": "Nora Aunor",
+      "entity_id": "ffffffff-0000-4000-8000-000000010002",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "The Superstar: Tawag ng Tanghalan champion at 14, 'Pearly Shells', 'Forever Loving You', then the greatest actress of her generation.",
+        "date_of_birth": "1953-05-21",
+        "year_of_death": 2025,
+        "place_of_birth": "Iriga, Camarines Sur, Philippines",
+        "akas": [
+          {
+            "value": "Ate Guy",
+            "languages": [
+              "en"
+            ]
+          },
+          {
+            "value": "The Superstar",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.95,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:opm",
+          "name": "OPM",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:pop",
+          "name": "Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1967,
+          2020
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.7
+        }
+      }
+    },
+    {
+      "name": "Eddie Peregrina",
+      "entity_id": "ffffffff-0000-4000-8000-000000010003",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Together Again', 'Two Lovely Flowers', 'What Am I Living For': the jukebox king of the late sixties.",
+        "date_of_birth": "1944-11-30",
+        "year_of_death": 1977,
+        "place_of_birth": "Manila, Philippines",
+        "akas": [
+          {
+            "value": "The Jukebox King",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.78,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:opm",
+          "name": "OPM",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:pop",
+          "name": "Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1966,
+          1977
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.7
+        }
+      }
+    },
+    {
+      "name": "Victor Wood",
+      "entity_id": "ffffffff-0000-4000-8000-000000010004",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Mr. Lonely', 'Fraulein', 'Eighteen Yellow Roses': the other jukebox king.",
+        "date_of_birth": "1946-02-07",
+        "year_of_death": 2021,
+        "place_of_birth": "Cuyapo, Nueva Ecija, Philippines",
+        "akas": [
+          {
+            "value": "The Jukebox King",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.76,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:opm",
+          "name": "OPM",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:pop",
+          "name": "Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1969,
+          1990
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.65
+        }
+      }
+    },
+    {
+      "name": "Sylvia La Torre",
+      "entity_id": "ffffffff-0000-4000-8000-000000010005",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Sa Kabukiran', 'Ang Tangi Kong Pag-ibig': the Queen of Kundiman, on radio and television for decades.",
+        "date_of_birth": "1933-01-04",
+        "year_of_death": 2022,
+        "place_of_birth": "Manila, Philippines",
+        "akas": [
+          {
+            "value": "Queen of Kundiman",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:kundiman",
+          "name": "Kundiman",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:opm",
+          "name": "OPM",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1948,
+          1990
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.8
+        }
+      }
+    },
+    {
+      "name": "Ruben Tagalog",
+      "entity_id": "ffffffff-0000-4000-8000-000000010006",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "The Father of Harana: 'Dungawin Mo Hirang', serenades with a guitar under the window.",
+        "date_of_birth": "1920-11-30",
+        "year_of_death": 1985,
+        "place_of_birth": "Pagsanjan, Laguna, Philippines",
+        "akas": [
+          {
+            "value": "Father of Harana",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.66,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:kundiman",
+          "name": "Kundiman",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "era": [
+          1946,
+          1980
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.7
+        }
+      }
+    },
+    {
+      "name": "Diomedes Maturan",
+      "entity_id": "ffffffff-0000-4000-8000-000000010007",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "The Perry Como of the Philippines: 'Rosas Pandan', 'Yakap', crooning in the 1950s and 60s.",
+        "date_of_birth": "1940-08-20",
+        "year_of_death": 2002,
+        "place_of_birth": "Nasugbu, Batangas, Philippines",
+        "akas": []
+      },
+      "popularity": 0.62,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:opm",
+          "name": "OPM",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:traditional_pop",
+          "name": "Traditional Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "era": [
+          1958,
+          1980
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.7
+        }
+      }
+    },
+    {
+      "name": "Hotdog",
+      "entity_id": "ffffffff-0000-4000-8000-000000010008",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Manila', 'Ikaw ang Miss Universe ng Buhay Ko', 'Annie Batungbakal': the band that gave the Manila Sound its name.",
+        "akas": []
+      },
+      "popularity": 0.84,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:manila_sound",
+          "name": "Manila Sound",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:opm",
+          "name": "OPM",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1973,
+          1985
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.5
+        }
+      }
+    },
+    {
+      "name": "VST & Company",
+      "entity_id": "ffffffff-0000-4000-8000-000000010009",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Awitin Mo at Isasayaw Ko', 'Rock Baby Rock': disco in Tagalog from 1977.",
+        "akas": [
+          {
+            "value": "VST & Co.",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:manila_sound",
+          "name": "Manila Sound",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:opm",
+          "name": "OPM",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1977,
+          1985
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Freddie Aguilar",
+      "entity_id": "ffffffff-0000-4000-8000-000000010010",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Anak' (1978), the folk song that went around the world, and 'Bayan Ko'.",
+        "date_of_birth": "1953-02-05",
+        "year_of_death": 2025,
+        "place_of_birth": "Santo Tomás, Isabela, Philippines",
+        "akas": []
+      },
+      "popularity": 0.88,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:folk",
+          "name": "Folk",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:opm",
+          "name": "OPM",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1978,
+          2020
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.5
+        }
+      }
+    },
+    {
+      "name": "APO Hiking Society",
+      "entity_id": "ffffffff-0000-4000-8000-000000010011",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Batang-Bata Ka Pa', 'Panalangin', 'Ewan': the Ateneo trio and the gentlest harmonies in OPM.",
+        "akas": [
+          {
+            "value": "APO",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.82,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:opm",
+          "name": "OPM",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:folk",
+          "name": "Folk",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1973,
+          2010
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Rico J. Puno",
+      "entity_id": "ffffffff-0000-4000-8000-000000010012",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Kapalaran', 'Macho Gwapito', 'The Way We Were' in Taglish: the Total Entertainer.",
+        "date_of_birth": "1953-02-13",
+        "year_of_death": 2018,
+        "place_of_birth": "Manila, Philippines",
+        "akas": [
+          {
+            "value": "The Total Entertainer",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:opm",
+          "name": "OPM",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:pop",
+          "name": "Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1976,
+          2010
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.6
+        }
+      }
+    },
+    {
+      "name": "Basil Valdez",
+      "entity_id": "ffffffff-0000-4000-8000-000000010013",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Ngayon at Kailanman', 'Hanggang sa Dulo ng Walang Hanggan': the ballads of the late seventies.",
+        "date_of_birth": "1951-05-21",
+        "place_of_birth": "Manila, Philippines",
+        "akas": []
+      },
+      "popularity": 0.78,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:opm",
+          "name": "OPM",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:pop",
+          "name": "Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1977,
+          2010
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.6
+        }
+      }
+    },
+    {
+      "name": "Hajji Alejandro",
+      "entity_id": "ffffffff-0000-4000-8000-000000010014",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Kay Ganda ng Ating Musika', 'Nakapagtataka': the Kilabot ng mga Kolehiyala and the 1978 Metropop winner.",
+        "date_of_birth": "1954-12-26",
+        "year_of_death": 2025,
+        "place_of_birth": "Manila, Philippines",
+        "akas": [
+          {
+            "value": "Kilabot ng mga Kolehiyala",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:opm",
+          "name": "OPM",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:pop",
+          "name": "Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1976,
+          2010
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.55
+        }
+      }
+    },
+    {
+      "name": "Celeste Legaspi",
+      "entity_id": "ffffffff-0000-4000-8000-000000010015",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Saranggola ni Pepe', 'Gaano Kita Kamahal': the singer-actress of the 1970s stage and screen.",
+        "date_of_birth": "1950-05-02",
+        "place_of_birth": "Manila, Philippines",
+        "akas": []
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:opm",
+          "name": "OPM",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1972,
+          2010
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.65
+        }
+      }
+    },
+    {
+      "name": "Imelda Papin",
+      "entity_id": "ffffffff-0000-4000-8000-000000010016",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Bakit', 'Isang Linggong Pag-ibig': the Sentimental Songstress, the jukebox queen of the late seventies.",
+        "date_of_birth": "1956-03-24",
+        "place_of_birth": "Ragay, Camarines Sur, Philippines",
+        "akas": [
+          {
+            "value": "Sentimental Songstress",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:opm",
+          "name": "OPM",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:pop",
+          "name": "Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "era": [
+          1977,
+          2000
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.6
+        }
+      }
+    },
+    {
+      "name": "Asin",
+      "entity_id": "ffffffff-0000-4000-8000-000000010017",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Masdan Mo ang Kapaligiran', 'Pagbabalik': folk-rock with the kudyapi and the kubing, from 1978.",
+        "akas": []
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:folk",
+          "name": "Folk",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:opm",
+          "name": "OPM",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1978,
+          1990
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Carmen Camacho",
+      "entity_id": "ffffffff-0000-4000-8000-000000010018",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Ikaw ang Mahal Ko', 'Hindi Kita Malimot': the Dalagang Pilipina of record and radio in the 1950s and 60s.",
+        "date_of_birth": "1932-09-07",
+        "year_of_death": 2024,
+        "place_of_birth": "Manila, Philippines",
+        "akas": []
+      },
+      "popularity": 0.6,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:kundiman",
+          "name": "Kundiman",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:opm",
+          "name": "OPM",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1950,
+          1985
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.75
+        }
+      }
+    },
+    {
+      "name": "Anak Dalita",
+      "entity_id": "ffffffff-0000-4000-8000-000000011001",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1956,
+        "description": "Lamberto Avellana's Intramuros ruins and Rosa Rosal; best picture at the Asian Film Festival.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.72,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1956,
+          1975
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Badjao",
+      "entity_id": "ffffffff-0000-4000-8000-000000011002",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1957,
+        "description": "Avellana's sea gypsies of Sulu, Rosa Rosal and Tony Santos.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.68,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:romance",
+          "name": "Romance",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "era": [
+          1957,
+          1975
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Biyaya ng Lupa",
+      "entity_id": "ffffffff-0000-4000-8000-000000011003",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1959,
+        "description": "Manuel Silos's lanzones farm family across the years; Rosa Rosal and Tony Santos.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.68,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "era": [
+          1959,
+          1975
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Noli Me Tangere",
+      "entity_id": "ffffffff-0000-4000-8000-000000011004",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1961,
+        "description": "Gerardo de León's film of Rizal's novel, Eddie del Mar as Ibarra.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.72,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:history",
+          "name": "History",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "era": [
+          1961,
+          1980
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Dalagang Ilocana",
+      "entity_id": "ffffffff-0000-4000-8000-000000011005",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1954,
+        "description": "Gloria Romero as the Ilocano girl who comes to the city; the comedy that made her a star.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.66,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:romance",
+          "name": "Romance",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "era": [
+          1954,
+          1970
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Facifica Falayfay",
+      "entity_id": "ffffffff-0000-4000-8000-000000011006",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1969,
+        "description": "Dolphy as the boy raised as a girl; the King of Comedy's biggest hit.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.76,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1969,
+          1985
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Tubog sa Ginto",
+      "entity_id": "ffffffff-0000-4000-8000-000000011007",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1971,
+        "description": "Lino Brocka's Eddie Garcia as the married man with a secret.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.68,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1971,
+          1985
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010002": 0.3
+        }
+      }
+    },
+    {
+      "name": "Stardoom",
+      "entity_id": "ffffffff-0000-4000-8000-000000011008",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1971,
+        "description": "Brocka's backstage melodrama of a stage mother and her son.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.62,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1971,
+          1985
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010002": 0.4
+        }
+      }
+    },
+    {
+      "name": "Tinimbang Ka Ngunit Kulang",
+      "entity_id": "ffffffff-0000-4000-8000-000000011009",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1974,
+        "description": "Brocka's small town, the leper and the madwoman, and Christopher de Leon's first film.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "era": [
+          1974,
+          1990
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010002": 0.5
+        }
+      }
+    },
+    {
+      "name": "Maynila sa mga Kuko ng Liwanag",
+      "entity_id": "ffffffff-0000-4000-8000-000000011010",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1975,
+        "description": "Brocka's Manila, Bembol Roco's Julio looking for Ligaya in the claws of light.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": [
+          {
+            "value": "Manila in the Claws of Light",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.84,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1975,
+          1990
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010002": 0.5
+        }
+      }
+    },
+    {
+      "name": "Insiang",
+      "entity_id": "ffffffff-0000-4000-8000-000000011011",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1976,
+        "description": "Hilda Koronel in the Tondo slum; the first Philippine film shown at Cannes.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1976,
+          1990
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010002": 0.5
+        }
+      }
+    },
+    {
+      "name": "Tatlong Taong Walang Diyos",
+      "entity_id": "ffffffff-0000-4000-8000-000000011012",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1976,
+        "description": "Nora Aunor as Rosario in Mario O'Hara's wartime drama, three years without God.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:war",
+          "name": "War",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "era": [
+          1976,
+          1990
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010002": 0.98
+        }
+      }
+    },
+    {
+      "name": "Minsa'y Isang Gamu-gamo",
+      "entity_id": "ffffffff-0000-4000-8000-000000011013",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1976,
+        "description": "Nora Aunor's nurse and the shooting at Clark; 'My brother is not a pig!'",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.76,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "era": [
+          1976,
+          1990
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010002": 0.95
+        }
+      }
+    },
+    {
+      "name": "Ganito Kami Noon, Paano Kayo Ngayon?",
+      "entity_id": "ffffffff-0000-4000-8000-000000011014",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1976,
+        "description": "Eddie Romero's Kulas walks through the end of Spanish rule; Christopher de Leon's finest.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.78,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:history",
+          "name": "History",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "era": [
+          1976,
+          1990
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010002": 0.4
+        }
+      }
+    },
+    {
+      "name": "Burlesk Queen",
+      "entity_id": "ffffffff-0000-4000-8000-000000011015",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1977,
+        "description": "Vilma Santos as the burlesque dancer; the Metro Manila Film Festival winner.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1977,
+          1990
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010002": 0.5
+        }
+      }
+    },
+    {
+      "name": "Jaguar",
+      "entity_id": "ffffffff-0000-4000-8000-000000011016",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1979,
+        "description": "Brocka's security guard who becomes a rich man's gun; Phillip Salvador at Cannes.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.72,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:crime",
+          "name": "Crime",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1979,
+          1990
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010002": 0.4
+        }
+      }
+    },
+    {
+      "name": "Darna",
+      "entity_id": "ffffffff-0000-4000-8000-000000011017",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1951,
+        "description": "Rosa del Rosario as Mars Ravelo's superheroine, swallowing the stone and shouting her name.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.72,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:action",
+          "name": "Action",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:fantasy",
+          "name": "Fantasy",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "era": [
+          1951,
+          1975
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Lollipops and Roses",
+      "entity_id": "ffffffff-0000-4000-8000-000000011018",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1971,
+        "description": "Nora Aunor and Tirso Cruz III, the Guy and Pip love team at its peak.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:romance",
+          "name": "Romance",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:musical",
+          "name": "Musical",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "era": [
+          1971,
+          1985
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010002": 0.95
+        }
+      }
+    },
+    {
+      "name": "Kundiman ng Lahi",
+      "entity_id": "ffffffff-0000-4000-8000-000000011019",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1959,
+        "description": "Lamberto Avellana's love story of a kundiman, Charito Solis.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.6,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:musical",
+          "name": "Musical",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "era": [
+          1959,
+          1975
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.6
+        }
+      }
+    },
+    {
+      "name": "Tawag ng Tanghalan",
+      "entity_id": "ffffffff-0000-4000-8000-000000012001",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1954,
+        "description": "The amateur singing contest that found Nora Aunor and Pepe Pimentel; the gong and the Darigold jingle.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.84,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:talent_show",
+          "name": "Talent Show",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:music",
+          "name": "Music",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1954,
+          1972
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.7,
+          "ffffffff-0000-4000-8000-000000010002": 0.95
+        }
+      }
+    },
+    {
+      "name": "Student Canteen",
+      "entity_id": "ffffffff-0000-4000-8000-000000012002",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1958,
+        "description": "Eddie Ilarde, Bobby Ledesma and Leila Benitez's noontime show, the first of its kind.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.78,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:variety",
+          "name": "Variety",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1958,
+          1986
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.8
+        }
+      }
+    },
+    {
+      "name": "An Evening with Pilita",
+      "entity_id": "ffffffff-0000-4000-8000-000000012003",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1964,
+        "description": "Pilita Corrales's own weekly show on ABS-CBN.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.66,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:music",
+          "name": "Music",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:variety",
+          "name": "Variety",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1964,
+          1972
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.99
+        }
+      }
+    },
+    {
+      "name": "John en Marsha",
+      "entity_id": "ffffffff-0000-4000-8000-000000012004",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1973,
+        "description": "Dolphy and Nida Blanca as the poor husband and the rich wife; 'Kaya mo 'yan, John.'",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:sitcom",
+          "name": "Sitcom",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1973,
+          1990
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Iskul Bukol",
+      "entity_id": "ffffffff-0000-4000-8000-000000012005",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1978,
+        "description": "Tito, Vic and Joey at Wanbol University, Friday nights on IBC.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.84,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:sitcom",
+          "name": "Sitcom",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1978,
+          1990
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Eat Bulaga!",
+      "entity_id": "ffffffff-0000-4000-8000-000000012006",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1979,
+        "description": "The noontime show that has never stopped, from 1979.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:variety",
+          "name": "Variety",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:game_show",
+          "name": "Game Show",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1979,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Seeing Stars with Joe Quirino",
+      "entity_id": "ffffffff-0000-4000-8000-000000012007",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1970,
+        "description": "The showbiz talk show of the seventies.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.64,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:talk_show",
+          "name": "Talk Show",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1970,
+          1980
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.6,
+          "ffffffff-0000-4000-8000-000000010002": 0.6
+        }
+      }
+    },
+    {
+      "name": "Superstar",
+      "entity_id": "ffffffff-0000-4000-8000-000000012008",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1971,
+        "description": "Nora Aunor's own Sunday musical-variety show, running through the seventies.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.76,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:music",
+          "name": "Music",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:variety",
+          "name": "Variety",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1971,
+          1989
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010002": 0.99,
+          "ffffffff-0000-4000-8000-000000010001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Buhay Artista",
+      "entity_id": "ffffffff-0000-4000-8000-000000012009",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1961,
+        "description": "Dolphy and Panchito's weekly sketch comedy on ABS-CBN.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.66,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:variety",
+          "name": "Variety",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1961,
+          1972
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Kuwarta o Kahon",
+      "entity_id": "ffffffff-0000-4000-8000-000000012010",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1963,
+        "description": "Pepe Pimentel's game show: cash, or whatever is in the box.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:game_show",
+          "name": "Game Show",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1963,
+          1989
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Champoy",
+      "entity_id": "ffffffff-0000-4000-8000-000000012011",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1980,
+        "description": "Subas Herrero and Noel Trinidad's gag show on RPN 9.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.68,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:variety",
+          "name": "Variety",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1980,
+          1985
+        ]
+      }
+    },
+    {
+      "name": "Gulong ng Palad",
+      "entity_id": "ffffffff-0000-4000-8000-000000012012",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1977,
+        "description": "The radio serial that became a telenovela: Luisa and Carding across the years.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:telenovela",
+          "name": "Telenovela",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "era": [
+          1977,
+          1985
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010002": 0.4
+        }
+      }
+    },
+    {
+      "name": "Flordeluna",
+      "entity_id": "ffffffff-0000-4000-8000-000000012013",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1978,
+        "description": "Janice de Belen as the orphan Flor in the first big Philippine soap of the seventies.",
+        "release_country": [
+          "Philippines"
+        ],
+        "akas": []
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:telenovela",
+          "name": "Telenovela",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "era": [
+          1978,
+          1984
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010002": 0.4
+        }
+      }
+    },
+    {
+      "name": "The Aristocrat",
+      "entity_id": "ffffffff-0000-4000-8000-000000013001",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Chicken barbecue with Java rice on Roxas Boulevard since 1936, Aling Asiang's original.",
+        "address": "432 San Andres St, Malate, Manila",
+        "geocode": {
+          "name": "Manila",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "business_rating": 4.3,
+        "price_level": 2,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.88,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:filipino",
+          "name": "Filipino Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "dining",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1936,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.6,
+          "ffffffff-0000-4000-8000-000000010002": 0.5
+        }
+      }
+    },
+    {
+      "name": "Ma Mon Luk",
+      "entity_id": "ffffffff-0000-4000-8000-000000013002",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Mami and siopao from the peddler who became a Quiapo institution in the 1920s.",
+        "address": "Quezon Boulevard, Quiapo, Manila",
+        "geocode": {
+          "name": "Manila",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "business_rating": 4.1,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.82,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:chinese",
+          "name": "Chinese Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:noodle",
+          "name": "Noodle Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "dining",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1920,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Max's Restaurant",
+      "entity_id": "ffffffff-0000-4000-8000-000000013003",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "'The house that fried chicken built', from the Scout Tuason original of 1945.",
+        "address": "Scout Tuason, Quezon City",
+        "geocode": {
+          "name": "Quezon City",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "business_rating": 4.2,
+        "price_level": 2,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.88,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:filipino",
+          "name": "Filipino Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "dining",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1945,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Goldilocks",
+      "entity_id": "ffffffff-0000-4000-8000-000000013004",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Polvoron, mamon and the birthday cake, from the Pasong Tamo bakeshop of 1966.",
+        "address": "Pasong Tamo, Makati",
+        "geocode": {
+          "name": "Manila",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "business_rating": 4.1,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.84,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:bakery",
+          "name": "Bakery",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:filipino",
+          "name": "Filipino Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "dining",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1966,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Savory Restaurant",
+      "entity_id": "ffffffff-0000-4000-8000-000000013005",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The Escolta fried chicken of 1950, the Ting brothers' recipe.",
+        "address": "Escolta, Binondo, Manila",
+        "geocode": {
+          "name": "Manila",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "business_rating": 4,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:filipino",
+          "name": "Filipino Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:chinese",
+          "name": "Chinese Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "dining",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1950,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Barrio Fiesta",
+      "entity_id": "ffffffff-0000-4000-8000-000000013006",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Kare-kare and crispy pata in the bahay kubo of 1958, from Caloocan.",
+        "address": "Caloocan, Metro Manila",
+        "geocode": {
+          "name": "Manila",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "business_rating": 4,
+        "price_level": 2,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.78,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:filipino",
+          "name": "Filipino Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "dining",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1958,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Jollibee",
+      "entity_id": "ffffffff-0000-4000-8000-000000013007",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The Cubao ice-cream parlour of 1975 that became Chickenjoy and the nation's fast food in 1978.",
+        "address": "Cubao, Quezon City",
+        "geocode": {
+          "name": "Manila",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "business_rating": 4,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:fast_food",
+          "name": "Fast Food Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:filipino",
+          "name": "Filipino Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "dining",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila",
+          "cebu",
+          "davao",
+          "iloilo",
+          "baguio"
+        ],
+        "era": [
+          1978,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.3
+        }
+      }
+    },
+    {
+      "name": "Little Quiapo",
+      "entity_id": "ffffffff-0000-4000-8000-000000013008",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Halo-halo and pancit palabok from the Quiapo original of 1949.",
+        "address": "Scout Tuason, Quezon City",
+        "geocode": {
+          "name": "Manila",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "business_rating": 4.1,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:filipino",
+          "name": "Filipino Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "dining",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1949,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Ambos Mundos",
+      "entity_id": "ffffffff-0000-4000-8000-000000013009",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Spanish-Filipino cooking in Binondo since 1888, the city's oldest restaurant.",
+        "address": "Florentino Torres St, Santa Cruz, Manila",
+        "geocode": {
+          "name": "Manila",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "business_rating": 4,
+        "price_level": 2,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.66,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:filipino",
+          "name": "Filipino Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "dining",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1888,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Ramon Lee Panciteria",
+      "entity_id": "ffffffff-0000-4000-8000-000000013010",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Chicken and pancit in Santa Cruz since 1929, the Lees' pre-war recipes.",
+        "address": "Rizal Avenue, Santa Cruz, Manila",
+        "geocode": {
+          "name": "Manila",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "business_rating": 4.1,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.66,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:chinese",
+          "name": "Chinese Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:filipino",
+          "name": "Filipino Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:noodle",
+          "name": "Noodle Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "dining",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1929,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.4
+        }
+      }
+    },
+    {
+      "name": "New Toho Food Center",
+      "entity_id": "ffffffff-0000-4000-8000-000000013011",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The Binondo panciteria of 1888, where Rizal is said to have eaten.",
+        "address": "Tomas Pinpin St, Binondo, Manila",
+        "geocode": {
+          "name": "Manila",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "business_rating": 4,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.62,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:chinese",
+          "name": "Chinese Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:noodle",
+          "name": "Noodle Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "dining",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1888,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Dulcinea",
+      "entity_id": "ffffffff-0000-4000-8000-000000013012",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Churros con chocolate from the Makati chocolatería of 1967.",
+        "address": "Greenbelt, Makati",
+        "geocode": {
+          "name": "Manila",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "business_rating": 4.1,
+        "price_level": 2,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.68,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:cafe",
+          "name": "Cafe",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:bakery",
+          "name": "Bakery",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "dining",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1967,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Milky Way",
+      "entity_id": "ffffffff-0000-4000-8000-000000013013",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The Makati Filipino restaurant and ice-cream parlour, since 1962.",
+        "address": "Arnaiz Avenue, Makati",
+        "geocode": {
+          "name": "Manila",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "business_rating": 4.1,
+        "price_level": 2,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.66,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:filipino",
+          "name": "Filipino Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:ice_cream_parlor",
+          "name": "Ice Cream Parlor",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "dining",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1962,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Café Adriatico",
+      "entity_id": "ffffffff-0000-4000-8000-000000013014",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Larry Cruz's Remedios Circle café of 1979, chocolate eh and the Malate night.",
+        "address": "1790 M. Adriatico St, Malate, Manila",
+        "geocode": {
+          "name": "Manila",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "business_rating": 4.2,
+        "price_level": 2,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:cafe",
+          "name": "Cafe",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:filipino",
+          "name": "Filipino Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "dining",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1979,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Kamayan",
+      "entity_id": "ffffffff-0000-4000-8000-000000013015",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Eating with the hands off banana leaves, the Pasay restaurant of 1978.",
+        "address": "EDSA, Pasay",
+        "geocode": {
+          "name": "Manila",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "business_rating": 4.1,
+        "price_level": 2,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:filipino",
+          "name": "Filipino Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "dining",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1978,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Shakey's Makati",
+      "entity_id": "ffffffff-0000-4000-8000-000000013016",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The first Shakey's in Asia, 1975, pizza and the Shakey's quartet on Makati Avenue.",
+        "address": "Makati Avenue, Makati",
+        "geocode": {
+          "name": "Manila",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "business_rating": 4,
+        "price_level": 2,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:pizza",
+          "name": "Pizza Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "dining",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1975,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Star Café",
+      "entity_id": "ffffffff-0000-4000-8000-000000013017",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Baguio's oldest restaurant, on Session Road since 1940.",
+        "address": "Session Road, Baguio",
+        "geocode": {
+          "name": "Baguio",
+          "admin1_region": "Benguet",
+          "country_code": "PH"
+        },
+        "business_rating": 4,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.6,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:filipino",
+          "name": "Filipino Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:cafe",
+          "name": "Cafe",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "dining",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "baguio"
+        ],
+        "era": [
+          1940,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Snow Sheen Restaurant",
+      "entity_id": "ffffffff-0000-4000-8000-000000013018",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The Cebu mami house of 1939, mami and siopao on Colon.",
+        "address": "Colon Street, Cebu City",
+        "geocode": {
+          "name": "Cebu City",
+          "admin1_region": "Cebu",
+          "country_code": "PH"
+        },
+        "business_rating": 4,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.6,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:chinese",
+          "name": "Chinese Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:noodle",
+          "name": "Noodle Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "dining",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "cebu"
+        ],
+        "era": [
+          1939,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Deco's",
+      "entity_id": "ffffffff-0000-4000-8000-000000013019",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Iloilo's La Paz batchoy from the La Paz market stall of 1938.",
+        "address": "La Paz, Iloilo City",
+        "geocode": {
+          "name": "Iloilo City",
+          "admin1_region": "Iloilo",
+          "country_code": "PH"
+        },
+        "business_rating": 4.2,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.66,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:filipino",
+          "name": "Filipino Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:noodle",
+          "name": "Noodle Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "dining",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "iloilo"
+        ],
+        "era": [
+          1938,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Roberto's",
+      "entity_id": "ffffffff-0000-4000-8000-000000013020",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The queen siopao of Iloilo since 1978.",
+        "address": "JM Basa Street, Iloilo City",
+        "geocode": {
+          "name": "Iloilo City",
+          "admin1_region": "Iloilo",
+          "country_code": "PH"
+        },
+        "business_rating": 4.3,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.64,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:chinese",
+          "name": "Chinese Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:filipino",
+          "name": "Filipino Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "dining",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "iloilo"
+        ],
+        "era": [
+          1978,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Rizal Park",
+      "entity_id": "ffffffff-0000-4000-8000-000000014001",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Luneta: the Rizal Monument, the sunset over the bay, kites and Sunday families.",
+        "address": "Roxas Boulevard, Ermita, Manila",
+        "geocode": {
+          "name": "Manila",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "Luneta",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.94,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:park",
+          "name": "Park",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:monument",
+          "name": "Monument",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "landmark",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Intramuros",
+      "entity_id": "ffffffff-0000-4000-8000-000000014002",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The walled city: Fort Santiago, San Agustin Church and the kalesa on the cobbles.",
+        "address": "Intramuros, Manila",
+        "geocode": {
+          "name": "Manila",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.92,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:neighborhood",
+          "name": "Neighborhood",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:castle",
+          "name": "Castle",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "landmark",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1571,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Quiapo Church",
+      "entity_id": "ffffffff-0000-4000-8000-000000014003",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The Black Nazarene and the Friday crowds, the sampaguita sellers at the steps.",
+        "address": "Plaza Miranda, Quiapo, Manila",
+        "geocode": {
+          "name": "Manila",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:church",
+          "name": "Church",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "landmark",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1586,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Manila Zoo",
+      "entity_id": "ffffffff-0000-4000-8000-000000014004",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The Malate zoo opened in 1959, Mali the elephant.",
+        "address": "Adriatico St, Malate, Manila",
+        "geocode": {
+          "name": "Manila",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:zoo",
+          "name": "Zoo",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "landmark",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1959,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Araneta Coliseum",
+      "entity_id": "ffffffff-0000-4000-8000-000000014005",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The Big Dome of 1960 in Cubao: Thrilla in Manila, the basketball and the concerts.",
+        "address": "Araneta Center, Cubao, Quezon City",
+        "geocode": {
+          "name": "Quezon City",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.88,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:stadium",
+          "name": "Stadium",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:concert_hall",
+          "name": "Concert Hall",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "landmark",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1960,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.7,
+          "ffffffff-0000-4000-8000-000000010002": 0.6
+        }
+      }
+    },
+    {
+      "name": "Manila Hotel",
+      "entity_id": "ffffffff-0000-4000-8000-000000014006",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The grand hotel of 1912 at the edge of Luneta, MacArthur's suite and the lobby.",
+        "address": "One Rizal Park, Ermita, Manila",
+        "geocode": {
+          "name": "Manila",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.82,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:hotel",
+          "name": "Hotel",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "landmark",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1912,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.6
+        }
+      }
+    },
+    {
+      "name": "Cultural Center of the Philippines",
+      "entity_id": "ffffffff-0000-4000-8000-000000014007",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Locsin's building on reclaimed land, opened 1969: the ballet, the orchestra and the film festival.",
+        "address": "CCP Complex, Roxas Boulevard, Pasay",
+        "geocode": {
+          "name": "Manila",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "CCP",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.82,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:theater",
+          "name": "Theater",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:concert_hall",
+          "name": "Concert Hall",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "landmark",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1969,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.7
+        }
+      }
+    },
+    {
+      "name": "Escolta",
+      "entity_id": "ffffffff-0000-4000-8000-000000014008",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The old business street of Binondo: Capitol Theater, Syvel's and Botica Boie.",
+        "address": "Escolta, Binondo, Manila",
+        "geocode": {
+          "name": "Manila",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.72,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:street",
+          "name": "Street",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "landmark",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Avenida Rizal",
+      "entity_id": "ffffffff-0000-4000-8000-000000014009",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The theatre row: Ideal, State, Avenue, Odeon; a Saturday double bill and a halo-halo after.",
+        "address": "Rizal Avenue, Santa Cruz, Manila",
+        "geocode": {
+          "name": "Manila",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:street",
+          "name": "Street",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:cinema",
+          "name": "Cinema",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "landmark",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1930,
+          1990
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.6,
+          "ffffffff-0000-4000-8000-000000010002": 0.7
+        }
+      }
+    },
+    {
+      "name": "Roxas Boulevard",
+      "entity_id": "ffffffff-0000-4000-8000-000000014010",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The bay walk, the coconut palms and the sunset into Manila Bay.",
+        "address": "Roxas Boulevard, Manila",
+        "geocode": {
+          "name": "Manila",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "Dewey Boulevard",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.86,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:street",
+          "name": "Street",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:viewpoint",
+          "name": "Viewpoint",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "landmark",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1910,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Nayong Pilipino",
+      "entity_id": "ffffffff-0000-4000-8000-000000014011",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The Philippines in miniature beside the airport, opened 1970; the Mayon volcano and the Ifugao houses.",
+        "address": "Pasay",
+        "geocode": {
+          "name": "Manila",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "is_closed": true,
+        "akas": []
+      },
+      "popularity": 0.66,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:amusement_park",
+          "name": "Amusement Park",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:museum",
+          "name": "Museum",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "landmark",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1970,
+          2002
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Quezon Memorial Circle",
+      "entity_id": "ffffffff-0000-4000-8000-000000014012",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The three pylons of 1978 in the middle of the roundabout, the park around them.",
+        "address": "Elliptical Road, Quezon City",
+        "geocode": {
+          "name": "Quezon City",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.76,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:park",
+          "name": "Park",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:monument",
+          "name": "Monument",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "landmark",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1978,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Divisoria",
+      "entity_id": "ffffffff-0000-4000-8000-000000014013",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The market of everything, Tutuban and the 168 malls, Christmas shopping on a budget.",
+        "address": "Divisoria, Tondo, Manila",
+        "geocode": {
+          "name": "Manila",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:market",
+          "name": "Market",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "landmark",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1900,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Binondo",
+      "entity_id": "ffffffff-0000-4000-8000-000000014014",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The oldest Chinatown in the world: Ongpin Street, the hopia shops and the Binondo Church.",
+        "address": "Binondo, Manila",
+        "geocode": {
+          "name": "Manila",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.84,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:neighborhood",
+          "name": "Neighborhood",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "landmark",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1594,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Rizal Memorial Coliseum",
+      "entity_id": "ffffffff-0000-4000-8000-000000014015",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The art-deco sports complex of 1934, basketball and boxing nights.",
+        "address": "Pablo Ocampo St, Malate, Manila",
+        "geocode": {
+          "name": "Manila",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:stadium",
+          "name": "Stadium",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "landmark",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1934,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Ali Mall",
+      "entity_id": "ffffffff-0000-4000-8000-000000014016",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The first major mall in the country, opened 1976 in Cubao and named for Muhammad Ali.",
+        "address": "Araneta Center, Cubao, Quezon City",
+        "geocode": {
+          "name": "Quezon City",
+          "admin1_region": "Metro Manila",
+          "country_code": "PH"
+        },
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.68,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:department_store",
+          "name": "Department Store",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "landmark",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1976,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Magellan's Cross",
+      "entity_id": "ffffffff-0000-4000-8000-000000014017",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The cross of 1521 in its kiosk beside the Basilica del Santo Niño.",
+        "address": "Magallanes Street, Cebu City",
+        "geocode": {
+          "name": "Cebu City",
+          "admin1_region": "Cebu",
+          "country_code": "PH"
+        },
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.86,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:monument",
+          "name": "Monument",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:shrine",
+          "name": "Shrine",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "landmark",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "cebu"
+        ],
+        "era": [
+          1521,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Basílica del Santo Niño",
+      "entity_id": "ffffffff-0000-4000-8000-000000014018",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The Santo Niño and the Sinulog every January.",
+        "address": "Osmeña Boulevard, Cebu City",
+        "geocode": {
+          "name": "Cebu City",
+          "admin1_region": "Cebu",
+          "country_code": "PH"
+        },
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.88,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:church",
+          "name": "Church",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:shrine",
+          "name": "Shrine",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "landmark",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "cebu"
+        ],
+        "era": [
+          1565,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Colon Street",
+      "entity_id": "ffffffff-0000-4000-8000-000000014019",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The oldest street in the country, the cinemas and the department stores of old Cebu.",
+        "address": "Colon Street, Cebu City",
+        "geocode": {
+          "name": "Cebu City",
+          "admin1_region": "Cebu",
+          "country_code": "PH"
+        },
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:street",
+          "name": "Street",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "landmark",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "cebu"
+        ],
+        "era": [
+          1565,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Fuente Osmeña",
+      "entity_id": "ffffffff-0000-4000-8000-000000014020",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The fountain roundabout of 1912, the centre of uptown Cebu.",
+        "address": "Osmeña Boulevard, Cebu City",
+        "geocode": {
+          "name": "Cebu City",
+          "admin1_region": "Cebu",
+          "country_code": "PH"
+        },
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:plaza",
+          "name": "Plaza",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "landmark",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "cebu"
+        ],
+        "era": [
+          1912,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Burnham Park",
+      "entity_id": "ffffffff-0000-4000-8000-000000014021",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The lake with the rowing boats, the bicycles and the pine trees in the cool air.",
+        "address": "Jose Abad Santos Drive, Baguio",
+        "geocode": {
+          "name": "Baguio",
+          "admin1_region": "Benguet",
+          "country_code": "PH"
+        },
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.86,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:park",
+          "name": "Park",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "landmark",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "baguio"
+        ],
+        "era": [
+          1925,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Session Road",
+      "entity_id": "ffffffff-0000-4000-8000-000000014022",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Baguio's main street down the hill, the Pines Theater and the bakeries.",
+        "address": "Session Road, Baguio",
+        "geocode": {
+          "name": "Baguio",
+          "admin1_region": "Benguet",
+          "country_code": "PH"
+        },
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:street",
+          "name": "Street",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "landmark",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "baguio"
+        ],
+        "era": [
+          1909,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Mines View Park",
+      "entity_id": "ffffffff-0000-4000-8000-000000014023",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The viewpoint over the Benguet mines, strawberries and the carved souvenirs.",
+        "address": "Outlook Drive, Baguio",
+        "geocode": {
+          "name": "Baguio",
+          "admin1_region": "Benguet",
+          "country_code": "PH"
+        },
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.76,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:viewpoint",
+          "name": "Viewpoint",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "landmark",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "baguio"
+        ],
+        "era": [
+          1930,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Jaro Cathedral",
+      "entity_id": "ffffffff-0000-4000-8000-000000014024",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The cathedral of 1874 with its belfry across the plaza; the Candelaria fiesta.",
+        "address": "Jaro Plaza, Iloilo City",
+        "geocode": {
+          "name": "Iloilo City",
+          "admin1_region": "Iloilo",
+          "country_code": "PH"
+        },
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.72,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:church",
+          "name": "Church",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "landmark",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "iloilo"
+        ],
+        "era": [
+          1874,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Calle Real",
+      "entity_id": "ffffffff-0000-4000-8000-000000014025",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Iloilo's old main street of art-deco shopfronts, from the sugar-boom years.",
+        "address": "J.M. Basa Street, Iloilo City",
+        "geocode": {
+          "name": "Iloilo City",
+          "admin1_region": "Iloilo",
+          "country_code": "PH"
+        },
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "J.M. Basa Street",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.68,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:street",
+          "name": "Street",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "landmark",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "iloilo"
+        ],
+        "era": [
+          1900,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "San Pedro Cathedral",
+      "entity_id": "ffffffff-0000-4000-8000-000000014026",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Davao's cathedral of 1847, rebuilt in 1964 as the wave-roofed church by the plaza.",
+        "address": "San Pedro Street, Davao City",
+        "geocode": {
+          "name": "Davao City",
+          "admin1_region": "Davao del Sur",
+          "country_code": "PH"
+        },
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:church",
+          "name": "Church",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "landmark",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "davao"
+        ],
+        "era": [
+          1847,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Magsaysay Park",
+      "entity_id": "ffffffff-0000-4000-8000-000000014027",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The durian stalls and the seafront, the park named after the president.",
+        "address": "Magsaysay Avenue, Davao City",
+        "geocode": {
+          "name": "Davao City",
+          "admin1_region": "Davao del Sur",
+          "country_code": "PH"
+        },
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.66,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:park",
+          "name": "Park",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "kind": "landmark",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "davao"
+        ],
+        "era": [
+          1957,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Baguio",
+      "entity_id": "ffffffff-0000-4000-8000-000000015001",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "The summer capital in the pines: Burnham Park, Session Road, strawberry jam and the cold.",
+        "geocode": {
+          "name": "Baguio",
+          "admin1_region": "Benguet",
+          "country_code": "PH"
+        },
+        "akas": []
+      },
+      "popularity": 0.92,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:hill_station",
+          "name": "Hill Station",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:mountain",
+          "name": "Mountain",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila",
+          "iloilo",
+          "cebu",
+          "davao"
+        ],
+        "era": [
+          1909,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Tagaytay",
+      "entity_id": "ffffffff-0000-4000-8000-000000015002",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "The ridge above Taal Lake, bulalo in the cool air an hour from the city.",
+        "geocode": {
+          "name": "Tagaytay",
+          "admin1_region": "Cavite",
+          "country_code": "PH"
+        },
+        "akas": []
+      },
+      "popularity": 0.86,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:mountain",
+          "name": "Mountain",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:lake",
+          "name": "Lake",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1930,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Pagsanjan Falls",
+      "entity_id": "ffffffff-0000-4000-8000-000000015003",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Shooting the rapids in a banca, the boatmen and the falls.",
+        "geocode": {
+          "name": "Pagsanjan",
+          "admin1_region": "Laguna",
+          "country_code": "PH"
+        },
+        "akas": []
+      },
+      "popularity": 0.78,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:nature",
+          "name": "Nature",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Hundred Islands",
+      "entity_id": "ffffffff-0000-4000-8000-000000015004",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "The islets off Alaminos, the first national park of 1940.",
+        "geocode": {
+          "name": "Alaminos",
+          "admin1_region": "Pangasinan",
+          "country_code": "PH"
+        },
+        "akas": []
+      },
+      "popularity": 0.76,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:island",
+          "name": "Island",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:beach",
+          "name": "Beach",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila",
+          "baguio"
+        ],
+        "era": [
+          1940,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Banaue Rice Terraces",
+      "entity_id": "ffffffff-0000-4000-8000-000000015005",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "The stairways to the sky, the Ifugao terraces on the thousand-peso note.",
+        "geocode": {
+          "name": "Banaue",
+          "admin1_region": "Ifugao",
+          "country_code": "PH"
+        },
+        "akas": []
+      },
+      "popularity": 0.84,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:nature",
+          "name": "Nature",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:mountain",
+          "name": "Mountain",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila",
+          "baguio"
+        ],
+        "era": [
+          1900,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Vigan",
+      "entity_id": "ffffffff-0000-4000-8000-000000015006",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Calle Crisologo's cobbles and kalesas, the Spanish-era houses of Ilocos.",
+        "geocode": {
+          "name": "Vigan",
+          "admin1_region": "Ilocos Sur",
+          "country_code": "PH"
+        },
+        "akas": []
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:historic",
+          "name": "Historic",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila",
+          "baguio"
+        ],
+        "era": [
+          1900,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Matabungkay",
+      "entity_id": "ffffffff-0000-4000-8000-000000015007",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "The Batangas beach of bamboo rafts and the weekend from Manila, before Boracay.",
+        "geocode": {
+          "name": "Lian",
+          "admin1_region": "Batangas",
+          "country_code": "PH"
+        },
+        "akas": []
+      },
+      "popularity": 0.6,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:beach",
+          "name": "Beach",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1950,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.3
+        }
+      }
+    },
+    {
+      "name": "Puerto Galera",
+      "entity_id": "ffffffff-0000-4000-8000-000000015008",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "White Beach across the strait from Batangas, the ferry and the bancas.",
+        "geocode": {
+          "name": "Puerto Galera",
+          "admin1_region": "Oriental Mindoro",
+          "country_code": "PH"
+        },
+        "akas": []
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:beach",
+          "name": "Beach",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:island",
+          "name": "Island",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila"
+        ],
+        "era": [
+          1960,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Boracay",
+      "entity_id": "ffffffff-0000-4000-8000-000000015009",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "White Beach, discovered by backpackers in the 1970s and never left alone since.",
+        "geocode": {
+          "name": "Malay",
+          "admin1_region": "Aklan",
+          "country_code": "PH"
+        },
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:beach",
+          "name": "Beach",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:island",
+          "name": "Island",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila",
+          "iloilo",
+          "cebu"
+        ],
+        "era": [
+          1975,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Cebu",
+      "entity_id": "ffffffff-0000-4000-8000-000000015010",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "The Queen City of the South: the Santo Niño, the Sinulog, lechon and the islands.",
+        "geocode": {
+          "name": "Cebu City",
+          "admin1_region": "Cebu",
+          "country_code": "PH"
+        },
+        "akas": []
+      },
+      "popularity": 0.86,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:city_break",
+          "name": "City Break",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:beach",
+          "name": "Beach",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "manila",
+          "davao",
+          "iloilo"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-000000010001": 0.7
+        }
+      }
+    },
+    {
+      "name": "Bohol",
+      "entity_id": "ffffffff-0000-4000-8000-000000015011",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "The Chocolate Hills, the tarsiers and the Loboc river cruise.",
+        "geocode": {
+          "name": "Tagbilaran",
+          "admin1_region": "Bohol",
+          "country_code": "PH"
+        },
+        "akas": []
+      },
+      "popularity": 0.82,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:nature",
+          "name": "Nature",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:island",
+          "name": "Island",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "cebu",
+          "manila",
+          "iloilo"
+        ],
+        "era": [
+          1900,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Hong Kong",
+      "entity_id": "ffffffff-0000-4000-8000-000000015012",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "The first trip abroad: the Peak, Ocean Park and the shopping on Nathan Road.",
+        "geocode": {
+          "name": "Hong Kong",
+          "admin1_region": "Hong Kong",
+          "country_code": "HK"
+        },
+        "akas": []
+      },
+      "popularity": 0.84,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:city_break",
+          "name": "City Break",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": [
+          "ph",
+          "zh"
+        ],
+        "localities": [
+          "manila",
+          "cebu"
+        ],
+        "era": [
+          1960,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Davao",
+      "entity_id": "ffffffff-0000-4000-8000-000000015013",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Durian, Mount Apo and the Samal beaches.",
+        "geocode": {
+          "name": "Davao City",
+          "admin1_region": "Davao del Sur",
+          "country_code": "PH"
+        },
+        "akas": []
+      },
+      "popularity": 0.72,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:city_break",
+          "name": "City Break",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:nature",
+          "name": "Nature",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "cebu",
+          "manila"
+        ],
+        "era": [
+          1900,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Iloilo",
+      "entity_id": "ffffffff-0000-4000-8000-000000015014",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Dinagyang, La Paz batchoy and the old houses of Jaro.",
+        "geocode": {
+          "name": "Iloilo City",
+          "admin1_region": "Iloilo",
+          "country_code": "PH"
+        },
+        "akas": []
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:city_break",
+          "name": "City Break",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:historic",
+          "name": "Historic",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "cebu",
+          "manila"
+        ],
+        "era": [
+          1900,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Camiguin",
+      "entity_id": "ffffffff-0000-4000-8000-000000015015",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "The island of volcanoes, hot springs and the sunken cemetery.",
+        "geocode": {
+          "name": "Mambajao",
+          "admin1_region": "Camiguin",
+          "country_code": "PH"
+        },
+        "akas": []
+      },
+      "popularity": 0.66,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:island",
+          "name": "Island",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:hot_springs",
+          "name": "Hot Springs",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "ph",
+        "countries": [
+          "PH"
+        ],
+        "localities": [
+          "cebu",
+          "davao"
+        ],
+        "era": [
+          1950,
+          2026
+        ]
+      }
+    }
+  ]
+}

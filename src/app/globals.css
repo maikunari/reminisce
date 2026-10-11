@@ -854,6 +854,10 @@
   }
   .sleeve-mini .sleeve-n {
     font-size: 1.5em;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
   }
 
   /* Skeleton while planning: blank sleeves fanned on the table. */

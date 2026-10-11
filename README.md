@@ -150,6 +150,8 @@ Fixture mode has two layers:
 1. **Recorded responses** in `fixtures/recorded/`, written by `npm run record` from the real API. Each file is keyed by a hash of the exact request (path plus sorted parameters) and replayed verbatim. These files are Qloo data and are git-ignored on purpose.
 2. **A synthetic catalog** in `fixtures/synthetic/`, hand-authored and clearly marked `"synthetic": true` in each file's `_meta`. It is shaped exactly like Qloo responses (`results.entities[]` with `entity_id`, `subtype`, `properties`, `tags`, `popularity`, `query.affinity`, `query.explainability`) so the UI, the agent and the tests exercise the real code paths. Entity ids are obviously fake (`ffffffff-…`). A small scorer applies the same signals the live API would (seed relation, location, tags, year filters, age era) so that Michiko and Frank get different, coherent sessions even without a key.
 
+   The catalog covers nine cultural worlds, about 1,200 entities in all: Japan, the United States, the United Kingdom and Ireland, Latin America (Mexico, Argentina, Brazil, Colombia, Peru, Cuba, Chile, Uruguay), the Philippines, India and Pakistan, Korea, the Chinese-speaking world (Hong Kong, Taiwan, mainland China, Singapore) and an international set. Sixty cities resolve as localities with their own restaurants and landmarks; any other town is placed by country through `regions.json` (Puebla is Mexico, Sheffield is England, Pune is India), so it still gets the right music, films and trips and never another city's streets. A typed favourite the catalog knows (Pedro Infante, Pilita Corrales, Lata Mangeshkar, Teresa Teng…) seeds the deck and shows up in the explainability of what it pulled in. A hometown nowhere near a regional world (Madrid, Berlin) gets international names only, never a deck from somewhere else. All of it is marked synthetic and none of it is Qloo data.
+
 To capture real responses once a key exists:
 
 ```bash
@@ -158,7 +160,7 @@ QLOO_API_KEY=… npm run record -- --preset frank
 QLOO_API_KEY=… npm run record -- --search "Edith Piaf" --search "Lyon"
 ```
 
-Then `QLOO_MODE=fixture` replays the recordings and falls back to the synthetic catalog only for requests that were never recorded. The Why Qloo panel labels each card's source: live, recorded or synthetic.
+Then `QLOO_MODE=fixture` replays the recordings and falls back to the synthetic catalog only for requests that were never recorded. The Why Qloo panel says where each answer came from in plain words: a live session says "live Qloo API" and nothing more; a replay says "replayed from saved Qloo responses" or "demo catalogue". Those strings live in one place, `src/lib/session/provenance.ts`, with their translations in the dictionaries.
 
 ### The LLM
 
@@ -185,9 +187,13 @@ When every card has a reaction, the session closes with a keepsake: what lit the
 
 ## Why Qloo panel
 
-Open from the header or from "Show the call" on any card. For the current card it shows the entity type, the source (live, recorded or synthetic), affinity with a bar, rank and popularity, Qloo's explainability per seed, and every signal, filter and output parameter that was sent. Below it is the full agent timeline: narration, each tool call with its arguments, each Qloo request with its parameters, result counts and durations, and any parameters the validator dropped. Escape closes it; it is a complementary landmark and keyboard reachable.
+Open from the header or from "Show the call" on any card. For the current card it shows the entity type, the source (live, a saved response or the demo catalogue), affinity with a bar, rank and popularity, Qloo's explainability per seed, and every signal, filter and output parameter that was sent. Below it is the full agent timeline: narration, each tool call with its arguments, each Qloo request with its parameters, result counts and durations, and any parameters the validator dropped. Escape closes it; it is a complementary landmark and keyboard reachable.
 
 ![Why Qloo panel beside the card: "Qloo was asked for artists with taste affinity to Hibari Misora, tuned to Osaka, for people 55 and older", affinity 0.905, a Pulled-in-by bar for Hibari Misora and the request as a table](docs/screenshots/why-qloo.png)
+
+## Languages
+
+The language chosen on the intake form is the language of the whole session, not only of the prompts: the card chrome, the buttons, the programme strip, the notices, the keepsake and the Why Qloo panel all switch, and the session root carries a matching `lang` attribute for screen readers. English, Spanish and Japanese ship as three typed dictionaries in `src/lib/i18n/` (one interface, three files, no framework); a unit test fails if a language is missing a key. The agent's own log lines in the timeline stay as written, since they are the trace rather than the interface.
 
 ## Accessibility and design
 
@@ -225,7 +231,8 @@ npm test           # vitest: Qloo parameter building and validation, youth windo
                    #         preset snapshots and replay
 npm run test:e2e   # Playwright, fixture mode, tablet viewport: both presets end to end
                    #         (plan → cards → Why Qloo → reaction → re-tune → reload persistence),
-                   #         preset difference, intake autocomplete + Spanish prompts, unknown session
+                   #         preset difference, intake autocomplete + a Spanish session, a Mexico City
+                   #         custom person, auto-advance, the programme strip, unknown session
 ```
 
 The Playwright run builds the app and starts it on port 3100 with `QLOO_MODE=fixture` and `LLM_MODE=fixture`.
@@ -267,9 +274,10 @@ src/components/home/     intake form, Qloo autocomplete, presets
 src/components/session/  memory card, deck strip, planning and re-tuning views, Why Qloo panel
 src/lib/qloo/            client (live + fixture), response cache, parameter validation tables, fixture engine, types
 src/lib/agent/           tool definitions, tool execution + entity pool, loop, LLM and scripted policies, prompts
-src/lib/session/         person/session types, youth window, presets, localStorage, zod schemas
+src/lib/session/         person/session types, youth window, presets, localStorage, zod schemas, deck size, provenance wording, auto-advance
+src/lib/i18n/            typed UI dictionaries: en, es, ja
 src/lib/guard/           daily budget and breaker (Upstash), per-request guard, preset snapshots, BotID check
-fixtures/synthetic/      hand-authored synthetic catalog (committed, marked synthetic)
+fixtures/synthetic/      hand-authored synthetic catalog, nine worlds (committed, marked synthetic)
 fixtures/recorded/       real responses from `npm run record` (git-ignored)
 scripts/record.ts        recorder
 tests/unit, tests/e2e    vitest and Playwright suites

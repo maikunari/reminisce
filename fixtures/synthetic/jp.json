@@ -5,303 +5,3336 @@
     "world": "jp"
   },
   "entities": [
-    { "name": "Hibari Misora", "entity_id": "ffffffff-0000-4000-8000-0000000a0001", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Japan's most celebrated postwar singer and actress, the 'Queen of Showa'; her enka and kayōkyoku hits such as 'Kawa no Nagare no Yō ni' and 'Yawara' defined an era.", "date_of_birth": "1937-05-29", "year_of_death": 1989, "place_of_birth": "Yokohama, Kanagawa, Japan", "akas": [{ "value": "美空ひばり", "languages": ["ja"] }, { "value": "Misora Hibari", "languages": ["en"] }] },
-      "popularity": 0.97, "tags": [{ "id": "urn:tag:genre:music:enka", "name": "Enka", "type": "urn:tag:genre:music" }, { "id": "urn:tag:genre:music:kayokyoku", "name": "Kayōkyoku", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "jp", "localities": ["yokohama", "tokyo"], "era": [1949, 1989] } },
-    { "name": "Chiemi Eri", "entity_id": "ffffffff-0000-4000-8000-0000000a0002", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Singer and actress who rose to fame with 'Tennessee Waltz' in 1952 and formed the beloved 'Sannin Musume' trio with Hibari Misora and Izumi Yukimura.", "date_of_birth": "1937-01-11", "year_of_death": 1982, "place_of_birth": "Tokyo, Japan", "akas": [{ "value": "江利チエミ", "languages": ["ja"] }] },
-      "popularity": 0.72, "tags": [{ "id": "urn:tag:genre:music:kayokyoku", "name": "Kayōkyoku", "type": "urn:tag:genre:music" }, { "id": "urn:tag:genre:music:jazz", "name": "Jazz", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "jp", "localities": ["tokyo"], "era": [1952, 1982], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.95 } } },
-    { "name": "Izumi Yukimura", "entity_id": "ffffffff-0000-4000-8000-0000000a0003", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Jazz-influenced pop singer and actress; the third of the 'Sannin Musume' alongside Hibari Misora and Chiemi Eri.", "date_of_birth": "1937-03-20", "place_of_birth": "Tokyo, Japan", "akas": [{ "value": "雪村いづみ", "languages": ["ja"] }] },
-      "popularity": 0.68, "tags": [{ "id": "urn:tag:genre:music:kayokyoku", "name": "Kayōkyoku", "type": "urn:tag:genre:music" }, { "id": "urn:tag:genre:music:jazz", "name": "Jazz", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "jp", "localities": ["tokyo"], "era": [1953, 1980], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.93 } } },
-    { "name": "Hachiro Kasuga", "entity_id": "ffffffff-0000-4000-8000-0000000a0004", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Enka pioneer whose 'Otomi-san' (1954) and 'Wakare no Ipponsugi' became national sing-alongs.", "date_of_birth": "1924-10-09", "year_of_death": 1991, "place_of_birth": "Fukushima, Japan", "akas": [{ "value": "春日八郎", "languages": ["ja"] }] },
-      "popularity": 0.7, "tags": [{ "id": "urn:tag:genre:music:enka", "name": "Enka", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "jp", "era": [1952, 1985], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.88 } } },
-    { "name": "Michiya Mihashi", "entity_id": "ffffffff-0000-4000-8000-0000000a0005", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Enka and min'yō singer with a soaring voice; 'Onna Sendō Uta' and 'Kojō' sold millions in the late 1950s.", "date_of_birth": "1930-11-10", "year_of_death": 1996, "place_of_birth": "Hokkaido, Japan", "akas": [{ "value": "三橋美智也", "languages": ["ja"] }] },
-      "popularity": 0.7, "tags": [{ "id": "urn:tag:genre:music:enka", "name": "Enka", "type": "urn:tag:genre:music" }, { "id": "urn:tag:genre:music:folk", "name": "Folk", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "jp", "era": [1954, 1985], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.88 } } },
-    { "name": "Frank Nagai", "entity_id": "ffffffff-0000-4000-8000-0000000a0006", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Baritone crooner of 'mood kayō' whose 'Yūrakuchō de Aimashō' (1957) evoked Tokyo nightlife.", "date_of_birth": "1932-03-18", "year_of_death": 2008, "place_of_birth": "Miyagi, Japan", "akas": [{ "value": "フランク永井", "languages": ["ja"] }] },
-      "popularity": 0.7, "tags": [{ "id": "urn:tag:genre:music:kayokyoku", "name": "Kayōkyoku", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "jp", "localities": ["tokyo"], "era": [1955, 1985], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.85 } } },
-    { "name": "Kyu Sakamoto", "entity_id": "ffffffff-0000-4000-8000-0000000a0007", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Singer of 'Ue o Muite Arukō' (1961), known abroad as 'Sukiyaki', the first Japanese song to top the US charts.", "date_of_birth": "1941-12-10", "year_of_death": 1985, "place_of_birth": "Kawasaki, Kanagawa, Japan", "akas": [{ "value": "坂本九", "languages": ["ja"] }] },
-      "popularity": 0.86, "tags": [{ "id": "urn:tag:genre:music:kayokyoku", "name": "Kayōkyoku", "type": "urn:tag:genre:music" }, { "id": "urn:tag:genre:music:pop", "name": "Pop", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "jp", "localities": ["tokyo", "yokohama"], "era": [1959, 1985], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.82 } } },
-    { "name": "Yujiro Ishihara", "entity_id": "ffffffff-0000-4000-8000-0000000a0008", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Film star and singer, Japan's 'eternal superstar', whose husky ballads and Nikkatsu action films defined 1960s cool.", "date_of_birth": "1934-12-28", "year_of_death": 1987, "place_of_birth": "Kobe, Hyogo, Japan", "akas": [{ "value": "石原裕次郎", "languages": ["ja"] }] },
-      "popularity": 0.85, "tags": [{ "id": "urn:tag:genre:music:kayokyoku", "name": "Kayōkyoku", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "jp", "localities": ["kobe", "osaka"], "era": [1956, 1987], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.84 } } },
-    { "name": "The Peanuts", "entity_id": "ffffffff-0000-4000-8000-0000000a0009", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Twin-sister vocal duo Emi and Yumi Ito, active 1959 to 1975; 'Koi no Vacance' (1963) and the Mothra song, hosts of 'Shabondama Holiday'.", "date_of_birth": "1941-04-01", "place_of_birth": "Nagoya, Aichi, Japan", "akas": [{ "value": "ザ・ピーナッツ", "languages": ["ja"] }] },
-      "popularity": 0.74, "tags": [{ "id": "urn:tag:genre:music:kayokyoku", "name": "Kayōkyoku", "type": "urn:tag:genre:music" }, { "id": "urn:tag:genre:music:pop", "name": "Pop", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "jp", "era": [1959, 1975], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.8 } } },
-    { "name": "Saburō Kitajima", "entity_id": "ffffffff-0000-4000-8000-0000000a0010", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Enka giant of 'Namida Bune' and 'Matsuri', a fixture of NHK's Kōhaku for five decades.", "date_of_birth": "1936-10-04", "place_of_birth": "Hokkaido, Japan", "akas": [{ "value": "北島三郎", "languages": ["ja"] }, { "value": "Saburo Kitajima", "languages": ["en"] }] },
-      "popularity": 0.8, "tags": [{ "id": "urn:tag:genre:music:enka", "name": "Enka", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "jp", "era": [1962, 2013], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.86 } } },
-    { "name": "Harumi Miyako", "entity_id": "ffffffff-0000-4000-8000-0000000a0011", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Enka singer whose 'Anko Tsubaki wa Koi no Hana' (1964) made her a star at 16; her growling 'unari' is unmistakable.", "date_of_birth": "1948-02-22", "place_of_birth": "Kyoto, Japan", "akas": [{ "value": "都はるみ", "languages": ["ja"] }] },
-      "popularity": 0.74, "tags": [{ "id": "urn:tag:genre:music:enka", "name": "Enka", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "jp", "localities": ["kyoto", "osaka"], "era": [1964, 1990], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.85 } } },
-    { "name": "Shinichi Mori", "entity_id": "ffffffff-0000-4000-8000-0000000a0012", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Husky-voiced enka singer of 'Erimo Misaki' (1974) and 'Ofukuro-san'.", "date_of_birth": "1947-11-18", "place_of_birth": "Yamanashi, Japan", "akas": [{ "value": "森進一", "languages": ["ja"] }] },
-      "popularity": 0.72, "tags": [{ "id": "urn:tag:genre:music:enka", "name": "Enka", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "jp", "era": [1966, 2000], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.8 } } },
-    { "name": "Aki Yashiro", "entity_id": "ffffffff-0000-4000-8000-0000000a0013", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Enka queen of 'Funauta' (1979) and 'Ame no Bojō' (1980), beloved for her smoky voice.", "date_of_birth": "1950-08-29", "year_of_death": 2023, "place_of_birth": "Yatsushiro, Kumamoto, Japan", "akas": [{ "value": "八代亜紀", "languages": ["ja"] }] },
-      "popularity": 0.74, "tags": [{ "id": "urn:tag:genre:music:enka", "name": "Enka", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "jp", "era": [1971, 2010], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.8 } } },
-    { "name": "Keiko Fuji", "entity_id": "ffffffff-0000-4000-8000-0000000a0014", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Teenage enka sensation of 1970 with 'Keiko no Yume wa Yoru Hiraku'.", "date_of_birth": "1951-07-05", "year_of_death": 2013, "place_of_birth": "Iwate, Japan", "akas": [{ "value": "藤圭子", "languages": ["ja"] }] },
-      "popularity": 0.66, "tags": [{ "id": "urn:tag:genre:music:enka", "name": "Enka", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "jp", "era": [1969, 1980], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.78 } } },
-    { "name": "Momoe Yamaguchi", "entity_id": "ffffffff-0000-4000-8000-0000000a0015", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Idol singer and actress who dominated the late 1970s before retiring at 21 in 1980.", "date_of_birth": "1959-01-17", "place_of_birth": "Tokyo, Japan", "akas": [{ "value": "山口百恵", "languages": ["ja"] }] },
-      "popularity": 0.84, "tags": [{ "id": "urn:tag:genre:music:kayokyoku", "name": "Kayōkyoku", "type": "urn:tag:genre:music" }, { "id": "urn:tag:genre:music:j_pop", "name": "J-Pop", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "jp", "era": [1973, 1980], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.6 } } },
-    { "name": "Teresa Teng", "entity_id": "ffffffff-0000-4000-8000-0000000a0016", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Taiwanese singer whose Japanese-language ballads such as 'Tsugunai' and 'Toki no Nagare ni Mi o Makase' won Japan's heart.", "date_of_birth": "1953-01-29", "year_of_death": 1995, "place_of_birth": "Yunlin, Taiwan", "akas": [{ "value": "テレサ・テン", "languages": ["ja"] }, { "value": "鄧麗君", "languages": ["zh"] }] },
-      "popularity": 0.84, "tags": [{ "id": "urn:tag:genre:music:kayokyoku", "name": "Kayōkyoku", "type": "urn:tag:genre:music" }, { "id": "urn:tag:genre:music:pop", "name": "Pop", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "jp", "era": [1974, 1995], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.7 } } },
-    { "name": "Hiroshi Itsuki", "entity_id": "ffffffff-0000-4000-8000-0000000a0017", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "'Yokohama Tasogare' (1971) launched one of enka's longest careers.", "date_of_birth": "1948-03-14", "place_of_birth": "Fukui, Japan", "akas": [{ "value": "五木ひろし", "languages": ["ja"] }] },
-      "popularity": 0.74, "tags": [{ "id": "urn:tag:genre:music:enka", "name": "Enka", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "jp", "era": [1971, 2010], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.8 } } },
-    { "name": "Candies", "entity_id": "ffffffff-0000-4000-8000-0000000a0018", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Idol trio of 'Haru Ichiban' (1976), whose 1978 farewell concert drew 55,000 fans.", "date_of_birth": "1954-01-01", "place_of_birth": "Japan", "akas": [{ "value": "キャンディーズ", "languages": ["ja"] }] },
-      "popularity": 0.7, "tags": [{ "id": "urn:tag:genre:music:j_pop", "name": "J-Pop", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "jp", "era": [1973, 1978], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.55 } } },
-
-    { "name": "Otoko wa Tsurai yo", "entity_id": "ffffffff-0000-4000-8000-0000000a0101", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1969, "release_date": "1969-08-27", "description": "The first of the 48-film Tora-san series: a wandering peddler returns to Shibamata and falls hopelessly in love. Japan's most beloved comedy franchise.", "release_country": ["Japan"], "duration": 91, "akas": [{ "value": "男はつらいよ", "languages": ["ja"] }, { "value": "It's Tough Being a Man", "languages": ["en"] }] },
-      "popularity": 0.82, "tags": [{ "id": "urn:tag:genre:media:comedy", "name": "Comedy", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "jp", "localities": ["tokyo"], "era": [1969, 1995], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.5 } } },
-    { "name": "Red Beard", "entity_id": "ffffffff-0000-4000-8000-0000000a0102", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1965, "release_date": "1965-04-03", "description": "Akira Kurosawa's humane epic about a gruff doctor (Toshiro Mifune) and his young intern at a clinic for the poor in Edo.", "release_country": ["Japan"], "duration": 185, "akas": [{ "value": "赤ひげ", "languages": ["ja"] }, { "value": "Akahige", "languages": ["ja"] }] },
-      "popularity": 0.78, "tags": [{ "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:jidaigeki", "name": "Jidaigeki", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "jp", "era": [1965, 1990], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.45 } } },
-    { "name": "Tokyo Olympiad", "entity_id": "ffffffff-0000-4000-8000-0000000a0103", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1965, "release_date": "1965-03-20", "description": "Kon Ichikawa's lyrical documentary of the 1964 Tokyo Olympics, seen by millions in cinemas across Japan.", "release_country": ["Japan"], "duration": 170, "akas": [{ "value": "東京オリンピック", "languages": ["ja"] }] },
-      "popularity": 0.7, "tags": [{ "id": "urn:tag:genre:media:documentary", "name": "Documentary", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "jp", "localities": ["tokyo"], "era": [1965, 1975], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.4 } } },
-    { "name": "Kwaidan", "entity_id": "ffffffff-0000-4000-8000-0000000a0104", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1965, "release_date": "1965-01-06", "description": "Masaki Kobayashi's painterly anthology of four ghost stories from Lafcadio Hearn.", "release_country": ["Japan"], "duration": 183, "akas": [{ "value": "怪談", "languages": ["ja"] }] },
-      "popularity": 0.72, "tags": [{ "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "jp", "era": [1965, 1985], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.35 } } },
-    { "name": "The Yellow Handkerchief", "entity_id": "ffffffff-0000-4000-8000-0000000a0105", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1977, "release_date": "1977-10-01", "description": "Yoji Yamada's road movie across Hokkaido: an ex-convict (Ken Takakura) hopes his wife (Chieko Baisho) has hung a yellow handkerchief to welcome him home.", "release_country": ["Japan"], "duration": 108, "akas": [{ "value": "幸福の黄色いハンカチ", "languages": ["ja"] }] },
-      "popularity": 0.78, "tags": [{ "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:romance", "name": "Romance", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "jp", "era": [1977, 1995], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.5 } } },
-    { "name": "The Castle of Sand", "entity_id": "ffffffff-0000-4000-8000-0000000a0106", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1974, "release_date": "1974-10-19", "description": "Yoshitaro Nomura's sweeping mystery from Seicho Matsumoto's novel, with a famous piano-concerto finale.", "release_country": ["Japan"], "duration": 143, "akas": [{ "value": "砂の器", "languages": ["ja"] }] },
-      "popularity": 0.74, "tags": [{ "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:crime", "name": "Crime", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "jp", "era": [1974, 1990], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.45 } } },
-    { "name": "Dodes'ka-den", "entity_id": "ffffffff-0000-4000-8000-0000000a0107", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1970, "release_date": "1970-10-31", "description": "Kurosawa's first color film: vivid vignettes of life in a Tokyo shantytown.", "release_country": ["Japan"], "duration": 140, "akas": [{ "value": "どですかでん", "languages": ["ja"] }] },
-      "popularity": 0.66, "tags": [{ "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "jp", "localities": ["tokyo"], "era": [1970, 1985], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.4 } } },
-    { "name": "Kagemusha", "entity_id": "ffffffff-0000-4000-8000-0000000a0108", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1980, "release_date": "1980-04-26", "description": "Kurosawa's Palme d'Or-winning epic of a thief who must impersonate a dead warlord.", "release_country": ["Japan"], "duration": 180, "akas": [{ "value": "影武者", "languages": ["ja"] }] },
-      "popularity": 0.8, "tags": [{ "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:jidaigeki", "name": "Jidaigeki", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "jp", "era": [1980, 1995], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.4 } } },
-    { "name": "Sandakan No. 8", "entity_id": "ffffffff-0000-4000-8000-0000000a0109", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1974, "release_date": "1974-11-02", "description": "Kei Kumai's drama about a woman sent to Borneo as a 'karayuki-san'; Kinuyo Tanaka won the Berlin Silver Bear.", "release_country": ["Japan"], "duration": 121, "akas": [{ "value": "サンダカン八番娼館 望郷", "languages": ["ja"] }] },
-      "popularity": 0.6, "tags": [{ "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "jp", "era": [1974, 1985], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.4 } } },
-    { "name": "Osaka Elegy", "entity_id": "ffffffff-0000-4000-8000-0000000a0110", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1936, "release_date": "1936-05-28", "description": "Kenji Mizoguchi's portrait of a telephone operator in Osaka trapped between family duty and her boss.", "release_country": ["Japan"], "duration": 71, "akas": [{ "value": "浪華悲歌", "languages": ["ja"] }, { "value": "Naniwa Elegy", "languages": ["en"] }] },
-      "popularity": 0.6, "tags": [{ "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "jp", "localities": ["osaka"], "era": [1936, 1960], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.3 } } },
-    { "name": "Tokyo Kid", "entity_id": "ffffffff-0000-4000-8000-0000000a0111", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1950, "release_date": "1950-09-01", "description": "A 13-year-old Hibari Misora stars as a street singer in postwar Tokyo, singing the title song that became her signature.", "release_country": ["Japan"], "duration": 79, "akas": [{ "value": "東京キッド", "languages": ["ja"] }] },
-      "popularity": 0.6, "tags": [{ "id": "urn:tag:genre:media:musical", "name": "Musical", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "jp", "localities": ["tokyo"], "era": [1950, 1965], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.9 } } },
-    { "name": "Godzilla", "entity_id": "ffffffff-0000-4000-8000-0000000a0112", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1954, "release_date": "1954-11-03", "description": "Ishirō Honda's original monster film, a somber allegory of the atomic age.", "release_country": ["Japan"], "duration": 96, "akas": [{ "value": "ゴジラ", "languages": ["ja"] }] },
-      "popularity": 0.9, "tags": [{ "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "jp", "localities": ["tokyo"], "era": [1954, 1975], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.3 } } },
-    { "name": "Seven Samurai", "entity_id": "ffffffff-0000-4000-8000-0000000a0113", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1954, "release_date": "1954-04-26", "description": "Kurosawa's masterpiece: a village hires seven masterless samurai to defend its harvest.", "release_country": ["Japan"], "duration": 207, "akas": [{ "value": "七人の侍", "languages": ["ja"] }] },
-      "popularity": 0.95, "tags": [{ "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:jidaigeki", "name": "Jidaigeki", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "jp", "era": [1954, 1980], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.3 } } },
-    { "name": "Brutal Tales of Chivalry", "entity_id": "ffffffff-0000-4000-8000-0000000a0114", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1965, "release_date": "1965-10-01", "description": "Ken Takakura's breakout 'ninkyo' yakuza film, launching a nine-film series that filled cinemas through the late 1960s.", "release_country": ["Japan"], "duration": 90, "akas": [{ "value": "昭和残侠伝", "languages": ["ja"] }, { "value": "Showa Zankyoden", "languages": ["ja"] }] },
-      "popularity": 0.6, "tags": [{ "id": "urn:tag:genre:media:crime", "name": "Crime", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "jp", "era": [1965, 1975], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.45 } } },
-    { "name": "Japan Sinks", "entity_id": "ffffffff-0000-4000-8000-0000000a0115", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1973, "release_date": "1973-12-29", "description": "Toho's blockbuster disaster film from Sakyo Komatsu's bestseller, the talk of New Year 1974.", "release_country": ["Japan"], "duration": 143, "akas": [{ "value": "日本沈没", "languages": ["ja"] }] },
-      "popularity": 0.65, "tags": [{ "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "jp", "era": [1973, 1980], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.35 } } },
-
-    { "name": "NHK Kōhaku Uta Gassen", "entity_id": "ffffffff-0000-4000-8000-0000000a0201", "type": "urn:entity", "subtype": "urn:entity:tv_show",
-      "properties": { "release_year": 1951, "description": "NHK's New Year's Eve singing contest between red and white teams; Hibari Misora headlined it many times.", "release_country": ["Japan"], "akas": [{ "value": "NHK紅白歌合戦", "languages": ["ja"] }, { "value": "Kōhaku", "languages": ["ja"] }] },
-      "popularity": 0.9, "tags": [{ "id": "urn:tag:genre:media:variety", "name": "Variety", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:musical", "name": "Musical", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "jp", "era": [1951, 2026], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.9 } } },
-    { "name": "Hachiji da yo! Zen'in Shūgō", "entity_id": "ffffffff-0000-4000-8000-0000000a0202", "type": "urn:entity", "subtype": "urn:entity:tv_show",
-      "properties": { "release_year": 1969, "description": "The Drifters' live Saturday-night variety show, with slapstick skits watched by half the country.", "release_country": ["Japan"], "akas": [{ "value": "8時だョ!全員集合", "languages": ["ja"] }] },
-      "popularity": 0.85, "tags": [{ "id": "urn:tag:genre:media:variety", "name": "Variety", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:comedy", "name": "Comedy", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "jp", "era": [1969, 1985], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.5 } } },
-    { "name": "Mito Kōmon", "entity_id": "ffffffff-0000-4000-8000-0000000a0203", "type": "urn:entity", "subtype": "urn:entity:tv_show",
-      "properties": { "release_year": 1969, "description": "Long-running jidaigeki in which a retired vice-shogun travels Japan in disguise, righting wrongs with his crest at the climax of every episode.", "release_country": ["Japan"], "akas": [{ "value": "水戸黄門", "languages": ["ja"] }] },
-      "popularity": 0.85, "tags": [{ "id": "urn:tag:genre:media:jidaigeki", "name": "Jidaigeki", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "jp", "era": [1969, 2011], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.55 } } },
-    { "name": "Ultraman", "entity_id": "ffffffff-0000-4000-8000-0000000a0204", "type": "urn:entity", "subtype": "urn:entity:tv_show",
-      "properties": { "release_year": 1966, "description": "Tsuburaya's giant hero fought a new monster every week in 1966-67.", "release_country": ["Japan"], "akas": [{ "value": "ウルトラマン", "languages": ["ja"] }] },
-      "popularity": 0.88, "tags": [{ "id": "urn:tag:genre:media:family", "name": "Family", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "jp", "era": [1966, 1967], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.3 } } },
-    { "name": "Shabondama Holiday", "entity_id": "ffffffff-0000-4000-8000-0000000a0205", "type": "urn:entity", "subtype": "urn:entity:tv_show",
-      "properties": { "release_year": 1961, "description": "Sunday-evening variety show hosted by The Peanuts with Hana Hajime and the Crazy Cats.", "release_country": ["Japan"], "akas": [{ "value": "シャボン玉ホリデー", "languages": ["ja"] }] },
-      "popularity": 0.65, "tags": [{ "id": "urn:tag:genre:media:variety", "name": "Variety", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:comedy", "name": "Comedy", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "jp", "era": [1961, 1972], "related": { "ffffffff-0000-4000-8000-0000000a0009": 0.95, "ffffffff-0000-4000-8000-0000000a0001": 0.5 } } },
-    { "name": "Oshin", "entity_id": "ffffffff-0000-4000-8000-0000000a0206", "type": "urn:entity", "subtype": "urn:entity:tv_show",
-      "properties": { "release_year": 1983, "description": "NHK morning drama following a woman's life from Meiji-era poverty to supermarket success; its 52.6% rating is still a record.", "release_country": ["Japan"], "akas": [{ "value": "おしん", "languages": ["ja"] }] },
-      "popularity": 0.86, "tags": [{ "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "jp", "era": [1983, 1984], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.5 } } },
-    { "name": "Taiyō ni Hoero!", "entity_id": "ffffffff-0000-4000-8000-0000000a0207", "type": "urn:entity", "subtype": "urn:entity:tv_show",
-      "properties": { "release_year": 1972, "description": "Police drama led by Yujiro Ishihara as 'Boss', famous for its young detectives' nicknames and dramatic deaths.", "release_country": ["Japan"], "akas": [{ "value": "太陽にほえろ!", "languages": ["ja"] }] },
-      "popularity": 0.78, "tags": [{ "id": "urn:tag:genre:media:crime", "name": "Crime", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "jp", "era": [1972, 1986], "related": { "ffffffff-0000-4000-8000-0000000a0008": 0.9, "ffffffff-0000-4000-8000-0000000a0001": 0.4 } } },
-    { "name": "Yoshimoto Shinkigeki", "entity_id": "ffffffff-0000-4000-8000-0000000a0208", "type": "urn:entity", "subtype": "urn:entity:tv_show",
-      "properties": { "release_year": 1962, "description": "Osaka's comedy troupe broadcast every Saturday lunchtime from Namba, with running gags every Kansai household knows.", "release_country": ["Japan"], "akas": [{ "value": "吉本新喜劇", "languages": ["ja"] }] },
-      "popularity": 0.72, "tags": [{ "id": "urn:tag:genre:media:comedy", "name": "Comedy", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:variety", "name": "Variety", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "jp", "localities": ["osaka"], "era": [1962, 2026], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.45 } } },
-
-    { "name": "Mizuno", "entity_id": "ffffffff-0000-4000-8000-0000000a0301", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Okonomiyaki restaurant on Dotonbori since 1945, known for its grated-yam 'yamaimo-yaki'.", "address": "1-4-15 Dotonbori, Chuo-ku, Osaka", "geocode": { "name": "Osaka", "admin1_region": "Osaka Prefecture", "country_code": "JP" }, "business_rating": 4.3, "price_level": 2, "is_closed": false, "akas": [{ "value": "美津の", "languages": ["ja"] }] },
-      "popularity": 0.8, "tags": [{ "id": "urn:tag:genre:place:restaurant", "name": "Restaurant", "type": "urn:tag:genre:place" }, { "id": "urn:tag:genre:place:restaurant:okonomiyaki", "name": "Okonomiyaki Restaurant", "type": "urn:tag:genre:place" }, { "id": "urn:tag:genre:place:restaurant:japanese", "name": "Japanese Restaurant", "type": "urn:tag:genre:place" }],
-      "_syn": { "world": "jp", "localities": ["osaka"], "era": [1945, 2026], "kind": "dining", "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.5 } } },
-    { "name": "Kani Doraku Dotonbori Honten", "entity_id": "ffffffff-0000-4000-8000-0000000a0302", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Crab restaurant whose giant moving crab sign has loomed over Dotonbori since 1962.", "address": "1-6-18 Dotonbori, Chuo-ku, Osaka", "geocode": { "name": "Osaka", "admin1_region": "Osaka Prefecture", "country_code": "JP" }, "business_rating": 4.1, "price_level": 3, "is_closed": false, "akas": [{ "value": "かに道楽 道頓堀本店", "languages": ["ja"] }] },
-      "popularity": 0.85, "tags": [{ "id": "urn:tag:genre:place:restaurant", "name": "Restaurant", "type": "urn:tag:genre:place" }, { "id": "urn:tag:genre:place:restaurant:japanese", "name": "Japanese Restaurant", "type": "urn:tag:genre:place" }],
-      "_syn": { "world": "jp", "localities": ["osaka"], "era": [1962, 2026], "kind": "dining", "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.55 } } },
-    { "name": "Kushikatsu Daruma Shinsekai Honten", "entity_id": "ffffffff-0000-4000-8000-0000000a0303", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Deep-fried skewers in Shinsekai since 1929, with the famous 'no double dipping' sauce rule.", "address": "2-3-9 Ebisuhigashi, Naniwa-ku, Osaka", "geocode": { "name": "Osaka", "admin1_region": "Osaka Prefecture", "country_code": "JP" }, "business_rating": 4.2, "price_level": 2, "is_closed": false, "akas": [{ "value": "串かつだるま 新世界総本店", "languages": ["ja"] }] },
-      "popularity": 0.82, "tags": [{ "id": "urn:tag:genre:place:restaurant", "name": "Restaurant", "type": "urn:tag:genre:place" }, { "id": "urn:tag:genre:place:restaurant:japanese", "name": "Japanese Restaurant", "type": "urn:tag:genre:place" }],
-      "_syn": { "world": "jp", "localities": ["osaka"], "era": [1929, 2026], "kind": "dining", "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.5 } } },
-    { "name": "Jiyuken Namba Honten", "entity_id": "ffffffff-0000-4000-8000-0000000a0304", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Curry-rice house founded in 1910, famous for its 'meibutsu curry' with a raw egg on top, a favorite of novelist Sakunosuke Oda.", "address": "3-1-34 Namba, Chuo-ku, Osaka", "geocode": { "name": "Osaka", "admin1_region": "Osaka Prefecture", "country_code": "JP" }, "business_rating": 4.0, "price_level": 1, "is_closed": false, "akas": [{ "value": "自由軒 難波本店", "languages": ["ja"] }] },
-      "popularity": 0.72, "tags": [{ "id": "urn:tag:genre:place:restaurant", "name": "Restaurant", "type": "urn:tag:genre:place" }],
-      "_syn": { "world": "jp", "localities": ["osaka"], "era": [1910, 2026], "kind": "dining", "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.5 } } },
-    { "name": "Hokkyokusei Shinsaibashi Honten", "entity_id": "ffffffff-0000-4000-8000-0000000a0305", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Birthplace of omurice (1925), served on tatami in an old townhouse off Shinsaibashi.", "address": "2-7-27 Nishishinsaibashi, Chuo-ku, Osaka", "geocode": { "name": "Osaka", "admin1_region": "Osaka Prefecture", "country_code": "JP" }, "business_rating": 4.1, "price_level": 2, "is_closed": false, "akas": [{ "value": "北極星 心斎橋本店", "languages": ["ja"] }] },
-      "popularity": 0.74, "tags": [{ "id": "urn:tag:genre:place:restaurant", "name": "Restaurant", "type": "urn:tag:genre:place" }, { "id": "urn:tag:genre:place:restaurant:japanese", "name": "Japanese Restaurant", "type": "urn:tag:genre:place" }],
-      "_syn": { "world": "jp", "localities": ["osaka"], "era": [1925, 2026], "kind": "dining", "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.5 } } },
-    { "name": "Aizuya Honten", "entity_id": "ffffffff-0000-4000-8000-0000000a0306", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "The takoyaki originator, founded in 1933 in Tamade; small dashi-flavored balls served without sauce.", "address": "1-9-6 Tamade-nishi, Nishinari-ku, Osaka", "geocode": { "name": "Osaka", "admin1_region": "Osaka Prefecture", "country_code": "JP" }, "business_rating": 4.2, "price_level": 1, "is_closed": false, "akas": [{ "value": "会津屋 本店", "languages": ["ja"] }] },
-      "popularity": 0.7, "tags": [{ "id": "urn:tag:genre:place:restaurant", "name": "Restaurant", "type": "urn:tag:genre:place" }, { "id": "urn:tag:genre:place:restaurant:japanese", "name": "Japanese Restaurant", "type": "urn:tag:genre:place" }],
-      "_syn": { "world": "jp", "localities": ["osaka"], "era": [1933, 2026], "kind": "dining", "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.5 } } },
-    { "name": "Harijū Dotonbori", "entity_id": "ffffffff-0000-4000-8000-0000000a0307", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Sukiyaki restaurant and butcher on Dotonbori since 1919, with a Western-style grill next door.", "address": "1-9-17 Dotonbori, Chuo-ku, Osaka", "geocode": { "name": "Osaka", "admin1_region": "Osaka Prefecture", "country_code": "JP" }, "business_rating": 4.0, "price_level": 3, "is_closed": false, "akas": [{ "value": "はり重 道頓堀本店", "languages": ["ja"] }] },
-      "popularity": 0.66, "tags": [{ "id": "urn:tag:genre:place:restaurant", "name": "Restaurant", "type": "urn:tag:genre:place" }, { "id": "urn:tag:genre:place:restaurant:japanese", "name": "Japanese Restaurant", "type": "urn:tag:genre:place" }],
-      "_syn": { "world": "jp", "localities": ["osaka"], "era": [1919, 2026], "kind": "dining", "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.5 } } },
-    { "name": "Yoshino Sushi", "entity_id": "ffffffff-0000-4000-8000-0000000a0308", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Pressed 'hako-zushi' specialist in Awaji-machi, founded in 1841.", "address": "3-4-14 Awajimachi, Chuo-ku, Osaka", "geocode": { "name": "Osaka", "admin1_region": "Osaka Prefecture", "country_code": "JP" }, "business_rating": 4.1, "price_level": 3, "is_closed": false, "akas": [{ "value": "吉野寿司", "languages": ["ja"] }] },
-      "popularity": 0.6, "tags": [{ "id": "urn:tag:genre:place:restaurant", "name": "Restaurant", "type": "urn:tag:genre:place" }, { "id": "urn:tag:genre:place:restaurant:japanese", "name": "Japanese Restaurant", "type": "urn:tag:genre:place" }],
-      "_syn": { "world": "jp", "localities": ["osaka"], "era": [1841, 2026], "kind": "dining", "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.45 } } },
-    { "name": "Indian Curry Namba", "entity_id": "ffffffff-0000-4000-8000-0000000a0309", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Osaka's sweet-then-fiery curry counter, founded in 1947 and still queued for at lunchtime.", "address": "Namba, Chuo-ku, Osaka", "geocode": { "name": "Osaka", "admin1_region": "Osaka Prefecture", "country_code": "JP" }, "business_rating": 4.1, "price_level": 1, "is_closed": false, "akas": [{ "value": "インデアンカレー", "languages": ["ja"] }] },
-      "popularity": 0.62, "tags": [{ "id": "urn:tag:genre:place:restaurant", "name": "Restaurant", "type": "urn:tag:genre:place" }],
-      "_syn": { "world": "jp", "localities": ["osaka"], "era": [1947, 2026], "kind": "dining", "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.45 } } },
-
-    { "name": "Tsutenkaku", "entity_id": "ffffffff-0000-4000-8000-0000000a0401", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Shinsekai's tower, rebuilt in 1956, with the Billiken good-luck statue on the observation deck.", "address": "1-18-6 Ebisuhigashi, Naniwa-ku, Osaka", "geocode": { "name": "Osaka", "admin1_region": "Osaka Prefecture", "country_code": "JP" }, "business_rating": 4.1, "is_closed": false, "akas": [{ "value": "通天閣", "languages": ["ja"] }] },
-      "popularity": 0.88, "tags": [{ "id": "urn:tag:category:place:landmark", "name": "Landmark", "type": "urn:tag:category:place" }, { "id": "urn:tag:category:place:tourist_attraction", "name": "Tourist Attraction", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "jp", "localities": ["osaka"], "era": [1956, 2026], "kind": "landmark", "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.55 } } },
-    { "name": "Dotonbori", "entity_id": "ffffffff-0000-4000-8000-0000000a0402", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Canal-side entertainment district of neon and street food, watched over by the Glico running man since 1935.", "address": "Dotonbori, Chuo-ku, Osaka", "geocode": { "name": "Osaka", "admin1_region": "Osaka Prefecture", "country_code": "JP" }, "business_rating": 4.4, "is_closed": false, "akas": [{ "value": "道頓堀", "languages": ["ja"] }] },
-      "popularity": 0.95, "tags": [{ "id": "urn:tag:category:place:landmark", "name": "Landmark", "type": "urn:tag:category:place" }, { "id": "urn:tag:category:place:tourist_attraction", "name": "Tourist Attraction", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "jp", "localities": ["osaka"], "era": [1935, 2026], "kind": "landmark", "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.6 } } },
-    { "name": "Osaka Castle", "entity_id": "ffffffff-0000-4000-8000-0000000a0403", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Hideyoshi's castle, its main tower rebuilt in 1931, set in a park of plum and cherry trees.", "address": "1-1 Osakajo, Chuo-ku, Osaka", "geocode": { "name": "Osaka", "admin1_region": "Osaka Prefecture", "country_code": "JP" }, "business_rating": 4.5, "is_closed": false, "akas": [{ "value": "大阪城", "languages": ["ja"] }] },
-      "popularity": 0.94, "tags": [{ "id": "urn:tag:category:place:landmark", "name": "Landmark", "type": "urn:tag:category:place" }, { "id": "urn:tag:category:place:park", "name": "Park", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "jp", "localities": ["osaka"], "era": [1931, 2026], "kind": "landmark", "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.5 } } },
-    { "name": "Hanshin Koshien Stadium", "entity_id": "ffffffff-0000-4000-8000-0000000a0404", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Ivy-covered 1924 ballpark, home of the Hanshin Tigers and the national high-school baseball tournaments.", "address": "1-82 Koshiencho, Nishinomiya, Hyogo", "geocode": { "name": "Nishinomiya", "admin1_region": "Hyogo Prefecture", "country_code": "JP" }, "business_rating": 4.5, "is_closed": false, "akas": [{ "value": "阪神甲子園球場", "languages": ["ja"] }] },
-      "popularity": 0.88, "tags": [{ "id": "urn:tag:category:place:stadium", "name": "Stadium", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "jp", "localities": ["osaka", "kobe"], "era": [1924, 2026], "kind": "landmark", "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.5 } } },
-    { "name": "Hozenji Yokocho", "entity_id": "ffffffff-0000-4000-8000-0000000a0405", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Stone-paved alley of tiny restaurants beside Hozenji temple, where visitors splash water on the moss-covered Fudō statue.", "address": "1 Namba, Chuo-ku, Osaka", "geocode": { "name": "Osaka", "admin1_region": "Osaka Prefecture", "country_code": "JP" }, "business_rating": 4.3, "is_closed": false, "akas": [{ "value": "法善寺横丁", "languages": ["ja"] }] },
-      "popularity": 0.8, "tags": [{ "id": "urn:tag:category:place:landmark", "name": "Landmark", "type": "urn:tag:category:place" }, { "id": "urn:tag:category:place:shrine", "name": "Shrine", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "jp", "localities": ["osaka"], "era": [1900, 2026], "kind": "landmark", "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.55 } } },
-    { "name": "Nakanoshima Park", "entity_id": "ffffffff-0000-4000-8000-0000000a0406", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Osaka's first public park (1891), a river island with a rose garden and the red-brick Central Public Hall.", "address": "1 Nakanoshima, Kita-ku, Osaka", "geocode": { "name": "Osaka", "admin1_region": "Osaka Prefecture", "country_code": "JP" }, "business_rating": 4.3, "is_closed": false, "akas": [{ "value": "中之島公園", "languages": ["ja"] }] },
-      "popularity": 0.76, "tags": [{ "id": "urn:tag:category:place:park", "name": "Park", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "jp", "localities": ["osaka"], "era": [1891, 2026], "kind": "landmark", "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.45 } } },
-    { "name": "Shinsekai", "entity_id": "ffffffff-0000-4000-8000-0000000a0407", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Retro 'New World' district laid out in 1912, all kushikatsu shops, shogi parlors and the Tsutenkaku tower.", "address": "Ebisuhigashi, Naniwa-ku, Osaka", "geocode": { "name": "Osaka", "admin1_region": "Osaka Prefecture", "country_code": "JP" }, "business_rating": 4.2, "is_closed": false, "akas": [{ "value": "新世界", "languages": ["ja"] }] },
-      "popularity": 0.84, "tags": [{ "id": "urn:tag:category:place:tourist_attraction", "name": "Tourist Attraction", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "jp", "localities": ["osaka"], "era": [1912, 2026], "kind": "landmark", "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.5 } } },
-    { "name": "Tennoji Zoo", "entity_id": "ffffffff-0000-4000-8000-0000000a0408", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "City zoo opened in 1915, a classic family outing beside Tennoji Park.", "address": "1-108 Chausuyamacho, Tennoji-ku, Osaka", "geocode": { "name": "Osaka", "admin1_region": "Osaka Prefecture", "country_code": "JP" }, "business_rating": 4.1, "is_closed": false, "akas": [{ "value": "天王寺動物園", "languages": ["ja"] }] },
-      "popularity": 0.74, "tags": [{ "id": "urn:tag:category:place:zoo", "name": "Zoo", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "jp", "localities": ["osaka"], "era": [1915, 2026], "kind": "landmark", "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.45 } } },
-    { "name": "Osaka Shochikuza", "entity_id": "ffffffff-0000-4000-8000-0000000a0409", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Neo-Renaissance theater on Dotonbori, opened in 1923, long a stage for stars of song and kabuki.", "address": "1-9-19 Dotonbori, Chuo-ku, Osaka", "geocode": { "name": "Osaka", "admin1_region": "Osaka Prefecture", "country_code": "JP" }, "business_rating": 4.2, "is_closed": false, "akas": [{ "value": "大阪松竹座", "languages": ["ja"] }] },
-      "popularity": 0.7, "tags": [{ "id": "urn:tag:category:place:theater", "name": "Theater", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "jp", "localities": ["osaka"], "era": [1923, 2026], "kind": "landmark", "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.6 } } },
-    { "name": "Tower of the Sun",
-      "entity_id": "ffffffff-0000-4000-8000-0000000a0410", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Taro Okamoto's 70-metre sculpture, the symbol of Expo '70, still standing in the Expo Commemorative Park in Suita.", "address": "1-1 Senribanpakukoen, Suita, Osaka", "geocode": { "name": "Suita", "admin1_region": "Osaka Prefecture", "country_code": "JP" }, "business_rating": 4.4, "is_closed": false, "akas": [{ "value": "太陽の塔", "languages": ["ja"] }, { "value": "Expo '70 Commemorative Park", "languages": ["en"] }] },
-      "popularity": 0.86, "tags": [{ "id": "urn:tag:category:place:landmark", "name": "Landmark", "type": "urn:tag:category:place" }, { "id": "urn:tag:category:place:park", "name": "Park", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "jp", "localities": ["osaka"], "era": [1970, 2026], "kind": "landmark", "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.6 } } },
-    { "name": "Sumiyoshi Taisha", "entity_id": "ffffffff-0000-4000-8000-0000000a0411", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "One of Japan's oldest shrines, with its arched red Sorihashi bridge and huge New Year crowds.", "address": "2-9-89 Sumiyoshi, Sumiyoshi-ku, Osaka", "geocode": { "name": "Osaka", "admin1_region": "Osaka Prefecture", "country_code": "JP" }, "business_rating": 4.5, "is_closed": false, "akas": [{ "value": "住吉大社", "languages": ["ja"] }] },
-      "popularity": 0.82, "tags": [{ "id": "urn:tag:category:place:shrine", "name": "Shrine", "type": "urn:tag:category:place" }, { "id": "urn:tag:category:place:landmark", "name": "Landmark", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "jp", "localities": ["osaka"], "era": [1900, 2026], "kind": "landmark", "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.45 } } },
-    { "name": "Hankyu Umeda Main Store", "entity_id": "ffffffff-0000-4000-8000-0000000a0412", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Japan's first railway-terminal department store (1929), with the dining hall that generations of Osaka families visited on special days.", "address": "8-7 Kakudacho, Kita-ku, Osaka", "geocode": { "name": "Osaka", "admin1_region": "Osaka Prefecture", "country_code": "JP" }, "business_rating": 4.2, "is_closed": false, "akas": [{ "value": "阪急うめだ本店", "languages": ["ja"] }] },
-      "popularity": 0.78, "tags": [{ "id": "urn:tag:category:place:department_store", "name": "Department Store", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "jp", "localities": ["osaka"], "era": [1929, 2026], "kind": "landmark", "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.45 } } },
-
-    { "name": "Kyoto", "entity_id": "ffffffff-0000-4000-8000-0000000a0501", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "The former imperial capital, under an hour from Osaka: temples, geisha lanes and autumn maples.", "geocode": { "name": "Kyoto", "admin1_region": "Kyoto Prefecture", "country_code": "JP" }, "akas": [{ "value": "京都", "languages": ["ja"] }] },
-      "popularity": 0.95, "tags": [{ "id": "urn:tag:genre:destination:historic", "name": "Historic", "type": "urn:tag:genre:destination" }, { "id": "urn:tag:genre:destination:city_break", "name": "City Break", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "jp", "localities": ["osaka", "kobe", "kyoto"], "era": [1900, 2026], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.5 } } },
-    { "name": "Nara", "entity_id": "ffffffff-0000-4000-8000-0000000a0502", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "Deer park and the Great Buddha of Tōdai-ji; the classic school-trip day out from Osaka.", "geocode": { "name": "Nara", "admin1_region": "Nara Prefecture", "country_code": "JP" }, "akas": [{ "value": "奈良", "languages": ["ja"] }] },
-      "popularity": 0.85, "tags": [{ "id": "urn:tag:genre:destination:historic", "name": "Historic", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "jp", "localities": ["osaka", "kyoto"], "era": [1900, 2026], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.5 } } },
-    { "name": "Arashiyama", "entity_id": "ffffffff-0000-4000-8000-0000000a0503", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "Bamboo grove, the Togetsukyō bridge and river boats in western Kyoto.", "geocode": { "name": "Kyoto", "admin1_region": "Kyoto Prefecture", "country_code": "JP" }, "akas": [{ "value": "嵐山", "languages": ["ja"] }] },
-      "popularity": 0.85, "tags": [{ "id": "urn:tag:genre:destination:historic", "name": "Historic", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "jp", "localities": ["osaka", "kyoto"], "era": [1900, 2026], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.45 } } },
-    { "name": "Arima Onsen", "entity_id": "ffffffff-0000-4000-8000-0000000a0504", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "One of Japan's oldest hot-spring towns, in the hills behind Kobe, with iron-red 'golden' baths.", "geocode": { "name": "Kobe", "admin1_region": "Hyogo Prefecture", "country_code": "JP" }, "akas": [{ "value": "有馬温泉", "languages": ["ja"] }] },
-      "popularity": 0.75, "tags": [{ "id": "urn:tag:genre:destination:hot_springs", "name": "Hot Springs", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "jp", "localities": ["osaka", "kobe"], "era": [1900, 2026], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.5 } } },
-    { "name": "Shirahama", "entity_id": "ffffffff-0000-4000-8000-0000000a0505", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "White-sand beach and seaside hot springs on the Wakayama coast, a honeymoon favorite of the 1960s and 70s.", "geocode": { "name": "Shirahama", "admin1_region": "Wakayama Prefecture", "country_code": "JP" }, "akas": [{ "value": "白浜", "languages": ["ja"] }] },
-      "popularity": 0.7, "tags": [{ "id": "urn:tag:genre:destination:beach", "name": "Beach", "type": "urn:tag:genre:destination" }, { "id": "urn:tag:genre:destination:hot_springs", "name": "Hot Springs", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "jp", "localities": ["osaka", "kobe"], "era": [1950, 2026], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.55 } } },
-    { "name": "Lake Biwa", "entity_id": "ffffffff-0000-4000-8000-0000000a0506", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "Japan's largest lake, a short train ride northeast of Osaka, with beaches, boat cruises and the 'Biwako Shūkō no Uta' song everyone knows.", "geocode": { "name": "Otsu", "admin1_region": "Shiga Prefecture", "country_code": "JP" }, "akas": [{ "value": "琵琶湖", "languages": ["ja"] }] },
-      "popularity": 0.7, "tags": [{ "id": "urn:tag:genre:destination:lake", "name": "Lake", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "jp", "localities": ["osaka", "kyoto"], "era": [1900, 2026], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.5 } } },
-    { "name": "Mount Kōya", "entity_id": "ffffffff-0000-4000-8000-0000000a0507", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "Mountaintop monastery town of Shingon Buddhism in Wakayama, reached by cable car.", "geocode": { "name": "Koya", "admin1_region": "Wakayama Prefecture", "country_code": "JP" }, "akas": [{ "value": "高野山", "languages": ["ja"] }, { "value": "Koyasan", "languages": ["ja"] }] },
-      "popularity": 0.7, "tags": [{ "id": "urn:tag:genre:destination:historic", "name": "Historic", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "jp", "localities": ["osaka"], "era": [1900, 2026], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.45 } } },
-    { "name": "Ise", "entity_id": "ffffffff-0000-4000-8000-0000000a0508", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "Home of Ise Grand Shrine, Japan's most sacred Shinto site, and the once-in-a-lifetime pilgrimage of the Showa years.", "geocode": { "name": "Ise", "admin1_region": "Mie Prefecture", "country_code": "JP" }, "akas": [{ "value": "伊勢", "languages": ["ja"] }] },
-      "popularity": 0.72, "tags": [{ "id": "urn:tag:genre:destination:historic", "name": "Historic", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "jp", "localities": ["osaka", "kyoto"], "era": [1900, 2026], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.5 } } },
-    { "name": "Awaji Island", "entity_id": "ffffffff-0000-4000-8000-0000000a0509", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "Island across the Akashi Strait from Kobe, known for onions, the Naruto whirlpools and quiet beaches.", "geocode": { "name": "Awaji", "admin1_region": "Hyogo Prefecture", "country_code": "JP" }, "akas": [{ "value": "淡路島", "languages": ["ja"] }] },
-      "popularity": 0.6, "tags": [{ "id": "urn:tag:genre:destination:beach", "name": "Beach", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "jp", "localities": ["osaka", "kobe"], "era": [1900, 2026], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.4 } } },
-    { "name": "Beppu", "entity_id": "ffffffff-0000-4000-8000-0000000a0510", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "Hot-spring capital of Kyushu, famous for its steaming 'hells' and sand baths.", "geocode": { "name": "Beppu", "admin1_region": "Oita Prefecture", "country_code": "JP" }, "akas": [{ "value": "別府", "languages": ["ja"] }] },
-      "popularity": 0.75, "tags": [{ "id": "urn:tag:genre:destination:hot_springs", "name": "Hot Springs", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "jp", "era": [1900, 2026], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.4 } } },
-    { "name": "Atami", "entity_id": "ffffffff-0000-4000-8000-0000000a0511", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "Seaside hot-spring resort near Tokyo, the honeymoon and company-trip town of the Showa era.", "geocode": { "name": "Atami", "admin1_region": "Shizuoka Prefecture", "country_code": "JP" }, "akas": [{ "value": "熱海", "languages": ["ja"] }] },
-      "popularity": 0.7, "tags": [{ "id": "urn:tag:genre:destination:hot_springs", "name": "Hot Springs", "type": "urn:tag:genre:destination" }, { "id": "urn:tag:genre:destination:beach", "name": "Beach", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "jp", "localities": ["tokyo", "yokohama"], "era": [1950, 2026], "related": { "ffffffff-0000-4000-8000-0000000a0001": 0.45 } } }
+    {
+      "name": "Hibari Misora",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0001",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Japan's most celebrated postwar singer and actress, the 'Queen of Showa'; her enka and kayōkyoku hits such as 'Kawa no Nagare no Yō ni' and 'Yawara' defined an era.",
+        "date_of_birth": "1937-05-29",
+        "year_of_death": 1989,
+        "place_of_birth": "Yokohama, Kanagawa, Japan",
+        "akas": [
+          {
+            "value": "美空ひばり",
+            "languages": [
+              "ja"
+            ]
+          },
+          {
+            "value": "Misora Hibari",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.97,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:enka",
+          "name": "Enka",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:kayokyoku",
+          "name": "Kayōkyoku",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "yokohama",
+          "tokyo"
+        ],
+        "era": [
+          1949,
+          1989
+        ]
+      }
+    },
+    {
+      "name": "Chiemi Eri",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0002",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Singer and actress who rose to fame with 'Tennessee Waltz' in 1952 and formed the beloved 'Sannin Musume' trio with Hibari Misora and Izumi Yukimura.",
+        "date_of_birth": "1937-01-11",
+        "year_of_death": 1982,
+        "place_of_birth": "Tokyo, Japan",
+        "akas": [
+          {
+            "value": "江利チエミ",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.72,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:kayokyoku",
+          "name": "Kayōkyoku",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:jazz",
+          "name": "Jazz",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "tokyo"
+        ],
+        "era": [
+          1952,
+          1982
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.95
+        }
+      }
+    },
+    {
+      "name": "Izumi Yukimura",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0003",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Jazz-influenced pop singer and actress; the third of the 'Sannin Musume' alongside Hibari Misora and Chiemi Eri.",
+        "date_of_birth": "1937-03-20",
+        "place_of_birth": "Tokyo, Japan",
+        "akas": [
+          {
+            "value": "雪村いづみ",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.68,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:kayokyoku",
+          "name": "Kayōkyoku",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:jazz",
+          "name": "Jazz",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "tokyo"
+        ],
+        "era": [
+          1953,
+          1980
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.93
+        }
+      }
+    },
+    {
+      "name": "Hachiro Kasuga",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0004",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Enka pioneer whose 'Otomi-san' (1954) and 'Wakare no Ipponsugi' became national sing-alongs.",
+        "date_of_birth": "1924-10-09",
+        "year_of_death": 1991,
+        "place_of_birth": "Fukushima, Japan",
+        "akas": [
+          {
+            "value": "春日八郎",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:enka",
+          "name": "Enka",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "era": [
+          1952,
+          1985
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.88
+        }
+      }
+    },
+    {
+      "name": "Michiya Mihashi",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0005",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Enka and min'yō singer with a soaring voice; 'Onna Sendō Uta' and 'Kojō' sold millions in the late 1950s.",
+        "date_of_birth": "1930-11-10",
+        "year_of_death": 1996,
+        "place_of_birth": "Hokkaido, Japan",
+        "akas": [
+          {
+            "value": "三橋美智也",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:enka",
+          "name": "Enka",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:folk",
+          "name": "Folk",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "era": [
+          1954,
+          1985
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.88
+        }
+      }
+    },
+    {
+      "name": "Frank Nagai",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0006",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Baritone crooner of 'mood kayō' whose 'Yūrakuchō de Aimashō' (1957) evoked Tokyo nightlife.",
+        "date_of_birth": "1932-03-18",
+        "year_of_death": 2008,
+        "place_of_birth": "Miyagi, Japan",
+        "akas": [
+          {
+            "value": "フランク永井",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:kayokyoku",
+          "name": "Kayōkyoku",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "tokyo"
+        ],
+        "era": [
+          1955,
+          1985
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.85
+        }
+      }
+    },
+    {
+      "name": "Kyu Sakamoto",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0007",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Singer of 'Ue o Muite Arukō' (1961), known abroad as 'Sukiyaki', the first Japanese song to top the US charts.",
+        "date_of_birth": "1941-12-10",
+        "year_of_death": 1985,
+        "place_of_birth": "Kawasaki, Kanagawa, Japan",
+        "akas": [
+          {
+            "value": "坂本九",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.86,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:kayokyoku",
+          "name": "Kayōkyoku",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:pop",
+          "name": "Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "tokyo",
+          "yokohama"
+        ],
+        "era": [
+          1959,
+          1985
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.82
+        }
+      }
+    },
+    {
+      "name": "Yujiro Ishihara",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0008",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Film star and singer, Japan's 'eternal superstar', whose husky ballads and Nikkatsu action films defined 1960s cool.",
+        "date_of_birth": "1934-12-28",
+        "year_of_death": 1987,
+        "place_of_birth": "Kobe, Hyogo, Japan",
+        "akas": [
+          {
+            "value": "石原裕次郎",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.85,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:kayokyoku",
+          "name": "Kayōkyoku",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "kobe",
+          "osaka"
+        ],
+        "era": [
+          1956,
+          1987
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.84
+        }
+      }
+    },
+    {
+      "name": "The Peanuts",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0009",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Twin-sister vocal duo Emi and Yumi Ito, active 1959 to 1975; 'Koi no Vacance' (1963) and the Mothra song, hosts of 'Shabondama Holiday'.",
+        "date_of_birth": "1941-04-01",
+        "place_of_birth": "Nagoya, Aichi, Japan",
+        "akas": [
+          {
+            "value": "ザ・ピーナッツ",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:kayokyoku",
+          "name": "Kayōkyoku",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:pop",
+          "name": "Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "era": [
+          1959,
+          1975
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.8
+        }
+      }
+    },
+    {
+      "name": "Saburō Kitajima",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0010",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Enka giant of 'Namida Bune' and 'Matsuri', a fixture of NHK's Kōhaku for five decades.",
+        "date_of_birth": "1936-10-04",
+        "place_of_birth": "Hokkaido, Japan",
+        "akas": [
+          {
+            "value": "北島三郎",
+            "languages": [
+              "ja"
+            ]
+          },
+          {
+            "value": "Saburo Kitajima",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:enka",
+          "name": "Enka",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "era": [
+          1962,
+          2013
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.86
+        }
+      }
+    },
+    {
+      "name": "Harumi Miyako",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0011",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Enka singer whose 'Anko Tsubaki wa Koi no Hana' (1964) made her a star at 16; her growling 'unari' is unmistakable.",
+        "date_of_birth": "1948-02-22",
+        "place_of_birth": "Kyoto, Japan",
+        "akas": [
+          {
+            "value": "都はるみ",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:enka",
+          "name": "Enka",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "kyoto",
+          "osaka"
+        ],
+        "era": [
+          1964,
+          1990
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.85
+        }
+      }
+    },
+    {
+      "name": "Shinichi Mori",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0012",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Husky-voiced enka singer of 'Erimo Misaki' (1974) and 'Ofukuro-san'.",
+        "date_of_birth": "1947-11-18",
+        "place_of_birth": "Yamanashi, Japan",
+        "akas": [
+          {
+            "value": "森進一",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.72,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:enka",
+          "name": "Enka",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "era": [
+          1966,
+          2000
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.8
+        }
+      }
+    },
+    {
+      "name": "Aki Yashiro",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0013",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Enka queen of 'Funauta' (1979) and 'Ame no Bojō' (1980), beloved for her smoky voice.",
+        "date_of_birth": "1950-08-29",
+        "year_of_death": 2023,
+        "place_of_birth": "Yatsushiro, Kumamoto, Japan",
+        "akas": [
+          {
+            "value": "八代亜紀",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:enka",
+          "name": "Enka",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "era": [
+          1971,
+          2010
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.8
+        }
+      }
+    },
+    {
+      "name": "Keiko Fuji",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0014",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Teenage enka sensation of 1970 with 'Keiko no Yume wa Yoru Hiraku'.",
+        "date_of_birth": "1951-07-05",
+        "year_of_death": 2013,
+        "place_of_birth": "Iwate, Japan",
+        "akas": [
+          {
+            "value": "藤圭子",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.66,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:enka",
+          "name": "Enka",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "era": [
+          1969,
+          1980
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.78
+        }
+      }
+    },
+    {
+      "name": "Momoe Yamaguchi",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0015",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Idol singer and actress who dominated the late 1970s before retiring at 21 in 1980.",
+        "date_of_birth": "1959-01-17",
+        "place_of_birth": "Tokyo, Japan",
+        "akas": [
+          {
+            "value": "山口百恵",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.84,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:kayokyoku",
+          "name": "Kayōkyoku",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:j_pop",
+          "name": "J-Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "era": [
+          1973,
+          1980
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.6
+        }
+      }
+    },
+    {
+      "name": "Hiroshi Itsuki",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0017",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Yokohama Tasogare' (1971) launched one of enka's longest careers.",
+        "date_of_birth": "1948-03-14",
+        "place_of_birth": "Fukui, Japan",
+        "akas": [
+          {
+            "value": "五木ひろし",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:enka",
+          "name": "Enka",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "era": [
+          1971,
+          2010
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.8
+        }
+      }
+    },
+    {
+      "name": "Candies",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0018",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Idol trio of 'Haru Ichiban' (1976), whose 1978 farewell concert drew 55,000 fans.",
+        "date_of_birth": "1954-01-01",
+        "place_of_birth": "Japan",
+        "akas": [
+          {
+            "value": "キャンディーズ",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:j_pop",
+          "name": "J-Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "era": [
+          1973,
+          1978
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.55
+        }
+      }
+    },
+    {
+      "name": "Otoko wa Tsurai yo",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0101",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1969,
+        "release_date": "1969-08-27",
+        "description": "The first of the 48-film Tora-san series: a wandering peddler returns to Shibamata and falls hopelessly in love. Japan's most beloved comedy franchise.",
+        "release_country": [
+          "Japan"
+        ],
+        "duration": 91,
+        "akas": [
+          {
+            "value": "男はつらいよ",
+            "languages": [
+              "ja"
+            ]
+          },
+          {
+            "value": "It's Tough Being a Man",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.82,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "tokyo"
+        ],
+        "era": [
+          1969,
+          1995
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Red Beard",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0102",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1965,
+        "release_date": "1965-04-03",
+        "description": "Akira Kurosawa's humane epic about a gruff doctor (Toshiro Mifune) and his young intern at a clinic for the poor in Edo.",
+        "release_country": [
+          "Japan"
+        ],
+        "duration": 185,
+        "akas": [
+          {
+            "value": "赤ひげ",
+            "languages": [
+              "ja"
+            ]
+          },
+          {
+            "value": "Akahige",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.78,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:jidaigeki",
+          "name": "Jidaigeki",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "era": [
+          1965,
+          1990
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.45
+        }
+      }
+    },
+    {
+      "name": "Tokyo Olympiad",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0103",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1965,
+        "release_date": "1965-03-20",
+        "description": "Kon Ichikawa's lyrical documentary of the 1964 Tokyo Olympics, seen by millions in cinemas across Japan.",
+        "release_country": [
+          "Japan"
+        ],
+        "duration": 170,
+        "akas": [
+          {
+            "value": "東京オリンピック",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:documentary",
+          "name": "Documentary",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "tokyo"
+        ],
+        "era": [
+          1965,
+          1975
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Kwaidan",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0104",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1965,
+        "release_date": "1965-01-06",
+        "description": "Masaki Kobayashi's painterly anthology of four ghost stories from Lafcadio Hearn.",
+        "release_country": [
+          "Japan"
+        ],
+        "duration": 183,
+        "akas": [
+          {
+            "value": "怪談",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.72,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "era": [
+          1965,
+          1985
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.35
+        }
+      }
+    },
+    {
+      "name": "The Yellow Handkerchief",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0105",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1977,
+        "release_date": "1977-10-01",
+        "description": "Yoji Yamada's road movie across Hokkaido: an ex-convict (Ken Takakura) hopes his wife (Chieko Baisho) has hung a yellow handkerchief to welcome him home.",
+        "release_country": [
+          "Japan"
+        ],
+        "duration": 108,
+        "akas": [
+          {
+            "value": "幸福の黄色いハンカチ",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.78,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:romance",
+          "name": "Romance",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "era": [
+          1977,
+          1995
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "The Castle of Sand",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0106",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1974,
+        "release_date": "1974-10-19",
+        "description": "Yoshitaro Nomura's sweeping mystery from Seicho Matsumoto's novel, with a famous piano-concerto finale.",
+        "release_country": [
+          "Japan"
+        ],
+        "duration": 143,
+        "akas": [
+          {
+            "value": "砂の器",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:crime",
+          "name": "Crime",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "era": [
+          1974,
+          1990
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.45
+        }
+      }
+    },
+    {
+      "name": "Dodes'ka-den",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0107",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1970,
+        "release_date": "1970-10-31",
+        "description": "Kurosawa's first color film: vivid vignettes of life in a Tokyo shantytown.",
+        "release_country": [
+          "Japan"
+        ],
+        "duration": 140,
+        "akas": [
+          {
+            "value": "どですかでん",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.66,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "tokyo"
+        ],
+        "era": [
+          1970,
+          1985
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Kagemusha",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0108",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1980,
+        "release_date": "1980-04-26",
+        "description": "Kurosawa's Palme d'Or-winning epic of a thief who must impersonate a dead warlord.",
+        "release_country": [
+          "Japan"
+        ],
+        "duration": 180,
+        "akas": [
+          {
+            "value": "影武者",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:jidaigeki",
+          "name": "Jidaigeki",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "era": [
+          1980,
+          1995
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Sandakan No. 8",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0109",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1974,
+        "release_date": "1974-11-02",
+        "description": "Kei Kumai's drama about a woman sent to Borneo as a 'karayuki-san'; Kinuyo Tanaka won the Berlin Silver Bear.",
+        "release_country": [
+          "Japan"
+        ],
+        "duration": 121,
+        "akas": [
+          {
+            "value": "サンダカン八番娼館 望郷",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.6,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "era": [
+          1974,
+          1985
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Osaka Elegy",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0110",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1936,
+        "release_date": "1936-05-28",
+        "description": "Kenji Mizoguchi's portrait of a telephone operator in Osaka trapped between family duty and her boss.",
+        "release_country": [
+          "Japan"
+        ],
+        "duration": 71,
+        "akas": [
+          {
+            "value": "浪華悲歌",
+            "languages": [
+              "ja"
+            ]
+          },
+          {
+            "value": "Naniwa Elegy",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.6,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka"
+        ],
+        "era": [
+          1936,
+          1960
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.3
+        }
+      }
+    },
+    {
+      "name": "Tokyo Kid",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0111",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1950,
+        "release_date": "1950-09-01",
+        "description": "A 13-year-old Hibari Misora stars as a street singer in postwar Tokyo, singing the title song that became her signature.",
+        "release_country": [
+          "Japan"
+        ],
+        "duration": 79,
+        "akas": [
+          {
+            "value": "東京キッド",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.6,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:musical",
+          "name": "Musical",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "tokyo"
+        ],
+        "era": [
+          1950,
+          1965
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.9
+        }
+      }
+    },
+    {
+      "name": "Godzilla",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0112",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1954,
+        "release_date": "1954-11-03",
+        "description": "Ishirō Honda's original monster film, a somber allegory of the atomic age.",
+        "release_country": [
+          "Japan"
+        ],
+        "duration": 96,
+        "akas": [
+          {
+            "value": "ゴジラ",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "tokyo"
+        ],
+        "era": [
+          1954,
+          1975
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.3
+        }
+      }
+    },
+    {
+      "name": "Seven Samurai",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0113",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1954,
+        "release_date": "1954-04-26",
+        "description": "Kurosawa's masterpiece: a village hires seven masterless samurai to defend its harvest.",
+        "release_country": [
+          "Japan"
+        ],
+        "duration": 207,
+        "akas": [
+          {
+            "value": "七人の侍",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.95,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:jidaigeki",
+          "name": "Jidaigeki",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "era": [
+          1954,
+          1980
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.3
+        }
+      }
+    },
+    {
+      "name": "Brutal Tales of Chivalry",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0114",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1965,
+        "release_date": "1965-10-01",
+        "description": "Ken Takakura's breakout 'ninkyo' yakuza film, launching a nine-film series that filled cinemas through the late 1960s.",
+        "release_country": [
+          "Japan"
+        ],
+        "duration": 90,
+        "akas": [
+          {
+            "value": "昭和残侠伝",
+            "languages": [
+              "ja"
+            ]
+          },
+          {
+            "value": "Showa Zankyoden",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.6,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:crime",
+          "name": "Crime",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "era": [
+          1965,
+          1975
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.45
+        }
+      }
+    },
+    {
+      "name": "Japan Sinks",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0115",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1973,
+        "release_date": "1973-12-29",
+        "description": "Toho's blockbuster disaster film from Sakyo Komatsu's bestseller, the talk of New Year 1974.",
+        "release_country": [
+          "Japan"
+        ],
+        "duration": 143,
+        "akas": [
+          {
+            "value": "日本沈没",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.65,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "era": [
+          1973,
+          1980
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.35
+        }
+      }
+    },
+    {
+      "name": "NHK Kōhaku Uta Gassen",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0201",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1951,
+        "description": "NHK's New Year's Eve singing contest between red and white teams; Hibari Misora headlined it many times.",
+        "release_country": [
+          "Japan"
+        ],
+        "akas": [
+          {
+            "value": "NHK紅白歌合戦",
+            "languages": [
+              "ja"
+            ]
+          },
+          {
+            "value": "Kōhaku",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:variety",
+          "name": "Variety",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:musical",
+          "name": "Musical",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "era": [
+          1951,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.9
+        }
+      }
+    },
+    {
+      "name": "Hachiji da yo! Zen'in Shūgō",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0202",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1969,
+        "description": "The Drifters' live Saturday-night variety show, with slapstick skits watched by half the country.",
+        "release_country": [
+          "Japan"
+        ],
+        "akas": [
+          {
+            "value": "8時だョ!全員集合",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.85,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:variety",
+          "name": "Variety",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "era": [
+          1969,
+          1985
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Mito Kōmon",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0203",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1969,
+        "description": "Long-running jidaigeki in which a retired vice-shogun travels Japan in disguise, righting wrongs with his crest at the climax of every episode.",
+        "release_country": [
+          "Japan"
+        ],
+        "akas": [
+          {
+            "value": "水戸黄門",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.85,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:jidaigeki",
+          "name": "Jidaigeki",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "era": [
+          1969,
+          2011
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.55
+        }
+      }
+    },
+    {
+      "name": "Ultraman",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0204",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1966,
+        "description": "Tsuburaya's giant hero fought a new monster every week in 1966-67.",
+        "release_country": [
+          "Japan"
+        ],
+        "akas": [
+          {
+            "value": "ウルトラマン",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.88,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:family",
+          "name": "Family",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "era": [
+          1966,
+          1967
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.3
+        }
+      }
+    },
+    {
+      "name": "Shabondama Holiday",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0205",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1961,
+        "description": "Sunday-evening variety show hosted by The Peanuts with Hana Hajime and the Crazy Cats.",
+        "release_country": [
+          "Japan"
+        ],
+        "akas": [
+          {
+            "value": "シャボン玉ホリデー",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.65,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:variety",
+          "name": "Variety",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "era": [
+          1961,
+          1972
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0009": 0.95,
+          "ffffffff-0000-4000-8000-0000000a0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Oshin",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0206",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1983,
+        "description": "NHK morning drama following a woman's life from Meiji-era poverty to supermarket success; its 52.6% rating is still a record.",
+        "release_country": [
+          "Japan"
+        ],
+        "akas": [
+          {
+            "value": "おしん",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.86,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "era": [
+          1983,
+          1984
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Taiyō ni Hoero!",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0207",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1972,
+        "description": "Police drama led by Yujiro Ishihara as 'Boss', famous for its young detectives' nicknames and dramatic deaths.",
+        "release_country": [
+          "Japan"
+        ],
+        "akas": [
+          {
+            "value": "太陽にほえろ!",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.78,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:crime",
+          "name": "Crime",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "era": [
+          1972,
+          1986
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0008": 0.9,
+          "ffffffff-0000-4000-8000-0000000a0001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Yoshimoto Shinkigeki",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0208",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1962,
+        "description": "Osaka's comedy troupe broadcast every Saturday lunchtime from Namba, with running gags every Kansai household knows.",
+        "release_country": [
+          "Japan"
+        ],
+        "akas": [
+          {
+            "value": "吉本新喜劇",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.72,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:variety",
+          "name": "Variety",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka"
+        ],
+        "era": [
+          1962,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.45
+        }
+      }
+    },
+    {
+      "name": "Mizuno",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0301",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Okonomiyaki restaurant on Dotonbori since 1945, known for its grated-yam 'yamaimo-yaki'.",
+        "address": "1-4-15 Dotonbori, Chuo-ku, Osaka",
+        "geocode": {
+          "name": "Osaka",
+          "admin1_region": "Osaka Prefecture",
+          "country_code": "JP"
+        },
+        "business_rating": 4.3,
+        "price_level": 2,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "美津の",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:okonomiyaki",
+          "name": "Okonomiyaki Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:japanese",
+          "name": "Japanese Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka"
+        ],
+        "era": [
+          1945,
+          2026
+        ],
+        "kind": "dining",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Kani Doraku Dotonbori Honten",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0302",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Crab restaurant whose giant moving crab sign has loomed over Dotonbori since 1962.",
+        "address": "1-6-18 Dotonbori, Chuo-ku, Osaka",
+        "geocode": {
+          "name": "Osaka",
+          "admin1_region": "Osaka Prefecture",
+          "country_code": "JP"
+        },
+        "business_rating": 4.1,
+        "price_level": 3,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "かに道楽 道頓堀本店",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.85,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:japanese",
+          "name": "Japanese Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka"
+        ],
+        "era": [
+          1962,
+          2026
+        ],
+        "kind": "dining",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.55
+        }
+      }
+    },
+    {
+      "name": "Kushikatsu Daruma Shinsekai Honten",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0303",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Deep-fried skewers in Shinsekai since 1929, with the famous 'no double dipping' sauce rule.",
+        "address": "2-3-9 Ebisuhigashi, Naniwa-ku, Osaka",
+        "geocode": {
+          "name": "Osaka",
+          "admin1_region": "Osaka Prefecture",
+          "country_code": "JP"
+        },
+        "business_rating": 4.2,
+        "price_level": 2,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "串かつだるま 新世界総本店",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.82,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:japanese",
+          "name": "Japanese Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka"
+        ],
+        "era": [
+          1929,
+          2026
+        ],
+        "kind": "dining",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Jiyuken Namba Honten",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0304",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Curry-rice house founded in 1910, famous for its 'meibutsu curry' with a raw egg on top, a favorite of novelist Sakunosuke Oda.",
+        "address": "3-1-34 Namba, Chuo-ku, Osaka",
+        "geocode": {
+          "name": "Osaka",
+          "admin1_region": "Osaka Prefecture",
+          "country_code": "JP"
+        },
+        "business_rating": 4,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "自由軒 難波本店",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.72,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka"
+        ],
+        "era": [
+          1910,
+          2026
+        ],
+        "kind": "dining",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Hokkyokusei Shinsaibashi Honten",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0305",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Birthplace of omurice (1925), served on tatami in an old townhouse off Shinsaibashi.",
+        "address": "2-7-27 Nishishinsaibashi, Chuo-ku, Osaka",
+        "geocode": {
+          "name": "Osaka",
+          "admin1_region": "Osaka Prefecture",
+          "country_code": "JP"
+        },
+        "business_rating": 4.1,
+        "price_level": 2,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "北極星 心斎橋本店",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:japanese",
+          "name": "Japanese Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka"
+        ],
+        "era": [
+          1925,
+          2026
+        ],
+        "kind": "dining",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Aizuya Honten",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0306",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The takoyaki originator, founded in 1933 in Tamade; small dashi-flavored balls served without sauce.",
+        "address": "1-9-6 Tamade-nishi, Nishinari-ku, Osaka",
+        "geocode": {
+          "name": "Osaka",
+          "admin1_region": "Osaka Prefecture",
+          "country_code": "JP"
+        },
+        "business_rating": 4.2,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "会津屋 本店",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:japanese",
+          "name": "Japanese Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka"
+        ],
+        "era": [
+          1933,
+          2026
+        ],
+        "kind": "dining",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Harijū Dotonbori",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0307",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Sukiyaki restaurant and butcher on Dotonbori since 1919, with a Western-style grill next door.",
+        "address": "1-9-17 Dotonbori, Chuo-ku, Osaka",
+        "geocode": {
+          "name": "Osaka",
+          "admin1_region": "Osaka Prefecture",
+          "country_code": "JP"
+        },
+        "business_rating": 4,
+        "price_level": 3,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "はり重 道頓堀本店",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.66,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:japanese",
+          "name": "Japanese Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka"
+        ],
+        "era": [
+          1919,
+          2026
+        ],
+        "kind": "dining",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Yoshino Sushi",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0308",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Pressed 'hako-zushi' specialist in Awaji-machi, founded in 1841.",
+        "address": "3-4-14 Awajimachi, Chuo-ku, Osaka",
+        "geocode": {
+          "name": "Osaka",
+          "admin1_region": "Osaka Prefecture",
+          "country_code": "JP"
+        },
+        "business_rating": 4.1,
+        "price_level": 3,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "吉野寿司",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.6,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:japanese",
+          "name": "Japanese Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka"
+        ],
+        "era": [
+          1841,
+          2026
+        ],
+        "kind": "dining",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.45
+        }
+      }
+    },
+    {
+      "name": "Indian Curry Namba",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0309",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Osaka's sweet-then-fiery curry counter, founded in 1947 and still queued for at lunchtime.",
+        "address": "Namba, Chuo-ku, Osaka",
+        "geocode": {
+          "name": "Osaka",
+          "admin1_region": "Osaka Prefecture",
+          "country_code": "JP"
+        },
+        "business_rating": 4.1,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "インデアンカレー",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.62,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka"
+        ],
+        "era": [
+          1947,
+          2026
+        ],
+        "kind": "dining",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.45
+        }
+      }
+    },
+    {
+      "name": "Tsutenkaku",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0401",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Shinsekai's tower, rebuilt in 1956, with the Billiken good-luck statue on the observation deck.",
+        "address": "1-18-6 Ebisuhigashi, Naniwa-ku, Osaka",
+        "geocode": {
+          "name": "Osaka",
+          "admin1_region": "Osaka Prefecture",
+          "country_code": "JP"
+        },
+        "business_rating": 4.1,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "通天閣",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.88,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:tourist_attraction",
+          "name": "Tourist Attraction",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka"
+        ],
+        "era": [
+          1956,
+          2026
+        ],
+        "kind": "landmark",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.55
+        }
+      }
+    },
+    {
+      "name": "Dotonbori",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0402",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Canal-side entertainment district of neon and street food, watched over by the Glico running man since 1935.",
+        "address": "Dotonbori, Chuo-ku, Osaka",
+        "geocode": {
+          "name": "Osaka",
+          "admin1_region": "Osaka Prefecture",
+          "country_code": "JP"
+        },
+        "business_rating": 4.4,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "道頓堀",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.95,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:tourist_attraction",
+          "name": "Tourist Attraction",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka"
+        ],
+        "era": [
+          1935,
+          2026
+        ],
+        "kind": "landmark",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.6
+        }
+      }
+    },
+    {
+      "name": "Osaka Castle",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0403",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Hideyoshi's castle, its main tower rebuilt in 1931, set in a park of plum and cherry trees.",
+        "address": "1-1 Osakajo, Chuo-ku, Osaka",
+        "geocode": {
+          "name": "Osaka",
+          "admin1_region": "Osaka Prefecture",
+          "country_code": "JP"
+        },
+        "business_rating": 4.5,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "大阪城",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.94,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:park",
+          "name": "Park",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka"
+        ],
+        "era": [
+          1931,
+          2026
+        ],
+        "kind": "landmark",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Hanshin Koshien Stadium",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0404",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Ivy-covered 1924 ballpark, home of the Hanshin Tigers and the national high-school baseball tournaments.",
+        "address": "1-82 Koshiencho, Nishinomiya, Hyogo",
+        "geocode": {
+          "name": "Nishinomiya",
+          "admin1_region": "Hyogo Prefecture",
+          "country_code": "JP"
+        },
+        "business_rating": 4.5,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "阪神甲子園球場",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.88,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:stadium",
+          "name": "Stadium",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka",
+          "kobe"
+        ],
+        "era": [
+          1924,
+          2026
+        ],
+        "kind": "landmark",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Hozenji Yokocho",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0405",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Stone-paved alley of tiny restaurants beside Hozenji temple, where visitors splash water on the moss-covered Fudō statue.",
+        "address": "1 Namba, Chuo-ku, Osaka",
+        "geocode": {
+          "name": "Osaka",
+          "admin1_region": "Osaka Prefecture",
+          "country_code": "JP"
+        },
+        "business_rating": 4.3,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "法善寺横丁",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:shrine",
+          "name": "Shrine",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "kind": "landmark",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.55
+        }
+      }
+    },
+    {
+      "name": "Nakanoshima Park",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0406",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Osaka's first public park (1891), a river island with a rose garden and the red-brick Central Public Hall.",
+        "address": "1 Nakanoshima, Kita-ku, Osaka",
+        "geocode": {
+          "name": "Osaka",
+          "admin1_region": "Osaka Prefecture",
+          "country_code": "JP"
+        },
+        "business_rating": 4.3,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "中之島公園",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.76,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:park",
+          "name": "Park",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka"
+        ],
+        "era": [
+          1891,
+          2026
+        ],
+        "kind": "landmark",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.45
+        }
+      }
+    },
+    {
+      "name": "Shinsekai",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0407",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Retro 'New World' district laid out in 1912, all kushikatsu shops, shogi parlors and the Tsutenkaku tower.",
+        "address": "Ebisuhigashi, Naniwa-ku, Osaka",
+        "geocode": {
+          "name": "Osaka",
+          "admin1_region": "Osaka Prefecture",
+          "country_code": "JP"
+        },
+        "business_rating": 4.2,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "新世界",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.84,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:tourist_attraction",
+          "name": "Tourist Attraction",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka"
+        ],
+        "era": [
+          1912,
+          2026
+        ],
+        "kind": "landmark",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Tennoji Zoo",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0408",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "City zoo opened in 1915, a classic family outing beside Tennoji Park.",
+        "address": "1-108 Chausuyamacho, Tennoji-ku, Osaka",
+        "geocode": {
+          "name": "Osaka",
+          "admin1_region": "Osaka Prefecture",
+          "country_code": "JP"
+        },
+        "business_rating": 4.1,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "天王寺動物園",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:zoo",
+          "name": "Zoo",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka"
+        ],
+        "era": [
+          1915,
+          2026
+        ],
+        "kind": "landmark",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.45
+        }
+      }
+    },
+    {
+      "name": "Osaka Shochikuza",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0409",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Neo-Renaissance theater on Dotonbori, opened in 1923, long a stage for stars of song and kabuki.",
+        "address": "1-9-19 Dotonbori, Chuo-ku, Osaka",
+        "geocode": {
+          "name": "Osaka",
+          "admin1_region": "Osaka Prefecture",
+          "country_code": "JP"
+        },
+        "business_rating": 4.2,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "大阪松竹座",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:theater",
+          "name": "Theater",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka"
+        ],
+        "era": [
+          1923,
+          2026
+        ],
+        "kind": "landmark",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.6
+        }
+      }
+    },
+    {
+      "name": "Tower of the Sun",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0410",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Taro Okamoto's 70-metre sculpture, the symbol of Expo '70, still standing in the Expo Commemorative Park in Suita.",
+        "address": "1-1 Senribanpakukoen, Suita, Osaka",
+        "geocode": {
+          "name": "Suita",
+          "admin1_region": "Osaka Prefecture",
+          "country_code": "JP"
+        },
+        "business_rating": 4.4,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "太陽の塔",
+            "languages": [
+              "ja"
+            ]
+          },
+          {
+            "value": "Expo '70 Commemorative Park",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.86,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:park",
+          "name": "Park",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka"
+        ],
+        "era": [
+          1970,
+          2026
+        ],
+        "kind": "landmark",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.6
+        }
+      }
+    },
+    {
+      "name": "Sumiyoshi Taisha",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0411",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "One of Japan's oldest shrines, with its arched red Sorihashi bridge and huge New Year crowds.",
+        "address": "2-9-89 Sumiyoshi, Sumiyoshi-ku, Osaka",
+        "geocode": {
+          "name": "Osaka",
+          "admin1_region": "Osaka Prefecture",
+          "country_code": "JP"
+        },
+        "business_rating": 4.5,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "住吉大社",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.82,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:shrine",
+          "name": "Shrine",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "kind": "landmark",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.45
+        }
+      }
+    },
+    {
+      "name": "Hankyu Umeda Main Store",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0412",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Japan's first railway-terminal department store (1929), with the dining hall that generations of Osaka families visited on special days.",
+        "address": "8-7 Kakudacho, Kita-ku, Osaka",
+        "geocode": {
+          "name": "Osaka",
+          "admin1_region": "Osaka Prefecture",
+          "country_code": "JP"
+        },
+        "business_rating": 4.2,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "阪急うめだ本店",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.78,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:department_store",
+          "name": "Department Store",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka"
+        ],
+        "era": [
+          1929,
+          2026
+        ],
+        "kind": "landmark",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.45
+        }
+      }
+    },
+    {
+      "name": "Kyoto",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0501",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "The former imperial capital, under an hour from Osaka: temples, geisha lanes and autumn maples.",
+        "geocode": {
+          "name": "Kyoto",
+          "admin1_region": "Kyoto Prefecture",
+          "country_code": "JP"
+        },
+        "akas": [
+          {
+            "value": "京都",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.95,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:historic",
+          "name": "Historic",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:city_break",
+          "name": "City Break",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka",
+          "kobe",
+          "kyoto"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Nara",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0502",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Deer park and the Great Buddha of Tōdai-ji; the classic school-trip day out from Osaka.",
+        "geocode": {
+          "name": "Nara",
+          "admin1_region": "Nara Prefecture",
+          "country_code": "JP"
+        },
+        "akas": [
+          {
+            "value": "奈良",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.85,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:historic",
+          "name": "Historic",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka",
+          "kyoto"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Arashiyama",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0503",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Bamboo grove, the Togetsukyō bridge and river boats in western Kyoto.",
+        "geocode": {
+          "name": "Kyoto",
+          "admin1_region": "Kyoto Prefecture",
+          "country_code": "JP"
+        },
+        "akas": [
+          {
+            "value": "嵐山",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.85,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:historic",
+          "name": "Historic",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka",
+          "kyoto"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.45
+        }
+      }
+    },
+    {
+      "name": "Arima Onsen",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0504",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "One of Japan's oldest hot-spring towns, in the hills behind Kobe, with iron-red 'golden' baths.",
+        "geocode": {
+          "name": "Kobe",
+          "admin1_region": "Hyogo Prefecture",
+          "country_code": "JP"
+        },
+        "akas": [
+          {
+            "value": "有馬温泉",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.75,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:hot_springs",
+          "name": "Hot Springs",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka",
+          "kobe"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Shirahama",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0505",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "White-sand beach and seaside hot springs on the Wakayama coast, a honeymoon favorite of the 1960s and 70s.",
+        "geocode": {
+          "name": "Shirahama",
+          "admin1_region": "Wakayama Prefecture",
+          "country_code": "JP"
+        },
+        "akas": [
+          {
+            "value": "白浜",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:beach",
+          "name": "Beach",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:hot_springs",
+          "name": "Hot Springs",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka",
+          "kobe"
+        ],
+        "era": [
+          1950,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.55
+        }
+      }
+    },
+    {
+      "name": "Lake Biwa",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0506",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Japan's largest lake, a short train ride northeast of Osaka, with beaches, boat cruises and the 'Biwako Shūkō no Uta' song everyone knows.",
+        "geocode": {
+          "name": "Otsu",
+          "admin1_region": "Shiga Prefecture",
+          "country_code": "JP"
+        },
+        "akas": [
+          {
+            "value": "琵琶湖",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:lake",
+          "name": "Lake",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka",
+          "kyoto"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Mount Kōya",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0507",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Mountaintop monastery town of Shingon Buddhism in Wakayama, reached by cable car.",
+        "geocode": {
+          "name": "Koya",
+          "admin1_region": "Wakayama Prefecture",
+          "country_code": "JP"
+        },
+        "akas": [
+          {
+            "value": "高野山",
+            "languages": [
+              "ja"
+            ]
+          },
+          {
+            "value": "Koyasan",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:historic",
+          "name": "Historic",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.45
+        }
+      }
+    },
+    {
+      "name": "Ise",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0508",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Home of Ise Grand Shrine, Japan's most sacred Shinto site, and the once-in-a-lifetime pilgrimage of the Showa years.",
+        "geocode": {
+          "name": "Ise",
+          "admin1_region": "Mie Prefecture",
+          "country_code": "JP"
+        },
+        "akas": [
+          {
+            "value": "伊勢",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.72,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:historic",
+          "name": "Historic",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka",
+          "kyoto"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Awaji Island",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0509",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Island across the Akashi Strait from Kobe, known for onions, the Naruto whirlpools and quiet beaches.",
+        "geocode": {
+          "name": "Awaji",
+          "admin1_region": "Hyogo Prefecture",
+          "country_code": "JP"
+        },
+        "akas": [
+          {
+            "value": "淡路島",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.6,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:beach",
+          "name": "Beach",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "osaka",
+          "kobe"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Beppu",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0510",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Hot-spring capital of Kyushu, famous for its steaming 'hells' and sand baths.",
+        "geocode": {
+          "name": "Beppu",
+          "admin1_region": "Oita Prefecture",
+          "country_code": "JP"
+        },
+        "akas": [
+          {
+            "value": "別府",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.75,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:hot_springs",
+          "name": "Hot Springs",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Atami",
+      "entity_id": "ffffffff-0000-4000-8000-0000000a0511",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Seaside hot-spring resort near Tokyo, the honeymoon and company-trip town of the Showa era.",
+        "geocode": {
+          "name": "Atami",
+          "admin1_region": "Shizuoka Prefecture",
+          "country_code": "JP"
+        },
+        "akas": [
+          {
+            "value": "熱海",
+            "languages": [
+              "ja"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:hot_springs",
+          "name": "Hot Springs",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:beach",
+          "name": "Beach",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "jp",
+        "localities": [
+          "tokyo",
+          "yokohama"
+        ],
+        "era": [
+          1950,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000a0001": 0.45
+        }
+      }
+    }
   ]
 }

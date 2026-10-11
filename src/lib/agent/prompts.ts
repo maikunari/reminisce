@@ -6,8 +6,9 @@
  * Prompts follow reminiscence-practice guidance: open, warm, one question at a
  * time, inviting a story rather than testing recall.
  */
+import { dictionary } from "@/lib/i18n";
 import type { QlooAgeBucket } from "@/lib/qloo/types";
-import { DOMAIN_INFO, type CardSignals, type Domain, type Language, type Person, pronounsFor } from "@/lib/session/types";
+import { type CardSignals, type Domain, type Language, type Person, pronounsFor } from "@/lib/session/types";
 import { describeDecade } from "@/lib/session/youth-window";
 
 type Vars = { title: string; year?: number; decade?: string; person: string; hometown: string };
@@ -157,46 +158,37 @@ export function offlinePrompt(opts: {
   });
 }
 
-const AGE_LABEL: Record<QlooAgeBucket, string> = {
-  "24_and_younger": "people 24 and younger",
-  "25_to_29": "people 25 to 29",
-  "30_to_34": "people 30 to 34",
-  "35_to_44": "people 35 to 44",
-  "45_to_54": "people 45 to 54",
-  "55_and_older": "people 55 and older",
-};
-
-export function ageLabel(bucket: QlooAgeBucket): string {
-  return AGE_LABEL[bucket];
+export function ageLabel(bucket: QlooAgeBucket, language: Language = "en"): string {
+  return dictionary(language).age[bucket];
 }
 
 /**
  * The provenance fragment under a card, read as "From Qloo: {whyLine} ·
  * affinity 0.91". For example "artists close to Hibari Misora, tuned to Osaka,
  * for people 55 and older". Seeds without a name are left out rather than
- * printed as ids.
+ * printed as ids. Written in the session's language.
  */
-export function whyLine(domain: Domain, signals: CardSignals): string {
-  const info = DOMAIN_INFO[domain];
-  let head = info.plural;
-  if (signals.yearRange) head += ` from ${signals.yearRange[0]} to ${signals.yearRange[1]}`;
-  const country = signals.params["filter.release_country"];
-  if (country) head += ` released in ${country}`;
+export function whyLine(domain: Domain, signals: CardSignals, language: Language = "en"): string {
+  const t = dictionary(language);
   const seeds = signals.seedNames.filter((n) => n.trim().length > 0);
-  if (seeds.length > 0) head += ` close to ${joinNames(seeds)}`;
-  const parts = [head];
-  if (signals.locationQuery) {
-    parts.push(signals.params["filter.location.query"] ? `in ${signals.locationQuery}` : `tuned to ${signals.locationQuery}`);
-  }
-  if (signals.ageBucket) parts.push(`for ${AGE_LABEL[signals.ageBucket]}`);
-  return parts.join(", ");
+  const country = signals.params["filter.release_country"];
+  return t.why.line({
+    plural: t.domain[domain].plural,
+    from: signals.yearRange ? t.why.from(signals.yearRange[0], signals.yearRange[1]) : undefined,
+    releasedIn: country ? t.why.releasedIn(country) : undefined,
+    closeTo: seeds.length > 0 ? t.why.closeTo(joinNames(seeds, 3, language)) : undefined,
+    location: signals.locationQuery ? (signals.params["filter.location.query"] ? t.why.within(signals.locationQuery) : t.why.tunedTo(signals.locationQuery)) : undefined,
+    age: signals.ageBucket ? t.why.forAge(t.age[signals.ageBucket]) : undefined,
+  });
 }
 
 /** "A", "A and B", "A, B and C"; five or more become "A, B, C and 2 others". The newest seed comes first. */
-export function joinNames(names: string[], max = 3): string {
+export function joinNames(names: string[], max = 3, language: Language = "en"): string {
+  const t = dictionary(language).why;
+  const sep = language === "ja" ? "、" : ", ";
   if (names.length <= 1) return names[0] ?? "";
-  if (names.length > max + 1) return `${names.slice(0, max).join(", ")} and ${names.length - max} others`;
-  return `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
+  if (names.length > max + 1) return `${names.slice(0, max).join(sep)} ${t.and} ${t.others(names.length - max)}`.replace(/ {2,}/g, " ");
+  return `${names.slice(0, -1).join(sep)} ${t.and} ${names[names.length - 1]}`;
 }
 
 /** Planner narration used by the deterministic policy. */
