@@ -220,7 +220,7 @@ The Playwright run builds the app and starts it on port 3100 with `QLOO_MODE=fix
 
 ## Deploying to Vercel
 
-`vercel.json` sets the framework; nothing else is required. Import the repository, then set the environment variables above in the project settings (`QLOO_API_KEY` and, if you want the model, `LLM_API_KEY`, `LLM_BASE_URL`, `LLM_MODEL`). Leave `QLOO_MODE` unset so the deployment goes live the moment the key exists. The API routes declare `maxDuration` (60 s for plan and adapt) and the agent keeps one 50 s budget inside that, shared by the LLM loop and the deterministic fallback (the last 15 s are held back so the fallback can always finish). `fixtures/synthetic` is included in the function bundle via `outputFileTracingIncludes` so fixture mode also works when deployed.
+`vercel.json` sets the framework; nothing else is required. Import the repository, then set the environment variables above in the project settings (`QLOO_API_KEY` and, if you want the model, `LLM_API_KEY`, `LLM_BASE_URL`, `LLM_MODEL`). Leave `QLOO_MODE` unset so the deployment goes live the moment the key exists. The API routes declare `maxDuration` (60 s for plan and adapt) and the agent keeps one 50 s budget inside that, shared by the LLM loop, the deterministic fallback and every live Qloo request (the last 15 s are held back so the fallback can always finish). `fixtures/synthetic` is included in the function bundle via `outputFileTracingIncludes` so fixture mode also works when deployed.
 
 ## Technical choices
 
