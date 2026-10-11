@@ -4,7 +4,7 @@
  * decision is a fixed rule. Used when no LLM key is configured, when
  * LLM_MODE=fixture, or as a fallback when the LLM fails.
  */
-import { namesPlace, phrase } from "@/lib/qloo/place";
+import { isTypedPlace } from "@/lib/qloo/place";
 import type { QlooEntityType } from "@/lib/qloo/types";
 import { DOMAIN_INFO, type Domain, type Favorite } from "@/lib/session/types";
 
@@ -24,6 +24,7 @@ interface SearchHit {
   types: string[];
   country_code?: string;
   disambiguation?: string;
+  akas?: string[];
 }
 
 interface InsightHit {
@@ -146,11 +147,6 @@ export function countryNameFor(hit: SearchHit | undefined): string | undefined {
   return last ? DISAMBIGUATION_COUNTRIES[last] : undefined;
 }
 
-/** The region and country words a locality hit is known by ("illinois", "united states of america", "us"). */
-function homeOf(hit: SearchHit): string[] {
-  return [...(hit.disambiguation?.split(",") ?? []), countryNameFor(hit) ?? "", hit.country_code ?? ""].map(phrase).filter((w) => w.length > 0);
-}
-
 function call(name: ToolName, args: unknown): ToolCall {
   return { id: newCallId(), name, args };
 }
@@ -256,7 +252,7 @@ export class ScriptedPlanPolicy extends GeneratorPolicy {
     const top = searchHits(locOut)[0];
     // Adopt Qloo's locality only when it is the typed town itself; a lookalike
     // ("Chester" -> Manchester) is left to the location query to resolve.
-    const locality = top && namesPlace(person.hometown, [top.name], (q) => homeOf(top).includes(q)) ? top : undefined;
+    const locality = top && isTypedPlace(person.hometown, top) ? top : undefined;
     const locationQuery = locality?.name ?? person.hometown;
     const country = countryNameFor(locality);
 

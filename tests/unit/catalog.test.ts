@@ -126,6 +126,20 @@ describe("regional synthetic catalogue", () => {
     }
   });
 
+  it.each([
+    ["New York", "New York City", "United States"],
+    ["NYC", "New York City", "United States"],
+    ["Ciudad de México", "Mexico City", "Mexico"],
+    ["CDMX", "Mexico City", "Mexico"],
+    ["Tokyo, Nippon", "Tokyo", "Japan"],
+    ["London, UK", "London", "United Kingdom"],
+  ])("a catalogue city typed by another of its names (%s) is adopted with its release country", async (hometown, adopted, country) => {
+    const result = await plan(person("Pat", 1948, hometown, []));
+    for (const card of result.cards) expect(card.signals.locationQuery, card.title).toBe(adopted);
+    const countries = new Set(result.cards.map((c) => c.signals.params["filter.release_country"]).filter((c) => c !== undefined));
+    expect([...countries]).toEqual([country]);
+  });
+
   it("a catalogue city named with its own country still gets its streets and its release country", async () => {
     const result = await plan(person("Michi", 1948, "Osaka, Japan", ["Hibari Misora"]));
     for (const worlds of worldsOfDeck(result.cards)) expect(worlds).toContain("jp");

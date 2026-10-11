@@ -28,7 +28,7 @@ import usCatalog from "../../../fixtures/synthetic/us.json";
 import worldCatalog from "../../../fixtures/synthetic/world.json";
 import zhCatalog from "../../../fixtures/synthetic/zh.json";
 import { toQueryString } from "./params";
-import { fold, namesPlace, phrase, tokens } from "./place";
+import { fold, isTypedPlace, tokens } from "./place";
 import type {
   QlooEntity,
   QlooInsightsResponse,
@@ -265,11 +265,8 @@ export class SyntheticQloo {
 
   resolveLocality(query: string | undefined): SyntheticLocality | null {
     if (!query) return null;
-    // A nickname or district ("Hollywood", "Brooklyn") also names towns
-    // elsewhere in the country, so only the city's own name takes a bare
-    // country word ("Chicago, USA", "Tokyo, Nippon").
-    const located = this.localities.find(
-      (l) => namesPlace(query, [l.name, ...l.akas], (q) => this.namesHomeOf(l, q)) || namesPlace(query, [l.name], (q) => this.namesCountryOf(l, q)),
+    const located = this.localities.find((l) =>
+      isTypedPlace(query, { ...l.properties?.geocode, name: l.name, akas: l.akas, disambiguation: l.disambiguation }),
     );
     if (located) return located;
     const name = query.trim();
@@ -290,25 +287,12 @@ export class SyntheticQloo {
     };
   }
 
-  /** Whether a comma-separated qualifier names the locality's own region or country. */
-  private namesHomeOf(l: SyntheticLocality, qualifier: string): boolean {
-    const geocode = l.properties?.geocode;
-    const country = this.regions.find((r) => r.code === geocode?.country_code);
-    const home = [geocode?.admin1_region, country?.name, country?.code, ...(l.disambiguation?.split(",") ?? [])];
-    return home.some((n) => n !== undefined && phrase(n) === qualifier);
-  }
-
-  private namesCountryOf(l: SyntheticLocality, qualifier: string): boolean {
-    const country = this.regions.find((r) => r.code === l.properties?.geocode?.country_code);
-    return this.namesHomeOf(l, qualifier) || (country?.keywords ?? []).some((k) => phrase(k) === qualifier);
-  }
-
   private localityToSearchResult(l: SyntheticLocality): QlooSearchResult {
     return {
       name: l.name,
       entity_id: l.entity_id,
       types: ["urn:entity:locality"],
-      properties: l.properties,
+      properties: { ...l.properties, akas: l.akas.map((value) => ({ value })) },
       popularity: 0.9,
       tags: [],
       disambiguation: l.disambiguation,

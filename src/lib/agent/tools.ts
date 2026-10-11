@@ -352,6 +352,7 @@ async function runSearchEntity(rawArgs: unknown, ctx: ToolContext): Promise<Tool
       popularity: typeof r.popularity === "number" ? Math.round(r.popularity * 100) / 100 : undefined,
       disambiguation: r.disambiguation,
       country_code: r.properties?.geocode?.country_code,
+      akas: r.types.includes("urn:entity:locality") ? r.properties?.akas?.map((a) => a.value) : undefined,
       description: short(r.properties?.short_description ?? r.properties?.description, 100),
       image_url: entityImageUrl(r),
     };
