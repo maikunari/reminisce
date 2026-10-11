@@ -180,7 +180,7 @@ When every card has a reaction, the session closes with a keepsake: what lit the
 
 ## Why Qloo panel
 
-Open from the header or from "See the Qloo call" on any card. For the current card it shows the entity type, the source (live, recorded or synthetic), affinity with a bar, rank and popularity, Qloo's explainability per seed, and every signal, filter and output parameter that was sent. Below it is the full agent timeline: narration, each tool call with its arguments, each Qloo request with its parameters, result counts and durations, and any parameters the validator dropped. Escape closes it; it is a complementary landmark and keyboard reachable.
+Open from the header or from "Show the call" on any card. For the current card it shows the entity type, the source (live, recorded or synthetic), affinity with a bar, rank and popularity, Qloo's explainability per seed, and every signal, filter and output parameter that was sent. Below it is the full agent timeline: narration, each tool call with its arguments, each Qloo request with its parameters, result counts and durations, and any parameters the validator dropped. Escape closes it; it is a complementary landmark and keyboard reachable.
 
 ![Why Qloo panel beside the card: "Qloo was asked for artists with taste affinity to Hibari Misora, tuned to Osaka, for people 55 and older", affinity 0.905, a Pulled-in-by bar for Hibari Misora and the request as a table](docs/screenshots/why-qloo.png)
 
