@@ -1,0 +1,909 @@
+@import "tailwindcss";
+
+/*
+ * Reminisce design system: a printed programme, not a dashboard.
+ * Paper and ink, one ember accent, hairline rules, printed ephemera for art.
+ * Every text pair below meets WCAG AA against paper-50 (ink-900 15.9:1,
+ * ink-700 10.1:1, ink-500 5.8:1, ember-600 5.2:1 and white on ember-600 5.6:1).
+ * ink-400 is for placeholders and decoration only.
+ */
+@theme {
+  --font-display: var(--font-fraunces), "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-sans: var(--font-franklin), "Franklin Gothic Medium", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --color-paper-50: #fbf7ef;
+  --color-paper-100: #f4ecdd;
+  --color-paper-200: #e8dcc6;
+  --color-paper-300: #d6c4a3;
+  --color-ink-900: #241a14;
+  --color-ink-700: #4a3a2f;
+  --color-ink-500: #705e51;
+  --color-ink-400: #8a7868;
+  --color-ember-700: #8e3814;
+  --color-ember-600: #b2461d;
+  --color-ember-100: #f5dfd3;
+  --color-plum-700: #5b3760;
+  --color-dusk-700: #444e5c;
+  --color-ochre-700: #7d5210;
+  --color-moss-700: #46603f;
+  --color-sea-700: #2b5f6e;
+
+  /* Type scale: 18px base, ratio 1.2. */
+  --text-xs: 0.778rem;
+  --text-xs--line-height: 1.2;
+  --text-sm: 0.889rem;
+  --text-sm--line-height: 1.45;
+  --text-base: 1rem;
+  --text-base--line-height: 1.55;
+  --text-md: 1.111rem;
+  --text-md--line-height: 1.5;
+  --text-lg: 1.222rem;
+  --text-lg--line-height: 1.45;
+  --text-xl: 1.444rem;
+  --text-xl--line-height: 1.3;
+  --text-2xl: 1.722rem;
+  --text-2xl--line-height: 1.3;
+  --text-3xl: 2.056rem;
+  --text-3xl--line-height: 1.15;
+  --text-4xl: 2.5rem;
+  --text-4xl--line-height: 1.08;
+  --text-5xl: 3rem;
+  --text-5xl--line-height: 1.06;
+  --text-6xl: 3.611rem;
+  --text-6xl--line-height: 1.02;
+
+  /* Radius: 4 for inner chips and swatches, 8 for controls, 12 for cards. Nothing larger. */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  --shadow-card: 0 1px 0 rgb(36 26 20 / 0.05), 0 1px 2px rgb(36 26 20 / 0.08);
+  --shadow-lift: 0 12px 32px -16px rgb(36 26 20 / 0.35);
+
+  --ease-soft: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --animate-fade-in: fade-in 160ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-slide: slide 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) infinite;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide {
+  from {
+    transform: translateX(-120%);
+  }
+  to {
+    transform: translateX(300%);
+  }
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    /* 18px base: big type for tablets held at arm's length. */
+    font-size: 112.5%;
+  }
+
+  body {
+    background: var(--color-paper-50);
+    color: var(--color-ink-900);
+    font-family: var(--font-sans);
+    font-feature-settings:
+      "lnum" 1,
+      "kern" 1;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    min-height: 100dvh;
+  }
+
+  /* Paper: a fixed layer, so it can never tile with the document height. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(120% 80% at 10% 0%, rgb(255 255 255 / 0.55), transparent 60%),
+      radial-gradient(90% 70% at 100% 100%, rgb(214 196 163 / 0.28), transparent 65%),
+      var(--color-paper-50);
+  }
+
+  /* Grain, also fixed. */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.22;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .45 0 0 0 0 .38 0 0 0 0 .3 0 0 0 .5 0'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");
+  }
+
+  h1,
+  h2,
+  h3,
+  .font-display {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-variation-settings:
+      "SOFT" 40,
+      "WONK" 0;
+    font-optical-sizing: auto;
+    letter-spacing: -0.005em;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-ember-600);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--color-ember-100);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    .progress i {
+      animation: none;
+      width: 100%;
+    }
+  }
+}
+
+@layer components {
+  /* Page measure. */
+  .wrap {
+    width: 100%;
+    max-width: 1180px;
+    margin-inline: auto;
+    padding-inline: 24px;
+  }
+  .wrap-wide {
+    max-width: 1360px;
+  }
+  @media (max-width: 640px) {
+    .wrap {
+      padding-inline: 16px;
+    }
+  }
+
+  /* Small-caps sans labels: the programme's running heads. They replace chips. */
+  .label {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--text-xs);
+    line-height: 1.2;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--color-ink-500);
+  }
+  .label-ink {
+    color: var(--color-ink-700);
+  }
+
+  .lede {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: var(--text-lg);
+    line-height: 1.45;
+    font-variation-settings:
+      "SOFT" 40,
+      "WONK" 0,
+      "opsz" 20;
+    color: var(--color-ink-700);
+  }
+
+  /* Card surfaces: hairline plus a whisper of shadow, 12px radius. */
+  .surface {
+    background: #fff;
+    border: 1px solid var(--color-paper-300);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+  }
+
+  /* Masthead: wordmark left, running head centred, text links right. */
+  .masthead {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 16px;
+    padding-block: 16px;
+    border-bottom: 1px solid var(--color-paper-300);
+  }
+  .masthead-centre {
+    text-align: center;
+    min-width: 0;
+  }
+  @media (max-width: 760px) {
+    .masthead {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+    .masthead-centre {
+      grid-column: 1 / -1;
+      text-align: left;
+    }
+  }
+
+  .wordmark {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: var(--text-xl);
+    letter-spacing: -0.01em;
+    color: var(--color-ink-900);
+    text-decoration: none;
+    font-variation-settings:
+      "SOFT" 40,
+      "WONK" 0;
+  }
+  .wordmark i {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-ember-600);
+    transform: translateY(-2px);
+  }
+
+  /* Buttons. One ember primary per screen. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 56px;
+    padding-inline: 24px;
+    border-radius: var(--radius-md);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--text-md);
+    line-height: 1;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      background-color 160ms var(--ease-soft),
+      color 160ms var(--ease-soft),
+      border-color 160ms var(--ease-soft);
+  }
+  .btn-primary {
+    background: var(--color-ember-600);
+    color: #fff;
+  }
+  .btn-primary:hover {
+    background: var(--color-ember-700);
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--color-ink-900);
+    border-color: var(--color-ink-900);
+  }
+  .btn-outline:hover {
+    background: var(--color-paper-100);
+  }
+  .btn-quiet {
+    background: transparent;
+    color: var(--color-ink-700);
+    border-color: var(--color-paper-300);
+  }
+  .btn-quiet:hover {
+    border-color: var(--color-ink-700);
+  }
+  .btn-lg {
+    min-height: 64px;
+    font-size: var(--text-lg);
+  }
+  .btn:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+  .btn-text {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0;
+    background: none;
+    border: 0;
+    color: var(--color-ink-900);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: var(--color-paper-300);
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 6px;
+    transition: text-decoration-color 160ms var(--ease-soft);
+  }
+  .btn-text:hover {
+    text-decoration-color: var(--color-ember-600);
+  }
+  .btn-text-muted {
+    color: var(--color-ink-700);
+  }
+  .btn-text-inline {
+    display: inline;
+    min-height: 0;
+    padding-block: 8px;
+    line-height: inherit;
+  }
+
+  /* Fields. The 3px ember focus ring is the only focus treatment. */
+  .field-label {
+    display: block;
+    margin-bottom: 8px;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--text-xs);
+    line-height: 1.2;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--color-ink-700);
+  }
+  .field-input {
+    width: 100%;
+    min-height: 56px;
+    padding-inline: 14px;
+    font-family: var(--font-sans);
+    font-size: var(--text-md);
+    line-height: 1.2;
+    color: var(--color-ink-900);
+    background: #fff;
+    border: 1px solid var(--color-paper-300);
+    border-radius: var(--radius-md);
+    box-shadow: inset 0 1px 0 rgb(36 26 20 / 0.03);
+  }
+  .field-input::placeholder {
+    color: var(--color-ink-400);
+  }
+  .hint {
+    margin-top: 8px;
+    font-size: var(--text-sm);
+    line-height: 1.45;
+    color: var(--color-ink-500);
+  }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 6px 0 14px;
+    border: 1px solid var(--color-ink-700);
+    border-radius: var(--radius-md);
+    font-size: var(--text-base);
+    font-weight: 500;
+    line-height: 1;
+    background: #fff;
+  }
+  .tag small {
+    font-weight: 400;
+    font-size: var(--text-sm);
+    color: var(--color-ink-500);
+  }
+
+  /* The suggestion list under a combobox. */
+  .suggest {
+    position: absolute;
+    z-index: 20;
+    margin-top: 8px;
+    width: 100%;
+    max-height: 20rem;
+    overflow: auto;
+    padding: 6px;
+    background: #fff;
+    border: 1px solid var(--color-paper-300);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lift);
+  }
+
+  /* Prompt: serif italic with a hanging ember quotation mark. */
+  .prompt {
+    position: relative;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: var(--text-2xl);
+    line-height: 1.3;
+    font-variation-settings:
+      "SOFT" 40,
+      "WONK" 0,
+      "opsz" 40;
+    color: var(--color-ink-900);
+    max-width: 24ch;
+    margin: 0;
+  }
+  .prompt::before {
+    content: "\201C";
+    position: absolute;
+    left: -0.55em;
+    top: -0.08em;
+    font-style: normal;
+    font-size: 1.5em;
+    line-height: 1;
+    color: var(--color-ember-600);
+  }
+
+  /* Status line with an ember dot, and the 2px indeterminate rule for re-tuning. */
+  .notice {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    font-size: var(--text-md);
+    line-height: 1.4;
+    color: var(--color-ink-700);
+  }
+  .notice::before {
+    content: "";
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-ember-600);
+    transform: translateY(-2px);
+  }
+  .progress {
+    height: 2px;
+    background: var(--color-paper-200);
+    overflow: hidden;
+    border-radius: 2px;
+  }
+  .progress i {
+    display: block;
+    width: 36%;
+    height: 100%;
+    background: var(--color-ember-600);
+    animation: var(--animate-slide);
+  }
+
+  /* Meter bars in the provenance note. */
+  .bar {
+    height: 4px;
+    background: var(--color-paper-200);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .bar i {
+    display: block;
+    height: 100%;
+    background: var(--color-ember-600);
+  }
+  .bar-moss i {
+    background: var(--color-moss-700);
+  }
+
+  /* Real images: a matte frame, like a photograph pasted into an album. */
+  .photo {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    padding: 10px 10px 12px;
+  }
+  .photo img {
+    display: block;
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    object-fit: cover;
+    background: #b9ab98;
+    filter: sepia(0.14) contrast(0.96) saturate(0.92);
+  }
+  .photo figcaption {
+    margin-top: 10px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--text-sm);
+    line-height: 1.3;
+    color: var(--color-ink-700);
+    text-align: center;
+  }
+
+  /*
+   * Sleeves: placeholder art as printed ephemera, paper plus one ink per domain.
+   * Sizes scale from the container's font-size (em units), so the same markup
+   * serves a 100px thumbnail and the card's hero.
+   */
+  .sleeve {
+    position: relative;
+    overflow: hidden;
+    min-width: 0;
+    max-width: 100%;
+    background: var(--color-paper-100);
+    color: var(--color-ink-900);
+    font-family: var(--font-display);
+    font-variation-settings:
+      "SOFT" 40,
+      "WONK" 0;
+  }
+  .sleeve::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .4 0 0 0 0 .33 0 0 0 0 .26 0 0 0 .35 0'/></filter><rect width='120' height='120' filter='url(%23n)'/></svg>");
+  }
+  .sleeve-t {
+    position: absolute;
+    left: 7%;
+    top: 7%;
+    right: 7%;
+    z-index: 1;
+  }
+  .sleeve-k {
+    display: block;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.62em;
+    line-height: 1.2;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 0.35em;
+  }
+  .sleeve-n {
+    display: block;
+    font-weight: 500;
+    font-size: 1.55em;
+    line-height: 1.08;
+    max-width: 11ch;
+    overflow-wrap: anywhere;
+  }
+  .sleeve-y {
+    display: block;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 0.9em;
+    line-height: 1.3;
+    opacity: 0.8;
+    margin-top: 0.4em;
+  }
+
+  /* Music: an album sleeve with the record peeking out. */
+  .sleeve-music {
+    --ink: var(--color-ember-700);
+  }
+  .sleeve-music .sleeve-t {
+    color: var(--ink);
+    right: 50%;
+  }
+  /* Wrap at word boundaries only; a single long name may run over the disc rather than break mid-word. */
+  .sleeve-music .sleeve-n {
+    overflow-wrap: normal;
+  }
+  .sleeve-disc {
+    position: absolute;
+    right: -34%;
+    top: 14%;
+    width: 86%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle, var(--color-paper-50) 0 2.2%, var(--color-paper-100) 2.2% 17%, var(--ink) 17% 18.2%, transparent 18.2%),
+      repeating-radial-gradient(circle, var(--ink) 0 4px, rgb(255 255 255 / 0.1) 4px 5px);
+    box-shadow: 0 2px 10px -4px rgb(36 26 20 / 0.5);
+  }
+
+  /* Film: a ticket stub. */
+  .sleeve-film {
+    --ink: var(--color-plum-700);
+  }
+  .sleeve-stub {
+    position: absolute;
+    left: 8%;
+    right: 8%;
+    top: 22%;
+    bottom: 22%;
+    border: 1.5px solid var(--ink);
+    border-radius: 6px;
+    background:
+      radial-gradient(circle at 0 50%, var(--color-paper-100) 0 11px, transparent 12px),
+      radial-gradient(circle at 100% 50%, var(--color-paper-100) 0 11px, transparent 12px);
+  }
+  .sleeve-stub::before,
+  .sleeve-stub::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 24px;
+    height: 24px;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    background: var(--color-paper-100);
+    transform: translateY(-50%);
+  }
+  .sleeve-stub::before {
+    left: -13px;
+    border-left-color: transparent;
+  }
+  .sleeve-stub::after {
+    right: -13px;
+    border-right-color: transparent;
+  }
+  .sleeve-perf {
+    position: absolute;
+    top: 8%;
+    bottom: 8%;
+    right: 26%;
+    border-left: 2px dashed var(--ink);
+    opacity: 0.7;
+  }
+  .sleeve-film .sleeve-t {
+    color: var(--ink);
+    left: 14%;
+    top: 30%;
+    right: 36%;
+  }
+  .sleeve-admit {
+    position: absolute;
+    right: 10%;
+    top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+    transform-origin: center;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.6em;
+    line-height: 1;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  /* Dining: a menu card with a double rule. */
+  .sleeve-dining {
+    --ink: var(--color-ochre-700);
+  }
+  .sleeve-menu {
+    position: absolute;
+    inset: 9%;
+    border: 1px solid var(--ink);
+    outline: 1px solid var(--ink);
+    outline-offset: 3px;
+    display: grid;
+    place-content: center;
+    text-align: center;
+    color: var(--ink);
+    padding: 8%;
+    z-index: 1;
+  }
+  .sleeve-menu .sleeve-k {
+    letter-spacing: 0.25em;
+    margin: 0;
+  }
+  .sleeve-menu .sleeve-n {
+    font-size: 1.45em;
+    line-height: 1.1;
+    margin: 0.45em auto 0.35em;
+  }
+  .sleeve-menu .sleeve-y {
+    margin-top: 0;
+    opacity: 0.85;
+  }
+  .sleeve-fleur {
+    font-size: 1.1em;
+    opacity: 0.7;
+    line-height: 1;
+  }
+
+  /* Place: a postcard with a stamp and postmark. */
+  .sleeve-place {
+    --ink: var(--color-moss-700);
+    background: #fff;
+  }
+  .sleeve-stamp {
+    position: absolute;
+    right: 8%;
+    top: 8%;
+    width: 22%;
+    aspect-ratio: 4 / 5;
+    border: 1.5px dashed var(--ink);
+    color: var(--ink);
+    display: grid;
+    place-content: center;
+    font-weight: 500;
+    font-size: 0.9em;
+    line-height: 1;
+  }
+  .sleeve-postmark {
+    position: absolute;
+    right: 24%;
+    top: 14%;
+    width: 26%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 1.5px solid var(--ink);
+    opacity: 0.75;
+    display: grid;
+    place-content: center;
+    text-align: center;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.5em;
+    line-height: 1.3;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    transform: rotate(-12deg);
+  }
+  .sleeve-lines {
+    position: absolute;
+    left: 8%;
+    right: 8%;
+    bottom: 10%;
+    height: 30%;
+    background: repeating-linear-gradient(to bottom, transparent 0 calc(100% / 4 - 1px), var(--ink) calc(100% / 4 - 1px) calc(100% / 4));
+    opacity: 0.35;
+  }
+  .sleeve-place .sleeve-t {
+    top: auto;
+    bottom: 42%;
+    color: var(--ink);
+  }
+
+  /* Trips: a luggage label. */
+  .sleeve-trip {
+    --ink: var(--color-sea-700);
+  }
+  .sleeve-tagshape {
+    position: absolute;
+    left: 6%;
+    right: 14%;
+    top: 26%;
+    bottom: 26%;
+    border: 1.5px solid var(--ink);
+    border-radius: 6px;
+    clip-path: polygon(0 0, 88% 0, 100% 50%, 88% 100%, 0 100%);
+    background: #fff;
+  }
+  .sleeve-tagshape::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 12%;
+    background: var(--ink);
+    opacity: 0.9;
+  }
+  .sleeve-eye {
+    position: absolute;
+    right: 13%;
+    top: 50%;
+    width: 10%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 1.5px solid var(--ink);
+    background: var(--color-paper-100);
+    transform: translateY(-50%);
+  }
+  .sleeve-trip .sleeve-t {
+    left: 22%;
+    top: 34%;
+    right: 30%;
+    color: var(--ink);
+  }
+
+  /* Television: a screen with scanlines. */
+  .sleeve-tv {
+    --ink: var(--color-dusk-700);
+  }
+  .sleeve-screen {
+    position: absolute;
+    inset: 14% 10%;
+    border-radius: 14% / 18%;
+    background: var(--ink);
+    color: var(--color-paper-50);
+    overflow: hidden;
+    display: grid;
+    place-content: end start;
+    padding: 7%;
+    z-index: 1;
+  }
+  .sleeve-screen::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(to bottom, transparent 0 3px, rgb(0 0 0 / 0.25) 3px 4px);
+  }
+  .sleeve-screen .sleeve-k {
+    letter-spacing: 0.14em;
+    opacity: 0.7;
+    margin: 0;
+  }
+  .sleeve-screen .sleeve-n {
+    font-size: 1.4em;
+    line-height: 1.1;
+    margin-top: 0.3em;
+  }
+
+  /* Thumbnails drop the fine details that would be noise at 100px. */
+  .sleeve-mini .sleeve-postmark,
+  .sleeve-mini .sleeve-lines,
+  .sleeve-mini .sleeve-admit,
+  .sleeve-mini .sleeve-perf,
+  .sleeve-mini .sleeve-y,
+  .sleeve-mini .sleeve-k,
+  .sleeve-mini .sleeve-fleur {
+    display: none;
+  }
+  .sleeve-mini.sleeve-place .sleeve-stamp {
+    width: 26%;
+  }
+  .sleeve-mini .sleeve-n {
+    font-size: 1.5em;
+  }
+
+  /* Skeleton while planning: blank sleeves fanned on the table. */
+  .sleeve-blank {
+    background: var(--color-paper-100);
+    border: 1px solid var(--color-paper-300);
+    border-radius: var(--radius-md);
+  }
+
+  /* The provenance note's raw request. */
+  .raw {
+    margin-top: 8px;
+    padding: 12px;
+    background: var(--color-paper-100);
+    border: 1px solid var(--color-paper-200);
+    border-radius: var(--radius-md);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    line-height: 1.5;
+    color: var(--color-ink-700);
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+}
+
+@layer utilities {
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+  .balance {
+    text-wrap: balance;
+  }
+}
+
+/* Print: the keepsake only, for the care file. */
+@media print {
+  body::before,
+  body::after {
+    display: none;
+  }
+  body {
+    background: #fff;
+  }
+  .print-hide {
+    display: none !important;
+  }
+  .surface {
+    box-shadow: none;
+  }
+}
