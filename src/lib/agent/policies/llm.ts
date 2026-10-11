@@ -42,6 +42,8 @@ export interface LlmPolicyOptions {
   ctx: ToolContext;
   fetchImpl?: typeof fetch;
   timeoutMs?: number;
+  /** Epoch-ms deadline; each request's timeout is capped by the time left. */
+  deadline?: number;
   temperature?: number;
 }
 
@@ -142,7 +144,9 @@ export class LlmPolicy implements Policy {
   }
 
   private async complete(): Promise<ChatMessage> {
-    const { env } = this.opts;
+    const { env, deadline } = this.opts;
+    const timeoutMs = deadline === undefined ? this.timeoutMs : Math.min(this.timeoutMs, deadline - Date.now());
+    if (timeoutMs <= 0) throw new LlmError("LLM time budget exhausted");
     let response: Response;
     try {
       response = await this.fetchImpl(`${env.llmBaseUrl}/chat/completions`, {
@@ -158,7 +162,7 @@ export class LlmPolicy implements Policy {
           tool_choice: "auto",
           temperature: this.opts.temperature ?? 0.4,
         }),
-        signal: AbortSignal.timeout(this.timeoutMs),
+        signal: AbortSignal.timeout(timeoutMs),
       });
     } catch (error) {
       throw new LlmError(`LLM request failed: ${error instanceof Error ? error.message : String(error)}`);

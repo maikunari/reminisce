@@ -48,7 +48,6 @@ for (const preset of PRESETS) {
     const before = await deckTitles(page);
     const currentTitle = await page.getByTestId("card-title").innerText();
     await page.getByTestId("react-lit-up").click();
-    await expect(page.getByTestId("retuning-banner")).toBeVisible();
     await expect(page.getByTestId("react-lit-up")).toBeDisabled();
     await expect(page.getByTestId("notice")).toContainText(/Re-tuned \d upcoming card/, { timeout: 45_000 });
     const after = await deckTitles(page);

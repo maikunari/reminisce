@@ -32,6 +32,11 @@ export interface AgentOptions {
   fetchImpl?: typeof fetch;
 }
 
+/** Total agent time per request; leaves headroom under the routes' maxDuration of 60 s. */
+export const AGENT_BUDGET_MS = 50_000;
+/** Time held back from the LLM loop so the scripted fallback can still finish. */
+export const FALLBACK_RESERVE_MS = 15_000;
+
 interface Run {
   final: ToolFinal;
   planner: "llm" | "deterministic";
@@ -44,12 +49,14 @@ async function runWithFallback(
   emit: (event: TraceEvent) => void,
   fetchImpl: typeof fetch | undefined,
   phase: "plan" | "adapt",
+  deadline: number,
 ): Promise<Run> {
   if (env.llmMode === "live" && env.llmApiKey) {
     const ctx = makeCtx();
+    const llmDeadline = deadline - FALLBACK_RESERVE_MS;
     try {
-      const policy: Policy = new LlmPolicy({ env, ctx, fetchImpl });
-      const { final } = await runLoop({ policy, ctx, emit, maxSteps: 22, budgetMs: 50_000 });
+      const policy: Policy = new LlmPolicy({ env, ctx, fetchImpl, deadline: llmDeadline });
+      const { final } = await runLoop({ policy, ctx, emit, maxSteps: 22, deadline: llmDeadline });
       return { final, planner: "llm", ctx };
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
@@ -64,7 +71,7 @@ async function runWithFallback(
   }
   const ctx = makeCtx();
   const policy: Policy = phase === "plan" ? new ScriptedPlanPolicy(ctx) : new ScriptedAdaptPolicy(ctx);
-  const { final } = await runLoop({ policy, ctx, emit, maxSteps: 30, budgetMs: 50_000 });
+  const { final } = await runLoop({ policy, ctx, emit, maxSteps: 30, deadline });
   return { final, planner: "deterministic", ctx };
 }
 
@@ -88,13 +95,14 @@ export async function planSession(person: Person, opts: AgentOptions = {}): Prom
   const env = opts.env ?? readServerEnv();
   const qloo = opts.qloo ?? getQlooClient();
   const now = opts.now ?? new Date();
+  const deadline = Date.now() + AGENT_BUDGET_MS;
   const trace: TraceEvent[] = [];
   const emit = (event: TraceEvent) => {
     trace.push(event);
     opts.emit?.(event);
   };
   const makeCtx = (): ToolContext => ({ ...baseContext(person, qloo, now, "plan"), existingCards: [] });
-  const run = await runWithFallback(makeCtx, env, emit, opts.fetchImpl, "plan");
+  const run = await runWithFallback(makeCtx, env, emit, opts.fetchImpl, "plan", deadline);
   if (run.final.kind !== "plan") throw new LoopError("planner committed the wrong kind of result", "no-final");
   return {
     youthWindow: run.ctx.youthWindow,
@@ -119,6 +127,7 @@ export async function adaptSession(input: AdaptInput, opts: AgentOptions = {}): 
   const env = opts.env ?? readServerEnv();
   const qloo = opts.qloo ?? getQlooClient();
   const now = opts.now ?? new Date();
+  const deadline = Date.now() + AGENT_BUDGET_MS;
   const trace: TraceEvent[] = [];
   const emit = (event: TraceEvent) => {
     trace.push(event);
@@ -140,7 +149,7 @@ export async function adaptSession(input: AdaptInput, opts: AgentOptions = {}): 
     feedback: { card: { ...card, reaction: input.feedback.reaction }, reaction: input.feedback.reaction, currentIndex },
   });
   try {
-    const run = await runWithFallback(makeCtx, env, emit, opts.fetchImpl, "adapt");
+    const run = await runWithFallback(makeCtx, env, emit, opts.fetchImpl, "adapt", deadline);
     if (run.final.kind !== "adapt") throw new LoopError("adapter committed the wrong kind of result", "no-final");
     return { replacements: run.final.replacements, trace, planner: run.planner };
   } catch (error) {

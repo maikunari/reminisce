@@ -66,15 +66,3 @@ describe("QlooClient fixture mode", () => {
     expect(res.request.path).toBe("/v2/insights");
   });
 });
-
-describe("fixture latency", () => {
-  it("defaults to a paced trace and can be disabled", async () => {
-    expect(readServerEnv({}).qlooFixtureLatencyMs).toBe(250);
-    expect(readServerEnv({ QLOO_FIXTURE_LATENCY_MS: "0" }).qlooFixtureLatencyMs).toBe(0);
-    expect(readServerEnv({ QLOO_FIXTURE_LATENCY_MS: "nonsense" }).qlooFixtureLatencyMs).toBe(250);
-    const slow = new QlooClient({ mode: "fixture", fixtureLatencyMs: 40 });
-    const started = Date.now();
-    await slow.search("Hibari");
-    expect(Date.now() - started).toBeGreaterThanOrEqual(35);
-  });
-});

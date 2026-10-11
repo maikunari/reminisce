@@ -67,12 +67,14 @@ function SessionClient({ id }: { id: string }) {
     setLiveEvents([]);
     (async () => {
       try {
+        let planned = false;
         await postNdjson<StreamEvent>(
           "/api/plan",
           { person },
           (ev) => {
             if (ev.type === "trace") setLiveEvents((list) => [...list, ev.event]);
             else if (ev.type === "plan") {
+              planned = true;
               const r = ev.result;
               update((s) => ({
                 ...s,
@@ -92,6 +94,7 @@ function SessionClient({ id }: { id: string }) {
           },
           controller.signal,
         );
+        if (!planned) throw new Error("The planner stopped before finishing. Please try again.");
       } catch (error) {
         if (controller.signal.aborted) return;
         const message = error instanceof Error ? error.message : "Planning failed";
@@ -137,9 +140,11 @@ function SessionClient({ id }: { id: string }) {
       setLiveEvents([]);
       setNotice(null);
       try {
+        let adapted = false;
         await postNdjson<StreamEvent>("/api/adapt", { person: s.person, cards, feedback: { cardId, reaction }, currentIndex: index }, (ev) => {
           if (ev.type === "trace") setLiveEvents((list) => [...list, ev.event]);
           else if (ev.type === "adapt") {
+            adapted = true;
             const byReplaced = new Map(ev.result.replacements.map((r) => [r.replacedEntityId, r]));
             update((prev) => ({
               ...prev,
@@ -158,7 +163,9 @@ function SessionClient({ id }: { id: string }) {
             );
           } else if (ev.type === "error") throw new Error(ev.message);
         });
+        if (!adapted) throw new Error("the agent stopped before finishing");
       } catch (error) {
+        setLiveEvents([]);
         update((prev) => ({ ...prev, status: "ready" }));
         setNotice(`Couldn't re-tune: ${error instanceof Error ? error.message : "unknown error"}`);
       }

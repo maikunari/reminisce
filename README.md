@@ -75,7 +75,7 @@ The loop is a real tool-calling loop. The model (any OpenAI-compatible chat mode
 | `plan_session` | Commit 8 to 10 cards across at least 3 domains, each with a prompt | none |
 | `adapt_session` | Replace up to 3 upcoming, unreacted cards after feedback | none |
 
-When no LLM key is configured, or the model fails or misbehaves, the same loop runs a deterministic policy that performs the same tool calls in a fixed order and writes prompts from templates. The trace labels which one ran. The deterministic policy is also what the unit tests and the fixture-mode demo use, so the demo never depends on model latency or availability.
+When no LLM key is configured, or the model fails or misbehaves, the same loop runs a deterministic policy that performs the same tool calls in a fixed order and writes prompts from templates. The Why Qloo panel labels every timeline step with the policy that produced it (LLM or scripted), and cards whose prompt came from a template say "Offline template prompt". The deterministic policy is also what the unit tests and the fixture-mode demo use, so the demo never depends on model latency or availability.
 
 ### Youth window and age signal
 
@@ -130,7 +130,6 @@ With no keys configured the app runs in **fixture mode**: every Qloo call is ans
 | `QLOO_API_KEY` | unset | Hackathon API key. Never commit it; `.env.local` is git-ignored. |
 | `QLOO_MODE` | auto | `live` or `fixture`. Unset means live when a key is present, fixture otherwise. |
 | `QLOO_BASE_URL` | `https://hackathon.api.qloo.com` | Override only if Qloo moves the hackathon host. |
-| `QLOO_FIXTURE_LATENCY_MS` | `250` | Fixture mode only: simulated latency per call so the agent trace paces like the live API. `0` for instant. |
 | `LLM_API_KEY` | unset | Key for an OpenAI-compatible chat completions endpoint with tool calling. |
 | `LLM_MODE` | auto | `live` or `fixture`. Unset means live when a key is present. |
 | `LLM_BASE_URL` | `https://api.openai.com/v1` | Any provider that speaks `/chat/completions` (OpenAI, OpenRouter, Groq, Together, a local server). |
@@ -234,7 +233,7 @@ The Playwright run builds the app and starts it on port 3100 with `QLOO_MODE=fix
 
 ```
 src/app/                 pages, layout, API routes (/api/plan, /api/adapt, /api/search)
-src/components/home/     intake form, Qloo autocomplete, presets, recent sessions
+src/components/home/     intake form, Qloo autocomplete, presets
 src/components/session/  memory card, deck strip, planning and re-tuning views, Why Qloo panel
 src/lib/qloo/            client (live + fixture), parameter validation tables, fixture engine, types
 src/lib/agent/           tool definitions, tool execution + entity pool, loop, LLM and scripted policies, prompts

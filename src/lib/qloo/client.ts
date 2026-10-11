@@ -58,12 +58,6 @@ export interface QlooClientOptions {
   /** When true, live responses are also written to fixtures/recorded. */
   record?: boolean;
   recordedRoot?: string;
-  /**
-   * Simulated network latency per fixture-mode call, in ms. The real API takes
-   * a few hundred ms per call; without this the agent trace flashes by too
-   * quickly to follow when demoing offline. Ignored in live mode.
-   */
-  fixtureLatencyMs?: number;
   fetchImpl?: typeof fetch;
   timeoutMs?: number;
 }
@@ -76,7 +70,6 @@ export class QlooClient {
   private readonly recordedRoot: string | undefined;
   private readonly fetchImpl: typeof fetch;
   private readonly timeoutMs: number;
-  private readonly fixtureLatencyMs: number;
 
   constructor(opts: QlooClientOptions) {
     this.mode = opts.mode;
@@ -86,7 +79,6 @@ export class QlooClient {
     this.recordedRoot = opts.recordedRoot;
     this.fetchImpl = opts.fetchImpl ?? fetch;
     this.timeoutMs = opts.timeoutMs ?? 15_000;
-    this.fixtureLatencyMs = Math.max(0, opts.fixtureLatencyMs ?? 0);
     if (this.mode === "live" && !this.apiKey) {
       throw new Error("QLOO_API_KEY is required when QLOO_MODE=live");
     }
@@ -130,7 +122,6 @@ export class QlooClient {
   async request<T>(req: QlooRequest, warnings: string[]): Promise<QlooResult<T>> {
     const started = Date.now();
     if (this.mode === "fixture") {
-      if (this.fixtureLatencyMs > 0) await new Promise((r) => setTimeout(r, this.fixtureLatencyMs));
       const recorded = await findRecordedFixture<T>(req, this.recordedRoot);
       if (recorded) {
         return {
@@ -196,7 +187,7 @@ let cached: QlooClient | null = null;
 export function getQlooClient(): QlooClient {
   if (cached) return cached;
   const env = readServerEnv();
-  cached = new QlooClient({ mode: env.qlooMode, apiKey: env.qlooApiKey, baseUrl: env.qlooBaseUrl, fixtureLatencyMs: env.qlooFixtureLatencyMs });
+  cached = new QlooClient({ mode: env.qlooMode, apiKey: env.qlooApiKey, baseUrl: env.qlooBaseUrl });
   return cached;
 }
 

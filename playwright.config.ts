@@ -34,7 +34,7 @@ export default defineConfig({
     reuseExistingServer: !process.env.CI,
     timeout: 240_000,
     env: {
-      QLOO_MODE: "fixture", QLOO_FIXTURE_LATENCY_MS: "120",
+      QLOO_MODE: "fixture",
       LLM_MODE: "fixture",
       QLOO_API_KEY: "",
       LLM_API_KEY: "",

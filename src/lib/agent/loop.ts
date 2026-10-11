@@ -32,8 +32,8 @@ export interface LoopOptions {
   ctx: ToolContext;
   emit: (event: TraceEvent) => void;
   maxSteps?: number;
-  /** Abort the whole loop after this many milliseconds. */
-  budgetMs?: number;
+  /** Abort the loop once Date.now() passes this epoch-ms deadline. */
+  deadline: number;
 }
 
 export class LoopError extends Error {
@@ -58,9 +58,10 @@ function summariseArgs(args: unknown): Record<string, unknown> | undefined {
 }
 
 export async function runLoop(opts: LoopOptions): Promise<{ final: ToolFinal; steps: number }> {
-  const { policy, ctx, emit } = opts;
+  const { policy, ctx, deadline } = opts;
+  const tag = policy.kind === "llm" ? "llm" : "scripted";
+  const emit = (event: TraceEvent) => opts.emit({ ...event, policy: tag });
   const maxSteps = opts.maxSteps ?? 24;
-  const deadline = Date.now() + (opts.budgetMs ?? 120_000);
   let steps = 0;
   let final: ToolFinal | undefined;
 

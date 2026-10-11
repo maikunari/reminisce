@@ -51,6 +51,11 @@ function ParamRows({ rows, names }: { rows: [string, string][]; names: Map<strin
   );
 }
 
+const POLICY_LABEL = {
+  llm: { label: "LLM", className: "bg-sea-100 text-sea-700" },
+  scripted: { label: "Scripted", className: "bg-gold-100 text-gold-700" },
+} as const;
+
 function Bar({ value, className }: { value: number; className: string }) {
   const pct = Math.max(2, Math.min(100, Math.round(value * 100)));
   return (
@@ -150,6 +155,11 @@ export function TracePanel({ open, onClose, session, card, liveEvents }: Props) 
           <div className="mt-2 flex flex-wrap items-center gap-2">
             <DomainBadge domain={card.domain} size="sm" />
             <span className={`rounded-full px-2.5 py-1 text-sm font-bold ${source.className}`}>{source.label}</span>
+            {card.promptSource ? (
+              <span className={`rounded-full px-2.5 py-1 text-sm font-bold ${card.promptSource === "llm" ? POLICY_LABEL.llm.className : POLICY_LABEL.scripted.className}`}>
+                {card.promptSource === "llm" ? "LLM-written prompt" : "Offline template prompt"}
+              </span>
+            ) : null}
           </div>
           <p className="mt-3 font-display text-2xl font-semibold text-ink-900">{card.title}</p>
           <p className="mono mt-1 text-ink-500">
@@ -235,6 +245,11 @@ export function TracePanel({ open, onClose, session, card, liveEvents }: Props) 
                   {icon.glyph}
                 </span>
                 <div className="min-w-0 flex-1">
+                  {e.policy ? (
+                    <span className={`mr-2 rounded-full px-2 py-0.5 text-sm font-bold ${POLICY_LABEL[e.policy].className}`} data-testid="trace-policy">
+                      {POLICY_LABEL[e.policy].label}
+                    </span>
+                  ) : null}
                   <p className={`text-base leading-snug ${e.kind === "narration" ? "text-ink-900 italic" : "text-ink-700"}`}>
                     {e.tool && e.kind === "tool_call" ? <span className="mono mr-1 text-ink-900">{e.tool}</span> : null}
                     {e.summary}

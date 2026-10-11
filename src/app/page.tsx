@@ -2,7 +2,6 @@ import { Footer } from "@/components/Footer";
 import { Logo } from "@/components/Logo";
 import { IntakeForm } from "@/components/home/IntakeForm";
 import { PresetCard } from "@/components/home/PresetCard";
-import { RecentSessions } from "@/components/home/RecentSessions";
 import { PRESETS } from "@/lib/session/presets";
 
 export default function HomePage() {
@@ -58,8 +57,6 @@ export default function HomePage() {
           </div>
           <IntakeForm />
         </section>
-
-        <RecentSessions />
       </main>
       <Footer />
     </>

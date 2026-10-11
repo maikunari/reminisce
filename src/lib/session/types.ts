@@ -85,6 +85,8 @@ export interface Card {
   why: string;
   /** Gentle conversation prompt for the caregiver to read aloud. */
   prompt: string;
+  /** Who wrote the prompt: the LLM, or the offline template set. */
+  promptSource: "llm" | "template";
   signals: CardSignals;
   reaction?: Reaction;
   addedBy: "plan" | "adapt";
@@ -107,6 +109,8 @@ export interface TraceEvent {
   at: number;
   phase: "plan" | "adapt";
   kind: "narration" | "tool_call" | "tool_result" | "note" | "error";
+  /** Which policy produced this step; absent for steps outside the loop. */
+  policy?: "llm" | "scripted";
   tool?: string;
   args?: Record<string, unknown>;
   summary: string;

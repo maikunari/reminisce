@@ -539,18 +539,18 @@ export function buildCard(
     description: short(e.properties?.description ?? e.properties?.short_description, 220),
     tags: (e.tags ?? []).slice(0, 3).map((t) => t.name),
     why: whyLine(domain, signals),
-    prompt:
-      cleanPrompt && cleanPrompt.length > 0
-        ? cleanPrompt
-        : offlinePrompt({
-            domain,
-            language: ctx.language,
-            title: e.name,
-            year,
-            entityId: e.entity_id,
-            person: ctx.person,
-            youthStart: ctx.youthWindow.start,
-          }),
+    prompt: cleanPrompt
+      ? cleanPrompt
+      : offlinePrompt({
+          domain,
+          language: ctx.language,
+          title: e.name,
+          year,
+          entityId: e.entity_id,
+          person: ctx.person,
+          youthStart: ctx.youthWindow.start,
+        }),
+    promptSource: cleanPrompt ? "llm" : "template",
     signals,
     addedBy,
     replacedEntityId,
@@ -598,13 +598,14 @@ function runPlan(rawArgs: unknown, ctx: ToolContext): ToolOutcome {
     seen.add(c.entity_id);
     picked.push({ entry, domain: c.domain, prompt: c.prompt });
   }
+  picked.splice(PLAN_MAX_CARDS);
   const poolSize = ctx.pool.size;
   const minCards = Math.min(PLAN_MIN_CARDS, poolSize);
   const domainsInPool = new Set(ctx.pool.all().map((e) => e.qlooType)).size;
   const minDomains = Math.min(PLAN_MIN_DOMAINS, domainsInPool);
   const domains = new Set(picked.map((p) => p.domain));
   if (picked.length < minCards) errors.push(`need at least ${minCards} valid cards, got ${picked.length}`);
-  if (domains.size < minDomains) errors.push(`need at least ${minDomains} domains, got ${domains.size}`);
+  if (domains.size < minDomains) errors.push(`need at least ${minDomains} domains in the first ${PLAN_MAX_CARDS} cards, got ${domains.size}`);
   if (errors.length > 0) {
     return {
       ok: false,
@@ -612,7 +613,7 @@ function runPlan(rawArgs: unknown, ctx: ToolContext): ToolOutcome {
       summary: `plan rejected: ${errors[0]}`,
     };
   }
-  const cards = picked.slice(0, PLAN_MAX_CARDS).map((p) => buildCard(p.entry, p.domain, p.prompt, ctx, "plan"));
+  const cards = picked.map((p) => buildCard(p.entry, p.domain, p.prompt, ctx, "plan"));
   return {
     ok: true,
     result: { ok: true, cards: cards.map((c) => ({ id: c.id, title: c.title, domain: c.domain })) },

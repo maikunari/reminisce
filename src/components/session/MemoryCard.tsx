@@ -42,6 +42,11 @@ export function MemoryCard({ card, index, total, onReact, onWhy, disabled }: Pro
         <blockquote className="border-l-4 border-ember-500 pl-5 font-display text-2xl leading-snug text-ink-900 italic sm:text-[1.9rem]" data-testid="card-prompt">
           {card.prompt}
         </blockquote>
+        {card.promptSource === "template" ? (
+          <p className="-mt-3 text-base text-ink-500" data-testid="card-prompt-source">
+            Offline template prompt (no LLM was used for this one)
+          </p>
+        ) : null}
         {card.description ? <p className="text-lg leading-relaxed text-ink-700">{card.description}</p> : null}
         <p className="text-base leading-relaxed text-ink-500">
           <span className="font-bold text-ink-700">Why this: </span>
