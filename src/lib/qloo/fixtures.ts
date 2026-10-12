@@ -28,7 +28,7 @@ import usCatalog from "../../../fixtures/synthetic/us.json";
 import worldCatalog from "../../../fixtures/synthetic/world.json";
 import zhCatalog from "../../../fixtures/synthetic/zh.json";
 import { toQueryString } from "./params";
-import { fold, isTypedPlace, tokens } from "./place";
+import { fold, isTypedPlace, phrase, tokens } from "./place";
 import type {
   QlooEntity,
   QlooInsightsResponse,
@@ -250,8 +250,11 @@ export class SyntheticQloo {
    * a place in that town.
    */
   inferRegion(query: string): SyntheticRegion | null {
-    const words = tokens(query);
-    if (words.length === 0) return null;
+    // A catalogue city leading the text ("Los Angeles, CA") is that city's
+    // country unless the rest names another ("London, Ontario").
+    const [head = "", ...rest] = query.split(",");
+    const lead = this.localities.find((l) => [l.name, ...l.akas].some((n) => phrase(n) === phrase(head)));
+    const words = tokens(lead ? rest.join(",") : query);
     // The longest matching name is the most specific ("buffalo, new york" is
     // not York; "la paz, bolivia" is not La Paz, Mexico); at equal length a
     // city beats a country word, then file order decides.
@@ -260,7 +263,7 @@ export class SyntheticQloo {
       const score = Math.max(longestRun(words, region.cities) * 2 + 1, longestRun(words, region.keywords) * 2);
       if (score > 1 && (!best || score > best.score)) best = { region, score };
     }
-    return best?.region ?? null;
+    return best?.region ?? this.regions.find((r) => r.code === lead?.properties?.geocode?.country_code) ?? null;
   }
 
   resolveLocality(query: string | undefined): SyntheticLocality | null {

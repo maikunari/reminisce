@@ -33,10 +33,11 @@ export interface PlaceNames {
 }
 
 function namesPlace(typed: string, names: string[], home: string[]): boolean {
-  const [head = "", ...qualifiers] = typed.split(",");
+  const [head = "", ...rest] = typed.split(",");
+  const qualifiers = rest.map(phrase).filter((q) => q.length > 0);
   const named = names.map(phrase);
   if (named.includes(phrase(typed))) return true;
-  return qualifiers.length > 0 && named.includes(phrase(head)) && qualifiers.every((q) => home.includes(phrase(q)));
+  return qualifiers.length > 0 && named.includes(phrase(head)) && qualifiers.every((q) => home.includes(q));
 }
 
 /**

@@ -133,6 +133,10 @@ describe("regional synthetic catalogue", () => {
     ["CDMX", "Mexico City", "Mexico"],
     ["Tokyo, Nippon", "Tokyo", "Japan"],
     ["London, UK", "London", "United Kingdom"],
+    ["Los Angeles, CA", "Los Angeles", "United States"],
+    ["New York, NY", "New York City", "United States"],
+    ["Brooklyn, NY", "New York City", "United States"],
+    ["Osaka, Japan,", "Osaka", "Japan"],
   ])("a catalogue city typed by another of its names (%s) is adopted with its release country", async (hometown, adopted, country) => {
     const result = await plan(person("Pat", 1948, hometown, []));
     for (const card of result.cards) expect(card.signals.locationQuery, card.title).toBe(adopted);
@@ -217,6 +221,12 @@ describe("hometown resolution", () => {
       ["Chicago, Illinois", "chicago"],
       ["Chicago, Illinois, United States", "chicago"],
       ["Hollywood", "los_angeles"],
+      ["Los Angeles, CA", "los_angeles"],
+      ["New York, NY", "new_york"],
+      ["Brooklyn, NY", "new_york"],
+      ["Milwaukee, WI", "milwaukee"],
+      ["Osaka, Japan,", "osaka"],
+      ["Osaka,, Japan", "osaka"],
       ["Chicago, Illinois, United States of America", "chicago"],
       ["Chicago, USA", "chicago"],
       ["Tokyo, Nippon", "tokyo"],
@@ -251,6 +261,8 @@ describe("hometown resolution", () => {
       ["Albany, New York", "US"],
       ["Las Cruces, New Mexico", "US"],
       ["La Paz, Bolivia", "BO"],
+      ["Los Angeles, Chile", "CL"],
+      ["Angeles", "PH"],
     ] as const) {
       const l = engine.resolveLocality(query);
       expect(l?.inferred, query).toBe(true);

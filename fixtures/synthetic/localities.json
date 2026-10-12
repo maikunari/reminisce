@@ -158,7 +158,11 @@
         "NYC",
         "The Big Apple",
         "Manhattan",
-        "Brooklyn"
+        "Brooklyn",
+        "New York, NY",
+        "New York City, NY",
+        "Manhattan, NY",
+        "Brooklyn, NY"
       ],
       "properties": {
         "geocode": {
@@ -182,7 +186,9 @@
       "akas": [
         "LA",
         "L.A.",
-        "Hollywood"
+        "Hollywood",
+        "Los Angeles, CA",
+        "Hollywood, CA"
       ],
       "properties": {
         "geocode": {
@@ -204,7 +210,8 @@
       "key": "milwaukee",
       "world": "us",
       "akas": [
-        "Milwaukee, Wisconsin"
+        "Milwaukee, Wisconsin",
+        "Milwaukee, WI"
       ],
       "properties": {
         "geocode": {
