@@ -37,6 +37,13 @@ interface ChatResponse {
   error?: { message?: string };
 }
 
+/**
+ * Output cap per completion. A plan_session call with ten cards and their
+ * prompts is about 700 tokens; narration is one sentence. The cap bounds a
+ * runaway completion's cost, not the plan.
+ */
+export const LLM_MAX_TOKENS = 1500;
+
 export interface LlmPolicyOptions {
   env: ServerEnv;
   ctx: ToolContext;
@@ -62,6 +69,7 @@ export function buildSystemPrompt(): string {
     "2. Use qloo_search_tags before any filter_tags (for example a restaurant tag for dining, a landmark tag for places).",
     "3. Call qloo_insights for at least four of: urn:entity:artist, urn:entity:movie, urn:entity:tv_show, urn:entity:place (dining: filter_location_query = hometown plus a restaurant tag), urn:entity:place (landmarks: filter_location_query = hometown), urn:entity:destination.",
     "   Always pass signal_entities (the resolved favorites), signal_location_query (the hometown) and signal_age. For movie and tv_show also pass release_year_min/max from the youth window.",
+    "   Make every qloo_insights call for the plan as parallel tool calls in one turn, and resolve all favorites and the hometown together in one turn, so the plan takes few turns.",
     "4. Finish by calling plan_session with 8 to 10 cards across at least 3 domains, highest affinity first, mixing domains so consecutive cards differ.",
     `   Domains: ${domains}.`,
     "",
@@ -161,6 +169,7 @@ export class LlmPolicy implements Policy {
           tools: TOOL_DEFINITIONS,
           tool_choice: "auto",
           temperature: this.opts.temperature ?? 0.4,
+          max_tokens: LLM_MAX_TOKENS,
         }),
         signal: AbortSignal.timeout(timeoutMs),
       });

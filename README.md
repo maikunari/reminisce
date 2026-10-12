@@ -135,6 +135,11 @@ With no keys configured the app runs in **fixture mode**: every Qloo call is ans
 | `LLM_BASE_URL` | `https://api.openai.com/v1` | Any provider that speaks `/chat/completions` (OpenAI, OpenRouter, Groq, Together, a local server). |
 | `LLM_MODEL` | `gpt-4o-mini` | Model name sent to that endpoint. |
 | `NEXT_PUBLIC_SITE_URL` | derived | Absolute site URL for Open Graph tags. Vercel's production URL is used when unset. |
+| `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` | unset | Upstash Redis for the daily budget and preset snapshots (the Vercel Marketplace integration sets them; `KV_REST_API_URL` / `KV_REST_API_TOKEN` work too). Unset means no budget and no snapshots. |
+| `BUDGET_LLM_PLANS_PER_DAY` | `40` | Model-written sessions allowed per UTC day. Past it, the deterministic planner writes template prompts. `unlimited` removes the cap. |
+| `BUDGET_LLM_ADAPTS_PER_DAY` | `120` | Model-driven re-tunes per UTC day; same fallback. |
+| `NEXT_PUBLIC_BOTID` | unset | `off` disables Vercel BotID on `/api/plan` and `/api/adapt` (client and server). |
+| `BUDGET_QLOO_CALLS_PER_DAY` | `600` | Live Qloo calls per UTC day (cached answers are free). Past it, sessions come from the offline catalog with a note in the header. |
 
 Switching to live Qloo is a pure environment change: set `QLOO_API_KEY` (and optionally `QLOO_MODE=live`) and restart. No code path differs.
 
@@ -215,7 +220,9 @@ Reminiscence work and music are widely used in dementia care, and the evidence b
 npm run check      # typecheck + lint + unit tests
 npm test           # vitest: Qloo parameter building and validation, youth window and age bucket,
                    #         fixture engine shape, client live/fixture behaviour, planner domain mix,
-                   #         adaptation (liked entity as signal, only upcoming cards replaced)
+                   #         adaptation (liked entity as signal, only upcoming cards replaced),
+                   #         daily budget and breaker, guard degradation ladder, response cache,
+                   #         preset snapshots and replay
 npm run test:e2e   # Playwright, fixture mode, tablet viewport: both presets end to end
                    #         (plan → cards → Why Qloo → reaction → re-tune → reload persistence),
                    #         preset difference, intake autocomplete + Spanish prompts, unknown session
@@ -226,6 +233,24 @@ The Playwright run builds the app and starts it on port 3100 with `QLOO_MODE=fix
 ## Deploying to Vercel
 
 `vercel.json` sets the framework; nothing else is required. Import the repository, then set the environment variables above in the project settings (`QLOO_API_KEY` and, if you want the model, `LLM_API_KEY`, `LLM_BASE_URL`, `LLM_MODEL`). Leave `QLOO_MODE` unset so the deployment goes live the moment the key exists. The API routes declare `maxDuration` (60 s for plan and adapt) and the agent keeps one 50 s budget inside that, shared by the LLM loop, the deterministic fallback and every live Qloo request (the last 15 s are held back so the fallback can always finish). `fixtures/synthetic` is included in the function bundle via `outputFileTracingIncludes` so fixture mode also works when deployed.
+
+For a public demo, add the free Upstash Redis integration from the Vercel Marketplace and read the next section.
+
+## Keeping the demo affordable
+
+The three API routes are public and need no login, so anyone could loop them and burn the model credit or the Qloo key's quota. Six layers keep the bill bounded while judges see the same product. None of them changes what a session is; all of them are off when their configuration is absent, so local development, the tests and fixture mode run exactly as before.
+
+1. **Edge rules, no code.** In the Vercel dashboard: one WAF rate-limit rule on `/api/*` (40 requests per minute per IP), the Bot Protection managed ruleset in Challenge mode and the AI Bots ruleset in Deny mode. Blocked requests never invoke a function.
+2. **Every live Qloo answer is cached.** The live client wraps each `GET` in Next.js's persistent fetch cache (`unstable_cache`, which on Vercel is the Data Cache: shared by every function instance, kept across deployments, free on all plans). Entries live 30 days under the tag `qloo`; the hackathon guide allows private server-side caching with no time limit. Only `200` answers are stored, so a "no results" search is asked again. A preset's plan therefore costs Qloo nothing after its first run, and a repeated autocomplete query nothing at all. `/api/search` additionally sends `Cache-Control: public, max-age=120, s-maxage=86400, stale-while-revalidate=604800`, so the CDN answers repeats without invoking the function. The Why Qloo panel marks cached calls.
+3. **A global daily budget with graceful degradation.** Three counters in Upstash Redis, one per UTC day (`INCR` + `EXPIRE`, keyed `reminisce:budget:<kind>:<day>`), bound the whole demo's spend regardless of how many visitors there are: model-written plans, model-driven re-tunes, and live Qloo calls that the cache did not answer. The caps are the `BUDGET_*` variables above. The ladder when a cap is reached:
+   - model budget spent: the deterministic planner builds the session through the same tools, and the panel labels every prompt as template-written;
+   - Qloo budget spent, or a Qloo call answering 429, 5xx or timing out: the synthetic catalog answers instead, and the session header carries a quiet line ("Reminisce has had a busy day. This session uses the offline catalog; Qloo returns tomorrow.").
+   Never an error page. The budget fails safe: with no Redis configured there is no budget; with Redis configured but unreachable, the cheap path is taken for a minute at a time.
+4. **Preset snapshots.** Michiko's and Frank's first live run of the day is kept in Redis for 24 hours (`reminisce:preset:<id>:v1`), and later visitors get it replayed: the trace streams again with a short gap between events so the planning view still animates, the cards and their Qloo provenance are the same, and the trace and the Why Qloo panel say "Replayed from a live Qloo run at 09:14 UTC on 5 November". Only a full-strength run is kept, never a degraded one or one where the configured model fell back to the deterministic planner, and re-tunes on a preset stay live. Nothing is written to the repository: the guide forbids Qloo data in public repositories.
+5. **A smaller model loop.** The model gets 12 completions for a plan and 8 for a re-tune (was 22), `max_tokens: 1500` per completion, and a system-prompt line asking for all `qloo_insights` calls as parallel tool calls in one turn. The deterministic planner takes over when the cap is reached, as it does on any model error.
+6. **Vercel BotID (Basic).** `src/instrumentation-client.ts` attaches an invisible classification to the browser's own calls to `/api/plan` and `/api/adapt` (production builds only, so development stays offline-capable), and each route answers `403` to a bot. The server check runs only on Vercel and fails open, so a classifier hiccup can never cost a human their session; the daily budget bounds whatever gets by. `NEXT_PUBLIC_BOTID=off` turns it off on both sides.
+
+Residual risk is a headless-browser farm rotating IPs: it passes the challenge and the classifier, then burns the day's budget in minutes, and the demo degrades (rather than going down or burning the key) until midnight UTC.
 
 ## Technical choices
 
@@ -240,9 +265,10 @@ The Playwright run builds the app and starts it on port 3100 with `QLOO_MODE=fix
 src/app/                 pages, layout, API routes (/api/plan, /api/adapt, /api/search)
 src/components/home/     intake form, Qloo autocomplete, presets
 src/components/session/  memory card, deck strip, planning and re-tuning views, Why Qloo panel
-src/lib/qloo/            client (live + fixture), parameter validation tables, fixture engine, types
+src/lib/qloo/            client (live + fixture), response cache, parameter validation tables, fixture engine, types
 src/lib/agent/           tool definitions, tool execution + entity pool, loop, LLM and scripted policies, prompts
 src/lib/session/         person/session types, youth window, presets, localStorage, zod schemas
+src/lib/guard/           daily budget and breaker (Upstash), per-request guard, preset snapshots, BotID check
 fixtures/synthetic/      hand-authored synthetic catalog (committed, marked synthetic)
 fixtures/recorded/       real responses from `npm run record` (git-ignored)
 scripts/record.ts        recorder

@@ -306,6 +306,7 @@ function traceOf<T>(res: QlooResult<T>, count: number): TraceQloo {
     durationMs: res.durationMs,
     resultCount: count,
     warnings: res.warnings,
+    ...(res.cached ? { cached: true } : {}),
   };
 }
 

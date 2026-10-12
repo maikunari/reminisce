@@ -123,6 +123,8 @@ export interface TraceQloo {
   durationMs: number;
   resultCount: number;
   warnings: string[];
+  /** True when a live response was served from the response cache rather than the API. */
+  cached?: boolean;
 }
 
 export interface TraceEvent {
@@ -162,6 +164,10 @@ export interface Session {
   qlooMode: "live" | "fixture";
   currentIndex: number;
   error?: string;
+  /** Server-written line for the session header when the session was built with less than full Qloo access. */
+  notice?: string;
+  /** When the plan was replayed from an earlier live run of a preset: that run's time (ISO 8601). */
+  replayedAt?: string;
 }
 
 /** The subset of Session the server computes; the client owns id/index/status. */
@@ -174,6 +180,10 @@ export interface PlanResult {
   qlooMode: "live" | "fixture";
   /** The person's favorites with Qloo entity ids filled in where resolved. */
   favorites: Favorite[];
+  /** One caregiver-facing line when the session was built with less than full Qloo access. */
+  notice?: string;
+  /** Set when the plan is an earlier live run replayed: that run's time (ISO 8601). */
+  replayedAt?: string;
 }
 
 export interface AdaptResult {
@@ -181,6 +191,8 @@ export interface AdaptResult {
   replacements: Card[];
   trace: TraceEvent[];
   planner: "llm" | "deterministic";
+  /** One caregiver-facing line when the replacements came from the offline catalog. */
+  notice?: string;
 }
 
 /** Events streamed from /api/plan and /api/adapt as NDJSON. */

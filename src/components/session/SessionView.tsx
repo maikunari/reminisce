@@ -94,6 +94,8 @@ function SessionClient({ id }: { id: string }) {
                 status: "ready",
                 currentIndex: 0,
                 error: undefined,
+                notice: r.notice,
+                replayedAt: r.replayedAt,
               }));
               setLiveEvents([]);
             } else if (ev.type === "error") throw new Error(ev.message);
@@ -162,13 +164,13 @@ function SessionClient({ id }: { id: string }) {
             }));
             setLiveEvents([]);
             const n = ev.result.replacements.length;
-            setNotice(
+            const line =
               n === 0
                 ? "Nothing new came back for this one. The deck stays as it is."
                 : reaction === "lit_up"
                   ? `${numberWord(n)} of the next cards now lean${n === 1 ? "s" : ""} toward ${card.title}.`
-                  : `${numberWord(n)} of the next cards now steer${n === 1 ? "s" : ""} away from that.`,
-            );
+                  : `${numberWord(n)} of the next cards now steer${n === 1 ? "s" : ""} away from that.`;
+            setNotice(ev.result.notice ? `${line} ${ev.result.notice}` : line);
           } else if (ev.type === "error") throw new Error(ev.message);
         });
         if (!adapted) throw new Error("the agent stopped before finishing");
@@ -255,6 +257,11 @@ function SessionClient({ id }: { id: string }) {
             <PlanningView person={s.person} youthWindow={s.youthWindow} events={liveEvents} />
           ) : (
             <>
+              {s.notice ? (
+                <p role="status" className="notice print-hide mb-4 text-ink-500" data-testid="session-notice">
+                  {s.notice}
+                </p>
+              ) : null}
               <div className="print-hide mb-4 flex min-h-[2rem] items-baseline justify-between gap-4">
                 {retuning ? (
                   <RetuningBanner events={liveEvents} label="Re-tuning the next cards with Qloo…" />

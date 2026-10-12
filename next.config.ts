@@ -1,3 +1,4 @@
+import { withBotId } from "botid/next/config";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
@@ -20,4 +21,5 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+// BotID (Basic) proxies its challenge script through this origin; see src/instrumentation-client.ts.
+export default withBotId(nextConfig);
