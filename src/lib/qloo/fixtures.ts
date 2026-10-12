@@ -256,18 +256,24 @@ export class SyntheticQloo {
   inferRegion(query: string): SyntheticRegion | null {
     // A catalogue city leading the text names no region by itself: only the
     // rest can ("London, Ontario"), so "Los Angeles, Chile" is not Angeles, PH.
+    // A US state code as a whole qualifier ("York, PA", "Delhi, NY") likewise
+    // leaves the town out and means the United States, unless another
+    // qualifier names a region; mid-text it is just a word ("la", "in").
     const [head = "", ...rest] = query.split(",");
     const lead = this.localities.some((l) => [l.name, ...l.akas].some((n) => phrase(n) === phrase(head)));
-    const words = tokens(lead ? rest.join(",") : query);
-    // A US state code counts only as a whole qualifier ("Delhi, NY"), never mid-text.
-    const stateCode = rest.some((q) => US_STATE_CODES.has(phrase(q)));
+    const qualifiers = rest.filter((q) => !US_STATE_CODES.has(phrase(q)));
+    const stateCode = qualifiers.length < rest.length;
+    const words = tokens(lead || stateCode ? qualifiers.join(",") : query);
     // The longest matching name is the most specific ("buffalo, new york" is
     // not York; "la paz, bolivia" is not La Paz, Mexico); at equal length a
     // city beats a country word, then file order decides.
     let best: { region: SyntheticRegion; score: number } | null = null;
     for (const region of this.regions) {
-      const keywordRun = Math.max(longestRun(words, region.keywords), region.code === "US" && stateCode ? 1 : 0);
-      const score = Math.max(longestRun(words, region.cities) * 2 + 1, keywordRun * 2);
+      const score = Math.max(
+        longestRun(words, region.cities) * 2 + 1,
+        longestRun(words, region.keywords) * 2,
+        region.code === "US" && stateCode ? 1.5 : 0,
+      );
       if (score > 1 && (!best || score > best.score)) best = { region, score };
     }
     return best?.region ?? null;
