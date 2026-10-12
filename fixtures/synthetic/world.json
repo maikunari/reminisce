@@ -1,170 +1,2181 @@
 {
   "_meta": {
     "synthetic": true,
-    "note": "Hand-authored generic catalog so fixture mode still answers for people outside the two preset worlds. Shaped like Qloo Insights entities plus a `_syn` block used for scoring and stripped before serving. Entity ids are fake. Not Qloo data.",
+    "note": "Hand-authored international catalog so fixture mode still answers for people outside the regional worlds. Shaped like Qloo Insights entities plus a `_syn` block used for scoring and stripped before serving. Entity ids are fake. Not Qloo data.",
     "world": "generic"
   },
   "entities": [
-    { "name": "The Beatles", "entity_id": "ffffffff-0000-4000-8000-0000000d0001", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "The Liverpool four who changed popular music between 1962 and 1970.", "place_of_birth": "Liverpool, England", "akas": [] },
-      "popularity": 0.99, "tags": [{ "id": "urn:tag:genre:music:rock", "name": "Rock", "type": "urn:tag:genre:music" }, { "id": "urn:tag:genre:music:pop", "name": "Pop", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "generic", "localities": ["london"], "era": [1962, 1970] } },
-    { "name": "Édith Piaf", "entity_id": "ffffffff-0000-4000-8000-0000000d0002", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "'La Vie en rose' and 'Non, je ne regrette rien'; the voice of Paris.", "date_of_birth": "1915-12-19", "year_of_death": 1963, "place_of_birth": "Paris, France", "akas": [{ "value": "Edith Piaf", "languages": ["en"] }] },
-      "popularity": 0.9, "tags": [{ "id": "urn:tag:genre:music:chanson", "name": "Chanson", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "generic", "localities": ["paris"], "era": [1935, 1963] } },
-    { "name": "ABBA", "entity_id": "ffffffff-0000-4000-8000-0000000d0003", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Sweden's Eurovision winners of 1974: 'Dancing Queen', 'Waterloo', 'Fernando'.", "place_of_birth": "Stockholm, Sweden", "akas": [] },
-      "popularity": 0.95, "tags": [{ "id": "urn:tag:genre:music:pop", "name": "Pop", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "generic", "era": [1972, 1982] } },
-    { "name": "Julio Iglesias", "entity_id": "ffffffff-0000-4000-8000-0000000d0004", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Madrid-born balladeer of 'La vida sigue igual' and 'Hey!', one of the best-selling Latin artists ever.", "date_of_birth": "1943-09-23", "place_of_birth": "Madrid, Spain", "akas": [] },
-      "popularity": 0.88, "tags": [{ "id": "urn:tag:genre:music:latin", "name": "Latin", "type": "urn:tag:genre:music" }, { "id": "urn:tag:genre:music:pop", "name": "Pop", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "generic", "localities": ["madrid"], "era": [1968, 2000] } },
-    { "name": "Charles Aznavour", "entity_id": "ffffffff-0000-4000-8000-0000000d0005", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "'La Bohème', 'She'; the Armenian-French chansonnier who sang for seven decades.", "date_of_birth": "1924-05-22", "year_of_death": 2018, "place_of_birth": "Paris, France", "akas": [] },
-      "popularity": 0.85, "tags": [{ "id": "urn:tag:genre:music:chanson", "name": "Chanson", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "generic", "localities": ["paris"], "era": [1946, 2018] } },
-    { "name": "Vera Lynn", "entity_id": "ffffffff-0000-4000-8000-0000000d0006", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "The Forces' Sweetheart: 'We'll Meet Again' and 'The White Cliffs of Dover'.", "date_of_birth": "1917-03-20", "year_of_death": 2020, "place_of_birth": "London, England", "akas": [] },
-      "popularity": 0.8, "tags": [{ "id": "urn:tag:genre:music:traditional_pop", "name": "Traditional Pop", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "generic", "localities": ["london"], "era": [1936, 1975] } },
-    { "name": "Nana Mouskouri", "entity_id": "ffffffff-0000-4000-8000-0000000d0007", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Greek singer in the famous glasses, with hits in a dozen languages from the 1960s on.", "date_of_birth": "1934-10-13", "place_of_birth": "Chania, Crete, Greece", "akas": [] },
-      "popularity": 0.78, "tags": [{ "id": "urn:tag:genre:music:pop", "name": "Pop", "type": "urn:tag:genre:music" }, { "id": "urn:tag:genre:music:folk", "name": "Folk", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "generic", "era": [1960, 2000] } },
-    { "name": "Bob Dylan", "entity_id": "ffffffff-0000-4000-8000-0000000d0008", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "'Blowin' in the Wind', 'Like a Rolling Stone'; the songwriter of the 1960s.", "date_of_birth": "1941-05-24", "place_of_birth": "Duluth, Minnesota, USA", "akas": [] },
-      "popularity": 0.95, "tags": [{ "id": "urn:tag:genre:music:folk", "name": "Folk", "type": "urn:tag:genre:music" }, { "id": "urn:tag:genre:music:rock", "name": "Rock", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "generic", "era": [1962, 2000] } },
-    { "name": "Aretha Franklin", "entity_id": "ffffffff-0000-4000-8000-0000000d0009", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "The Queen of Soul: 'Respect', '(You Make Me Feel Like) A Natural Woman'.", "date_of_birth": "1942-03-25", "year_of_death": 2018, "place_of_birth": "Memphis, Tennessee, USA", "akas": [] },
-      "popularity": 0.95, "tags": [{ "id": "urn:tag:genre:music:soul", "name": "Soul", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "generic", "era": [1961, 2000] } },
-    { "name": "Dalida", "entity_id": "ffffffff-0000-4000-8000-0000000d0010", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Cairo-born star of French chanson and disco: 'Bambino', 'Gigi l'amoroso'.", "date_of_birth": "1933-01-17", "year_of_death": 1987, "place_of_birth": "Cairo, Egypt", "akas": [] },
-      "popularity": 0.82, "tags": [{ "id": "urn:tag:genre:music:chanson", "name": "Chanson", "type": "urn:tag:genre:music" }, { "id": "urn:tag:genre:music:pop", "name": "Pop", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "generic", "localities": ["paris"], "era": [1956, 1987] } },
-
-    { "name": "Casablanca", "entity_id": "ffffffff-0000-4000-8000-0000000d0101", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1942, "release_date": "1942-11-26", "description": "Bogart, Bergman and 'As Time Goes By' in wartime Morocco.", "release_country": ["United States"], "duration": 102, "akas": [] },
-      "popularity": 0.95, "tags": [{ "id": "urn:tag:genre:media:romance", "name": "Romance", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "generic", "era": [1942, 1975] } },
-    { "name": "Roman Holiday", "entity_id": "ffffffff-0000-4000-8000-0000000d0102", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1953, "release_date": "1953-09-02", "description": "Audrey Hepburn's runaway princess tours Rome on a Vespa with Gregory Peck.", "release_country": ["United States"], "duration": 118, "akas": [] },
-      "popularity": 0.9, "tags": [{ "id": "urn:tag:genre:media:romance", "name": "Romance", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:comedy", "name": "Comedy", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "generic", "localities": ["rome"], "era": [1953, 1975] } },
-    { "name": "Singin' in the Rain", "entity_id": "ffffffff-0000-4000-8000-0000000d0103", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1952, "release_date": "1952-04-11", "description": "Gene Kelly, Debbie Reynolds and Donald O'Connor in the greatest Hollywood musical.", "release_country": ["United States"], "duration": 103, "akas": [] },
-      "popularity": 0.92, "tags": [{ "id": "urn:tag:genre:media:musical", "name": "Musical", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:comedy", "name": "Comedy", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "generic", "era": [1952, 1975] } },
-    { "name": "Lawrence of Arabia", "entity_id": "ffffffff-0000-4000-8000-0000000d0104", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1962, "release_date": "1962-12-10", "description": "David Lean's desert epic with Peter O'Toole.", "release_country": ["United Kingdom"], "duration": 227, "akas": [] },
-      "popularity": 0.9, "tags": [{ "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "generic", "localities": ["london"], "era": [1962, 1980] } },
-    { "name": "La Dolce Vita", "entity_id": "ffffffff-0000-4000-8000-0000000d0105", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1960, "release_date": "1960-02-05", "description": "Fellini's Rome of nightclubs and the Trevi Fountain, with Marcello Mastroianni and Anita Ekberg.", "release_country": ["Italy"], "duration": 174, "akas": [] },
-      "popularity": 0.85, "tags": [{ "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "generic", "localities": ["rome"], "era": [1960, 1980] } },
-    { "name": "The Umbrellas of Cherbourg", "entity_id": "ffffffff-0000-4000-8000-0000000d0106", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1964, "release_date": "1964-02-19", "description": "Jacques Demy's sung-through romance in candy colors, with Catherine Deneuve and Michel Legrand's score.", "release_country": ["France"], "duration": 91, "akas": [{ "value": "Les Parapluies de Cherbourg", "languages": ["fr"] }] },
-      "popularity": 0.8, "tags": [{ "id": "urn:tag:genre:media:musical", "name": "Musical", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:romance", "name": "Romance", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "generic", "localities": ["paris"], "era": [1964, 1980] } },
-    { "name": "A Hard Day's Night", "entity_id": "ffffffff-0000-4000-8000-0000000d0107", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1964, "release_date": "1964-07-06", "description": "A day and a half with the Beatles at the height of Beatlemania.", "release_country": ["United Kingdom"], "duration": 87, "akas": [] },
-      "popularity": 0.85, "tags": [{ "id": "urn:tag:genre:media:musical", "name": "Musical", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:comedy", "name": "Comedy", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "generic", "localities": ["london"], "era": [1964, 1975], "related": { "ffffffff-0000-4000-8000-0000000d0001": 0.95 } } },
-    { "name": "Zorba the Greek", "entity_id": "ffffffff-0000-4000-8000-0000000d0108", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1964, "release_date": "1964-12-17", "description": "Anthony Quinn dances the sirtaki on a Cretan beach; Theodorakis's theme went around the world.", "release_country": ["Greece", "United States"], "duration": 142, "akas": [] },
-      "popularity": 0.78, "tags": [{ "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "generic", "era": [1964, 1980] } },
-
-    { "name": "Top of the Pops", "entity_id": "ffffffff-0000-4000-8000-0000000d0201", "type": "urn:entity", "subtype": "urn:entity:tv_show",
-      "properties": { "release_year": 1964, "description": "The BBC's weekly chart show, Thursday nights from 1964 to 2006.", "release_country": ["United Kingdom"], "akas": [] },
-      "popularity": 0.8, "tags": [{ "id": "urn:tag:genre:media:variety", "name": "Variety", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:musical", "name": "Musical", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "generic", "localities": ["london"], "era": [1964, 2006] } },
-    { "name": "Coronation Street", "entity_id": "ffffffff-0000-4000-8000-0000000d0202", "type": "urn:entity", "subtype": "urn:entity:tv_show",
-      "properties": { "release_year": 1960, "description": "The Rovers Return and the cobbles of Weatherfield since December 1960.", "release_country": ["United Kingdom"], "akas": [] },
-      "popularity": 0.85, "tags": [{ "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "generic", "localities": ["london"], "era": [1960, 2026] } },
-
-    { "name": "Café de Flore", "entity_id": "ffffffff-0000-4000-8000-0000000d0301", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Saint-Germain café since 1887, once the haunt of Sartre and de Beauvoir.", "address": "172 Boulevard Saint-Germain, 75006 Paris", "geocode": { "name": "Paris", "admin1_region": "Île-de-France", "country_code": "FR" }, "business_rating": 4.2, "price_level": 3, "is_closed": false, "akas": [] },
-      "popularity": 0.86, "tags": [{ "id": "urn:tag:genre:place:cafe", "name": "Cafe", "type": "urn:tag:genre:place" }, { "id": "urn:tag:genre:place:restaurant", "name": "Restaurant", "type": "urn:tag:genre:place" }],
-      "_syn": { "world": "generic", "localities": ["paris"], "era": [1887, 2026], "kind": "dining" } },
-    { "name": "Botín", "entity_id": "ffffffff-0000-4000-8000-0000000d0302", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Roast suckling pig from a wood oven since 1725; the world's oldest restaurant by Guinness's reckoning.", "address": "Calle de Cuchilleros 17, 28005 Madrid", "geocode": { "name": "Madrid", "admin1_region": "Community of Madrid", "country_code": "ES" }, "business_rating": 4.4, "price_level": 3, "is_closed": false, "akas": [{ "value": "Sobrino de Botín", "languages": ["es"] }] },
-      "popularity": 0.84, "tags": [{ "id": "urn:tag:genre:place:restaurant", "name": "Restaurant", "type": "urn:tag:genre:place" }],
-      "_syn": { "world": "generic", "localities": ["madrid"], "era": [1725, 2026], "kind": "dining" } },
-    { "name": "Rules", "entity_id": "ffffffff-0000-4000-8000-0000000d0303", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "London's oldest restaurant (1798) in Covent Garden: game, pies and puddings.", "address": "34-35 Maiden Lane, London WC2E 7LB", "geocode": { "name": "London", "admin1_region": "England", "country_code": "GB" }, "business_rating": 4.5, "price_level": 3, "is_closed": false, "akas": [] },
-      "popularity": 0.78, "tags": [{ "id": "urn:tag:genre:place:restaurant", "name": "Restaurant", "type": "urn:tag:genre:place" }],
-      "_syn": { "world": "generic", "localities": ["london"], "era": [1798, 2026], "kind": "dining" } },
-    { "name": "Antico Caffè Greco", "entity_id": "ffffffff-0000-4000-8000-0000000d0304", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Rome's grand café on Via Condotti since 1760, red velvet and marble tables.", "address": "Via dei Condotti 86, 00187 Roma", "geocode": { "name": "Rome", "admin1_region": "Lazio", "country_code": "IT" }, "business_rating": 4.2, "price_level": 3, "is_closed": false, "akas": [{ "value": "Caffè Greco", "languages": ["it"] }] },
-      "popularity": 0.8, "tags": [{ "id": "urn:tag:genre:place:cafe", "name": "Cafe", "type": "urn:tag:genre:place" }],
-      "_syn": { "world": "generic", "localities": ["rome"], "era": [1760, 2026], "kind": "dining" } },
-    { "name": "Lyons Corner House", "entity_id": "ffffffff-0000-4000-8000-0000000d0305", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "The great London tea rooms (1909 to 1977), with 'Nippy' waitresses and orchestras on every floor.", "address": "Coventry Street, London", "geocode": { "name": "London", "admin1_region": "England", "country_code": "GB" }, "is_closed": true, "akas": [] },
-      "popularity": 0.6, "tags": [{ "id": "urn:tag:genre:place:cafe", "name": "Cafe", "type": "urn:tag:genre:place" }, { "id": "urn:tag:genre:place:restaurant", "name": "Restaurant", "type": "urn:tag:genre:place" }],
-      "_syn": { "world": "generic", "localities": ["london"], "era": [1909, 1977], "kind": "dining" } },
-
-    { "name": "Eiffel Tower", "entity_id": "ffffffff-0000-4000-8000-0000000d0401", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Gustave Eiffel's 1889 iron tower on the Champ de Mars.", "address": "Champ de Mars, 75007 Paris", "geocode": { "name": "Paris", "admin1_region": "Île-de-France", "country_code": "FR" }, "business_rating": 4.7, "is_closed": false, "akas": [{ "value": "Tour Eiffel", "languages": ["fr"] }] },
-      "popularity": 0.99, "tags": [{ "id": "urn:tag:category:place:landmark", "name": "Landmark", "type": "urn:tag:category:place" }, { "id": "urn:tag:category:place:tourist_attraction", "name": "Tourist Attraction", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "generic", "localities": ["paris"], "era": [1889, 2026], "kind": "landmark" } },
-    { "name": "Trevi Fountain", "entity_id": "ffffffff-0000-4000-8000-0000000d0402", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Rome's baroque fountain of 1762; toss a coin over your shoulder to return.", "address": "Piazza di Trevi, 00187 Roma", "geocode": { "name": "Rome", "admin1_region": "Lazio", "country_code": "IT" }, "business_rating": 4.8, "is_closed": false, "akas": [{ "value": "Fontana di Trevi", "languages": ["it"] }] },
-      "popularity": 0.97, "tags": [{ "id": "urn:tag:category:place:landmark", "name": "Landmark", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "generic", "localities": ["rome"], "era": [1762, 2026], "kind": "landmark" } },
-    { "name": "Puerta del Sol", "entity_id": "ffffffff-0000-4000-8000-0000000d0403", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Madrid's central square, the clock that rings in the New Year and the Bear and the Strawberry Tree.", "address": "Puerta del Sol, 28013 Madrid", "geocode": { "name": "Madrid", "admin1_region": "Community of Madrid", "country_code": "ES" }, "business_rating": 4.6, "is_closed": false, "akas": [] },
-      "popularity": 0.92, "tags": [{ "id": "urn:tag:category:place:landmark", "name": "Landmark", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "generic", "localities": ["madrid"], "era": [1800, 2026], "kind": "landmark" } },
-    { "name": "Tower Bridge", "entity_id": "ffffffff-0000-4000-8000-0000000d0404", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "The 1894 bascule bridge over the Thames, London's postcard view.", "address": "Tower Bridge Rd, London SE1 2UP", "geocode": { "name": "London", "admin1_region": "England", "country_code": "GB" }, "business_rating": 4.7, "is_closed": false, "akas": [] },
-      "popularity": 0.96, "tags": [{ "id": "urn:tag:category:place:landmark", "name": "Landmark", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "generic", "localities": ["london"], "era": [1894, 2026], "kind": "landmark" } },
-    { "name": "El Retiro Park", "entity_id": "ffffffff-0000-4000-8000-0000000d0405", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Madrid's great park: rowing boats on the lake and the Crystal Palace.", "address": "Plaza de la Independencia 7, 28001 Madrid", "geocode": { "name": "Madrid", "admin1_region": "Community of Madrid", "country_code": "ES" }, "business_rating": 4.8, "is_closed": false, "akas": [{ "value": "Parque del Retiro", "languages": ["es"] }] },
-      "popularity": 0.93, "tags": [{ "id": "urn:tag:category:place:park", "name": "Park", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "generic", "localities": ["madrid"], "era": [1868, 2026], "kind": "landmark" } },
-    { "name": "Hyde Park", "entity_id": "ffffffff-0000-4000-8000-0000000d0406", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "London's royal park: Speakers' Corner, the Serpentine and the 1969 Stones concert.", "address": "Hyde Park, London W2 2UH", "geocode": { "name": "London", "admin1_region": "England", "country_code": "GB" }, "business_rating": 4.7, "is_closed": false, "akas": [] },
-      "popularity": 0.94, "tags": [{ "id": "urn:tag:category:place:park", "name": "Park", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "generic", "localities": ["london"], "era": [1800, 2026], "kind": "landmark" } },
-
-    { "name": "Paris", "entity_id": "ffffffff-0000-4000-8000-0000000d0501", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "The city of light: the Seine, the cafés, the boulevards.", "geocode": { "name": "Paris", "admin1_region": "Île-de-France", "country_code": "FR" }, "akas": [] },
-      "popularity": 0.99, "tags": [{ "id": "urn:tag:genre:destination:city_break", "name": "City Break", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "generic", "localities": ["london", "madrid", "rome"], "era": [1900, 2026] } },
-    { "name": "Rome", "entity_id": "ffffffff-0000-4000-8000-0000000d0502", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "The Eternal City: the Colosseum, the Vatican and gelato on the Spanish Steps.", "geocode": { "name": "Rome", "admin1_region": "Lazio", "country_code": "IT" }, "akas": [{ "value": "Roma", "languages": ["it"] }] },
-      "popularity": 0.98, "tags": [{ "id": "urn:tag:genre:destination:historic", "name": "Historic", "type": "urn:tag:genre:destination" }, { "id": "urn:tag:genre:destination:city_break", "name": "City Break", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "generic", "localities": ["london", "madrid", "paris"], "era": [1900, 2026] } },
-    { "name": "Venice", "entity_id": "ffffffff-0000-4000-8000-0000000d0503", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "Gondolas, St Mark's Square and the Lido.", "geocode": { "name": "Venice", "admin1_region": "Veneto", "country_code": "IT" }, "akas": [{ "value": "Venezia", "languages": ["it"] }] },
-      "popularity": 0.96, "tags": [{ "id": "urn:tag:genre:destination:historic", "name": "Historic", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "generic", "localities": ["rome", "paris", "london", "madrid"], "era": [1900, 2026] } },
-    { "name": "Lisbon", "entity_id": "ffffffff-0000-4000-8000-0000000d0504", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "Trams, fado and the Tagus.", "geocode": { "name": "Lisbon", "admin1_region": "Lisbon", "country_code": "PT" }, "akas": [{ "value": "Lisboa", "languages": ["pt"] }] },
-      "popularity": 0.9, "tags": [{ "id": "urn:tag:genre:destination:city_break", "name": "City Break", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "generic", "localities": ["madrid"], "era": [1900, 2026] } },
-    { "name": "Honolulu", "entity_id": "ffffffff-0000-4000-8000-0000000d0505", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "Waikiki Beach, Diamond Head and the honeymoon flights of the jet age.", "geocode": { "name": "Honolulu", "admin1_region": "Hawaii", "country_code": "US" }, "akas": [{ "value": "Waikiki", "languages": ["en"] }] },
-      "popularity": 0.9, "tags": [{ "id": "urn:tag:genre:destination:beach", "name": "Beach", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "generic", "era": [1950, 2026] } },
-    { "name": "Blackpool", "entity_id": "ffffffff-0000-4000-8000-0000000d0506", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "The Tower Ballroom, the Illuminations and the Pleasure Beach: Britain's seaside.", "geocode": { "name": "Blackpool", "admin1_region": "England", "country_code": "GB" }, "akas": [] },
-      "popularity": 0.72, "tags": [{ "id": "urn:tag:genre:destination:beach", "name": "Beach", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "generic", "localities": ["london"], "era": [1900, 2026] } },
-    { "name": "Costa Brava", "entity_id": "ffffffff-0000-4000-8000-0000000d0507", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "Catalonia's rocky coast of coves and fishing villages, the package-holiday dream of the 1960s.", "geocode": { "name": "Girona", "admin1_region": "Catalonia", "country_code": "ES" }, "akas": [] },
-      "popularity": 0.8, "tags": [{ "id": "urn:tag:genre:destination:beach", "name": "Beach", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "generic", "localities": ["madrid", "london"], "era": [1955, 2026] } },
-    { "name": "Côte d'Azur", "entity_id": "ffffffff-0000-4000-8000-0000000d0508", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "Nice, Cannes and Saint-Tropez: the French Riviera of Bardot and the film festival.", "geocode": { "name": "Nice", "admin1_region": "Provence-Alpes-Côte d'Azur", "country_code": "FR" }, "akas": [{ "value": "French Riviera", "languages": ["en"] }] },
-      "popularity": 0.9, "tags": [{ "id": "urn:tag:genre:destination:beach", "name": "Beach", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "generic", "localities": ["paris", "london"], "era": [1950, 2026] } }
+    {
+      "name": "Édith Piaf",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0002",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'La Vie en rose' and 'Non, je ne regrette rien'; the voice of Paris.",
+        "date_of_birth": "1915-12-19",
+        "year_of_death": 1963,
+        "place_of_birth": "Paris, France",
+        "akas": [
+          {
+            "value": "Edith Piaf",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:chanson",
+          "name": "Chanson",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "localities": [
+          "paris"
+        ],
+        "era": [
+          1935,
+          1963
+        ]
+      }
+    },
+    {
+      "name": "ABBA",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0003",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Sweden's Eurovision winners of 1974: 'Dancing Queen', 'Waterloo', 'Fernando'.",
+        "place_of_birth": "Stockholm, Sweden",
+        "akas": []
+      },
+      "popularity": 0.95,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:pop",
+          "name": "Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1972,
+          1982
+        ]
+      }
+    },
+    {
+      "name": "Julio Iglesias",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0004",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Madrid-born balladeer of 'La vida sigue igual' and 'Hey!', one of the best-selling Latin artists ever.",
+        "date_of_birth": "1943-09-23",
+        "place_of_birth": "Madrid, Spain",
+        "akas": []
+      },
+      "popularity": 0.88,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:latin",
+          "name": "Latin",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:pop",
+          "name": "Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": [
+          "generic",
+          "latam"
+        ],
+        "localities": [
+          "madrid"
+        ],
+        "era": [
+          1968,
+          2000
+        ]
+      }
+    },
+    {
+      "name": "Charles Aznavour",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0005",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'La Bohème', 'She'; the Armenian-French chansonnier who sang for seven decades.",
+        "date_of_birth": "1924-05-22",
+        "year_of_death": 2018,
+        "place_of_birth": "Paris, France",
+        "akas": []
+      },
+      "popularity": 0.85,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:chanson",
+          "name": "Chanson",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "localities": [
+          "paris"
+        ],
+        "era": [
+          1946,
+          2018
+        ]
+      }
+    },
+    {
+      "name": "Nana Mouskouri",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0007",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Greek singer in the famous glasses, with hits in a dozen languages from the 1960s on.",
+        "date_of_birth": "1934-10-13",
+        "place_of_birth": "Chania, Crete, Greece",
+        "akas": []
+      },
+      "popularity": 0.78,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:pop",
+          "name": "Pop",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:folk",
+          "name": "Folk",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1960,
+          2000
+        ]
+      }
+    },
+    {
+      "name": "Bob Dylan",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0008",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Blowin' in the Wind', 'Like a Rolling Stone'; the songwriter of the 1960s.",
+        "date_of_birth": "1941-05-24",
+        "place_of_birth": "Duluth, Minnesota, USA",
+        "akas": []
+      },
+      "popularity": 0.95,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:folk",
+          "name": "Folk",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:rock",
+          "name": "Rock",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1962,
+          2000
+        ]
+      }
+    },
+    {
+      "name": "Aretha Franklin",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0009",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "The Queen of Soul: 'Respect', '(You Make Me Feel Like) A Natural Woman'.",
+        "date_of_birth": "1942-03-25",
+        "year_of_death": 2018,
+        "place_of_birth": "Memphis, Tennessee, USA",
+        "akas": []
+      },
+      "popularity": 0.95,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:soul",
+          "name": "Soul",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1961,
+          2000
+        ]
+      }
+    },
+    {
+      "name": "Dalida",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0010",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Cairo-born star of French chanson and disco: 'Bambino', 'Gigi l'amoroso'.",
+        "date_of_birth": "1933-01-17",
+        "year_of_death": 1987,
+        "place_of_birth": "Cairo, Egypt",
+        "akas": []
+      },
+      "popularity": 0.82,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:chanson",
+          "name": "Chanson",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:pop",
+          "name": "Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "localities": [
+          "paris"
+        ],
+        "era": [
+          1956,
+          1987
+        ]
+      }
+    },
+    {
+      "name": "Udo Jürgens",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0011",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Merci, Chérie' won Eurovision in 1966; 'Griechischer Wein', 'Mit 66 Jahren': the Austrian at the white piano, all over German-speaking Europe.",
+        "date_of_birth": "1934-09-30",
+        "year_of_death": 2014,
+        "place_of_birth": "Klagenfurt, Austria",
+        "akas": []
+      },
+      "popularity": 0.84,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:pop",
+          "name": "Pop",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:easy_listening",
+          "name": "Easy Listening",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1960,
+          2014
+        ]
+      }
+    },
+    {
+      "name": "Caterina Valente",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0012",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Ganz Paris träumt von der Liebe', 'Malagueña': the polyglot star of 1950s Europe who sang in a dozen languages.",
+        "date_of_birth": "1931-01-14",
+        "year_of_death": 2024,
+        "place_of_birth": "Paris, France",
+        "akas": []
+      },
+      "popularity": 0.78,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:pop",
+          "name": "Pop",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:easy_listening",
+          "name": "Easy Listening",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:jazz",
+          "name": "Jazz",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1953,
+          1990
+        ]
+      }
+    },
+    {
+      "name": "Mireille Mathieu",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0013",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Mon credo', 'Acropolis adieu', 'Santa Maria de la mer': the voice from Avignon that Germany, Spain and Japan adopted.",
+        "date_of_birth": "1946-07-22",
+        "place_of_birth": "Avignon, France",
+        "akas": []
+      },
+      "popularity": 0.82,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:chanson",
+          "name": "Chanson",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:pop",
+          "name": "Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1965,
+          2010
+        ]
+      }
+    },
+    {
+      "name": "Demis Roussos",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0014",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Forever and Ever', 'Goodbye My Love Goodbye': the Greek in the kaftan who sold Europe its summer of 1973.",
+        "date_of_birth": "1946-06-15",
+        "year_of_death": 2015,
+        "place_of_birth": "Alexandria, Egypt",
+        "akas": []
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:pop",
+          "name": "Pop",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:easy_listening",
+          "name": "Easy Listening",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1971,
+          1990
+        ]
+      }
+    },
+    {
+      "name": "Boney M.",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0015",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Rivers of Babylon', 'Daddy Cool', 'Rasputin': the disco act from Germany that every European wedding played.",
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:pop",
+          "name": "Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1976,
+          1986
+        ]
+      }
+    },
+    {
+      "name": "Bee Gees",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0016",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Massachusetts', 'How Deep Is Your Love', 'Stayin' Alive': from the ballads of the sixties to the disco floor of 1977.",
+        "akas": []
+      },
+      "popularity": 0.94,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:pop",
+          "name": "Pop",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:soul",
+          "name": "Soul",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1967,
+          1990
+        ]
+      }
+    },
+    {
+      "name": "Casablanca",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0101",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1942,
+        "release_date": "1942-11-26",
+        "description": "Bogart, Bergman and 'As Time Goes By' in wartime Morocco.",
+        "release_country": [
+          "United States"
+        ],
+        "duration": 102,
+        "akas": []
+      },
+      "popularity": 0.95,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:romance",
+          "name": "Romance",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1942,
+          1975
+        ]
+      }
+    },
+    {
+      "name": "Roman Holiday",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0102",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1953,
+        "release_date": "1953-09-02",
+        "description": "Audrey Hepburn's runaway princess tours Rome on a Vespa with Gregory Peck.",
+        "release_country": [
+          "United States"
+        ],
+        "duration": 118,
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:romance",
+          "name": "Romance",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "localities": [
+          "rome"
+        ],
+        "era": [
+          1953,
+          1975
+        ]
+      }
+    },
+    {
+      "name": "Singin' in the Rain",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0103",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1952,
+        "release_date": "1952-04-11",
+        "description": "Gene Kelly, Debbie Reynolds and Donald O'Connor in the greatest Hollywood musical.",
+        "release_country": [
+          "United States"
+        ],
+        "duration": 103,
+        "akas": []
+      },
+      "popularity": 0.92,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:musical",
+          "name": "Musical",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1952,
+          1975
+        ]
+      }
+    },
+    {
+      "name": "La Dolce Vita",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0105",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1960,
+        "release_date": "1960-02-05",
+        "description": "Fellini's Rome of nightclubs and the Trevi Fountain, with Marcello Mastroianni and Anita Ekberg.",
+        "release_country": [
+          "Italy"
+        ],
+        "duration": 174,
+        "akas": []
+      },
+      "popularity": 0.85,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "localities": [
+          "rome"
+        ],
+        "era": [
+          1960,
+          1980
+        ]
+      }
+    },
+    {
+      "name": "The Umbrellas of Cherbourg",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0106",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1964,
+        "release_date": "1964-02-19",
+        "description": "Jacques Demy's sung-through romance in candy colors, with Catherine Deneuve and Michel Legrand's score.",
+        "release_country": [
+          "France"
+        ],
+        "duration": 91,
+        "akas": [
+          {
+            "value": "Les Parapluies de Cherbourg",
+            "languages": [
+              "fr"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:musical",
+          "name": "Musical",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:romance",
+          "name": "Romance",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "localities": [
+          "paris"
+        ],
+        "era": [
+          1964,
+          1980
+        ]
+      }
+    },
+    {
+      "name": "Zorba the Greek",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0108",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1964,
+        "release_date": "1964-12-17",
+        "description": "Anthony Quinn dances the sirtaki on a Cretan beach; Theodorakis's theme went around the world.",
+        "release_country": [
+          "Greece",
+          "United States"
+        ],
+        "duration": 142,
+        "akas": []
+      },
+      "popularity": 0.78,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1964,
+          1980
+        ]
+      }
+    },
+    {
+      "name": "Café de Flore",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0301",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Saint-Germain café since 1887, once the haunt of Sartre and de Beauvoir.",
+        "address": "172 Boulevard Saint-Germain, 75006 Paris",
+        "geocode": {
+          "name": "Paris",
+          "admin1_region": "Île-de-France",
+          "country_code": "FR"
+        },
+        "business_rating": 4.2,
+        "price_level": 3,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.86,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:cafe",
+          "name": "Cafe",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "localities": [
+          "paris"
+        ],
+        "era": [
+          1887,
+          2026
+        ],
+        "kind": "dining"
+      }
+    },
+    {
+      "name": "Botín",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0302",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Roast suckling pig from a wood oven since 1725; the world's oldest restaurant by Guinness's reckoning.",
+        "address": "Calle de Cuchilleros 17, 28005 Madrid",
+        "geocode": {
+          "name": "Madrid",
+          "admin1_region": "Community of Madrid",
+          "country_code": "ES"
+        },
+        "business_rating": 4.4,
+        "price_level": 3,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "Sobrino de Botín",
+            "languages": [
+              "es"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.84,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "localities": [
+          "madrid"
+        ],
+        "era": [
+          1725,
+          2026
+        ],
+        "kind": "dining"
+      }
+    },
+    {
+      "name": "Antico Caffè Greco",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0304",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Rome's grand café on Via Condotti since 1760, red velvet and marble tables.",
+        "address": "Via dei Condotti 86, 00187 Roma",
+        "geocode": {
+          "name": "Rome",
+          "admin1_region": "Lazio",
+          "country_code": "IT"
+        },
+        "business_rating": 4.2,
+        "price_level": 3,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "Caffè Greco",
+            "languages": [
+              "it"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:cafe",
+          "name": "Cafe",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "localities": [
+          "rome"
+        ],
+        "era": [
+          1760,
+          2026
+        ],
+        "kind": "dining"
+      }
+    },
+    {
+      "name": "Eiffel Tower",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0401",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Gustave Eiffel's 1889 iron tower on the Champ de Mars.",
+        "address": "Champ de Mars, 75007 Paris",
+        "geocode": {
+          "name": "Paris",
+          "admin1_region": "Île-de-France",
+          "country_code": "FR"
+        },
+        "business_rating": 4.7,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "Tour Eiffel",
+            "languages": [
+              "fr"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.99,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:tourist_attraction",
+          "name": "Tourist Attraction",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "localities": [
+          "paris"
+        ],
+        "era": [
+          1889,
+          2026
+        ],
+        "kind": "landmark"
+      }
+    },
+    {
+      "name": "Trevi Fountain",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0402",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Rome's baroque fountain of 1762; toss a coin over your shoulder to return.",
+        "address": "Piazza di Trevi, 00187 Roma",
+        "geocode": {
+          "name": "Rome",
+          "admin1_region": "Lazio",
+          "country_code": "IT"
+        },
+        "business_rating": 4.8,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "Fontana di Trevi",
+            "languages": [
+              "it"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.97,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "localities": [
+          "rome"
+        ],
+        "era": [
+          1762,
+          2026
+        ],
+        "kind": "landmark"
+      }
+    },
+    {
+      "name": "Puerta del Sol",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0403",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Madrid's central square, the clock that rings in the New Year and the Bear and the Strawberry Tree.",
+        "address": "Puerta del Sol, 28013 Madrid",
+        "geocode": {
+          "name": "Madrid",
+          "admin1_region": "Community of Madrid",
+          "country_code": "ES"
+        },
+        "business_rating": 4.6,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.92,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "localities": [
+          "madrid"
+        ],
+        "era": [
+          1800,
+          2026
+        ],
+        "kind": "landmark"
+      }
+    },
+    {
+      "name": "El Retiro Park",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0405",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Madrid's great park: rowing boats on the lake and the Crystal Palace.",
+        "address": "Plaza de la Independencia 7, 28001 Madrid",
+        "geocode": {
+          "name": "Madrid",
+          "admin1_region": "Community of Madrid",
+          "country_code": "ES"
+        },
+        "business_rating": 4.8,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "Parque del Retiro",
+            "languages": [
+              "es"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.93,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:park",
+          "name": "Park",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "localities": [
+          "madrid"
+        ],
+        "era": [
+          1868,
+          2026
+        ],
+        "kind": "landmark"
+      }
+    },
+    {
+      "name": "Paris",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0501",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "The city of light: the Seine, the cafés, the boulevards.",
+        "geocode": {
+          "name": "Paris",
+          "admin1_region": "Île-de-France",
+          "country_code": "FR"
+        },
+        "akas": []
+      },
+      "popularity": 0.99,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:city_break",
+          "name": "City Break",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "localities": [
+          "london",
+          "madrid",
+          "rome"
+        ],
+        "era": [
+          1900,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Rome",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0502",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "The Eternal City: the Colosseum, the Vatican and gelato on the Spanish Steps.",
+        "geocode": {
+          "name": "Rome",
+          "admin1_region": "Lazio",
+          "country_code": "IT"
+        },
+        "akas": [
+          {
+            "value": "Roma",
+            "languages": [
+              "it"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.98,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:historic",
+          "name": "Historic",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:city_break",
+          "name": "City Break",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "localities": [
+          "london",
+          "madrid",
+          "paris"
+        ],
+        "era": [
+          1900,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Venice",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0503",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Gondolas, St Mark's Square and the Lido.",
+        "geocode": {
+          "name": "Venice",
+          "admin1_region": "Veneto",
+          "country_code": "IT"
+        },
+        "akas": [
+          {
+            "value": "Venezia",
+            "languages": [
+              "it"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.96,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:historic",
+          "name": "Historic",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "localities": [
+          "rome",
+          "paris",
+          "london",
+          "madrid"
+        ],
+        "era": [
+          1900,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Lisbon",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0504",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Trams, fado and the Tagus.",
+        "geocode": {
+          "name": "Lisbon",
+          "admin1_region": "Lisbon",
+          "country_code": "PT"
+        },
+        "akas": [
+          {
+            "value": "Lisboa",
+            "languages": [
+              "pt"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:city_break",
+          "name": "City Break",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "localities": [
+          "madrid"
+        ],
+        "era": [
+          1900,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Honolulu",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0505",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Waikiki Beach, Diamond Head and the honeymoon flights of the jet age.",
+        "geocode": {
+          "name": "Honolulu",
+          "admin1_region": "Hawaii",
+          "country_code": "US"
+        },
+        "akas": [
+          {
+            "value": "Waikiki",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:beach",
+          "name": "Beach",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1950,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Côte d'Azur",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d0508",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Nice, Cannes and Saint-Tropez: the French Riviera of Bardot and the film festival.",
+        "geocode": {
+          "name": "Nice",
+          "admin1_region": "Provence-Alpes-Côte d'Azur",
+          "country_code": "FR"
+        },
+        "akas": [
+          {
+            "value": "French Riviera",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:beach",
+          "name": "Beach",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "localities": [
+          "paris",
+          "london"
+        ],
+        "era": [
+          1950,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Doctor Zhivago",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d1009",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1965,
+        "description": "David Lean's Russia, Omar Sharif and Julie Christie, and 'Lara's Theme' on the balalaika.",
+        "release_country": [
+          "United States",
+          "United Kingdom",
+          "Italy"
+        ],
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:romance",
+          "name": "Romance",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:war",
+          "name": "War",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1965,
+          1985
+        ]
+      }
+    },
+    {
+      "name": "My Fair Lady",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d1010",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1964,
+        "description": "Audrey Hepburn's Eliza and Rex Harrison's Higgins, the Ascot scene and 'I Could Have Danced All Night'.",
+        "release_country": [
+          "United States"
+        ],
+        "akas": []
+      },
+      "popularity": 0.88,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:musical",
+          "name": "Musical",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:romance",
+          "name": "Romance",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1964,
+          1985
+        ]
+      }
+    },
+    {
+      "name": "The Graduate",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d1011",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1967,
+        "description": "Dustin Hoffman, Mrs Robinson and Simon and Garfunkel; the plastics line.",
+        "release_country": [
+          "United States"
+        ],
+        "akas": []
+      },
+      "popularity": 0.86,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:romance",
+          "name": "Romance",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1967,
+          1985
+        ]
+      }
+    },
+    {
+      "name": "Jaws",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d1012",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1975,
+        "description": "The shark, the beach, the two notes; the summer nobody went in the water.",
+        "release_country": [
+          "United States"
+        ],
+        "akas": []
+      },
+      "popularity": 0.92,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:thriller",
+          "name": "Thriller",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:adventure",
+          "name": "Adventure",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1975,
+          1990
+        ]
+      }
+    },
+    {
+      "name": "Saturday Night Fever",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d1013",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1977,
+        "description": "John Travolta's white suit and the Bee Gees on the Brooklyn dance floor.",
+        "release_country": [
+          "United States"
+        ],
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:music",
+          "name": "Music",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1977,
+          1990
+        ]
+      }
+    },
+    {
+      "name": "Grease",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d1014",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1978,
+        "description": "Travolta and Olivia Newton-John at Rydell High; 'Summer Nights' and 'You're the One That I Want'.",
+        "release_country": [
+          "United States"
+        ],
+        "akas": []
+      },
+      "popularity": 0.92,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:musical",
+          "name": "Musical",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:romance",
+          "name": "Romance",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1978,
+          1995
+        ]
+      }
+    },
+    {
+      "name": "Some Like It Hot",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d1015",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1959,
+        "description": "Marilyn Monroe, Tony Curtis and Jack Lemmon on the train to Florida; nobody's perfect.",
+        "release_country": [
+          "United States"
+        ],
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:romance",
+          "name": "Romance",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1959,
+          1980
+        ]
+      }
+    },
+    {
+      "name": "Ben-Hur",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d1016",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1959,
+        "description": "Charlton Heston and the chariot race, eleven Oscars and every Easter television schedule since.",
+        "release_country": [
+          "United States"
+        ],
+        "akas": []
+      },
+      "popularity": 0.88,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:history",
+          "name": "History",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:adventure",
+          "name": "Adventure",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1959,
+          1985
+        ]
+      }
+    },
+    {
+      "name": "West Side Story",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d1017",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1961,
+        "description": "The Jets and the Sharks, Natalie Wood's Maria, 'Tonight' and 'America' on the fire escapes.",
+        "release_country": [
+          "United States"
+        ],
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:musical",
+          "name": "Musical",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:romance",
+          "name": "Romance",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1961,
+          1985
+        ]
+      }
+    },
+    {
+      "name": "Sissi",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d1018",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1955,
+        "description": "Romy Schneider as the young empress; the Christmas film of German-speaking Europe for seventy years.",
+        "release_country": [
+          "Austria"
+        ],
+        "akas": []
+      },
+      "popularity": 0.84,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:romance",
+          "name": "Romance",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:history",
+          "name": "History",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1955,
+          1990
+        ]
+      }
+    },
+    {
+      "name": "The Wizard of Oz",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d1019",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1939,
+        "description": "Judy Garland's Dorothy, the yellow brick road and 'Over the Rainbow'.",
+        "release_country": [
+          "United States"
+        ],
+        "akas": []
+      },
+      "popularity": 0.94,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:musical",
+          "name": "Musical",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:fantasy",
+          "name": "Fantasy",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:family",
+          "name": "Family",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1939,
+          1980
+        ]
+      }
+    },
+    {
+      "name": "Gone with the Wind",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d1020",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1939,
+        "description": "Vivien Leigh's Scarlett and Clark Gable's Rhett; frankly, my dear.",
+        "release_country": [
+          "United States"
+        ],
+        "akas": []
+      },
+      "popularity": 0.92,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:romance",
+          "name": "Romance",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:history",
+          "name": "History",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1939,
+          1980
+        ]
+      }
+    },
+    {
+      "name": "Eurovision Song Contest",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d2003",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1956,
+        "description": "One Saturday night a year since 1956: the songs, the costumes and the scoreboard, from Lugano to everywhere.",
+        "release_country": [
+          "Switzerland"
+        ],
+        "akas": []
+      },
+      "popularity": 0.92,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:music",
+          "name": "Music",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:variety",
+          "name": "Variety",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1956,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Bonanza",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d2004",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1959,
+        "description": "The Cartwrights of the Ponderosa, Hoss and Little Joe, the burning map; fourteen seasons shown around the world.",
+        "release_country": [
+          "United States"
+        ],
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:western",
+          "name": "Western",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:family",
+          "name": "Family",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1959,
+          1980
+        ]
+      }
+    },
+    {
+      "name": "Derrick",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d2005",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1974,
+        "description": "Horst Tappert's Munich inspector and Harry's car; Germany's detective, dubbed into every language in Europe.",
+        "release_country": [
+          "Germany"
+        ],
+        "akas": []
+      },
+      "popularity": 0.84,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:crime",
+          "name": "Crime",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1974,
+          1998
+        ]
+      }
+    },
+    {
+      "name": "The Muppet Show",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d2006",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1976,
+        "description": "Kermit, Miss Piggy, the two old men in the balcony and a guest star every week.",
+        "release_country": [
+          "United Kingdom",
+          "United States"
+        ],
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:variety",
+          "name": "Variety",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:family",
+          "name": "Family",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1976,
+          1990
+        ]
+      }
+    },
+    {
+      "name": "Dallas",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d2007",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1978,
+        "description": "J.R. Ewing, Southfork and the question of who shot him; the serial the whole world watched.",
+        "release_country": [
+          "United States"
+        ],
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:soap_opera",
+          "name": "Soap Opera",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1978,
+          1991
+        ]
+      }
+    },
+    {
+      "name": "Wetten, dass..?",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d2008",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1981,
+        "description": "Saturday night with Frank Elstner and then Thomas Gottschalk: the bets, the sofa and the stars.",
+        "release_country": [
+          "Germany"
+        ],
+        "akas": []
+      },
+      "popularity": 0.82,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:variety",
+          "name": "Variety",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:game_show",
+          "name": "Game Show",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1981,
+          2014
+        ]
+      }
+    },
+    {
+      "name": "The Benny Hill Show",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d2009",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1969,
+        "description": "The chases, the saxophone and the little old man; sold to a hundred countries.",
+        "release_country": [
+          "United Kingdom"
+        ],
+        "akas": []
+      },
+      "popularity": 0.84,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:variety",
+          "name": "Variety",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": [
+          "generic",
+          "uk"
+        ],
+        "era": [
+          1969,
+          1989
+        ]
+      }
+    },
+    {
+      "name": "Vienna",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d5009",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "The Ring, the Prater wheel, the Sachertorte and the Opera Ball.",
+        "geocode": {
+          "name": "Vienna",
+          "admin1_region": "Vienna",
+          "country_code": "AT"
+        },
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:city_break",
+          "name": "City Break",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:historic",
+          "name": "Historic",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1900,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Amsterdam",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d5010",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "The canals, the bicycles and the tulips at Keukenhof.",
+        "geocode": {
+          "name": "Amsterdam",
+          "admin1_region": "North Holland",
+          "country_code": "NL"
+        },
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:city_break",
+          "name": "City Break",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1900,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Lake Garda",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d5011",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "The lemon houses, the lake steamers and the first family holiday abroad.",
+        "geocode": {
+          "name": "Riva del Garda",
+          "admin1_region": "Trentino",
+          "country_code": "IT"
+        },
+        "akas": []
+      },
+      "popularity": 0.84,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:lake",
+          "name": "Lake",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:seaside_resort",
+          "name": "Seaside Resort",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1950,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Tenerife",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d5012",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Winter sun under Mount Teide, the black beaches and the package hotels of the Playa de las Américas.",
+        "geocode": {
+          "name": "Santa Cruz de Tenerife",
+          "admin1_region": "Canary Islands",
+          "country_code": "ES"
+        },
+        "akas": []
+      },
+      "popularity": 0.86,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:island",
+          "name": "Island",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:beach",
+          "name": "Beach",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1965,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Rimini",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d5013",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "The umbrellas in rows on the Adriatic, the pensione and the evening passeggiata.",
+        "geocode": {
+          "name": "Rimini",
+          "admin1_region": "Emilia-Romagna",
+          "country_code": "IT"
+        },
+        "akas": []
+      },
+      "popularity": 0.82,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:seaside_resort",
+          "name": "Seaside Resort",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:beach",
+          "name": "Beach",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1950,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "The Alps",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d5014",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Chalets, cowbells and the first ski trip; Innsbruck, Zermatt and Garmisch.",
+        "geocode": {
+          "name": "Innsbruck",
+          "admin1_region": "Tyrol",
+          "country_code": "AT"
+        },
+        "akas": []
+      },
+      "popularity": 0.88,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:mountain",
+          "name": "Mountain",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:nature",
+          "name": "Nature",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1930,
+          2026
+        ]
+      }
+    },
+    {
+      "name": "Mallorca",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d5015",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Palma's cathedral, the coves and the beaches of the Bay of Pollença.",
+        "geocode": {
+          "name": "Palma",
+          "admin1_region": "Balearic Islands",
+          "country_code": "ES"
+        },
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:island",
+          "name": "Island",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:beach",
+          "name": "Beach",
+          "type": "urn:tag:genre:destination"
+        },
+        {
+          "id": "urn:tag:genre:destination:seaside_resort",
+          "name": "Seaside Resort",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "era": [
+          1955,
+          2026
+        ]
+      }
+    }
   ]
 }

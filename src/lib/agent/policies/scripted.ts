@@ -4,6 +4,7 @@
  * decision is a fixed rule. Used when no LLM key is configured, when
  * LLM_MODE=fixture, or as a fallback when the LLM fails.
  */
+import { isTypedPlace } from "@/lib/qloo/place";
 import type { QlooEntityType } from "@/lib/qloo/types";
 import { DOMAIN_INFO, type Domain, type Favorite } from "@/lib/session/types";
 
@@ -23,6 +24,7 @@ interface SearchHit {
   types: string[];
   country_code?: string;
   disambiguation?: string;
+  akas?: string[];
 }
 
 interface InsightHit {
@@ -70,6 +72,42 @@ const COUNTRY_NAMES: Record<string, string> = {
   IE: "Ireland",
   TW: "Taiwan",
   PH: "Philippines",
+  HK: "Hong Kong",
+  SG: "Singapore",
+  MO: "Macau",
+  MY: "Malaysia",
+  PK: "Pakistan",
+  BD: "Bangladesh",
+  LK: "Sri Lanka",
+  CO: "Colombia",
+  PE: "Peru",
+  CU: "Cuba",
+  CL: "Chile",
+  VE: "Venezuela",
+  UY: "Uruguay",
+  PR: "Puerto Rico",
+  EC: "Ecuador",
+  BO: "Bolivia",
+  PY: "Paraguay",
+  GT: "Guatemala",
+  DO: "Dominican Republic",
+  CR: "Costa Rica",
+  PA: "Panama",
+  HN: "Honduras",
+  SV: "El Salvador",
+  NI: "Nicaragua",
+  NZ: "New Zealand",
+  BE: "Belgium",
+  CH: "Switzerland",
+  AT: "Austria",
+  NO: "Norway",
+  DK: "Denmark",
+  FI: "Finland",
+  PL: "Poland",
+  RU: "Russia",
+  UA: "Ukraine",
+  CZ: "Czech Republic",
+  HU: "Hungary",
 };
 
 const DISAMBIGUATION_COUNTRIES: Record<string, string> = {
@@ -85,6 +123,21 @@ const DISAMBIGUATION_COUNTRIES: Record<string, string> = {
   brazil: "Brazil",
   canada: "Canada",
   australia: "Australia",
+  south_korea: "South Korea",
+  korea: "South Korea",
+  china: "China",
+  india: "India",
+  taiwan: "Taiwan",
+  philippines: "Philippines",
+  hong_kong: "Hong Kong",
+  singapore: "Singapore",
+  pakistan: "Pakistan",
+  argentina: "Argentina",
+  colombia: "Colombia",
+  peru: "Peru",
+  cuba: "Cuba",
+  chile: "Chile",
+  ireland: "Ireland",
 };
 
 export function countryNameFor(hit: SearchHit | undefined): string | undefined {
@@ -196,7 +249,10 @@ export class ScriptedPlanPolicy extends GeneratorPolicy {
       narration: NARRATION.resolveHometown(person.hometown),
       toolCalls: [call("qloo_search_entity", { query: person.hometown, types: ["urn:entity:locality"], take: 3 })],
     };
-    const locality = searchHits(locOut)[0];
+    const top = searchHits(locOut)[0];
+    // Adopt Qloo's locality only when it is the typed town itself; a lookalike
+    // ("Chester" -> Manchester) is left to the location query to resolve.
+    const locality = top && isTypedPlace(person.hometown, top) ? top : undefined;
     const locationQuery = locality?.name ?? person.hometown;
     const country = countryNameFor(locality);
 

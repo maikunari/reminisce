@@ -5,366 +5,3648 @@
     "world": "us"
   },
   "entities": [
-    { "name": "Frank Sinatra", "entity_id": "ffffffff-0000-4000-8000-0000000b0001", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "'Ol' Blue Eyes', the defining American crooner: 'Fly Me to the Moon', 'My Way', 'My Kind of Town (Chicago Is)' and the Rat Pack years in Las Vegas.", "date_of_birth": "1915-12-12", "year_of_death": 1998, "place_of_birth": "Hoboken, New Jersey, USA", "akas": [{ "value": "Francis Albert Sinatra", "languages": ["en"] }, { "value": "Ol' Blue Eyes", "languages": ["en"] }] },
-      "popularity": 0.98, "tags": [{ "id": "urn:tag:genre:music:traditional_pop", "name": "Traditional Pop", "type": "urn:tag:genre:music" }, { "id": "urn:tag:genre:music:vocal_jazz", "name": "Vocal Jazz", "type": "urn:tag:genre:music" }, { "id": "urn:tag:genre:music:swing", "name": "Swing", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "us", "localities": ["new_york", "chicago"], "era": [1939, 1995] } },
-    { "name": "Dean Martin", "entity_id": "ffffffff-0000-4000-8000-0000000b0002", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "The 'King of Cool': Rat Pack crooner of 'That's Amore' and 'Everybody Loves Somebody', star of his own NBC variety show.", "date_of_birth": "1917-06-07", "year_of_death": 1995, "place_of_birth": "Steubenville, Ohio, USA", "akas": [{ "value": "Dino Crocetti", "languages": ["en"] }] },
-      "popularity": 0.9, "tags": [{ "id": "urn:tag:genre:music:traditional_pop", "name": "Traditional Pop", "type": "urn:tag:genre:music" }, { "id": "urn:tag:genre:music:swing", "name": "Swing", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "us", "era": [1946, 1985], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.96 } } },
-    { "name": "Sammy Davis Jr.", "entity_id": "ffffffff-0000-4000-8000-0000000b0003", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Singer, dancer and actor, the Rat Pack's all-round entertainer: 'The Candy Man', 'Mr. Bojangles'.", "date_of_birth": "1925-12-08", "year_of_death": 1990, "place_of_birth": "Harlem, New York, USA", "akas": [] },
-      "popularity": 0.84, "tags": [{ "id": "urn:tag:genre:music:traditional_pop", "name": "Traditional Pop", "type": "urn:tag:genre:music" }, { "id": "urn:tag:genre:music:vocal_jazz", "name": "Vocal Jazz", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "us", "era": [1950, 1988], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.93 } } },
-    { "name": "Tony Bennett", "entity_id": "ffffffff-0000-4000-8000-0000000b0004", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "'I Left My Heart in San Francisco'; the jazz-pop stylist Sinatra called the best singer in the business.", "date_of_birth": "1926-08-03", "year_of_death": 2023, "place_of_birth": "Queens, New York, USA", "akas": [] },
-      "popularity": 0.9, "tags": [{ "id": "urn:tag:genre:music:traditional_pop", "name": "Traditional Pop", "type": "urn:tag:genre:music" }, { "id": "urn:tag:genre:music:vocal_jazz", "name": "Vocal Jazz", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "us", "era": [1950, 2021], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.92 } } },
-    { "name": "Nat King Cole", "entity_id": "ffffffff-0000-4000-8000-0000000b0005", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Velvet-voiced pianist and singer of 'Unforgettable' and 'Mona Lisa', raised in Chicago's Bronzeville.", "date_of_birth": "1919-03-17", "year_of_death": 1965, "place_of_birth": "Montgomery, Alabama, USA", "akas": [] },
-      "popularity": 0.93, "tags": [{ "id": "urn:tag:genre:music:vocal_jazz", "name": "Vocal Jazz", "type": "urn:tag:genre:music" }, { "id": "urn:tag:genre:music:traditional_pop", "name": "Traditional Pop", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1943, 1965], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.9 } } },
-    { "name": "Ella Fitzgerald", "entity_id": "ffffffff-0000-4000-8000-0000000b0006", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "The 'First Lady of Song', the great jazz vocalist of the Songbook albums.", "date_of_birth": "1917-04-25", "year_of_death": 1996, "place_of_birth": "Newport News, Virginia, USA", "akas": [] },
-      "popularity": 0.92, "tags": [{ "id": "urn:tag:genre:music:vocal_jazz", "name": "Vocal Jazz", "type": "urn:tag:genre:music" }, { "id": "urn:tag:genre:music:jazz", "name": "Jazz", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "us", "era": [1935, 1990], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.88 } } },
-    { "name": "Peggy Lee", "entity_id": "ffffffff-0000-4000-8000-0000000b0007", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "'Fever' and 'Is That All There Is?'; a cool, intimate jazz-pop voice.", "date_of_birth": "1920-05-26", "year_of_death": 2002, "place_of_birth": "Jamestown, North Dakota, USA", "akas": [] },
-      "popularity": 0.8, "tags": [{ "id": "urn:tag:genre:music:vocal_jazz", "name": "Vocal Jazz", "type": "urn:tag:genre:music" }, { "id": "urn:tag:genre:music:traditional_pop", "name": "Traditional Pop", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "us", "era": [1941, 1980], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.85 } } },
-    { "name": "Bobby Darin", "entity_id": "ffffffff-0000-4000-8000-0000000b0008", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "'Mack the Knife' and 'Beyond the Sea'; the swinging heir to Sinatra.", "date_of_birth": "1936-05-14", "year_of_death": 1973, "place_of_birth": "The Bronx, New York, USA", "akas": [] },
-      "popularity": 0.82, "tags": [{ "id": "urn:tag:genre:music:traditional_pop", "name": "Traditional Pop", "type": "urn:tag:genre:music" }, { "id": "urn:tag:genre:music:swing", "name": "Swing", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "us", "era": [1958, 1973], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.84 } } },
-    { "name": "Count Basie", "entity_id": "ffffffff-0000-4000-8000-0000000b0009", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Bandleader whose orchestra backed Sinatra at the Sands in 1966.", "date_of_birth": "1904-08-21", "year_of_death": 1984, "place_of_birth": "Red Bank, New Jersey, USA", "akas": [] },
-      "popularity": 0.82, "tags": [{ "id": "urn:tag:genre:music:swing", "name": "Swing", "type": "urn:tag:genre:music" }, { "id": "urn:tag:genre:music:jazz", "name": "Jazz", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "us", "era": [1935, 1984], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.86 } } },
-    { "name": "Perry Como", "entity_id": "ffffffff-0000-4000-8000-0000000b0010", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Relaxed baritone of 'Catch a Falling Star' and decades of TV Christmas specials.", "date_of_birth": "1912-05-18", "year_of_death": 2001, "place_of_birth": "Canonsburg, Pennsylvania, USA", "akas": [] },
-      "popularity": 0.78, "tags": [{ "id": "urn:tag:genre:music:traditional_pop", "name": "Traditional Pop", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "us", "era": [1943, 1987], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.8 } } },
-    { "name": "Andy Williams", "entity_id": "ffffffff-0000-4000-8000-0000000b0011", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "'Moon River' and a 1960s variety show that made him a household name.", "date_of_birth": "1927-12-03", "year_of_death": 2012, "place_of_birth": "Wall Lake, Iowa, USA", "akas": [] },
-      "popularity": 0.8, "tags": [{ "id": "urn:tag:genre:music:traditional_pop", "name": "Traditional Pop", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "us", "era": [1956, 1980], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.78 } } },
-    { "name": "Louis Armstrong", "entity_id": "ffffffff-0000-4000-8000-0000000b0012", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Satchmo: trumpet pioneer and singer of 'What a Wonderful World'; his Chicago years in the 1920s changed jazz.", "date_of_birth": "1901-08-04", "year_of_death": 1971, "place_of_birth": "New Orleans, Louisiana, USA", "akas": [{ "value": "Satchmo", "languages": ["en"] }] },
-      "popularity": 0.95, "tags": [{ "id": "urn:tag:genre:music:jazz", "name": "Jazz", "type": "urn:tag:genre:music" }, { "id": "urn:tag:genre:music:vocal_jazz", "name": "Vocal Jazz", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1925, 1971], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.82 } } },
-    { "name": "Muddy Waters", "entity_id": "ffffffff-0000-4000-8000-0000000b0013", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Father of Chicago blues; electrified the Delta sound at Chess Records on the South Side.", "date_of_birth": "1913-04-04", "year_of_death": 1983, "place_of_birth": "Issaquena County, Mississippi, USA", "akas": [{ "value": "McKinley Morganfield", "languages": ["en"] }] },
-      "popularity": 0.86, "tags": [{ "id": "urn:tag:genre:music:blues", "name": "Blues", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1948, 1983], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.5 } } },
-    { "name": "Etta James", "entity_id": "ffffffff-0000-4000-8000-0000000b0014", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "'At Last' (1960), recorded for Chicago's Chess Records.", "date_of_birth": "1938-01-25", "year_of_death": 2012, "place_of_birth": "Los Angeles, California, USA", "akas": [] },
-      "popularity": 0.86, "tags": [{ "id": "urn:tag:genre:music:soul", "name": "Soul", "type": "urn:tag:genre:music" }, { "id": "urn:tag:genre:music:blues", "name": "Blues", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1955, 2011], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.6 } } },
-    { "name": "Ramsey Lewis", "entity_id": "ffffffff-0000-4000-8000-0000000b0015", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Chicago jazz pianist whose 'The In Crowd' (1965) was a crossover smash.", "date_of_birth": "1935-05-27", "year_of_death": 2022, "place_of_birth": "Chicago, Illinois, USA", "akas": [] },
-      "popularity": 0.72, "tags": [{ "id": "urn:tag:genre:music:jazz", "name": "Jazz", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1956, 2010], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.62 } } },
-    { "name": "The Impressions", "entity_id": "ffffffff-0000-4000-8000-0000000b0016", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Chicago soul group led by Curtis Mayfield; 'People Get Ready' (1965).", "place_of_birth": "Chicago, Illinois, USA", "akas": [] },
-      "popularity": 0.74, "tags": [{ "id": "urn:tag:genre:music:soul", "name": "Soul", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1958, 1983], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.45 } } },
-    { "name": "Chicago", "entity_id": "ffffffff-0000-4000-8000-0000000b0017", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "Horn-driven rock band formed in Chicago in 1967: '25 or 6 to 4', 'Saturday in the Park'.", "place_of_birth": "Chicago, Illinois, USA", "akas": [{ "value": "Chicago Transit Authority", "languages": ["en"] }] },
-      "popularity": 0.86, "tags": [{ "id": "urn:tag:genre:music:rock", "name": "Rock", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1967, 1990], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.4 } } },
-    { "name": "Judy Garland", "entity_id": "ffffffff-0000-4000-8000-0000000b0018", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "'Over the Rainbow'; a legendary concert and film voice.", "date_of_birth": "1922-06-10", "year_of_death": 1969, "place_of_birth": "Grand Rapids, Minnesota, USA", "akas": [] },
-      "popularity": 0.9, "tags": [{ "id": "urn:tag:genre:music:traditional_pop", "name": "Traditional Pop", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "us", "era": [1936, 1969], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.75 } } },
-    { "name": "Elvis Presley", "entity_id": "ffffffff-0000-4000-8000-0000000b0019", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "The King of Rock and Roll, from 'Heartbreak Hotel' to the Las Vegas years.", "date_of_birth": "1935-01-08", "year_of_death": 1977, "place_of_birth": "Tupelo, Mississippi, USA", "akas": [] },
-      "popularity": 0.98, "tags": [{ "id": "urn:tag:genre:music:rock", "name": "Rock", "type": "urn:tag:genre:music" }, { "id": "urn:tag:genre:music:pop", "name": "Pop", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "us", "era": [1954, 1977], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.55 } } },
-    { "name": "Dinah Washington", "entity_id": "ffffffff-0000-4000-8000-0000000b0020", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "'Queen of the Blues'; 'What a Diff'rence a Day Makes' (1959); grew up on Chicago's South Side.", "date_of_birth": "1924-08-29", "year_of_death": 1963, "place_of_birth": "Tuscaloosa, Alabama, USA", "akas": [] },
-      "popularity": 0.76, "tags": [{ "id": "urn:tag:genre:music:vocal_jazz", "name": "Vocal Jazz", "type": "urn:tag:genre:music" }, { "id": "urn:tag:genre:music:blues", "name": "Blues", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1943, 1963], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.72 } } },
-    { "name": "Bing Crosby", "entity_id": "ffffffff-0000-4000-8000-0000000b0021", "type": "urn:entity", "subtype": "urn:entity:artist",
-      "properties": { "short_description": "The original crooner: 'White Christmas', 'Swinging on a Star' and the Road movies with Bob Hope.", "date_of_birth": "1903-05-03", "year_of_death": 1977, "place_of_birth": "Tacoma, Washington, USA", "akas": [] },
-      "popularity": 0.9, "tags": [{ "id": "urn:tag:genre:music:traditional_pop", "name": "Traditional Pop", "type": "urn:tag:genre:music" }],
-      "_syn": { "world": "us", "era": [1931, 1977], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.85 } } },
-
-    { "name": "Ocean's 11", "entity_id": "ffffffff-0000-4000-8000-0000000b0101", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1960, "release_date": "1960-08-10", "description": "The Rat Pack (Sinatra, Martin, Davis, Lawford, Bishop) rob five Las Vegas casinos on New Year's Eve.", "release_country": ["United States"], "duration": 127, "content_rating": "Approved", "akas": [{ "value": "Ocean's Eleven", "languages": ["en"] }] },
-      "popularity": 0.8, "tags": [{ "id": "urn:tag:genre:media:comedy", "name": "Comedy", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:crime", "name": "Crime", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "era": [1960, 1975], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.95 } } },
-    { "name": "The Manchurian Candidate", "entity_id": "ffffffff-0000-4000-8000-0000000b0102", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1962, "release_date": "1962-10-24", "description": "Sinatra stars in John Frankenheimer's Cold War thriller about a brainwashed war hero.", "release_country": ["United States"], "duration": 126, "content_rating": "PG-13", "akas": [] },
-      "popularity": 0.84, "tags": [{ "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:crime", "name": "Crime", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "era": [1962, 1975], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.9 } } },
-    { "name": "Von Ryan's Express", "entity_id": "ffffffff-0000-4000-8000-0000000b0103", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1965, "release_date": "1965-06-23", "description": "Sinatra leads Allied prisoners in a daring escape by train across wartime Italy.", "release_country": ["United States"], "duration": 117, "content_rating": "Approved", "akas": [] },
-      "popularity": 0.72, "tags": [{ "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "era": [1965, 1975], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.85 } } },
-    { "name": "Robin and the 7 Hoods", "entity_id": "ffffffff-0000-4000-8000-0000000b0104", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1964, "release_date": "1964-06-24", "description": "Rat Pack musical comedy set among 1920s Chicago gangsters; Sinatra introduces 'My Kind of Town'.", "release_country": ["United States"], "duration": 123, "content_rating": "Approved", "akas": [] },
-      "popularity": 0.7, "tags": [{ "id": "urn:tag:genre:media:musical", "name": "Musical", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:comedy", "name": "Comedy", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1964, 1975], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.92 } } },
-    { "name": "The Apartment", "entity_id": "ffffffff-0000-4000-8000-0000000b0105", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1960, "release_date": "1960-06-15", "description": "Billy Wilder's bittersweet comedy with Jack Lemmon and Shirley MacLaine; Best Picture of 1960.", "release_country": ["United States"], "duration": 125, "content_rating": "Approved", "akas": [] },
-      "popularity": 0.88, "tags": [{ "id": "urn:tag:genre:media:comedy", "name": "Comedy", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:romance", "name": "Romance", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "localities": ["new_york"], "era": [1960, 1975], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.6 } } },
-    { "name": "West Side Story", "entity_id": "ffffffff-0000-4000-8000-0000000b0106", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1961, "release_date": "1961-10-18", "description": "Bernstein and Sondheim's Romeo and Juliet on the streets of Manhattan; ten Oscars.", "release_country": ["United States"], "duration": 153, "content_rating": "Approved", "akas": [] },
-      "popularity": 0.9, "tags": [{ "id": "urn:tag:genre:media:musical", "name": "Musical", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:romance", "name": "Romance", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "localities": ["new_york"], "era": [1961, 1975], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.65 } } },
-    { "name": "The Sound of Music", "entity_id": "ffffffff-0000-4000-8000-0000000b0107", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1965, "release_date": "1965-03-02", "description": "Julie Andrews as Maria von Trapp in the musical that ran in cinemas for years.", "release_country": ["United States"], "duration": 174, "content_rating": "G", "akas": [] },
-      "popularity": 0.93, "tags": [{ "id": "urn:tag:genre:media:musical", "name": "Musical", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:family", "name": "Family", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "era": [1965, 1980], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.6 } } },
-    { "name": "My Fair Lady", "entity_id": "ffffffff-0000-4000-8000-0000000b0108", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1964, "release_date": "1964-10-21", "description": "Audrey Hepburn and Rex Harrison in Lerner and Loewe's musical; eight Oscars.", "release_country": ["United States"], "duration": 170, "content_rating": "G", "akas": [] },
-      "popularity": 0.85, "tags": [{ "id": "urn:tag:genre:media:musical", "name": "Musical", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:romance", "name": "Romance", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "era": [1964, 1980], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.65 } } },
-    { "name": "Breakfast at Tiffany's", "entity_id": "ffffffff-0000-4000-8000-0000000b0109", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1961, "release_date": "1961-10-05", "description": "Audrey Hepburn as Holly Golightly, with Henry Mancini's 'Moon River'.", "release_country": ["United States"], "duration": 115, "content_rating": "Approved", "akas": [] },
-      "popularity": 0.88, "tags": [{ "id": "urn:tag:genre:media:romance", "name": "Romance", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:comedy", "name": "Comedy", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "localities": ["new_york"], "era": [1961, 1975], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.65 } } },
-    { "name": "Mary Poppins", "entity_id": "ffffffff-0000-4000-8000-0000000b0110", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1964, "release_date": "1964-08-27", "description": "Julie Andrews and Dick Van Dyke in Disney's practically perfect musical.", "release_country": ["United States"], "duration": 139, "content_rating": "G", "akas": [] },
-      "popularity": 0.9, "tags": [{ "id": "urn:tag:genre:media:musical", "name": "Musical", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:family", "name": "Family", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "era": [1964, 1980], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.5 } } },
-    { "name": "The Graduate", "entity_id": "ffffffff-0000-4000-8000-0000000b0111", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1967, "release_date": "1967-12-22", "description": "Dustin Hoffman, Anne Bancroft and the songs of Simon & Garfunkel.", "release_country": ["United States"], "duration": 106, "content_rating": "PG", "akas": [] },
-      "popularity": 0.9, "tags": [{ "id": "urn:tag:genre:media:comedy", "name": "Comedy", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "era": [1967, 1980], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.5 } } },
-    { "name": "Butch Cassidy and the Sundance Kid", "entity_id": "ffffffff-0000-4000-8000-0000000b0112", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1969, "release_date": "1969-09-23", "description": "Paul Newman and Robert Redford as the charming outlaws; 'Raindrops Keep Fallin' on My Head'.", "release_country": ["United States"], "duration": 110, "content_rating": "PG", "akas": [] },
-      "popularity": 0.88, "tags": [{ "id": "urn:tag:genre:media:western", "name": "Western", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:comedy", "name": "Comedy", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "era": [1969, 1980], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.55 } } },
-    { "name": "The Sting", "entity_id": "ffffffff-0000-4000-8000-0000000b0113", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1973, "release_date": "1973-12-25", "description": "Newman and Redford run the big con in 1936 Chicago to Scott Joplin's ragtime; Best Picture.", "release_country": ["United States"], "duration": 129, "content_rating": "PG", "akas": [] },
-      "popularity": 0.9, "tags": [{ "id": "urn:tag:genre:media:crime", "name": "Crime", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:comedy", "name": "Comedy", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1973, 1985], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.6 } } },
-    { "name": "The Godfather", "entity_id": "ffffffff-0000-4000-8000-0000000b0114", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1972, "release_date": "1972-03-24", "description": "Coppola's saga of the Corleone family, with Brando and Pacino.", "release_country": ["United States"], "duration": 175, "content_rating": "R", "akas": [] },
-      "popularity": 0.97, "tags": [{ "id": "urn:tag:genre:media:crime", "name": "Crime", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "localities": ["new_york"], "era": [1972, 1985], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.55 } } },
-    { "name": "In the Heat of the Night", "entity_id": "ffffffff-0000-4000-8000-0000000b0115", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1967, "release_date": "1967-08-02", "description": "Sidney Poitier and Rod Steiger in the Mississippi murder mystery that won Best Picture.", "release_country": ["United States"], "duration": 110, "content_rating": "Approved", "akas": [] },
-      "popularity": 0.8, "tags": [{ "id": "urn:tag:genre:media:crime", "name": "Crime", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "era": [1967, 1980], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.5 } } },
-    { "name": "It's a Mad, Mad, Mad, Mad World", "entity_id": "ffffffff-0000-4000-8000-0000000b0116", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1963, "release_date": "1963-11-07", "description": "Stanley Kramer's all-star comedy chase for buried treasure under 'the big W'.", "release_country": ["United States"], "duration": 192, "content_rating": "G", "akas": [] },
-      "popularity": 0.78, "tags": [{ "id": "urn:tag:genre:media:comedy", "name": "Comedy", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "era": [1963, 1975], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.6 } } },
-    { "name": "Medium Cool", "entity_id": "ffffffff-0000-4000-8000-0000000b0117", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1969, "release_date": "1969-08-27", "description": "Haskell Wexler's drama shot amid the real 1968 Democratic Convention protests in Chicago.", "release_country": ["United States"], "duration": 111, "content_rating": "R", "akas": [] },
-      "popularity": 0.6, "tags": [{ "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1969, 1975], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.4 } } },
-    { "name": "The Blues Brothers", "entity_id": "ffffffff-0000-4000-8000-0000000b0118", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1980, "release_date": "1980-06-20", "description": "Jake and Elwood on a mission from God, with car chases through Chicago and cameos by Aretha, Ray Charles and Cab Calloway.", "release_country": ["United States"], "duration": 133, "content_rating": "R", "akas": [] },
-      "popularity": 0.9, "tags": [{ "id": "urn:tag:genre:media:comedy", "name": "Comedy", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:musical", "name": "Musical", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1980, 1995], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.5 } } },
-    { "name": "Some Like It Hot", "entity_id": "ffffffff-0000-4000-8000-0000000b0119", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1959, "release_date": "1959-03-29", "description": "Two musicians flee Chicago mobsters in drag with Marilyn Monroe's band; Billy Wilder's classic.", "release_country": ["United States"], "duration": 121, "content_rating": "Approved", "akas": [] },
-      "popularity": 0.9, "tags": [{ "id": "urn:tag:genre:media:comedy", "name": "Comedy", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1959, 1975], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.65 } } },
-    { "name": "Guys and Dolls", "entity_id": "ffffffff-0000-4000-8000-0000000b0120", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1955, "release_date": "1955-11-03", "description": "Sinatra and Marlon Brando as Broadway gamblers in Frank Loesser's musical.", "release_country": ["United States"], "duration": 150, "content_rating": "Approved", "akas": [] },
-      "popularity": 0.76, "tags": [{ "id": "urn:tag:genre:media:musical", "name": "Musical", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "localities": ["new_york"], "era": [1955, 1970], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.9 } } },
-    { "name": "From Here to Eternity", "entity_id": "ffffffff-0000-4000-8000-0000000b0121", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1953, "release_date": "1953-08-05", "description": "Pearl Harbor drama that won Sinatra his Oscar as Maggio.", "release_country": ["United States"], "duration": 118, "content_rating": "Passed", "akas": [] },
-      "popularity": 0.8, "tags": [{ "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:romance", "name": "Romance", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "era": [1953, 1970], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.9 } } },
-    { "name": "Doctor Zhivago", "entity_id": "ffffffff-0000-4000-8000-0000000b0122", "type": "urn:entity", "subtype": "urn:entity:movie",
-      "properties": { "release_year": 1965, "release_date": "1965-12-22", "description": "David Lean's epic romance with Omar Sharif, Julie Christie and 'Lara's Theme'.", "release_country": ["United States", "United Kingdom"], "duration": 197, "content_rating": "PG-13", "akas": [] },
-      "popularity": 0.88, "tags": [{ "id": "urn:tag:genre:media:drama", "name": "Drama", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:romance", "name": "Romance", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "era": [1965, 1980], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.55 } } },
-
-    { "name": "The Dean Martin Show", "entity_id": "ffffffff-0000-4000-8000-0000000b0201", "type": "urn:entity", "subtype": "urn:entity:tv_show",
-      "properties": { "release_year": 1965, "description": "NBC's Thursday-night variety hour, with Dino sliding down the fireman's pole to open each show.", "release_country": ["United States"], "akas": [] },
-      "popularity": 0.78, "tags": [{ "id": "urn:tag:genre:media:variety", "name": "Variety", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:comedy", "name": "Comedy", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "era": [1965, 1974], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.92, "ffffffff-0000-4000-8000-0000000b0002": 0.98 } } },
-    { "name": "The Ed Sullivan Show", "entity_id": "ffffffff-0000-4000-8000-0000000b0202", "type": "urn:entity", "subtype": "urn:entity:tv_show",
-      "properties": { "release_year": 1948, "description": "The Sunday-night variety institution; Elvis in 1956, the Beatles in 1964, and everyone in between.", "release_country": ["United States"], "akas": [] },
-      "popularity": 0.9, "tags": [{ "id": "urn:tag:genre:media:variety", "name": "Variety", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "localities": ["new_york"], "era": [1948, 1971], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.8 } } },
-    { "name": "The Tonight Show Starring Johnny Carson", "entity_id": "ffffffff-0000-4000-8000-0000000b0203", "type": "urn:entity", "subtype": "urn:entity:tv_show",
-      "properties": { "release_year": 1962, "description": "Thirty years of 'Heeere's Johnny!', Ed McMahon and the late-night couch.", "release_country": ["United States"], "akas": [] },
-      "popularity": 0.9, "tags": [{ "id": "urn:tag:genre:media:variety", "name": "Variety", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:comedy", "name": "Comedy", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "era": [1962, 1992], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.75 } } },
-    { "name": "Bonanza", "entity_id": "ffffffff-0000-4000-8000-0000000b0204", "type": "urn:entity", "subtype": "urn:entity:tv_show",
-      "properties": { "release_year": 1959, "description": "The Cartwrights of the Ponderosa, Sunday nights in color on NBC.", "release_country": ["United States"], "akas": [] },
-      "popularity": 0.86, "tags": [{ "id": "urn:tag:genre:media:western", "name": "Western", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "era": [1959, 1973], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.6 } } },
-    { "name": "The Andy Griffith Show", "entity_id": "ffffffff-0000-4000-8000-0000000b0205", "type": "urn:entity", "subtype": "urn:entity:tv_show",
-      "properties": { "release_year": 1960, "description": "Sheriff Andy, Barney Fife and Opie in Mayberry.", "release_country": ["United States"], "akas": [] },
-      "popularity": 0.85, "tags": [{ "id": "urn:tag:genre:media:comedy", "name": "Comedy", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:family", "name": "Family", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "era": [1960, 1968], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.6 } } },
-    { "name": "Gunsmoke", "entity_id": "ffffffff-0000-4000-8000-0000000b0206", "type": "urn:entity", "subtype": "urn:entity:tv_show",
-      "properties": { "release_year": 1955, "description": "Marshal Matt Dillon kept the peace in Dodge City for twenty seasons.", "release_country": ["United States"], "akas": [] },
-      "popularity": 0.84, "tags": [{ "id": "urn:tag:genre:media:western", "name": "Western", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "era": [1955, 1975], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.55 } } },
-    { "name": "The Carol Burnett Show", "entity_id": "ffffffff-0000-4000-8000-0000000b0207", "type": "urn:entity", "subtype": "urn:entity:tv_show",
-      "properties": { "release_year": 1967, "description": "Sketch comedy with Harvey Korman, Tim Conway and Vicki Lawrence, and the ear tug at the end.", "release_country": ["United States"], "akas": [] },
-      "popularity": 0.84, "tags": [{ "id": "urn:tag:genre:media:variety", "name": "Variety", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:comedy", "name": "Comedy", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "era": [1967, 1978], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.7 } } },
-    { "name": "Bozo's Circus", "entity_id": "ffffffff-0000-4000-8000-0000000b0208", "type": "urn:entity", "subtype": "urn:entity:tv_show",
-      "properties": { "release_year": 1961, "description": "WGN-TV's lunchtime circus from Chicago, with the Grand Prize Game and a ticket waiting list measured in years.", "release_country": ["United States"], "akas": [] },
-      "popularity": 0.65, "tags": [{ "id": "urn:tag:genre:media:family", "name": "Family", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:variety", "name": "Variety", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1961, 2001], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.35 } } },
-    { "name": "I Love Lucy", "entity_id": "ffffffff-0000-4000-8000-0000000b0209", "type": "urn:entity", "subtype": "urn:entity:tv_show",
-      "properties": { "release_year": 1951, "description": "Lucille Ball and Desi Arnaz in the sitcom that invented the rerun.", "release_country": ["United States"], "akas": [] },
-      "popularity": 0.92, "tags": [{ "id": "urn:tag:genre:media:comedy", "name": "Comedy", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "era": [1951, 1957], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.6 } } },
-    { "name": "The Lawrence Welk Show", "entity_id": "ffffffff-0000-4000-8000-0000000b0210", "type": "urn:entity", "subtype": "urn:entity:tv_show",
-      "properties": { "release_year": 1955, "description": "'Wunnerful, wunnerful': champagne music and ballroom dancing every Saturday night.", "release_country": ["United States"], "akas": [] },
-      "popularity": 0.78, "tags": [{ "id": "urn:tag:genre:media:variety", "name": "Variety", "type": "urn:tag:genre:media" }, { "id": "urn:tag:genre:media:musical", "name": "Musical", "type": "urn:tag:genre:media" }],
-      "_syn": { "world": "us", "era": [1955, 1982], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.7 } } },
-
-    { "name": "Pizzeria Uno", "entity_id": "ffffffff-0000-4000-8000-0000000b0301", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Birthplace of Chicago deep-dish pizza, serving at Ohio and Wabash since 1943.", "address": "29 E Ohio St, Chicago, IL 60611", "geocode": { "name": "Chicago", "admin1_region": "Illinois", "country_code": "US" }, "business_rating": 4.3, "price_level": 2, "is_closed": false, "akas": [{ "value": "Uno Pizzeria", "languages": ["en"] }] },
-      "popularity": 0.86, "tags": [{ "id": "urn:tag:genre:place:restaurant", "name": "Restaurant", "type": "urn:tag:genre:place" }, { "id": "urn:tag:genre:place:restaurant:pizza", "name": "Pizza Restaurant", "type": "urn:tag:genre:place" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1943, 2026], "kind": "dining", "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.5 } } },
-    { "name": "The Berghoff", "entity_id": "ffffffff-0000-4000-8000-0000000b0302", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "German restaurant in the Loop since 1898, holder of Chicago liquor license No. 1 after Prohibition.", "address": "17 W Adams St, Chicago, IL 60603", "geocode": { "name": "Chicago", "admin1_region": "Illinois", "country_code": "US" }, "business_rating": 4.3, "price_level": 2, "is_closed": false, "akas": [] },
-      "popularity": 0.8, "tags": [{ "id": "urn:tag:genre:place:restaurant", "name": "Restaurant", "type": "urn:tag:genre:place" }, { "id": "urn:tag:genre:place:restaurant:german", "name": "German Restaurant", "type": "urn:tag:genre:place" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1898, 2026], "kind": "dining", "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.55 } } },
-    { "name": "Gene & Georgetti", "entity_id": "ffffffff-0000-4000-8000-0000000b0303", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Chicago's oldest steakhouse (1941), a River North haunt of Sinatra and the Rat Pack.", "address": "500 N Franklin St, Chicago, IL 60654", "geocode": { "name": "Chicago", "admin1_region": "Illinois", "country_code": "US" }, "business_rating": 4.4, "price_level": 4, "is_closed": false, "akas": [] },
-      "popularity": 0.76, "tags": [{ "id": "urn:tag:genre:place:restaurant", "name": "Restaurant", "type": "urn:tag:genre:place" }, { "id": "urn:tag:genre:place:restaurant:steakhouse", "name": "Steakhouse", "type": "urn:tag:genre:place" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1941, 2026], "kind": "dining", "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.85 } } },
-    { "name": "Twin Anchors Restaurant & Tavern", "entity_id": "ffffffff-0000-4000-8000-0000000b0304", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Old Town rib joint since 1932, a known Sinatra favorite with his photos on the wall.", "address": "1655 N Sedgwick St, Chicago, IL 60614", "geocode": { "name": "Chicago", "admin1_region": "Illinois", "country_code": "US" }, "business_rating": 4.4, "price_level": 2, "is_closed": false, "akas": [{ "value": "Twin Anchors", "languages": ["en"] }] },
-      "popularity": 0.74, "tags": [{ "id": "urn:tag:genre:place:restaurant", "name": "Restaurant", "type": "urn:tag:genre:place" }, { "id": "urn:tag:genre:place:bar", "name": "Bar", "type": "urn:tag:genre:place" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1932, 2026], "kind": "dining", "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.85 } } },
-    { "name": "Italian Village", "entity_id": "ffffffff-0000-4000-8000-0000000b0305", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Three Italian restaurants under one roof in the Loop since 1927; The Village upstairs twinkles under a painted night sky.", "address": "71 W Monroe St, Chicago, IL 60603", "geocode": { "name": "Chicago", "admin1_region": "Illinois", "country_code": "US" }, "business_rating": 4.3, "price_level": 3, "is_closed": false, "akas": [] },
-      "popularity": 0.72, "tags": [{ "id": "urn:tag:genre:place:restaurant", "name": "Restaurant", "type": "urn:tag:genre:place" }, { "id": "urn:tag:genre:place:restaurant:italian", "name": "Italian Restaurant", "type": "urn:tag:genre:place" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1927, 2026], "kind": "dining", "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.7 } } },
-    { "name": "Superdawg Drive-In", "entity_id": "ffffffff-0000-4000-8000-0000000b0306", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Carhop hot-dog stand since 1948, with Maurie and Flaurie the giant hot dogs winking from the roof.", "address": "6363 N Milwaukee Ave, Chicago, IL 60646", "geocode": { "name": "Chicago", "admin1_region": "Illinois", "country_code": "US" }, "business_rating": 4.4, "price_level": 1, "is_closed": false, "akas": [] },
-      "popularity": 0.72, "tags": [{ "id": "urn:tag:genre:place:restaurant", "name": "Restaurant", "type": "urn:tag:genre:place" }, { "id": "urn:tag:genre:place:restaurant:hot_dog", "name": "Hot Dog Restaurant", "type": "urn:tag:genre:place" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1948, 2026], "kind": "dining", "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.45 } } },
-    { "name": "Portillo's", "entity_id": "ffffffff-0000-4000-8000-0000000b0307", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Began as 'The Dog House' trailer in Villa Park in 1963; Chicago dogs, Italian beef and chocolate cake shakes.", "address": "100 W Ontario St, Chicago, IL 60654", "geocode": { "name": "Chicago", "admin1_region": "Illinois", "country_code": "US" }, "business_rating": 4.4, "price_level": 1, "is_closed": false, "akas": [] },
-      "popularity": 0.86, "tags": [{ "id": "urn:tag:genre:place:restaurant", "name": "Restaurant", "type": "urn:tag:genre:place" }, { "id": "urn:tag:genre:place:restaurant:hot_dog", "name": "Hot Dog Restaurant", "type": "urn:tag:genre:place" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1963, 2026], "kind": "dining", "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.45 } } },
-    { "name": "Billy Goat Tavern", "entity_id": "ffffffff-0000-4000-8000-0000000b0308", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Subterranean Michigan Avenue tavern since 1934, home of the 'cheezborger' and the Cubs curse legend.", "address": "430 N Michigan Ave (lower level), Chicago, IL 60611", "geocode": { "name": "Chicago", "admin1_region": "Illinois", "country_code": "US" }, "business_rating": 4.2, "price_level": 1, "is_closed": false, "akas": [] },
-      "popularity": 0.78, "tags": [{ "id": "urn:tag:genre:place:bar", "name": "Bar", "type": "urn:tag:genre:place" }, { "id": "urn:tag:genre:place:restaurant", "name": "Restaurant", "type": "urn:tag:genre:place" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1934, 2026], "kind": "dining", "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.5 } } },
-    { "name": "Manny's Cafeteria & Delicatessen", "entity_id": "ffffffff-0000-4000-8000-0000000b0309", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Corned-beef cafeteria line in the South Loop since 1942, a lunch stop for mayors and precinct captains.", "address": "1141 S Jefferson St, Chicago, IL 60607", "geocode": { "name": "Chicago", "admin1_region": "Illinois", "country_code": "US" }, "business_rating": 4.5, "price_level": 2, "is_closed": false, "akas": [{ "value": "Manny's Deli", "languages": ["en"] }] },
-      "popularity": 0.74, "tags": [{ "id": "urn:tag:genre:place:restaurant", "name": "Restaurant", "type": "urn:tag:genre:place" }, { "id": "urn:tag:genre:place:restaurant:deli", "name": "Deli", "type": "urn:tag:genre:place" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1942, 2026], "kind": "dining", "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.5 } } },
-    { "name": "Margie's Candies", "entity_id": "ffffffff-0000-4000-8000-0000000b0310", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Ice-cream parlor in Bucktown since 1921, serving sundaes in giant clamshell dishes; the Beatles stopped in after a 1965 show.", "address": "1960 N Western Ave, Chicago, IL 60647", "geocode": { "name": "Chicago", "admin1_region": "Illinois", "country_code": "US" }, "business_rating": 4.5, "price_level": 1, "is_closed": false, "akas": [] },
-      "popularity": 0.7, "tags": [{ "id": "urn:tag:genre:place:ice_cream_parlor", "name": "Ice Cream Parlor", "type": "urn:tag:genre:place" }, { "id": "urn:tag:genre:place:restaurant", "name": "Restaurant", "type": "urn:tag:genre:place" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1921, 2026], "kind": "dining", "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.5 } } },
-    { "name": "Lou Malnati's Pizzeria", "entity_id": "ffffffff-0000-4000-8000-0000000b0311", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Deep-dish institution founded in 1971 in Lincolnwood by Uno alumnus Lou Malnati.", "address": "6649 N Lincoln Ave, Lincolnwood, IL 60712", "geocode": { "name": "Lincolnwood", "admin1_region": "Illinois", "country_code": "US" }, "business_rating": 4.5, "price_level": 2, "is_closed": false, "akas": [] },
-      "popularity": 0.86, "tags": [{ "id": "urn:tag:genre:place:restaurant", "name": "Restaurant", "type": "urn:tag:genre:place" }, { "id": "urn:tag:genre:place:restaurant:pizza", "name": "Pizza Restaurant", "type": "urn:tag:genre:place" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1971, 2026], "kind": "dining", "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.5 } } },
-    { "name": "The Walnut Room", "entity_id": "ffffffff-0000-4000-8000-0000000b0312", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Marshall Field's seventh-floor restaurant since 1907, with chicken pot pie and the Great Tree every Christmas.", "address": "111 N State St, Chicago, IL 60602", "geocode": { "name": "Chicago", "admin1_region": "Illinois", "country_code": "US" }, "business_rating": 4.3, "price_level": 2, "is_closed": false, "akas": [] },
-      "popularity": 0.76, "tags": [{ "id": "urn:tag:genre:place:restaurant", "name": "Restaurant", "type": "urn:tag:genre:place" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1907, 2026], "kind": "dining", "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.55 } } },
-
-    { "name": "Wrigley Field", "entity_id": "ffffffff-0000-4000-8000-0000000b0401", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "The ivy-covered 1914 ballpark on the North Side, home of the Cubs and the seventh-inning stretch.", "address": "1060 W Addison St, Chicago, IL 60613", "geocode": { "name": "Chicago", "admin1_region": "Illinois", "country_code": "US" }, "business_rating": 4.7, "is_closed": false, "akas": [] },
-      "popularity": 0.95, "tags": [{ "id": "urn:tag:category:place:stadium", "name": "Stadium", "type": "urn:tag:category:place" }, { "id": "urn:tag:category:place:landmark", "name": "Landmark", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1914, 2026], "kind": "landmark", "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.55 } } },
-    { "name": "Navy Pier", "entity_id": "ffffffff-0000-4000-8000-0000000b0402", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "The 1916 lakefront pier: Grand Ballroom dances, Navy training in the war years, the Ferris wheel today.", "address": "600 E Grand Ave, Chicago, IL 60611", "geocode": { "name": "Chicago", "admin1_region": "Illinois", "country_code": "US" }, "business_rating": 4.5, "is_closed": false, "akas": [] },
-      "popularity": 0.92, "tags": [{ "id": "urn:tag:category:place:tourist_attraction", "name": "Tourist Attraction", "type": "urn:tag:category:place" }, { "id": "urn:tag:category:place:landmark", "name": "Landmark", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1916, 2026], "kind": "landmark", "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.5 } } },
-    { "name": "The Green Mill Cocktail Lounge", "entity_id": "ffffffff-0000-4000-8000-0000000b0403", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Uptown jazz club since 1907, with Capone-era lore and live jazz every night.", "address": "4802 N Broadway, Chicago, IL 60640", "geocode": { "name": "Chicago", "admin1_region": "Illinois", "country_code": "US" }, "business_rating": 4.6, "is_closed": false, "akas": [{ "value": "Green Mill", "languages": ["en"] }] },
-      "popularity": 0.8, "tags": [{ "id": "urn:tag:genre:place:bar", "name": "Bar", "type": "urn:tag:genre:place" }, { "id": "urn:tag:category:place:landmark", "name": "Landmark", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1907, 2026], "kind": "landmark", "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.75 } } },
-    { "name": "Chicago Theatre", "entity_id": "ffffffff-0000-4000-8000-0000000b0404", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "The 1921 movie palace on State Street under the six-storey CHICAGO sign; Sinatra played its stage.", "address": "175 N State St, Chicago, IL 60601", "geocode": { "name": "Chicago", "admin1_region": "Illinois", "country_code": "US" }, "business_rating": 4.7, "is_closed": false, "akas": [] },
-      "popularity": 0.9, "tags": [{ "id": "urn:tag:category:place:theater", "name": "Theater", "type": "urn:tag:category:place" }, { "id": "urn:tag:category:place:landmark", "name": "Landmark", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1921, 2026], "kind": "landmark", "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.85 } } },
-    { "name": "Buckingham Fountain", "entity_id": "ffffffff-0000-4000-8000-0000000b0405", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Grant Park's 1927 wedding-cake fountain, lit in color on summer evenings.", "address": "301 S Columbus Dr, Chicago, IL 60605", "geocode": { "name": "Chicago", "admin1_region": "Illinois", "country_code": "US" }, "business_rating": 4.7, "is_closed": false, "akas": [] },
-      "popularity": 0.88, "tags": [{ "id": "urn:tag:category:place:landmark", "name": "Landmark", "type": "urn:tag:category:place" }, { "id": "urn:tag:category:place:park", "name": "Park", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1927, 2026], "kind": "landmark", "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.5 } } },
-    { "name": "Lincoln Park Zoo", "entity_id": "ffffffff-0000-4000-8000-0000000b0406", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Free city zoo since 1868, a Sunday outing for generations of Chicago families.", "address": "2001 N Clark St, Chicago, IL 60614", "geocode": { "name": "Chicago", "admin1_region": "Illinois", "country_code": "US" }, "business_rating": 4.7, "is_closed": false, "akas": [] },
-      "popularity": 0.86, "tags": [{ "id": "urn:tag:category:place:zoo", "name": "Zoo", "type": "urn:tag:category:place" }, { "id": "urn:tag:category:place:park", "name": "Park", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1868, 2026], "kind": "landmark", "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.45 } } },
-    { "name": "Riverview Park", "entity_id": "ffffffff-0000-4000-8000-0000000b0407", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "The amusement park at Western and Belmont (1904 to 1967): the Bobs roller coaster, the Pair-O-Chutes and 'laugh your troubles away'.", "address": "Western Ave & Belmont Ave, Chicago, IL", "geocode": { "name": "Chicago", "admin1_region": "Illinois", "country_code": "US" }, "is_closed": true, "akas": [] },
-      "popularity": 0.6, "tags": [{ "id": "urn:tag:category:place:amusement_park", "name": "Amusement Park", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1904, 1967], "kind": "landmark", "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.5 } } },
-    { "name": "Marshall Field's State Street Store", "entity_id": "ffffffff-0000-4000-8000-0000000b0408", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "The 1892 flagship (now Macy's): meet under the clock, Frango mints and the Christmas windows.", "address": "111 N State St, Chicago, IL 60602", "geocode": { "name": "Chicago", "admin1_region": "Illinois", "country_code": "US" }, "business_rating": 4.4, "is_closed": false, "akas": [{ "value": "Marshall Field and Company Building", "languages": ["en"] }] },
-      "popularity": 0.8, "tags": [{ "id": "urn:tag:category:place:department_store", "name": "Department Store", "type": "urn:tag:category:place" }, { "id": "urn:tag:category:place:landmark", "name": "Landmark", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1892, 2026], "kind": "landmark", "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.5 } } },
-    { "name": "Comiskey Park", "entity_id": "ffffffff-0000-4000-8000-0000000b0409", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Home of the White Sox from 1910 to 1990, with Bill Veeck's exploding scoreboard.", "address": "324 W 35th St, Chicago, IL", "geocode": { "name": "Chicago", "admin1_region": "Illinois", "country_code": "US" }, "is_closed": true, "akas": [] },
-      "popularity": 0.62, "tags": [{ "id": "urn:tag:category:place:stadium", "name": "Stadium", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1910, 1990], "kind": "landmark", "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.5 } } },
-    { "name": "Aragon Ballroom", "entity_id": "ffffffff-0000-4000-8000-0000000b0410", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Moorish 1926 ballroom in Uptown where big bands played under a painted sky; broadcast nightly on WGN radio.", "address": "1106 W Lawrence Ave, Chicago, IL 60640", "geocode": { "name": "Chicago", "admin1_region": "Illinois", "country_code": "US" }, "business_rating": 4.3, "is_closed": false, "akas": [] },
-      "popularity": 0.76, "tags": [{ "id": "urn:tag:category:place:theater", "name": "Theater", "type": "urn:tag:category:place" }, { "id": "urn:tag:category:place:landmark", "name": "Landmark", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1926, 2026], "kind": "landmark", "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.8 } } },
-    { "name": "Museum of Science and Industry", "entity_id": "ffffffff-0000-4000-8000-0000000b0411", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "The 1933 museum in Jackson Park: the coal mine, the U-505 submarine and the giant heart.", "address": "5700 S DuSable Lake Shore Dr, Chicago, IL 60637", "geocode": { "name": "Chicago", "admin1_region": "Illinois", "country_code": "US" }, "business_rating": 4.7, "is_closed": false, "akas": [] },
-      "popularity": 0.88, "tags": [{ "id": "urn:tag:category:place:museum", "name": "Museum", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1933, 2026], "kind": "landmark", "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.45 } } },
-    { "name": "Art Institute of Chicago", "entity_id": "ffffffff-0000-4000-8000-0000000b0412", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "Bronze lions guard the 1893 museum on Michigan Avenue; home of 'American Gothic' and 'Nighthawks'.", "address": "111 S Michigan Ave, Chicago, IL 60603", "geocode": { "name": "Chicago", "admin1_region": "Illinois", "country_code": "US" }, "business_rating": 4.8, "is_closed": false, "akas": [] },
-      "popularity": 0.9, "tags": [{ "id": "urn:tag:category:place:museum", "name": "Museum", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1893, 2026], "kind": "landmark", "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.5 } } },
-    { "name": "Oak Street Beach", "entity_id": "ffffffff-0000-4000-8000-0000000b0413", "type": "urn:entity", "subtype": "urn:entity:place",
-      "properties": { "description": "The Gold Coast's city beach at the top of Michigan Avenue.", "address": "1000 N Lake Shore Dr, Chicago, IL 60611", "geocode": { "name": "Chicago", "admin1_region": "Illinois", "country_code": "US" }, "business_rating": 4.6, "is_closed": false, "akas": [] },
-      "popularity": 0.8, "tags": [{ "id": "urn:tag:category:place:beach", "name": "Beach", "type": "urn:tag:category:place" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1900, 2026], "kind": "landmark", "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.45 } } },
-
-    { "name": "Lake Geneva, Wisconsin", "entity_id": "ffffffff-0000-4000-8000-0000000b0501", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "The lakeside resort town where Chicago families summered: lake cruises, the Riviera ballroom and the shore path.", "geocode": { "name": "Lake Geneva", "admin1_region": "Wisconsin", "country_code": "US" }, "akas": [{ "value": "Lake Geneva", "languages": ["en"] }] },
-      "popularity": 0.72, "tags": [{ "id": "urn:tag:genre:destination:lake", "name": "Lake", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "us", "localities": ["chicago", "milwaukee"], "era": [1900, 2026], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.5 } } },
-    { "name": "Indiana Dunes", "entity_id": "ffffffff-0000-4000-8000-0000000b0502", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "Lake Michigan beaches and sand dunes an hour from the South Side on the South Shore Line.", "geocode": { "name": "Chesterton", "admin1_region": "Indiana", "country_code": "US" }, "akas": [] },
-      "popularity": 0.7, "tags": [{ "id": "urn:tag:genre:destination:beach", "name": "Beach", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1900, 2026], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.45 } } },
-    { "name": "Door County, Wisconsin", "entity_id": "ffffffff-0000-4000-8000-0000000b0503", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "Cherry orchards, fish boils and lighthouses on the peninsula north of Green Bay.", "geocode": { "name": "Sturgeon Bay", "admin1_region": "Wisconsin", "country_code": "US" }, "akas": [{ "value": "Door County", "languages": ["en"] }] },
-      "popularity": 0.72, "tags": [{ "id": "urn:tag:genre:destination:lake", "name": "Lake", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "us", "localities": ["chicago", "milwaukee"], "era": [1900, 2026], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.45 } } },
-    { "name": "Wisconsin Dells", "entity_id": "ffffffff-0000-4000-8000-0000000b0504", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "Boat tours of the sandstone gorges and the amphibious Ducks, long before the waterparks.", "geocode": { "name": "Wisconsin Dells", "admin1_region": "Wisconsin", "country_code": "US" }, "akas": [{ "value": "The Dells", "languages": ["en"] }] },
-      "popularity": 0.72, "tags": [{ "id": "urn:tag:genre:destination:lake", "name": "Lake", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "us", "localities": ["chicago", "milwaukee"], "era": [1900, 2026], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.4 } } },
-    { "name": "Starved Rock State Park", "entity_id": "ffffffff-0000-4000-8000-0000000b0505", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "Sandstone canyons and waterfalls along the Illinois River, with the 1930s lodge.", "geocode": { "name": "Oglesby", "admin1_region": "Illinois", "country_code": "US" }, "akas": [{ "value": "Starved Rock", "languages": ["en"] }] },
-      "popularity": 0.68, "tags": [{ "id": "urn:tag:genre:destination:historic", "name": "Historic", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1900, 2026], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.4 } } },
-    { "name": "Galena, Illinois", "entity_id": "ffffffff-0000-4000-8000-0000000b0506", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "Preserved 19th-century lead-mining town and Ulysses S. Grant's home, in the hills by the Mississippi.", "geocode": { "name": "Galena", "admin1_region": "Illinois", "country_code": "US" }, "akas": [{ "value": "Galena", "languages": ["en"] }] },
-      "popularity": 0.62, "tags": [{ "id": "urn:tag:genre:destination:historic", "name": "Historic", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1900, 2026], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.4 } } },
-    { "name": "Saugatuck, Michigan", "entity_id": "ffffffff-0000-4000-8000-0000000b0507", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "Art colony and beach town across the lake, with the hand-cranked chain ferry.", "geocode": { "name": "Saugatuck", "admin1_region": "Michigan", "country_code": "US" }, "akas": [{ "value": "Saugatuck", "languages": ["en"] }] },
-      "popularity": 0.62, "tags": [{ "id": "urn:tag:genre:destination:beach", "name": "Beach", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1900, 2026], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.4 } } },
-    { "name": "Milwaukee", "entity_id": "ffffffff-0000-4000-8000-0000000b0508", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "Beer, bratwurst and the Brewers, ninety miles up the lakeshore.", "geocode": { "name": "Milwaukee", "admin1_region": "Wisconsin", "country_code": "US" }, "akas": [] },
-      "popularity": 0.78, "tags": [{ "id": "urn:tag:genre:destination:city_break", "name": "City Break", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "us", "localities": ["chicago"], "era": [1900, 2026], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.45 } } },
-    { "name": "Las Vegas", "entity_id": "ffffffff-0000-4000-8000-0000000b0509", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "The Strip in its Rat Pack heyday: Sinatra at the Sands, showgirls and all-night lounges.", "geocode": { "name": "Las Vegas", "admin1_region": "Nevada", "country_code": "US" }, "akas": [{ "value": "Vegas", "languages": ["en"] }] },
-      "popularity": 0.95, "tags": [{ "id": "urn:tag:genre:destination:city_break", "name": "City Break", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "us", "era": [1950, 2026], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.9 } } },
-    { "name": "Niagara Falls", "entity_id": "ffffffff-0000-4000-8000-0000000b0510", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "The honeymoon capital of mid-century America: Maid of the Mist and the Cave of the Winds.", "geocode": { "name": "Niagara Falls", "admin1_region": "New York", "country_code": "US" }, "akas": [] },
-      "popularity": 0.85, "tags": [{ "id": "urn:tag:genre:destination:historic", "name": "Historic", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "us", "era": [1900, 2026], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.5 } } },
-    { "name": "New York City", "entity_id": "ffffffff-0000-4000-8000-0000000b0511", "type": "urn:entity", "subtype": "urn:entity:destination",
-      "properties": { "description": "Broadway, the Copacabana and 'New York, New York': Sinatra's other hometown.", "geocode": { "name": "New York", "admin1_region": "New York", "country_code": "US" }, "akas": [{ "value": "New York", "languages": ["en"] }, { "value": "NYC", "languages": ["en"] }] },
-      "popularity": 0.97, "tags": [{ "id": "urn:tag:genre:destination:city_break", "name": "City Break", "type": "urn:tag:genre:destination" }],
-      "_syn": { "world": "us", "localities": ["new_york"], "era": [1900, 2026], "related": { "ffffffff-0000-4000-8000-0000000b0001": 0.8 } } }
+    {
+      "name": "Frank Sinatra",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0001",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Ol' Blue Eyes', the defining American crooner: 'Fly Me to the Moon', 'My Way', 'My Kind of Town (Chicago Is)' and the Rat Pack years in Las Vegas.",
+        "date_of_birth": "1915-12-12",
+        "year_of_death": 1998,
+        "place_of_birth": "Hoboken, New Jersey, USA",
+        "akas": [
+          {
+            "value": "Francis Albert Sinatra",
+            "languages": [
+              "en"
+            ]
+          },
+          {
+            "value": "Ol' Blue Eyes",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.98,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:traditional_pop",
+          "name": "Traditional Pop",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:vocal_jazz",
+          "name": "Vocal Jazz",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:swing",
+          "name": "Swing",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "new_york",
+          "chicago"
+        ],
+        "era": [
+          1939,
+          1995
+        ]
+      }
+    },
+    {
+      "name": "Dean Martin",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0002",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "The 'King of Cool': Rat Pack crooner of 'That's Amore' and 'Everybody Loves Somebody', star of his own NBC variety show.",
+        "date_of_birth": "1917-06-07",
+        "year_of_death": 1995,
+        "place_of_birth": "Steubenville, Ohio, USA",
+        "akas": [
+          {
+            "value": "Dino Crocetti",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:traditional_pop",
+          "name": "Traditional Pop",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:swing",
+          "name": "Swing",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1946,
+          1985
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.96
+        }
+      }
+    },
+    {
+      "name": "Sammy Davis Jr.",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0003",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Singer, dancer and actor, the Rat Pack's all-round entertainer: 'The Candy Man', 'Mr. Bojangles'.",
+        "date_of_birth": "1925-12-08",
+        "year_of_death": 1990,
+        "place_of_birth": "Harlem, New York, USA",
+        "akas": []
+      },
+      "popularity": 0.84,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:traditional_pop",
+          "name": "Traditional Pop",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:vocal_jazz",
+          "name": "Vocal Jazz",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1950,
+          1988
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.93
+        }
+      }
+    },
+    {
+      "name": "Tony Bennett",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0004",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'I Left My Heart in San Francisco'; the jazz-pop stylist Sinatra called the best singer in the business.",
+        "date_of_birth": "1926-08-03",
+        "year_of_death": 2023,
+        "place_of_birth": "Queens, New York, USA",
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:traditional_pop",
+          "name": "Traditional Pop",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:vocal_jazz",
+          "name": "Vocal Jazz",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1950,
+          2021
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.92
+        }
+      }
+    },
+    {
+      "name": "Nat King Cole",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0005",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Velvet-voiced pianist and singer of 'Unforgettable' and 'Mona Lisa', raised in Chicago's Bronzeville.",
+        "date_of_birth": "1919-03-17",
+        "year_of_death": 1965,
+        "place_of_birth": "Montgomery, Alabama, USA",
+        "akas": []
+      },
+      "popularity": 0.93,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:vocal_jazz",
+          "name": "Vocal Jazz",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:traditional_pop",
+          "name": "Traditional Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": [
+          "us",
+          "generic"
+        ],
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1943,
+          1965
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.9
+        }
+      }
+    },
+    {
+      "name": "Ella Fitzgerald",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0006",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "The 'First Lady of Song', the great jazz vocalist of the Songbook albums.",
+        "date_of_birth": "1917-04-25",
+        "year_of_death": 1996,
+        "place_of_birth": "Newport News, Virginia, USA",
+        "akas": []
+      },
+      "popularity": 0.92,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:vocal_jazz",
+          "name": "Vocal Jazz",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:jazz",
+          "name": "Jazz",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1935,
+          1990
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.88
+        }
+      }
+    },
+    {
+      "name": "Peggy Lee",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0007",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Fever' and 'Is That All There Is?'; a cool, intimate jazz-pop voice.",
+        "date_of_birth": "1920-05-26",
+        "year_of_death": 2002,
+        "place_of_birth": "Jamestown, North Dakota, USA",
+        "akas": []
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:vocal_jazz",
+          "name": "Vocal Jazz",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:traditional_pop",
+          "name": "Traditional Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1941,
+          1980
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.85
+        }
+      }
+    },
+    {
+      "name": "Bobby Darin",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0008",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Mack the Knife' and 'Beyond the Sea'; the swinging heir to Sinatra.",
+        "date_of_birth": "1936-05-14",
+        "year_of_death": 1973,
+        "place_of_birth": "The Bronx, New York, USA",
+        "akas": []
+      },
+      "popularity": 0.82,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:traditional_pop",
+          "name": "Traditional Pop",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:swing",
+          "name": "Swing",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1958,
+          1973
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.84
+        }
+      }
+    },
+    {
+      "name": "Count Basie",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0009",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Bandleader whose orchestra backed Sinatra at the Sands in 1966.",
+        "date_of_birth": "1904-08-21",
+        "year_of_death": 1984,
+        "place_of_birth": "Red Bank, New Jersey, USA",
+        "akas": []
+      },
+      "popularity": 0.82,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:swing",
+          "name": "Swing",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:jazz",
+          "name": "Jazz",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1935,
+          1984
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.86
+        }
+      }
+    },
+    {
+      "name": "Perry Como",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0010",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Relaxed baritone of 'Catch a Falling Star' and decades of TV Christmas specials.",
+        "date_of_birth": "1912-05-18",
+        "year_of_death": 2001,
+        "place_of_birth": "Canonsburg, Pennsylvania, USA",
+        "akas": []
+      },
+      "popularity": 0.78,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:traditional_pop",
+          "name": "Traditional Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1943,
+          1987
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.8
+        }
+      }
+    },
+    {
+      "name": "Andy Williams",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0011",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Moon River' and a 1960s variety show that made him a household name.",
+        "date_of_birth": "1927-12-03",
+        "year_of_death": 2012,
+        "place_of_birth": "Wall Lake, Iowa, USA",
+        "akas": []
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:traditional_pop",
+          "name": "Traditional Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1956,
+          1980
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.78
+        }
+      }
+    },
+    {
+      "name": "Louis Armstrong",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0012",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Satchmo: trumpet pioneer and singer of 'What a Wonderful World'; his Chicago years in the 1920s changed jazz.",
+        "date_of_birth": "1901-08-04",
+        "year_of_death": 1971,
+        "place_of_birth": "New Orleans, Louisiana, USA",
+        "akas": [
+          {
+            "value": "Satchmo",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.95,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:jazz",
+          "name": "Jazz",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:vocal_jazz",
+          "name": "Vocal Jazz",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": [
+          "us",
+          "generic"
+        ],
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1925,
+          1971
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.82
+        }
+      }
+    },
+    {
+      "name": "Muddy Waters",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0013",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Father of Chicago blues; electrified the Delta sound at Chess Records on the South Side.",
+        "date_of_birth": "1913-04-04",
+        "year_of_death": 1983,
+        "place_of_birth": "Issaquena County, Mississippi, USA",
+        "akas": [
+          {
+            "value": "McKinley Morganfield",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.86,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:blues",
+          "name": "Blues",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1948,
+          1983
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Etta James",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0014",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'At Last' (1960), recorded for Chicago's Chess Records.",
+        "date_of_birth": "1938-01-25",
+        "year_of_death": 2012,
+        "place_of_birth": "Los Angeles, California, USA",
+        "akas": []
+      },
+      "popularity": 0.86,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:soul",
+          "name": "Soul",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:blues",
+          "name": "Blues",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1955,
+          2011
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.6
+        }
+      }
+    },
+    {
+      "name": "Ramsey Lewis",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0015",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Chicago jazz pianist whose 'The In Crowd' (1965) was a crossover smash.",
+        "date_of_birth": "1935-05-27",
+        "year_of_death": 2022,
+        "place_of_birth": "Chicago, Illinois, USA",
+        "akas": []
+      },
+      "popularity": 0.72,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:jazz",
+          "name": "Jazz",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1956,
+          2010
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.62
+        }
+      }
+    },
+    {
+      "name": "The Impressions",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0016",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Chicago soul group led by Curtis Mayfield; 'People Get Ready' (1965).",
+        "place_of_birth": "Chicago, Illinois, USA",
+        "akas": []
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:soul",
+          "name": "Soul",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1958,
+          1983
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.45
+        }
+      }
+    },
+    {
+      "name": "Chicago",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0017",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Horn-driven rock band formed in Chicago in 1967: '25 or 6 to 4', 'Saturday in the Park'.",
+        "place_of_birth": "Chicago, Illinois, USA",
+        "akas": [
+          {
+            "value": "Chicago Transit Authority",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.86,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:rock",
+          "name": "Rock",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1967,
+          1990
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Judy Garland",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0018",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Over the Rainbow'; a legendary concert and film voice.",
+        "date_of_birth": "1922-06-10",
+        "year_of_death": 1969,
+        "place_of_birth": "Grand Rapids, Minnesota, USA",
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:traditional_pop",
+          "name": "Traditional Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1936,
+          1969
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.75
+        }
+      }
+    },
+    {
+      "name": "Elvis Presley",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0019",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "The King of Rock and Roll, from 'Heartbreak Hotel' to the Las Vegas years.",
+        "date_of_birth": "1935-01-08",
+        "year_of_death": 1977,
+        "place_of_birth": "Tupelo, Mississippi, USA",
+        "akas": []
+      },
+      "popularity": 0.98,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:rock",
+          "name": "Rock",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:pop",
+          "name": "Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": [
+          "us",
+          "generic"
+        ],
+        "era": [
+          1954,
+          1977
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.55
+        }
+      }
+    },
+    {
+      "name": "Dinah Washington",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0020",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Queen of the Blues'; 'What a Diff'rence a Day Makes' (1959); grew up on Chicago's South Side.",
+        "date_of_birth": "1924-08-29",
+        "year_of_death": 1963,
+        "place_of_birth": "Tuscaloosa, Alabama, USA",
+        "akas": []
+      },
+      "popularity": 0.76,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:vocal_jazz",
+          "name": "Vocal Jazz",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:blues",
+          "name": "Blues",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1943,
+          1963
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.72
+        }
+      }
+    },
+    {
+      "name": "Bing Crosby",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0021",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "The original crooner: 'White Christmas', 'Swinging on a Star' and the Road movies with Bob Hope.",
+        "date_of_birth": "1903-05-03",
+        "year_of_death": 1977,
+        "place_of_birth": "Tacoma, Washington, USA",
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:traditional_pop",
+          "name": "Traditional Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1931,
+          1977
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.85
+        }
+      }
+    },
+    {
+      "name": "Ocean's 11",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0101",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1960,
+        "release_date": "1960-08-10",
+        "description": "The Rat Pack (Sinatra, Martin, Davis, Lawford, Bishop) rob five Las Vegas casinos on New Year's Eve.",
+        "release_country": [
+          "United States"
+        ],
+        "duration": 127,
+        "content_rating": "Approved",
+        "akas": [
+          {
+            "value": "Ocean's Eleven",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:crime",
+          "name": "Crime",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1960,
+          1975
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.95
+        }
+      }
+    },
+    {
+      "name": "The Manchurian Candidate",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0102",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1962,
+        "release_date": "1962-10-24",
+        "description": "Sinatra stars in John Frankenheimer's Cold War thriller about a brainwashed war hero.",
+        "release_country": [
+          "United States"
+        ],
+        "duration": 126,
+        "content_rating": "PG-13",
+        "akas": []
+      },
+      "popularity": 0.84,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:crime",
+          "name": "Crime",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1962,
+          1975
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.9
+        }
+      }
+    },
+    {
+      "name": "Von Ryan's Express",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0103",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1965,
+        "release_date": "1965-06-23",
+        "description": "Sinatra leads Allied prisoners in a daring escape by train across wartime Italy.",
+        "release_country": [
+          "United States"
+        ],
+        "duration": 117,
+        "content_rating": "Approved",
+        "akas": []
+      },
+      "popularity": 0.72,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1965,
+          1975
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.85
+        }
+      }
+    },
+    {
+      "name": "Robin and the 7 Hoods",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0104",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1964,
+        "release_date": "1964-06-24",
+        "description": "Rat Pack musical comedy set among 1920s Chicago gangsters; Sinatra introduces 'My Kind of Town'.",
+        "release_country": [
+          "United States"
+        ],
+        "duration": 123,
+        "content_rating": "Approved",
+        "akas": []
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:musical",
+          "name": "Musical",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1964,
+          1975
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.92
+        }
+      }
+    },
+    {
+      "name": "The Apartment",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0105",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1960,
+        "release_date": "1960-06-15",
+        "description": "Billy Wilder's bittersweet comedy with Jack Lemmon and Shirley MacLaine; Best Picture of 1960.",
+        "release_country": [
+          "United States"
+        ],
+        "duration": 125,
+        "content_rating": "Approved",
+        "akas": []
+      },
+      "popularity": 0.88,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:romance",
+          "name": "Romance",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "new_york"
+        ],
+        "era": [
+          1960,
+          1975
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.6
+        }
+      }
+    },
+    {
+      "name": "West Side Story",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0106",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1961,
+        "release_date": "1961-10-18",
+        "description": "Bernstein and Sondheim's Romeo and Juliet on the streets of Manhattan; ten Oscars.",
+        "release_country": [
+          "United States"
+        ],
+        "duration": 153,
+        "content_rating": "Approved",
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:musical",
+          "name": "Musical",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:romance",
+          "name": "Romance",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "new_york"
+        ],
+        "era": [
+          1961,
+          1975
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.65
+        }
+      }
+    },
+    {
+      "name": "The Sound of Music",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0107",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1965,
+        "release_date": "1965-03-02",
+        "description": "Julie Andrews as Maria von Trapp in the musical that ran in cinemas for years.",
+        "release_country": [
+          "United States"
+        ],
+        "duration": 174,
+        "content_rating": "G",
+        "akas": []
+      },
+      "popularity": 0.93,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:musical",
+          "name": "Musical",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:family",
+          "name": "Family",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": [
+          "us",
+          "generic"
+        ],
+        "era": [
+          1965,
+          1980
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.6
+        }
+      }
+    },
+    {
+      "name": "My Fair Lady",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0108",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1964,
+        "release_date": "1964-10-21",
+        "description": "Audrey Hepburn and Rex Harrison in Lerner and Loewe's musical; eight Oscars.",
+        "release_country": [
+          "United States"
+        ],
+        "duration": 170,
+        "content_rating": "G",
+        "akas": []
+      },
+      "popularity": 0.85,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:musical",
+          "name": "Musical",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:romance",
+          "name": "Romance",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1964,
+          1980
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.65
+        }
+      }
+    },
+    {
+      "name": "Breakfast at Tiffany's",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0109",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1961,
+        "release_date": "1961-10-05",
+        "description": "Audrey Hepburn as Holly Golightly, with Henry Mancini's 'Moon River'.",
+        "release_country": [
+          "United States"
+        ],
+        "duration": 115,
+        "content_rating": "Approved",
+        "akas": []
+      },
+      "popularity": 0.88,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:romance",
+          "name": "Romance",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "new_york"
+        ],
+        "era": [
+          1961,
+          1975
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.65
+        }
+      }
+    },
+    {
+      "name": "Mary Poppins",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0110",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1964,
+        "release_date": "1964-08-27",
+        "description": "Julie Andrews and Dick Van Dyke in Disney's practically perfect musical.",
+        "release_country": [
+          "United States"
+        ],
+        "duration": 139,
+        "content_rating": "G",
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:musical",
+          "name": "Musical",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:family",
+          "name": "Family",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": [
+          "us",
+          "generic"
+        ],
+        "era": [
+          1964,
+          1980
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "The Graduate",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0111",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1967,
+        "release_date": "1967-12-22",
+        "description": "Dustin Hoffman, Anne Bancroft and the songs of Simon & Garfunkel.",
+        "release_country": [
+          "United States"
+        ],
+        "duration": 106,
+        "content_rating": "PG",
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1967,
+          1980
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Butch Cassidy and the Sundance Kid",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0112",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1969,
+        "release_date": "1969-09-23",
+        "description": "Paul Newman and Robert Redford as the charming outlaws; 'Raindrops Keep Fallin' on My Head'.",
+        "release_country": [
+          "United States"
+        ],
+        "duration": 110,
+        "content_rating": "PG",
+        "akas": []
+      },
+      "popularity": 0.88,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:western",
+          "name": "Western",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1969,
+          1980
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.55
+        }
+      }
+    },
+    {
+      "name": "The Sting",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0113",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1973,
+        "release_date": "1973-12-25",
+        "description": "Newman and Redford run the big con in 1936 Chicago to Scott Joplin's ragtime; Best Picture.",
+        "release_country": [
+          "United States"
+        ],
+        "duration": 129,
+        "content_rating": "PG",
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:crime",
+          "name": "Crime",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1973,
+          1985
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.6
+        }
+      }
+    },
+    {
+      "name": "The Godfather",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0114",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1972,
+        "release_date": "1972-03-24",
+        "description": "Coppola's saga of the Corleone family, with Brando and Pacino.",
+        "release_country": [
+          "United States"
+        ],
+        "duration": 175,
+        "content_rating": "R",
+        "akas": []
+      },
+      "popularity": 0.97,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:crime",
+          "name": "Crime",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "new_york"
+        ],
+        "era": [
+          1972,
+          1985
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.55
+        }
+      }
+    },
+    {
+      "name": "In the Heat of the Night",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0115",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1967,
+        "release_date": "1967-08-02",
+        "description": "Sidney Poitier and Rod Steiger in the Mississippi murder mystery that won Best Picture.",
+        "release_country": [
+          "United States"
+        ],
+        "duration": 110,
+        "content_rating": "Approved",
+        "akas": []
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:crime",
+          "name": "Crime",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1967,
+          1980
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "It's a Mad, Mad, Mad, Mad World",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0116",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1963,
+        "release_date": "1963-11-07",
+        "description": "Stanley Kramer's all-star comedy chase for buried treasure under 'the big W'.",
+        "release_country": [
+          "United States"
+        ],
+        "duration": 192,
+        "content_rating": "G",
+        "akas": []
+      },
+      "popularity": 0.78,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1963,
+          1975
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.6
+        }
+      }
+    },
+    {
+      "name": "Medium Cool",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0117",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1969,
+        "release_date": "1969-08-27",
+        "description": "Haskell Wexler's drama shot amid the real 1968 Democratic Convention protests in Chicago.",
+        "release_country": [
+          "United States"
+        ],
+        "duration": 111,
+        "content_rating": "R",
+        "akas": []
+      },
+      "popularity": 0.6,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1969,
+          1975
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.4
+        }
+      }
+    },
+    {
+      "name": "The Blues Brothers",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0118",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1980,
+        "release_date": "1980-06-20",
+        "description": "Jake and Elwood on a mission from God, with car chases through Chicago and cameos by Aretha, Ray Charles and Cab Calloway.",
+        "release_country": [
+          "United States"
+        ],
+        "duration": 133,
+        "content_rating": "R",
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:musical",
+          "name": "Musical",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1980,
+          1995
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Some Like It Hot",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0119",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1959,
+        "release_date": "1959-03-29",
+        "description": "Two musicians flee Chicago mobsters in drag with Marilyn Monroe's band; Billy Wilder's classic.",
+        "release_country": [
+          "United States"
+        ],
+        "duration": 121,
+        "content_rating": "Approved",
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1959,
+          1975
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.65
+        }
+      }
+    },
+    {
+      "name": "Guys and Dolls",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0120",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1955,
+        "release_date": "1955-11-03",
+        "description": "Sinatra and Marlon Brando as Broadway gamblers in Frank Loesser's musical.",
+        "release_country": [
+          "United States"
+        ],
+        "duration": 150,
+        "content_rating": "Approved",
+        "akas": []
+      },
+      "popularity": 0.76,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:musical",
+          "name": "Musical",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "new_york"
+        ],
+        "era": [
+          1955,
+          1970
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.9
+        }
+      }
+    },
+    {
+      "name": "From Here to Eternity",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0121",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1953,
+        "release_date": "1953-08-05",
+        "description": "Pearl Harbor drama that won Sinatra his Oscar as Maggio.",
+        "release_country": [
+          "United States"
+        ],
+        "duration": 118,
+        "content_rating": "Passed",
+        "akas": []
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:romance",
+          "name": "Romance",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1953,
+          1970
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.9
+        }
+      }
+    },
+    {
+      "name": "Doctor Zhivago",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0122",
+      "type": "urn:entity",
+      "subtype": "urn:entity:movie",
+      "properties": {
+        "release_year": 1965,
+        "release_date": "1965-12-22",
+        "description": "David Lean's epic romance with Omar Sharif, Julie Christie and 'Lara's Theme'.",
+        "release_country": [
+          "United States",
+          "United Kingdom"
+        ],
+        "duration": 197,
+        "content_rating": "PG-13",
+        "akas": []
+      },
+      "popularity": 0.88,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:drama",
+          "name": "Drama",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:romance",
+          "name": "Romance",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1965,
+          1980
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.55
+        }
+      }
+    },
+    {
+      "name": "The Dean Martin Show",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0201",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1965,
+        "description": "NBC's Thursday-night variety hour, with Dino sliding down the fireman's pole to open each show.",
+        "release_country": [
+          "United States"
+        ],
+        "akas": []
+      },
+      "popularity": 0.78,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:variety",
+          "name": "Variety",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1965,
+          1974
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.92,
+          "ffffffff-0000-4000-8000-0000000b0002": 0.98
+        }
+      }
+    },
+    {
+      "name": "The Ed Sullivan Show",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0202",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1948,
+        "description": "The Sunday-night variety institution; Elvis in 1956, the Beatles in 1964, and everyone in between.",
+        "release_country": [
+          "United States"
+        ],
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:variety",
+          "name": "Variety",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "new_york"
+        ],
+        "era": [
+          1948,
+          1971
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.8
+        }
+      }
+    },
+    {
+      "name": "The Tonight Show Starring Johnny Carson",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0203",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1962,
+        "description": "Thirty years of 'Heeere's Johnny!', Ed McMahon and the late-night couch.",
+        "release_country": [
+          "United States"
+        ],
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:variety",
+          "name": "Variety",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1962,
+          1992
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.75
+        }
+      }
+    },
+    {
+      "name": "Bonanza",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0204",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1959,
+        "description": "The Cartwrights of the Ponderosa, Sunday nights in color on NBC.",
+        "release_country": [
+          "United States"
+        ],
+        "akas": []
+      },
+      "popularity": 0.86,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:western",
+          "name": "Western",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1959,
+          1973
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.6
+        }
+      }
+    },
+    {
+      "name": "The Andy Griffith Show",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0205",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1960,
+        "description": "Sheriff Andy, Barney Fife and Opie in Mayberry.",
+        "release_country": [
+          "United States"
+        ],
+        "akas": []
+      },
+      "popularity": 0.85,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:family",
+          "name": "Family",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1960,
+          1968
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.6
+        }
+      }
+    },
+    {
+      "name": "Gunsmoke",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0206",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1955,
+        "description": "Marshal Matt Dillon kept the peace in Dodge City for twenty seasons.",
+        "release_country": [
+          "United States"
+        ],
+        "akas": []
+      },
+      "popularity": 0.84,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:western",
+          "name": "Western",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1955,
+          1975
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.55
+        }
+      }
+    },
+    {
+      "name": "The Carol Burnett Show",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0207",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1967,
+        "description": "Sketch comedy with Harvey Korman, Tim Conway and Vicki Lawrence, and the ear tug at the end.",
+        "release_country": [
+          "United States"
+        ],
+        "akas": []
+      },
+      "popularity": 0.84,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:variety",
+          "name": "Variety",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1967,
+          1978
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.7
+        }
+      }
+    },
+    {
+      "name": "Bozo's Circus",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0208",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1961,
+        "description": "WGN-TV's lunchtime circus from Chicago, with the Grand Prize Game and a ticket waiting list measured in years.",
+        "release_country": [
+          "United States"
+        ],
+        "akas": []
+      },
+      "popularity": 0.65,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:family",
+          "name": "Family",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:variety",
+          "name": "Variety",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1961,
+          2001
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.35
+        }
+      }
+    },
+    {
+      "name": "I Love Lucy",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0209",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1951,
+        "description": "Lucille Ball and Desi Arnaz in the sitcom that invented the rerun.",
+        "release_country": [
+          "United States"
+        ],
+        "akas": []
+      },
+      "popularity": 0.92,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:comedy",
+          "name": "Comedy",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1951,
+          1957
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.6
+        }
+      }
+    },
+    {
+      "name": "The Lawrence Welk Show",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0210",
+      "type": "urn:entity",
+      "subtype": "urn:entity:tv_show",
+      "properties": {
+        "release_year": 1955,
+        "description": "'Wunnerful, wunnerful': champagne music and ballroom dancing every Saturday night.",
+        "release_country": [
+          "United States"
+        ],
+        "akas": []
+      },
+      "popularity": 0.78,
+      "tags": [
+        {
+          "id": "urn:tag:genre:media:variety",
+          "name": "Variety",
+          "type": "urn:tag:genre:media"
+        },
+        {
+          "id": "urn:tag:genre:media:musical",
+          "name": "Musical",
+          "type": "urn:tag:genre:media"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1955,
+          1982
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.7
+        }
+      }
+    },
+    {
+      "name": "Pizzeria Uno",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0301",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Birthplace of Chicago deep-dish pizza, serving at Ohio and Wabash since 1943.",
+        "address": "29 E Ohio St, Chicago, IL 60611",
+        "geocode": {
+          "name": "Chicago",
+          "admin1_region": "Illinois",
+          "country_code": "US"
+        },
+        "business_rating": 4.3,
+        "price_level": 2,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "Uno Pizzeria",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.86,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:pizza",
+          "name": "Pizza Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1943,
+          2026
+        ],
+        "kind": "dining",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "The Berghoff",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0302",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "German restaurant in the Loop since 1898, holder of Chicago liquor license No. 1 after Prohibition.",
+        "address": "17 W Adams St, Chicago, IL 60603",
+        "geocode": {
+          "name": "Chicago",
+          "admin1_region": "Illinois",
+          "country_code": "US"
+        },
+        "business_rating": 4.3,
+        "price_level": 2,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:german",
+          "name": "German Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1898,
+          2026
+        ],
+        "kind": "dining",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.55
+        }
+      }
+    },
+    {
+      "name": "Gene & Georgetti",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0303",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Chicago's oldest steakhouse (1941), a River North haunt of Sinatra and the Rat Pack.",
+        "address": "500 N Franklin St, Chicago, IL 60654",
+        "geocode": {
+          "name": "Chicago",
+          "admin1_region": "Illinois",
+          "country_code": "US"
+        },
+        "business_rating": 4.4,
+        "price_level": 4,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.76,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:steakhouse",
+          "name": "Steakhouse",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1941,
+          2026
+        ],
+        "kind": "dining",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.85
+        }
+      }
+    },
+    {
+      "name": "Twin Anchors Restaurant & Tavern",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0304",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Old Town rib joint since 1932, a known Sinatra favorite with his photos on the wall.",
+        "address": "1655 N Sedgwick St, Chicago, IL 60614",
+        "geocode": {
+          "name": "Chicago",
+          "admin1_region": "Illinois",
+          "country_code": "US"
+        },
+        "business_rating": 4.4,
+        "price_level": 2,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "Twin Anchors",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:bar",
+          "name": "Bar",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1932,
+          2026
+        ],
+        "kind": "dining",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.85
+        }
+      }
+    },
+    {
+      "name": "Italian Village",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0305",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Three Italian restaurants under one roof in the Loop since 1927; The Village upstairs twinkles under a painted night sky.",
+        "address": "71 W Monroe St, Chicago, IL 60603",
+        "geocode": {
+          "name": "Chicago",
+          "admin1_region": "Illinois",
+          "country_code": "US"
+        },
+        "business_rating": 4.3,
+        "price_level": 3,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.72,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:italian",
+          "name": "Italian Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1927,
+          2026
+        ],
+        "kind": "dining",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.7
+        }
+      }
+    },
+    {
+      "name": "Superdawg Drive-In",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0306",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Carhop hot-dog stand since 1948, with Maurie and Flaurie the giant hot dogs winking from the roof.",
+        "address": "6363 N Milwaukee Ave, Chicago, IL 60646",
+        "geocode": {
+          "name": "Chicago",
+          "admin1_region": "Illinois",
+          "country_code": "US"
+        },
+        "business_rating": 4.4,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.72,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:hot_dog",
+          "name": "Hot Dog Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1948,
+          2026
+        ],
+        "kind": "dining",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.45
+        }
+      }
+    },
+    {
+      "name": "Portillo's",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0307",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Began as 'The Dog House' trailer in Villa Park in 1963; Chicago dogs, Italian beef and chocolate cake shakes.",
+        "address": "100 W Ontario St, Chicago, IL 60654",
+        "geocode": {
+          "name": "Chicago",
+          "admin1_region": "Illinois",
+          "country_code": "US"
+        },
+        "business_rating": 4.4,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.86,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:hot_dog",
+          "name": "Hot Dog Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1963,
+          2026
+        ],
+        "kind": "dining",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.45
+        }
+      }
+    },
+    {
+      "name": "Billy Goat Tavern",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0308",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Subterranean Michigan Avenue tavern since 1934, home of the 'cheezborger' and the Cubs curse legend.",
+        "address": "430 N Michigan Ave (lower level), Chicago, IL 60611",
+        "geocode": {
+          "name": "Chicago",
+          "admin1_region": "Illinois",
+          "country_code": "US"
+        },
+        "business_rating": 4.2,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.78,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:bar",
+          "name": "Bar",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1934,
+          2026
+        ],
+        "kind": "dining",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Manny's Cafeteria & Delicatessen",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0309",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Corned-beef cafeteria line in the South Loop since 1942, a lunch stop for mayors and precinct captains.",
+        "address": "1141 S Jefferson St, Chicago, IL 60607",
+        "geocode": {
+          "name": "Chicago",
+          "admin1_region": "Illinois",
+          "country_code": "US"
+        },
+        "business_rating": 4.5,
+        "price_level": 2,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "Manny's Deli",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.74,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:deli",
+          "name": "Deli",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1942,
+          2026
+        ],
+        "kind": "dining",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Margie's Candies",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0310",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Ice-cream parlor in Bucktown since 1921, serving sundaes in giant clamshell dishes; the Beatles stopped in after a 1965 show.",
+        "address": "1960 N Western Ave, Chicago, IL 60647",
+        "geocode": {
+          "name": "Chicago",
+          "admin1_region": "Illinois",
+          "country_code": "US"
+        },
+        "business_rating": 4.5,
+        "price_level": 1,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:ice_cream_parlor",
+          "name": "Ice Cream Parlor",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1921,
+          2026
+        ],
+        "kind": "dining",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Lou Malnati's Pizzeria",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0311",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Deep-dish institution founded in 1971 in Lincolnwood by Uno alumnus Lou Malnati.",
+        "address": "6649 N Lincoln Ave, Lincolnwood, IL 60712",
+        "geocode": {
+          "name": "Lincolnwood",
+          "admin1_region": "Illinois",
+          "country_code": "US"
+        },
+        "business_rating": 4.5,
+        "price_level": 2,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.86,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:genre:place:restaurant:pizza",
+          "name": "Pizza Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1971,
+          2026
+        ],
+        "kind": "dining",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "The Walnut Room",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0312",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Marshall Field's seventh-floor restaurant since 1907, with chicken pot pie and the Great Tree every Christmas.",
+        "address": "111 N State St, Chicago, IL 60602",
+        "geocode": {
+          "name": "Chicago",
+          "admin1_region": "Illinois",
+          "country_code": "US"
+        },
+        "business_rating": 4.3,
+        "price_level": 2,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.76,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:restaurant",
+          "name": "Restaurant",
+          "type": "urn:tag:genre:place"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1907,
+          2026
+        ],
+        "kind": "dining",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.55
+        }
+      }
+    },
+    {
+      "name": "Wrigley Field",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0401",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The ivy-covered 1914 ballpark on the North Side, home of the Cubs and the seventh-inning stretch.",
+        "address": "1060 W Addison St, Chicago, IL 60613",
+        "geocode": {
+          "name": "Chicago",
+          "admin1_region": "Illinois",
+          "country_code": "US"
+        },
+        "business_rating": 4.7,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.95,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:stadium",
+          "name": "Stadium",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1914,
+          2026
+        ],
+        "kind": "landmark",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.55
+        }
+      }
+    },
+    {
+      "name": "Navy Pier",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0402",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The 1916 lakefront pier: Grand Ballroom dances, Navy training in the war years, the Ferris wheel today.",
+        "address": "600 E Grand Ave, Chicago, IL 60611",
+        "geocode": {
+          "name": "Chicago",
+          "admin1_region": "Illinois",
+          "country_code": "US"
+        },
+        "business_rating": 4.5,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.92,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:tourist_attraction",
+          "name": "Tourist Attraction",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1916,
+          2026
+        ],
+        "kind": "landmark",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "The Green Mill Cocktail Lounge",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0403",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Uptown jazz club since 1907, with Capone-era lore and live jazz every night.",
+        "address": "4802 N Broadway, Chicago, IL 60640",
+        "geocode": {
+          "name": "Chicago",
+          "admin1_region": "Illinois",
+          "country_code": "US"
+        },
+        "business_rating": 4.6,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "Green Mill",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:genre:place:bar",
+          "name": "Bar",
+          "type": "urn:tag:genre:place"
+        },
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1907,
+          2026
+        ],
+        "kind": "landmark",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.75
+        }
+      }
+    },
+    {
+      "name": "Chicago Theatre",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0404",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The 1921 movie palace on State Street under the six-storey CHICAGO sign; Sinatra played its stage.",
+        "address": "175 N State St, Chicago, IL 60601",
+        "geocode": {
+          "name": "Chicago",
+          "admin1_region": "Illinois",
+          "country_code": "US"
+        },
+        "business_rating": 4.7,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:theater",
+          "name": "Theater",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1921,
+          2026
+        ],
+        "kind": "landmark",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.85
+        }
+      }
+    },
+    {
+      "name": "Buckingham Fountain",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0405",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Grant Park's 1927 wedding-cake fountain, lit in color on summer evenings.",
+        "address": "301 S Columbus Dr, Chicago, IL 60605",
+        "geocode": {
+          "name": "Chicago",
+          "admin1_region": "Illinois",
+          "country_code": "US"
+        },
+        "business_rating": 4.7,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.88,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:park",
+          "name": "Park",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1927,
+          2026
+        ],
+        "kind": "landmark",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Lincoln Park Zoo",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0406",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Free city zoo since 1868, a Sunday outing for generations of Chicago families.",
+        "address": "2001 N Clark St, Chicago, IL 60614",
+        "geocode": {
+          "name": "Chicago",
+          "admin1_region": "Illinois",
+          "country_code": "US"
+        },
+        "business_rating": 4.7,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.86,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:zoo",
+          "name": "Zoo",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:park",
+          "name": "Park",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1868,
+          2026
+        ],
+        "kind": "landmark",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.45
+        }
+      }
+    },
+    {
+      "name": "Riverview Park",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0407",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The amusement park at Western and Belmont (1904 to 1967): the Bobs roller coaster, the Pair-O-Chutes and 'laugh your troubles away'.",
+        "address": "Western Ave & Belmont Ave, Chicago, IL",
+        "geocode": {
+          "name": "Chicago",
+          "admin1_region": "Illinois",
+          "country_code": "US"
+        },
+        "is_closed": true,
+        "akas": []
+      },
+      "popularity": 0.6,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:amusement_park",
+          "name": "Amusement Park",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1904,
+          1967
+        ],
+        "kind": "landmark",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Marshall Field's State Street Store",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0408",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The 1892 flagship (now Macy's): meet under the clock, Frango mints and the Christmas windows.",
+        "address": "111 N State St, Chicago, IL 60602",
+        "geocode": {
+          "name": "Chicago",
+          "admin1_region": "Illinois",
+          "country_code": "US"
+        },
+        "business_rating": 4.4,
+        "is_closed": false,
+        "akas": [
+          {
+            "value": "Marshall Field and Company Building",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:department_store",
+          "name": "Department Store",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1892,
+          2026
+        ],
+        "kind": "landmark",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Comiskey Park",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0409",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Home of the White Sox from 1910 to 1990, with Bill Veeck's exploding scoreboard.",
+        "address": "324 W 35th St, Chicago, IL",
+        "geocode": {
+          "name": "Chicago",
+          "admin1_region": "Illinois",
+          "country_code": "US"
+        },
+        "is_closed": true,
+        "akas": []
+      },
+      "popularity": 0.62,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:stadium",
+          "name": "Stadium",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1910,
+          1990
+        ],
+        "kind": "landmark",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Aragon Ballroom",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0410",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Moorish 1926 ballroom in Uptown where big bands played under a painted sky; broadcast nightly on WGN radio.",
+        "address": "1106 W Lawrence Ave, Chicago, IL 60640",
+        "geocode": {
+          "name": "Chicago",
+          "admin1_region": "Illinois",
+          "country_code": "US"
+        },
+        "business_rating": 4.3,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.76,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:theater",
+          "name": "Theater",
+          "type": "urn:tag:category:place"
+        },
+        {
+          "id": "urn:tag:category:place:landmark",
+          "name": "Landmark",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1926,
+          2026
+        ],
+        "kind": "landmark",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.8
+        }
+      }
+    },
+    {
+      "name": "Museum of Science and Industry",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0411",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The 1933 museum in Jackson Park: the coal mine, the U-505 submarine and the giant heart.",
+        "address": "5700 S DuSable Lake Shore Dr, Chicago, IL 60637",
+        "geocode": {
+          "name": "Chicago",
+          "admin1_region": "Illinois",
+          "country_code": "US"
+        },
+        "business_rating": 4.7,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.88,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:museum",
+          "name": "Museum",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1933,
+          2026
+        ],
+        "kind": "landmark",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.45
+        }
+      }
+    },
+    {
+      "name": "Art Institute of Chicago",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0412",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "Bronze lions guard the 1893 museum on Michigan Avenue; home of 'American Gothic' and 'Nighthawks'.",
+        "address": "111 S Michigan Ave, Chicago, IL 60603",
+        "geocode": {
+          "name": "Chicago",
+          "admin1_region": "Illinois",
+          "country_code": "US"
+        },
+        "business_rating": 4.8,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.9,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:museum",
+          "name": "Museum",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1893,
+          2026
+        ],
+        "kind": "landmark",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Oak Street Beach",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0413",
+      "type": "urn:entity",
+      "subtype": "urn:entity:place",
+      "properties": {
+        "description": "The Gold Coast's city beach at the top of Michigan Avenue.",
+        "address": "1000 N Lake Shore Dr, Chicago, IL 60611",
+        "geocode": {
+          "name": "Chicago",
+          "admin1_region": "Illinois",
+          "country_code": "US"
+        },
+        "business_rating": 4.6,
+        "is_closed": false,
+        "akas": []
+      },
+      "popularity": 0.8,
+      "tags": [
+        {
+          "id": "urn:tag:category:place:beach",
+          "name": "Beach",
+          "type": "urn:tag:category:place"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "kind": "landmark",
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.45
+        }
+      }
+    },
+    {
+      "name": "Lake Geneva, Wisconsin",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0501",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "The lakeside resort town where Chicago families summered: lake cruises, the Riviera ballroom and the shore path.",
+        "geocode": {
+          "name": "Lake Geneva",
+          "admin1_region": "Wisconsin",
+          "country_code": "US"
+        },
+        "akas": [
+          {
+            "value": "Lake Geneva",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.72,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:lake",
+          "name": "Lake",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago",
+          "milwaukee"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "Indiana Dunes",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0502",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Lake Michigan beaches and sand dunes an hour from the South Side on the South Shore Line.",
+        "geocode": {
+          "name": "Chesterton",
+          "admin1_region": "Indiana",
+          "country_code": "US"
+        },
+        "akas": []
+      },
+      "popularity": 0.7,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:beach",
+          "name": "Beach",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.45
+        }
+      }
+    },
+    {
+      "name": "Door County, Wisconsin",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0503",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Cherry orchards, fish boils and lighthouses on the peninsula north of Green Bay.",
+        "geocode": {
+          "name": "Sturgeon Bay",
+          "admin1_region": "Wisconsin",
+          "country_code": "US"
+        },
+        "akas": [
+          {
+            "value": "Door County",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.72,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:lake",
+          "name": "Lake",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago",
+          "milwaukee"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.45
+        }
+      }
+    },
+    {
+      "name": "Wisconsin Dells",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0504",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Boat tours of the sandstone gorges and the amphibious Ducks, long before the waterparks.",
+        "geocode": {
+          "name": "Wisconsin Dells",
+          "admin1_region": "Wisconsin",
+          "country_code": "US"
+        },
+        "akas": [
+          {
+            "value": "The Dells",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.72,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:lake",
+          "name": "Lake",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago",
+          "milwaukee"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Starved Rock State Park",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0505",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Sandstone canyons and waterfalls along the Illinois River, with the 1930s lodge.",
+        "geocode": {
+          "name": "Oglesby",
+          "admin1_region": "Illinois",
+          "country_code": "US"
+        },
+        "akas": [
+          {
+            "value": "Starved Rock",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.68,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:historic",
+          "name": "Historic",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Galena, Illinois",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0506",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Preserved 19th-century lead-mining town and Ulysses S. Grant's home, in the hills by the Mississippi.",
+        "geocode": {
+          "name": "Galena",
+          "admin1_region": "Illinois",
+          "country_code": "US"
+        },
+        "akas": [
+          {
+            "value": "Galena",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.62,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:historic",
+          "name": "Historic",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Saugatuck, Michigan",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0507",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Art colony and beach town across the lake, with the hand-cranked chain ferry.",
+        "geocode": {
+          "name": "Saugatuck",
+          "admin1_region": "Michigan",
+          "country_code": "US"
+        },
+        "akas": [
+          {
+            "value": "Saugatuck",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.62,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:beach",
+          "name": "Beach",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.4
+        }
+      }
+    },
+    {
+      "name": "Milwaukee",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0508",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Beer, bratwurst and the Brewers, ninety miles up the lakeshore.",
+        "geocode": {
+          "name": "Milwaukee",
+          "admin1_region": "Wisconsin",
+          "country_code": "US"
+        },
+        "akas": []
+      },
+      "popularity": 0.78,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:city_break",
+          "name": "City Break",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "chicago"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.45
+        }
+      }
+    },
+    {
+      "name": "Las Vegas",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0509",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "The Strip in its Rat Pack heyday: Sinatra at the Sands, showgirls and all-night lounges.",
+        "geocode": {
+          "name": "Las Vegas",
+          "admin1_region": "Nevada",
+          "country_code": "US"
+        },
+        "akas": [
+          {
+            "value": "Vegas",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.95,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:city_break",
+          "name": "City Break",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1950,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.9
+        }
+      }
+    },
+    {
+      "name": "Niagara Falls",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0510",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "The honeymoon capital of mid-century America: Maid of the Mist and the Cave of the Winds.",
+        "geocode": {
+          "name": "Niagara Falls",
+          "admin1_region": "New York",
+          "country_code": "US"
+        },
+        "akas": []
+      },
+      "popularity": 0.85,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:historic",
+          "name": "Historic",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.5
+        }
+      }
+    },
+    {
+      "name": "New York City",
+      "entity_id": "ffffffff-0000-4000-8000-0000000b0511",
+      "type": "urn:entity",
+      "subtype": "urn:entity:destination",
+      "properties": {
+        "description": "Broadway, the Copacabana and 'New York, New York': Sinatra's other hometown.",
+        "geocode": {
+          "name": "New York",
+          "admin1_region": "New York",
+          "country_code": "US"
+        },
+        "akas": [
+          {
+            "value": "New York",
+            "languages": [
+              "en"
+            ]
+          },
+          {
+            "value": "NYC",
+            "languages": [
+              "en"
+            ]
+          }
+        ]
+      },
+      "popularity": 0.97,
+      "tags": [
+        {
+          "id": "urn:tag:genre:destination:city_break",
+          "name": "City Break",
+          "type": "urn:tag:genre:destination"
+        }
+      ],
+      "_syn": {
+        "world": "us",
+        "localities": [
+          "new_york"
+        ],
+        "era": [
+          1900,
+          2026
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000b0001": 0.8
+        }
+      }
+    }
   ]
 }

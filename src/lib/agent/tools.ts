@@ -41,6 +41,9 @@ import {
 } from "@/lib/session/types";
 import { isAgeBucket } from "@/lib/session/youth-window";
 
+import { dictionary } from "@/lib/i18n";
+import { PLAN_MAX_CARDS, PLAN_MIN_CARDS, PLAN_MIN_DOMAINS } from "@/lib/session/deck";
+
 import { offlinePrompt, whyLine } from "./prompts";
 
 // ---------------------------------------------------------------------------
@@ -349,6 +352,7 @@ async function runSearchEntity(rawArgs: unknown, ctx: ToolContext): Promise<Tool
       popularity: typeof r.popularity === "number" ? Math.round(r.popularity * 100) / 100 : undefined,
       disambiguation: r.disambiguation,
       country_code: r.properties?.geocode?.country_code,
+      akas: r.types.includes("urn:entity:locality") ? r.properties?.akas?.map((a) => a.value) : undefined,
       description: short(r.properties?.short_description ?? r.properties?.description, 100),
       image_url: entityImageUrl(r),
     };
@@ -471,13 +475,14 @@ const DOMAIN_LABEL_BY_TYPE: Partial<Record<QlooEntityType, string>> = {
 // Cards
 // ---------------------------------------------------------------------------
 
-function subtitleFor(domain: Domain, e: QlooEntity): string | undefined {
+export function subtitleFor(domain: Domain, e: QlooEntity, language: Language = "en"): string | undefined {
+  const t = dictionary(language).subtitle;
   const p = e.properties ?? {};
   switch (domain) {
     case "music": {
       const dob = typeof p.date_of_birth === "string" ? p.date_of_birth.slice(0, 4) : undefined;
       const place = typeof p.place_of_birth === "string" ? p.place_of_birth.split(",")[0]?.trim() : undefined;
-      return [dob ? `born ${dob}` : undefined, place].filter(Boolean).join(" · ") || undefined;
+      return [dob ? t.born(dob) : undefined, place].filter(Boolean).join(" · ") || undefined;
     }
     case "film":
     case "tv": {
@@ -488,7 +493,7 @@ function subtitleFor(domain: Domain, e: QlooEntity): string | undefined {
     case "dining":
     case "place": {
       const city = p.geocode?.name ?? (typeof p.address === "string" ? p.address.split(",").slice(-2)[0]?.trim() : undefined);
-      const closed = p.is_closed ? "closed now" : undefined;
+      const closed = p.is_closed ? t.closedNow : undefined;
       return [city, closed].filter(Boolean).join(" · ") || undefined;
     }
     case "destination": {
@@ -542,12 +547,12 @@ export function buildCard(
     entityId: e.entity_id,
     domain,
     title: e.name,
-    subtitle: subtitleFor(domain, e),
+    subtitle: subtitleFor(domain, e, ctx.language),
     year,
     imageUrl: entityImageUrl(e),
     description: short(e.properties?.description ?? e.properties?.short_description, 220),
     tags: (e.tags ?? []).slice(0, 3).map((t) => t.name),
-    why: whyLine(domain, signals),
+    why: whyLine(domain, signals, ctx.language),
     prompt: cleanPrompt
       ? cleanPrompt
       : offlinePrompt({
@@ -583,9 +588,7 @@ function availableByDomain(ctx: ToolContext): Record<string, { entity_id: string
   return out;
 }
 
-export const PLAN_MIN_CARDS = 8;
-export const PLAN_MAX_CARDS = 10;
-export const PLAN_MIN_DOMAINS = 3;
+export { PLAN_MAX_CARDS, PLAN_MIN_CARDS, PLAN_MIN_DOMAINS } from "@/lib/session/deck";
 
 function runPlan(rawArgs: unknown, ctx: ToolContext): ToolOutcome {
   const parsed = PlanArgs.safeParse(rawArgs);

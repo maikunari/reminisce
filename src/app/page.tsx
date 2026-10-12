@@ -3,6 +3,7 @@ import { Masthead } from "@/components/Masthead";
 import { Sleeve } from "@/components/Sleeve";
 import { IntakeForm } from "@/components/home/IntakeForm";
 import { PresetCard } from "@/components/home/PresetCard";
+import { deckSizeLabel } from "@/lib/session/deck";
 import { PRESETS } from "@/lib/session/presets";
 
 function SectionHead({ id, title, aside }: { id: string; title: string; aside: string }) {
@@ -41,7 +42,7 @@ export default function HomePage() {
                 <span className="font-display text-md text-ember-700">1</span>Three facts about them
               </li>
               <li className="flex items-baseline gap-2.5">
-                <span className="font-display text-md text-ember-700">2</span>A 20-minute deck of nine cards
+                <span className="font-display text-md text-ember-700">2</span>A 20-minute deck of {deckSizeLabel()} cards
               </li>
               <li className="flex items-baseline gap-2.5">
                 <span className="font-display text-md text-ember-700">3</span>

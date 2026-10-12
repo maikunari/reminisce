@@ -2,9 +2,11 @@
 
 import { useEffect, useRef } from "react";
 
-import { ageLabel, joinNames } from "@/lib/agent/prompts";
+import { joinNames } from "@/lib/agent/prompts";
 import { describeRecordedAt } from "@/lib/guard/snapshots";
-import { DOMAIN_INFO, type Card, type Session, type TraceEvent } from "@/lib/session/types";
+import { dictionary, type Dictionary } from "@/lib/i18n";
+import { sessionModeLabel } from "@/lib/session/provenance";
+import type { Card, Session, TraceEvent } from "@/lib/session/types";
 import { isAgeBucket } from "@/lib/session/youth-window";
 
 interface Props {
@@ -16,30 +18,6 @@ interface Props {
   liveEvents: TraceEvent[];
 }
 
-const SOURCE_LABEL = {
-  live: "Live Qloo response",
-  recorded: "Recorded Qloo response, replayed",
-  synthetic: "Synthetic fixture, shaped like a Qloo response",
-} as const;
-
-const TYPE_HUMAN: Record<string, string> = {
-  "urn:entity:artist": "Artist",
-  "urn:entity:movie": "Film",
-  "urn:entity:tv_show": "Television show",
-  "urn:entity:place": "Place",
-  "urn:entity:destination": "Destination",
-  "urn:entity:book": "Book",
-  "urn:entity:person": "Person",
-  "urn:entity:brand": "Brand",
-  "urn:entity:podcast": "Podcast",
-  "urn:entity:video_game": "Video game",
-};
-
-function ordinal(n: number): string {
-  const words = ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"];
-  return words[n - 1] ?? `${n}th`;
-}
-
 function tagWords(ids: string): string {
   return ids
     .split(",")
@@ -48,32 +26,31 @@ function tagWords(ids: string): string {
 }
 
 /** The human-labelled request table: one row per parameter that was sent. */
-function requestRows(card: Card, names: Map<string, string>, replayedAt: string | undefined): [string, string][] {
+function requestRows(card: Card, names: Map<string, string>, t: Dictionary, replayedAt: string | undefined): [string, string][] {
   const p = card.signals.params;
+  const r = t.trace.rows;
   const rows: [string, string][] = [];
-  rows.push(["Type", TYPE_HUMAN[p["filter.type"] ?? ""] ?? p["filter.type"] ?? ""]);
+  rows.push([r.type, t.entityType[p["filter.type"] ?? ""] ?? p["filter.type"] ?? ""]);
   const seeds = p["signal.interests.entities"];
-  if (seeds) rows.push(["Interests", seeds.split(",").map((id) => names.get(id) ?? "an unnamed entity").join(", ")]);
-  if (p["signal.location.query"]) rows.push(["Location", `tuned to ${p["signal.location.query"]}`]);
-  if (p["filter.location.query"]) rows.push(["Within", p["filter.location.query"]]);
+  if (seeds) rows.push([r.interests, seeds.split(",").map((id) => names.get(id) ?? t.trace.unnamed).join(", ")]);
+  if (p["signal.location.query"]) rows.push([r.location, r.tunedTo(p["signal.location.query"])]);
+  if (p["filter.location.query"]) rows.push([r.within, p["filter.location.query"]]);
   const age = p["signal.demographics.age"];
-  if (age) rows.push(["Age", isAgeBucket(age) ? ageLabel(age).replace(/^people /, "") : age]);
-  if (p["filter.release_year.min"] || p["filter.release_year.max"]) rows.push(["Years", `${p["filter.release_year.min"] ?? ""} to ${p["filter.release_year.max"] ?? ""}`]);
-  if (p["filter.release_country"]) rows.push(["Released in", p["filter.release_country"]]);
-  if (p["filter.tags"]) rows.push(["Tagged", tagWords(p["filter.tags"])]);
-  if (p["filter.geocode.country_code"]) rows.push(["Country", p["filter.geocode.country_code"]]);
+  if (age) rows.push([r.age, isAgeBucket(age) ? t.age[age] : age]);
+  if (p["filter.release_year.min"] || p["filter.release_year.max"]) rows.push([r.years, r.yearsValue(p["filter.release_year.min"] ?? "", p["filter.release_year.max"] ?? "")]);
+  if (p["filter.release_country"]) rows.push([r.releasedIn, p["filter.release_country"]]);
+  if (p["filter.tags"]) rows.push([r.tagged, tagWords(p["filter.tags"])]);
+  if (p["filter.geocode.country_code"]) rows.push([r.country, p["filter.geocode.country_code"]]);
   const excluded = p["filter.exclude.entities"];
-  if (excluded) {
-    const n = excluded.split(",").length;
-    rows.push(["Excluding", `${n} entit${n === 1 ? "y" : "ies"} already in the session`]);
-  }
-  rows.push(["Explain", `${p["feature.explainability"] === "true" ? "On" : "Off"} · take ${p.take ?? "10"}`]);
-  rows.push(["Source", replayedAt && card.signals.source === "live" ? `${SOURCE_LABEL.live}, replayed from a run at ${describeRecordedAt(replayedAt)}` : SOURCE_LABEL[card.signals.source]]);
+  if (excluded) rows.push([r.excluding, r.excludingValue(excluded.split(",").length)]);
+  rows.push([r.explain, r.explainValue(p["feature.explainability"] === "true", p.take ?? "10")]);
+  rows.push([r.source, replayedAt && card.signals.source === "live" ? t.provenance.sourceReplayedRun(describeRecordedAt(replayedAt)) : t.provenance.source[card.signals.source]]);
   return rows;
 }
 
 /** The provenance note: what Qloo was asked, what came back, and how the session was built. */
 export function TracePanel({ open, onClose, session, card, liveEvents }: Props) {
+  const t = dictionary(session.person.language);
   const closeRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     if (open) closeRef.current?.focus();
@@ -97,71 +74,76 @@ export function TracePanel({ open, onClose, session, card, liveEvents }: Props) 
   const sessionPolicy = session.planner === "llm" ? "llm" : "scripted";
   const mixed = events.some((e) => e.policy && e.policy !== sessionPolicy);
   const take = card ? Number(card.signals.params.take ?? "10") : 10;
+  const sources = [...session.cards.map((c) => c.signals.source), ...events.flatMap((e) => (e.qloo ? [e.qloo.source] : []))];
+  const modeLabel = sessionModeLabel(session.qlooMode, sources, t.provenance);
 
   return (
     <aside
       id="trace-panel"
       role="complementary"
-      aria-label="Why Qloo"
+      aria-label={t.trace.ariaLabel}
       className="surface print-hide mt-8 p-6 xl:sticky xl:top-4 xl:mt-0 xl:max-h-[calc(100dvh-2rem)] xl:overflow-y-auto"
       data-testid="trace-panel"
     >
       <div className="flex items-baseline justify-between gap-3">
-        <h2 className="text-xl">Why Qloo chose this</h2>
-        <button ref={closeRef} type="button" onClick={onClose} aria-label="Close Why Qloo panel" className="btn-text btn-text-muted">
-          Close
+        <h2 className="text-xl">{t.trace.title}</h2>
+        <button ref={closeRef} type="button" onClick={onClose} aria-label={t.trace.closeAria} className="btn-text btn-text-muted">
+          {t.trace.close}
         </button>
       </div>
       <p className="mt-1 text-sm text-ink-500" data-testid="trace-policy">
-        {qlooCalls} call{qlooCalls === 1 ? "" : "s"} to the Qloo Insights API · {session.qlooMode === "live" ? "live API" : "fixture replay"} ·{" "}
-        {session.planner === "llm" ? "LLM-driven agent" : "deterministic agent"}
-        {mixed ? ", with offline fallback steps" : ""} · youth window {session.youthWindow.start} to {session.youthWindow.end}
+        {t.trace.calls(qlooCalls)} · <span data-testid="trace-mode">{modeLabel}</span> · {session.planner === "llm" ? t.trace.llmAgent : t.trace.scriptedAgent}
+        {mixed ? t.trace.mixed : ""} · {t.trace.youthWindow(session.youthWindow.start, session.youthWindow.end)}
       </p>
       {session.replayedAt ? (
         <p className="mt-1 text-sm text-ink-500" data-testid="trace-replayed">
-          Replayed from a live Qloo run at {describeRecordedAt(session.replayedAt)}; nothing was fetched for this session.
+          {t.provenance.replayedRun(describeRecordedAt(session.replayedAt))}
         </p>
       ) : null}
 
       {card ? (
         <section className="mt-6 border-t border-paper-200 pt-4" aria-labelledby="trace-card-heading" data-testid="trace-card">
           <p id="trace-card-heading" className="label">
-            This card
+            {t.trace.thisCard}
           </p>
           <p className="font-display mt-2 text-lg leading-[1.35]">
-            Qloo was asked for <em>{DOMAIN_INFO[card.domain].plural}</em>
-            {card.signals.seedNames.length > 0 ? ` with taste affinity to ${joinNames(card.signals.seedNames, 6)}` : ""}
-            {card.signals.locationQuery ? (card.signals.params["filter.location.query"] ? ` in ${card.signals.locationQuery}` : `, tuned to ${card.signals.locationQuery}`) : ""}
-            {card.signals.ageBucket ? `, for ${ageLabel(card.signals.ageBucket)}` : ""}. {card.title} came back {ordinal(card.signals.rank)} of {take}.
+            {t.trace.asked({
+              plural: t.domain[card.domain].plural,
+              seeds: card.signals.seedNames.length > 0 ? joinNames(card.signals.seedNames, 6, session.person.language) : undefined,
+              within: card.signals.locationQuery && card.signals.params["filter.location.query"] ? card.signals.locationQuery : undefined,
+              tunedTo: card.signals.locationQuery && !card.signals.params["filter.location.query"] ? card.signals.locationQuery : undefined,
+              age: card.signals.ageBucket ? t.age[card.signals.ageBucket] : undefined,
+            })}{" "}
+            {t.trace.cameBack(card.title, card.signals.rank, take)}
           </p>
           <div className="mt-4 grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-3 gap-y-2">
-            <span className="label">Affinity</span>
+            <span className="label">{t.trace.affinity}</span>
             <span className="font-display text-3xl" data-testid="trace-affinity">
-              {card.signals.affinity !== null ? card.signals.affinity.toFixed(3) : "n/a"}
+              {card.signals.affinity !== null ? card.signals.affinity.toFixed(3) : t.trace.notAvailable}
             </span>
             <div className="bar col-span-2" aria-hidden="true">
               <i style={{ width: `${Math.max(2, Math.min(100, Math.round((card.signals.affinity ?? 0) * 100)))}%` }} />
             </div>
           </div>
           <p className="mt-1.5 text-xs text-ink-500">
-            Rank {card.signals.rank} of {take}
-            {typeof card.signals.popularity === "number" ? ` · popularity ${card.signals.popularity.toFixed(2)}` : ""}
+            {t.trace.rank(card.signals.rank, take)}
+            {typeof card.signals.popularity === "number" ? ` · ${t.trace.popularity(card.signals.popularity.toFixed(2))}` : ""}
           </p>
           {card.promptSource === "template" ? (
             <p className="mt-3 text-sm text-ink-700" data-testid="trace-prompt-source">
-              Prompt written from a template, not by a model
+              {t.trace.templatePrompt}
             </p>
           ) : null}
 
           {card.signals.explainability ? (
             <div className="mt-6 border-t border-paper-200 pt-4">
-              <p className="label">Pulled in by</p>
+              <p className="label">{t.trace.pulledInBy}</p>
               <ul className="mt-3 grid gap-2.5">
                 {Object.entries(card.signals.explainability)
                   .sort((a, b) => b[1] - a[1])
                   .map(([id, score]) => (
                     <li key={id} className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-3 gap-y-1 text-sm">
-                      <span className="text-ink-900">{names.get(id) ?? "an unnamed entity"}</span>
+                      <span className="text-ink-900">{names.get(id) ?? t.trace.unnamed}</span>
                       <span className="text-ink-500">{score.toFixed(2)}</span>
                       <div className="bar bar-moss col-span-2" aria-hidden="true">
                         <i style={{ width: `${Math.max(2, Math.min(100, Math.round(score * 100)))}%` }} />
@@ -173,20 +155,18 @@ export function TracePanel({ open, onClose, session, card, liveEvents }: Props) 
           ) : null}
 
           <div className="mt-6 border-t border-paper-200 pt-4">
-            <p className="label">The request</p>
+            <p className="label">{t.trace.request}</p>
             <dl className="mt-3 grid grid-cols-[minmax(0,9em)_minmax(0,1fr)] gap-x-4 gap-y-1.5">
-              {requestRows(card, names, session.replayedAt).map(([k, v]) => (
+              {requestRows(card, names, t, session.replayedAt).map(([k, v]) => (
                 <div key={k} className="contents">
                   <dt className="text-xs font-semibold tracking-[0.06em] text-ink-500 uppercase">{k}</dt>
                   <dd className="text-sm break-words text-ink-900">{v}</dd>
                 </div>
               ))}
             </dl>
-            {card.signals.warnings.length > 0 ? (
-              <p className="mt-3 text-xs text-ink-500">Dropped before sending, because the docs do not list them for this type: {card.signals.warnings.join("; ")}</p>
-            ) : null}
+            {card.signals.warnings.length > 0 ? <p className="mt-3 text-xs text-ink-500">{t.trace.dropped(card.signals.warnings)}</p> : null}
             <details className="mt-3">
-              <summary className="cursor-pointer text-sm font-semibold text-ember-700">Raw request</summary>
+              <summary className="cursor-pointer text-sm font-semibold text-ember-700">{t.trace.rawRequest}</summary>
               <pre className="raw">
                 {`GET ${card.signals.path}\n` +
                   Object.entries(card.signals.params)
@@ -200,39 +180,44 @@ export function TracePanel({ open, onClose, session, card, liveEvents }: Props) 
 
       <section className="mt-6 border-t border-paper-200 pt-4" aria-labelledby="trace-timeline-heading">
         <p id="trace-timeline-heading" className="label">
-          How this session was built
+          {t.trace.timeline}
         </p>
+        {/* The agent's own log lines are its trace and stay as written. */}
         <ol className="mt-3" data-testid="trace-timeline">
           {events.map((e, i) => (
             <li key={e.id} className="grid grid-cols-[2em_minmax(0,1fr)] gap-2 border-t border-paper-200 py-2.5 first:border-t-0">
               <span className="font-display text-md leading-[1.3] text-ember-700">{i + 1}</span>
               <div className="min-w-0">
                 {e.kind === "narration" ? (
-                  <p className="font-display text-sm leading-[1.4] text-ink-700 italic">{e.summary}</p>
+                  <p className="font-display text-sm leading-[1.4] text-ink-700 italic" lang="en">
+                    {e.summary}
+                  </p>
                 ) : (
-                  <p className={`text-sm leading-[1.4] ${e.kind === "error" ? "text-ember-700" : "text-ink-900"}`}>{e.summary}</p>
+                  <p className={`text-sm leading-[1.4] ${e.kind === "error" ? "text-ember-700" : "text-ink-900"}`} lang="en">
+                    {e.summary}
+                  </p>
                 )}
                 {e.qloo || e.policy ? (
                   <p className="mt-0.5 text-xs text-ink-500">
                     {e.policy ? (
                       <span className="label" data-testid="trace-step-policy">
-                        {e.policy === "llm" ? "model" : "scripted"}
+                        {e.policy === "llm" ? t.trace.policyModel : t.trace.policyScripted}
                       </span>
                     ) : null}
                     {e.policy && e.qloo ? " · " : ""}
-                    {e.qloo ? `${e.qloo.resultCount} result${e.qloo.resultCount === 1 ? "" : "s"} · ${e.qloo.durationMs} ms · ${e.qloo.path} · ${e.qloo.source}${e.qloo.cached ? ", cached" : ""}` : ""}
-                    {e.qloo && e.qloo.warnings.length > 0 ? ` · ${e.qloo.warnings.length} dropped` : ""}
+                    {e.qloo ? `${t.trace.results(e.qloo.resultCount)} · ${t.trace.ms(e.qloo.durationMs)} · ${e.qloo.path} · ${t.provenance.sourceWord[e.qloo.source]}${e.qloo.cached ? `, ${t.provenance.cached}` : ""}` : ""}
+                    {e.qloo && e.qloo.warnings.length > 0 ? ` · ${t.trace.droppedCount(e.qloo.warnings.length)}` : ""}
                   </p>
                 ) : null}
                 {e.kind === "tool_call" && e.args ? (
                   <details className="mt-1">
-                    <summary className="cursor-pointer text-xs font-semibold text-ember-700">Arguments</summary>
+                    <summary className="cursor-pointer text-xs font-semibold text-ember-700">{t.trace.arguments}</summary>
                     <pre className="raw">{JSON.stringify(e.args, null, 2)}</pre>
                   </details>
                 ) : null}
                 {e.qloo ? (
                   <details className="mt-1">
-                    <summary className="cursor-pointer text-xs font-semibold text-ember-700">Request</summary>
+                    <summary className="cursor-pointer text-xs font-semibold text-ember-700">{t.trace.requestDetails}</summary>
                     <pre className="raw">
                       {`GET ${e.qloo.path}\n` +
                         Object.entries(e.qloo.params)

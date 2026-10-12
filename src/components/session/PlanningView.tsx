@@ -1,5 +1,6 @@
 "use client";
 
+import { dictionary } from "@/lib/i18n";
 import type { Person, TraceEvent, YouthWindow } from "@/lib/session/types";
 
 interface Props {
@@ -10,6 +11,7 @@ interface Props {
 
 /** Shown while the agent is building the deck: blank sleeves on the table, and the plan as it happens. */
 export function PlanningView({ person, youthWindow, events }: Props) {
+  const t = dictionary(person.language).planning;
   const lines = events.filter((e) => e.kind !== "tool_call").slice(-6);
   const qlooCalls = events.filter((e) => e.qloo).length;
   return (
@@ -20,17 +22,16 @@ export function PlanningView({ person, youthWindow, events }: Props) {
         <div className="sleeve-blank absolute bottom-0 left-[24%] aspect-square w-[56%] -rotate-[1.5deg]" />
       </div>
       <div>
-        <p className="label">Building {person.name}&apos;s session</p>
-        <h2 className="balance mt-3 text-3xl sm:text-4xl">
-          Asking Qloo what {person.hometown} loved from {youthWindow.start} to {youthWindow.end}
-        </h2>
+        <p className="label">{t.building(person.name)}</p>
+        <h2 className="balance mt-3 text-3xl sm:text-4xl">{t.asking(person.hometown, youthWindow.start, youthWindow.end)}</h2>
         <p className="mt-3 text-md text-ink-500">
-          {qlooCalls} Qloo call{qlooCalls === 1 ? "" : "s"} so far. Seeds: {person.favorites.map((f) => f.name).join(", ") || "none"}.
+          {t.calls(qlooCalls)} {t.seeds(person.favorites.map((f) => f.name))}
         </p>
         <div className="progress mt-6" aria-hidden="true">
           <i />
         </div>
-        <ol className="mt-6 divide-y divide-paper-200" data-testid="planning-trace">
+        {/* The agent's own log lines are its trace and stay as written. */}
+        <ol className="mt-6 divide-y divide-paper-200" data-testid="planning-trace" lang="en">
           {lines.map((e) => (
             <li key={e.id} className={`py-2.5 text-md ${e.kind === "narration" ? "font-display text-ink-700 italic" : "text-ink-900"}`}>
               {e.summary}

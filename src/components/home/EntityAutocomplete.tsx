@@ -2,6 +2,9 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 
+import { dictionary } from "@/lib/i18n";
+import type { Language } from "@/lib/session/types";
+
 export interface Suggestion {
   entityId: string;
   name: string;
@@ -26,37 +29,34 @@ interface Props {
   hint?: string;
   required?: boolean;
   autoComplete?: string;
+  language?: Language;
 }
 
-export const TYPE_LABEL: Record<string, string> = {
-  "urn:entity:artist": "Singer or band",
-  "urn:entity:movie": "Film",
-  "urn:entity:tv_show": "Television",
-  "urn:entity:book": "Book",
-  "urn:entity:person": "Person",
-  "urn:entity:brand": "Brand",
-  "urn:entity:place": "Place",
-  "urn:entity:destination": "Destination",
-  "urn:entity:locality": "City",
-  "urn:entity:album": "Album",
-  "urn:entity:actor": "Actor",
-  "urn:entity:author": "Author",
-  "urn:entity:director": "Director",
-};
+/** What the last search said: nothing yet, a list, no matches, or that search itself could not be reached. */
+type SearchState = "idle" | "loading" | "results" | "empty" | "unavailable";
 
-/** Accessible combobox backed by Qloo entity search (GET /api/search). */
-export function EntityAutocomplete({ id, label, placeholder, types, value, onChange, onSelect, onFreeText, hint, required, autoComplete }: Props) {
+export const TYPE_LABEL: Record<string, string> = dictionary("en").intake.typeLabel;
+
+/**
+ * Accessible combobox backed by Qloo entity search (GET /api/search). Typing
+ * is never blocked on the search: when nothing matches, or the search cannot
+ * be reached (a bot challenge page, a network error), a hint says so and
+ * Enter adds the text as typed.
+ */
+export function EntityAutocomplete({ id, label, placeholder, types, value, onChange, onSelect, onFreeText, hint, required, autoComplete, language }: Props) {
+  const t = dictionary(language).intake;
   const reactId = useId();
   const inputId = id ?? `combo-${reactId}`;
   const listId = `${inputId}-list`;
   const [items, setItems] = useState<Suggestion[]>([]);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(-1);
-  const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState<SearchState>("idle");
   const abortRef = useRef<AbortController | null>(null);
 
   const query = value.trim();
   const visible = open && query.length >= 2 && items.length > 0;
+  const standing = query.length >= 2 && (search === "empty" || search === "unavailable");
 
   useEffect(() => {
     const q = value.trim();
@@ -65,21 +65,27 @@ export function EntityAutocomplete({ id, label, placeholder, types, value, onCha
       abortRef.current?.abort();
       const controller = new AbortController();
       abortRef.current = controller;
-      setLoading(true);
+      setSearch("loading");
       try {
         const params = new URLSearchParams({ q });
         if (types) params.set("types", types);
-        const res = await fetch(`/api/search?${params.toString()}`, { signal: controller.signal });
+        const res = await fetch(`/api/search?${params.toString()}`, { signal: controller.signal, headers: { Accept: "application/json" } });
+        const isJson = (res.headers.get("content-type") ?? "").includes("application/json");
+        // A challenge page or a proxy error is not JSON; treat it as "search unavailable", not as "no matches".
+        if (!res.ok || !isJson) throw new Error(`search returned ${res.status}`);
         const data = (await res.json()) as { results?: Suggestion[] };
         if (!controller.signal.aborted) {
-          setItems(data.results ?? []);
+          const results = data.results ?? [];
+          setItems(results);
           setOpen(true);
           setActive(-1);
+          setSearch(results.length > 0 ? "results" : "empty");
         }
       } catch {
-        if (!controller.signal.aborted) setItems([]);
-      } finally {
-        if (!controller.signal.aborted) setLoading(false);
+        if (!controller.signal.aborted) {
+          setItems([]);
+          setSearch("unavailable");
+        }
       }
     }, 220);
     return () => clearTimeout(timer);
@@ -90,7 +96,10 @@ export function EntityAutocomplete({ id, label, placeholder, types, value, onCha
     setOpen(false);
     setItems([]);
     setActive(-1);
+    setSearch("idle");
   };
+
+  const describedBy = [hint ? `${inputId}-hint` : null, standing ? `${inputId}-status` : null].filter(Boolean).join(" ") || undefined;
 
   return (
     <div className="relative">
@@ -105,12 +114,18 @@ export function EntityAutocomplete({ id, label, placeholder, types, value, onCha
         aria-controls={listId}
         aria-autocomplete="list"
         aria-activedescendant={active >= 0 ? `${listId}-${active}` : undefined}
-        aria-describedby={hint ? `${inputId}-hint` : undefined}
+        aria-describedby={describedBy}
         autoComplete={autoComplete ?? "off"}
         required={required}
         placeholder={placeholder}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => {
+          onChange(e.target.value);
+          if (e.target.value.trim().length < 2) {
+            setItems([]);
+            setSearch("idle");
+          }
+        }}
         onFocus={() => items.length > 0 && setOpen(true)}
         onBlur={() => setTimeout(() => setOpen(false), 120)}
         onKeyDown={(e) => {
@@ -141,11 +156,11 @@ export function EntityAutocomplete({ id, label, placeholder, types, value, onCha
           {hint}
         </p>
       ) : null}
-      <div aria-live="polite" className="sr-only">
-        {loading ? "Searching Qloo" : visible ? `${items.length} suggestions` : ""}
-      </div>
+      <p id={`${inputId}-status`} role="status" aria-live="polite" className={standing ? "hint text-ink-700" : "sr-only"} data-testid={`${inputId}-status`}>
+        {search === "loading" ? t.searching : visible ? t.suggestionCount(items.length) : search === "empty" && standing ? t.noMatches : search === "unavailable" && standing ? t.searchUnavailable : ""}
+      </p>
       {visible ? (
-        <ul id={listId} role="listbox" aria-label={`${label} suggestions`} className="suggest">
+        <ul id={listId} role="listbox" aria-label={t.suggestions(label)} className="suggest">
           {items.map((s, i) => (
             <li
               key={`${s.entityId}-${i}`}
@@ -173,7 +188,7 @@ export function EntityAutocomplete({ id, label, placeholder, types, value, onCha
               <span className="min-w-0">
                 <span className="block truncate text-base font-semibold text-ink-900">{s.name}</span>
                 <span className="block truncate text-sm text-ink-500">
-                  {TYPE_LABEL[s.type] ?? s.type.replace("urn:entity:", "")}
+                  {t.typeLabel[s.type] ?? s.type.replace("urn:entity:", "")}
                   {s.year ? ` · ${s.year}` : ""}
                   {s.disambiguation ? ` · ${s.disambiguation}` : ""}
                 </span>
