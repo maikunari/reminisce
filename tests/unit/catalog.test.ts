@@ -137,6 +137,10 @@ describe("regional synthetic catalogue", () => {
     ["New York, NY", "New York City", "United States"],
     ["Brooklyn, NY", "New York City", "United States"],
     ["Osaka, Japan,", "Osaka", "Japan"],
+    ["Birmingham, AL", "Birmingham, AL", "United States"],
+    ["Delhi, NY", "Delhi, NY", "United States"],
+    ["Paris, TX", "Paris, TX", "United States"],
+    ["Lima, OH", "Lima, OH", "United States"],
   ])("a catalogue city typed by another of its names (%s) is adopted with its release country", async (hometown, adopted, country) => {
     const result = await plan(person("Pat", 1948, hometown, []));
     for (const card of result.cards) expect(card.signals.locationQuery, card.title).toBe(adopted);
@@ -262,6 +266,11 @@ describe("hometown resolution", () => {
       ["Las Cruces, New Mexico", "US"],
       ["La Paz, Bolivia", "BO"],
       ["Los Angeles, Chile", "CL"],
+      ["Birmingham, AL", "US"],
+      ["Delhi, NY", "US"],
+      ["Paris, TX", "US"],
+      ["Lima, OH", "US"],
+      ["Manchester, NH", "US"],
       ["Angeles", "PH"],
     ] as const) {
       const l = engine.resolveLocality(query);

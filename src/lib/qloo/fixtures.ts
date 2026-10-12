@@ -188,6 +188,10 @@ export function worldsOf(hints: Pick<SyntheticHints, "world">): string[] {
   return Array.isArray(hints.world) ? hints.world : [hints.world];
 }
 
+const US_STATE_CODES = new Set(
+  "al ak az ar ca co ct de dc fl ga hi id il in ia ks ky la me md ma mi mn ms mo mt ne nv nh nj nm ny nc nd oh ok or pa ri sc sd tn tx ut vt va wa wv wi wy".split(" "),
+);
+
 /** Length of the longest whole-token run of `phrases` found in `words`, or 0. */
 function longestRun(words: string[], phrases: string[]): number {
   let best = 0;
@@ -250,20 +254,23 @@ export class SyntheticQloo {
    * a place in that town.
    */
   inferRegion(query: string): SyntheticRegion | null {
-    // A catalogue city leading the text ("Los Angeles, CA") is that city's
-    // country unless the rest names another ("London, Ontario").
+    // A catalogue city leading the text names no region by itself: only the
+    // rest can ("London, Ontario"), so "Los Angeles, Chile" is not Angeles, PH.
     const [head = "", ...rest] = query.split(",");
-    const lead = this.localities.find((l) => [l.name, ...l.akas].some((n) => phrase(n) === phrase(head)));
+    const lead = this.localities.some((l) => [l.name, ...l.akas].some((n) => phrase(n) === phrase(head)));
     const words = tokens(lead ? rest.join(",") : query);
+    // A US state code counts only as a whole qualifier ("Delhi, NY"), never mid-text.
+    const stateCode = rest.some((q) => US_STATE_CODES.has(phrase(q)));
     // The longest matching name is the most specific ("buffalo, new york" is
     // not York; "la paz, bolivia" is not La Paz, Mexico); at equal length a
     // city beats a country word, then file order decides.
     let best: { region: SyntheticRegion; score: number } | null = null;
     for (const region of this.regions) {
-      const score = Math.max(longestRun(words, region.cities) * 2 + 1, longestRun(words, region.keywords) * 2);
+      const keywordRun = Math.max(longestRun(words, region.keywords), region.code === "US" && stateCode ? 1 : 0);
+      const score = Math.max(longestRun(words, region.cities) * 2 + 1, keywordRun * 2);
       if (score > 1 && (!best || score > best.score)) best = { region, score };
     }
-    return best?.region ?? this.regions.find((r) => r.code === lead?.properties?.geocode?.country_code) ?? null;
+    return best?.region ?? null;
   }
 
   resolveLocality(query: string | undefined): SyntheticLocality | null {
