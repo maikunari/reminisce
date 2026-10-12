@@ -137,21 +137,37 @@ describe("regional synthetic catalogue", () => {
     ["New York, NY", "New York City", "United States"],
     ["Brooklyn, NY", "New York City", "United States"],
     ["Osaka, Japan,", "Osaka", "Japan"],
-    ["Birmingham, AL", "Birmingham, AL", "United States"],
-    ["Delhi, NY", "Delhi, NY", "United States"],
-    ["Paris, TX", "Paris, TX", "United States"],
-    ["Lima, OH", "Lima, OH", "United States"],
-    ["York, PA", "York, PA", "United States"],
-    ["Salem, OR", "Salem, OR", "United States"],
-    ["Cambridge, MA", "Cambridge, MA", "United States"],
-    ["Naples, FL", "Naples, FL", "United States"],
-    ["Santa Fe, NM", "Santa Fe, NM", "United States"],
-    ["Victoria, TX", "Victoria, TX", "United States"],
   ])("a catalogue city typed by another of its names (%s) is adopted with its release country", async (hometown, adopted, country) => {
     const result = await plan(person("Pat", 1948, hometown, []));
     for (const card of result.cards) expect(card.signals.locationQuery, card.title).toBe(adopted);
     const countries = new Set(result.cards.map((c) => c.signals.params["filter.release_country"]).filter((c) => c !== undefined));
     expect([...countries]).toEqual([country]);
+  });
+
+  async function inferredTown(hometown: string) {
+    const result = await plan(person("Pat", 1948, hometown, []));
+    for (const card of result.cards) expect(card.signals.locationQuery, card.title).toBe(hometown);
+    return [...new Set(result.cards.map((c) => c.signals.params["filter.release_country"]).filter((c) => c !== undefined))];
+  }
+
+  it.each(["Birmingham, AL", "Delhi, NY", "Paris, TX", "Lima, OH", "York, PA", "Salem, OR", "Cambridge, MA", "Naples, FL", "Santa Fe, NM", "Victoria, TX", "Valencia, CA"])(
+    "a US town written with its state code (%s) keeps its name and the United States",
+    async (hometown) => {
+      expect(await inferredTown(hometown)).toEqual(["United States"]);
+    },
+  );
+
+  it.each([
+    ["Toronto, CA", "CA"],
+    ["Vancouver, CA", "CA"],
+    ["Montreal, CA", "CA"],
+    ["Toronto, ON, CA", "CA"],
+    ["Berlin, DE", "DE"],
+    ["Panama City, PA", "PA"],
+    ["Medellin, CO", "CO"],
+  ])("a foreign town written with a country code that is also a state code (%s) keeps its own country", async (hometown, code) => {
+    expect(engine.resolveLocality(hometown)?.properties?.geocode?.country_code).toBe(code);
+    expect(await inferredTown(hometown)).not.toContain("United States");
   });
 
   it("a catalogue city named with its own country still gets its streets and its release country", async () => {
@@ -284,6 +300,14 @@ describe("hometown resolution", () => {
       ["Santa Fe, NM", "US"],
       ["Victoria, TX", "US"],
       ["London, Ontario, CA", "CA"],
+      ["Toronto, CA", "CA"],
+      ["Vancouver, CA", "CA"],
+      ["Montreal, CA", "CA"],
+      ["Toronto, ON, CA", "CA"],
+      ["Berlin, DE", "DE"],
+      ["Panama City, PA", "PA"],
+      ["Medellin, CO", "CO"],
+      ["Valencia, CA", "US"],
       ["Angeles", "PH"],
     ] as const) {
       const l = engine.resolveLocality(query);

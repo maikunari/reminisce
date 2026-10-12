@@ -260,6 +260,12 @@ export class SyntheticQloo {
     // leaves the town out and means the United States, unless another
     // qualifier names a region; mid-text it is just a word ("la", "in").
     const [head = "", ...rest] = query.split(",");
+    // A state code that is also a country code ("CA", "DE", "PA", "CO") means
+    // that country when the town is one of its cities ("Toronto, CA").
+    const isoHome = this.regions.find(
+      (r) => rest.some((q) => phrase(q) === r.code.toLowerCase() && US_STATE_CODES.has(phrase(q))) && r.cities.some((c) => phrase(c) === phrase(head)),
+    );
+    if (isoHome) return isoHome;
     const lead = this.localities.some((l) => [l.name, ...l.akas].some((n) => phrase(n) === phrase(head)));
     const qualifiers = rest.filter((q) => !US_STATE_CODES.has(phrase(q)));
     const stateCode = qualifiers.length < rest.length;
