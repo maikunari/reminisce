@@ -63,7 +63,7 @@ caregiver intake ──► /api/plan ──────────────�
                        deck re-tuned; trace appended to the Why Qloo panel
 ```
 
-![Planning view: "Asking Qloo what Osaka loved from 1965 to 1980", one Qloo call so far, and the first trace lines looking up Hibari Misora](docs/screenshots/planning.png)
+![Planning view: "Asking Qloo what Osaka loved from 1965 to 1980", nine Qloo calls so far, four of six sleeves filled (Yujiro Ishihara, a Tora-san film, Yoshimoto Shinkigeki, a Dotonbori crab house) and one line per kind of memory, places still being asked](docs/screenshots/planning.png)
 
 The loop is a real tool-calling loop. The model (any OpenAI-compatible chat model with function calling) sees five tools and nothing else; it cannot invent an entity because `plan_session` and `adapt_session` only accept entity ids that an earlier `qloo_insights` call returned in this session. Every step is emitted as a trace event and streamed to the browser as NDJSON, so the planning screen shows the agent thinking and the Why Qloo panel keeps the full timeline.
 
@@ -75,11 +75,12 @@ The loop is a real tool-calling loop. The model (any OpenAI-compatible chat mode
 | `plan_session` | Commit 8 to 10 cards across at least 3 domains, each with a prompt | none |
 | `adapt_session` | Replace up to 3 upcoming, unreacted cards after feedback | none |
 
-When no LLM key is configured, or the model fails or misbehaves, the same loop runs a deterministic policy that performs the same tool calls in a fixed order and writes prompts from templates. In the Why Qloo panel, every step in the "How this session was built" timeline carries a small word naming the policy that produced it ("model" or "scripted"), and the panel's "This card" section notes "Prompt written from a template, not by a model" when a card's prompt came from a template. The deterministic policy is also what the unit tests and the fixture-mode demo use, so the demo never depends on model latency or availability.
+When no LLM key is configured, or the model fails or misbehaves, the session is built without it. If the model had already fetched enough from Qloo, the deck is chosen from those results with no new calls; otherwise the same loop runs a deterministic policy that performs the same tool calls in a fixed order and writes prompts from templates. In the Why Qloo panel, every step in the "How this session was built" timeline carries a small word naming the policy that produced it ("model" or "scripted"), and the panel's "This card" section notes "Prompt written from a template, not by a model" when a card's prompt came from a template. The deterministic policy is also what the unit tests and the fixture-mode demo use, so the demo never depends on model latency or availability.
 
 ### Youth window and age signal
 
-- Youth window: birth year + 15 to birth year + 30, capped at the current year. Michiko (1950) gets 1965 to 1980; Frank (1945) gets 1960 to 1975. Applied as `filter.release_year.min/max` on films and TV.
+- Youth window: birth year + 15 to birth year + 30, capped at the current year. Michiko (1950) gets 1965 to 1980; Frank (1945) gets 1960 to 1975. Applied as `filter.release_year.min/max` on films and TV (TV reaches back five more years). The `qloo_insights` tool enforces it whatever the policy asks: missing year filters are filled in, wider ones narrowed, and artists who started (`start_year`) after the window, or were born too late to perform in it, are left out.
+- Thin answers: when a call returns fewer than three entities, the tool widens it itself, one step at a time and never past the era. Live Qloo returns no TV shows for a location signal combined with release years, so TV is asked again without `signal.location.query`; films try that, then any release country; places drop the seed. The trace shows each step. A domain that stays empty is skipped, and if a run ends with too little for a deck the caregiver sees a kind empty state with a way to try again.
 - Age signal: the person's age today mapped to the documented `signal.demographics.age` buckets (`24_and_younger`, `25_to_29`, `30_to_34`, `35_to_44`, `45_to_54`, `55_and_older`).
 
 ## Qloo endpoints and parameters
@@ -102,7 +103,7 @@ Parameters Reminisce actually sends, per entity type:
 | `urn:entity:movie` | same | `filter.release_year.min`, `filter.release_year.max`, `filter.release_country`, `filter.exclude.entities` | same |
 | `urn:entity:tv_show` | same | `filter.release_year.min`, `filter.release_year.max`, `filter.release_country`, `filter.exclude.entities` | same |
 | `urn:entity:place` (dining) | same | `filter.location.query` (hometown), `filter.tags` (restaurant genre from `/v2/tags`), `filter.exclude.entities` | same |
-| `urn:entity:place` (landmarks) | same | `filter.location.query`, `filter.exclude.entities` | same |
+| `urn:entity:place` (landmarks) | `signal.demographics.age` only (the seed's taste pulls in modern venues) | `filter.location.query`, `filter.tags` (tourist-attraction and landmark genres from `/v2/tags`), `filter.exclude.entities` | same |
 | `urn:entity:destination` | same | `filter.exclude.entities` (plus `filter.geocode.country_code` when the hometown resolves to a country) | same |
 
 Deliberately not sent: `filter.release_year` on artists (undocumented for that type, and the guard would drop it), `filter.location.query` on media types (unsupported; the hometown goes in as `signal.location.query` instead), and any parameter from the general Parameter Reference that the hackathon guide does not list.

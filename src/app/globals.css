@@ -75,6 +75,40 @@
   }
 }
 
+/* A card set down on the table: lifts in from a little below, settles. */
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* A line of text replaced in place. */
+@keyframes line-in {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Light passing over a sleeve that is waiting for Qloo. */
+@keyframes sheen {
+  from {
+    transform: translateX(-110%);
+  }
+  to {
+    transform: translateX(110%);
+  }
+}
+
 @keyframes slide {
   from {
     transform: translateX(-120%);
@@ -159,11 +193,16 @@
     *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
+      animation-delay: 0s !important;
       transition-duration: 0.01ms !important;
+      transition-delay: 0s !important;
     }
     .progress i {
       animation: none;
       width: 100%;
+    }
+    .slot-asking .slot-frame::after {
+      display: none;
     }
   }
 }
@@ -500,13 +539,20 @@
     background: #fff;
     padding: 10px 10px 12px;
   }
-  .photo img {
-    display: block;
-    width: 100%;
+  .photo-well {
+    position: relative;
     flex: 1;
     min-height: 0;
+    overflow: hidden;
+  }
+  .photo-well > img {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    background: #b9ab98;
     filter: sepia(0.14) contrast(0.96) saturate(0.92);
   }
   .photo figcaption {
@@ -861,6 +907,106 @@
   }
 
   /* Skeleton while planning: blank sleeves fanned on the table. */
+  /* The planning table: one sleeve per kind of memory, filling as Qloo answers. */
+  .slot {
+    min-width: 0;
+    transform: rotate(var(--tilt, 0deg));
+  }
+  .slot-frame {
+    position: relative;
+    overflow: hidden;
+    container-type: inline-size;
+    border-radius: var(--radius-md);
+    background: var(--color-paper-100);
+    border: 1px solid var(--color-paper-300);
+    transition:
+      border-color 320ms var(--ease-soft),
+      box-shadow 480ms var(--ease-soft),
+      opacity 320ms var(--ease-soft);
+  }
+  .slot-waiting .slot-frame {
+    opacity: 0.7;
+  }
+  .slot-unused .slot-frame {
+    opacity: 0.4;
+  }
+  .slot-empty .slot-frame {
+    background: transparent;
+    border-style: dashed;
+  }
+  .slot-found .slot-frame {
+    border-color: transparent;
+    box-shadow: var(--shadow-lift);
+  }
+  .slot-asking .slot-frame::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(100deg, transparent 25%, rgb(255 255 255 / 0.6) 50%, transparent 75%);
+    animation: sheen 1.8s var(--ease-soft) infinite;
+  }
+  .slot-label {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 8px;
+    text-align: center;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--text-xs);
+    line-height: 1.2;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ink-400);
+  }
+  .slot-art {
+    position: absolute;
+    inset: 0;
+    /* Sleeve art scales from the tile's own width, so its lettering fits at any screen size. */
+    font-size: 6.6cqw;
+    animation: settle 620ms var(--ease-soft) both;
+  }
+  .slot-caption {
+    margin-top: 8px;
+    min-height: 1.45em;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--text-sm);
+    line-height: 1.45;
+    color: var(--color-ink-700);
+    animation: line-in 420ms var(--ease-soft) both;
+  }
+  .line-in {
+    animation: line-in 360ms var(--ease-soft) both;
+  }
+  /* A determinate bar that eases forward as each kind of memory settles. */
+  .meter {
+    height: 2px;
+    background: var(--color-paper-200);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .meter i {
+    display: block;
+    height: 100%;
+    background: var(--color-ember-600);
+    transition: width 700ms var(--ease-soft);
+  }
+  /* The session arriving after planning: the card, then the programme one by one. */
+  .reveal-rise {
+    animation: settle 640ms var(--ease-soft) both;
+    animation-delay: calc(var(--i, 0) * 70ms);
+  }
+
+  .sleeve.photo-wait {
+    position: absolute;
+    inset: 0;
+    /* Its own stacking context, so the sleeve's lettering stays beneath the photo. */
+    isolation: isolate;
+    z-index: 0;
+  }
+
   .sleeve-blank {
     background: var(--color-paper-100);
     border: 1px solid var(--color-paper-300);

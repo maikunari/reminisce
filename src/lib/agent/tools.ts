@@ -36,6 +36,7 @@ import {
   type Person,
   type QlooSource,
   type Reaction,
+  type TracePreviewItem,
   type TraceQloo,
   type YouthWindow,
 } from "@/lib/session/types";
@@ -197,6 +198,8 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
 export interface PoolEntry {
   entity: QlooEntity;
   qlooType: QlooEntityType;
+  /** The session domain the call that fetched it was filling (dining and landmarks are both places). */
+  domain?: Domain;
   params: Record<string, string>;
   source: QlooSource;
   status: number;
@@ -273,6 +276,11 @@ export interface ToolOutcome {
   /** One line for the trace. */
   summary: string;
   qloo?: TraceQloo;
+  /** Earlier Qloo requests this call made before widening, oldest first. */
+  attempts?: { summary: string; qloo: TraceQloo }[];
+  /** Insights only: the session domain and its first few entities. */
+  domain?: Domain;
+  preview?: TracePreviewItem[];
   final?: ToolFinal;
 }
 
@@ -337,12 +345,28 @@ function compactEntity(e: QlooEntity) {
   };
 }
 
+/**
+ * Order favorite matches so the first is one Qloo can use as a taste signal.
+ * Search can put a bare person record first ("Hibari Misora", no popularity)
+ * ahead of the artist ("Misora Hibari"); Insights rejects such a seed, or with
+ * a location signal silently ignores it and answers for the city alone. So:
+ * the same name first (in any word order), then anything but a person, then
+ * hits with a popularity score, then Qloo's own order.
+ */
+export function rankFavoriteHits<T extends { name: string; types: string[]; popularity?: number | null }>(query: string, hits: T[]): T[] {
+  const words = (text: string) => fold(text).split(/[^\p{L}\p{N}]+/u).filter(Boolean).sort().join(" ");
+  const wanted = words(query);
+  const score = (h: T) => (words(h.name) === wanted ? 0 : 4) + (h.types.every((t) => t === "urn:entity:person") ? 2 : 0) + (typeof h.popularity === "number" ? 0 : 1);
+  return hits.map((h, i) => ({ h, i, s: score(h) })).sort((a, b) => a.s - b.s || a.i - b.i).map((x) => x.h);
+}
+
 async function runSearchEntity(rawArgs: unknown, ctx: ToolContext): Promise<ToolOutcome> {
   const parsed = SearchEntityArgs.safeParse(rawArgs);
   if (!parsed.success) return argError("qloo_search_entity", parsed.error);
   const args = parsed.data;
   const res = await ctx.qloo.search(args.query, { types: args.types, take: args.take ?? 5, deadline: ctx.deadline });
-  const results = res.body.results.map((r) => {
+  const hits = args.types?.includes("urn:entity:locality") ? res.body.results : rankFavoriteHits(args.query, res.body.results);
+  const results = hits.map((r) => {
     ctx.names.set(r.entity_id, r.name);
     return {
       entity_id: r.entity_id,
@@ -420,45 +444,185 @@ export function insightsRequestFromArgs(args: z.infer<typeof InsightsArgs>): Ins
   };
 }
 
+/** Release years a film or TV card may come from: the youth window, and for TV the five years before it (what was on at home). */
+export function eraFor(type: QlooEntityType, youthWindow: YouthWindow): [number, number] | undefined {
+  if (type === "urn:entity:movie") return [youthWindow.start, youthWindow.end];
+  if (type === "urn:entity:tv_show") return [youthWindow.start - 5, youthWindow.end];
+  return undefined;
+}
+
+/** The session domain an Insights call fills. A place call is dining when it filters by a restaurant tag. */
+export function domainForInsights(filterType: string, filterTags?: readonly string[]): Domain | undefined {
+  switch (filterType) {
+    case "urn:entity:artist":
+      return "music";
+    case "urn:entity:movie":
+      return "film";
+    case "urn:entity:tv_show":
+      return "tv";
+    case "urn:entity:destination":
+      return "destination";
+    case "urn:entity:place":
+      return filterTags?.some((t) => /restaurant|dining|food/.test(t) && !/tourist_attraction|landmark/.test(t)) ? "dining" : "place";
+    default:
+      return undefined;
+  }
+}
+
+/** Fewer results than this and the tool widens the request itself, so the policy never has to retry. */
+export const MIN_USEFUL_RESULTS = 3;
+/** Artists are asked for in a larger page, since the era check can leave out many of a page's modern names. */
+const ARTIST_PAGE = 25;
+/** Time a widening step needs; with less left the tool answers with what it has. */
+const WIDEN_MIN_TIME_MS = 3_000;
+
+type InsightsArgsT = z.infer<typeof InsightsArgs>;
+
+/**
+ * Keep media inside the person's years whatever the policy asked for: missing
+ * year filters are filled in and wider ones are narrowed to the era. A 1960s
+ * youth window never gets a 2018 show.
+ */
+function keepEra(args: InsightsArgsT, ctx: ToolContext, notes: string[]): InsightsArgsT {
+  const era = eraFor(args.filter_type, ctx.youthWindow);
+  if (!era) return args;
+  const [lo, hi] = era;
+  const min = Math.min(Math.max(args.release_year_min ?? lo, lo), hi);
+  const max = Math.max(Math.min(args.release_year_max ?? hi, hi), min);
+  if (min !== args.release_year_min || max !== args.release_year_max) {
+    if (args.release_year_min !== undefined || args.release_year_max !== undefined) notes.push(`kept to ${min} to ${max}`);
+  }
+  return { ...args, release_year_min: min, release_year_max: max };
+}
+
+/**
+ * Widening steps for a thin answer, tried in order until one brings enough.
+ * Each keeps the era. On live Qloo the first matters most: it returns no TV
+ * shows at all for a location signal combined with release years (Chicago,
+ * 1955 to 1975: none; the same request without the location signal: eight
+ * shows from the era). Dropping the release country instead keeps the
+ * hometown's own taste, so dropping both comes last.
+ */
+function wideningSteps(args: InsightsArgsT): { args: InsightsArgsT; note: string }[] {
+  const steps: { args: InsightsArgsT; note: string }[] = [];
+  const hasLocation = !!args.signal_location_query;
+  const hasCountry = !!args.filter_release_country?.length;
+  switch (args.filter_type) {
+    case "urn:entity:movie":
+    case "urn:entity:tv_show":
+      if (hasLocation) steps.push({ args: { ...args, signal_location_query: undefined }, note: "without the hometown signal" });
+      if (hasCountry) steps.push({ args: { ...args, filter_release_country: undefined }, note: "from any country" });
+      if (hasLocation && hasCountry) {
+        steps.push({ args: { ...args, signal_location_query: undefined, filter_release_country: undefined }, note: "without the hometown signal, from any country" });
+      }
+      break;
+    case "urn:entity:artist":
+      if (hasLocation) steps.push({ args: { ...args, signal_location_query: undefined }, note: "without the hometown signal" });
+      break;
+    case "urn:entity:place":
+      if (args.signal_entities?.length) steps.push({ args: { ...args, signal_entities: undefined }, note: "without the seed taste" });
+      break;
+    default:
+      break;
+  }
+  return steps;
+}
+
+/**
+ * Media from outside the era is left out, and so is an artist who could not
+ * have been heard in it: one who started after it ended, or was born too late
+ * to be performing by then (under 15 when it ended).
+ */
+function inEra(entity: QlooEntity, type: QlooEntityType, era: [number, number] | undefined, youthWindow: YouthWindow): boolean {
+  if (type === "urn:entity:artist") {
+    const p = entity.properties ?? {};
+    const started = typeof p.start_year === "number" ? p.start_year : NaN;
+    const born = typeof p.date_of_birth === "string" ? Number(p.date_of_birth.slice(0, 4)) : NaN;
+    return !(started > youthWindow.end) && !(born > youthWindow.end - 15);
+  }
+  if (!era) return true;
+  const year = entityYear(entity);
+  return year === undefined || (year >= era[0] && year <= era[1]);
+}
+
 async function runInsights(rawArgs: unknown, ctx: ToolContext): Promise<ToolOutcome> {
   const parsed = InsightsArgs.safeParse(rawArgs);
   if (!parsed.success) return argError("qloo_insights", parsed.error);
-  const args = parsed.data;
-  const req = insightsRequestFromArgs(args);
-  const res = await ctx.qloo.insights(req, { deadline: ctx.deadline });
-  const seedIds = args.signal_entities ?? [];
+  const adjustments: string[] = [];
+  const first = keepEra(parsed.data, ctx, adjustments);
+  const era = eraFor(first.filter_type, ctx.youthWindow);
+  const domain = domainForInsights(first.filter_type, first.filter_tags);
+  const label = DOMAIN_LABEL_BY_TYPE[first.filter_type] ?? first.filter_type;
+  const take = first.take ?? 10;
+  const seedIds = first.signal_entities ?? [];
   // Only seeds we can name reach the caregiver's "why" line; an id is never printed.
   const seedNames = seedIds.map((id) => ctx.names.get(id) ?? ctx.pool.get(id)?.entity.name).filter((n): n is string => !!n);
-  const entities = res.body.results.entities;
-  entities.forEach((entity, index) => {
-    ctx.names.set(entity.entity_id, entity.name);
-    ctx.pool.add({
-      entity,
-      qlooType: args.filter_type,
-      params: res.request.params,
-      source: res.source,
-      status: res.status,
-      durationMs: res.durationMs,
-      warnings: res.warnings,
-      rank: index + 1,
-      seedIds,
-      seedNames,
+
+  const steps = [{ args: first, note: "" }, ...wideningSteps(first)];
+  const attempts: { summary: string; qloo: TraceQloo }[] = [];
+  const found = new Map<string, QlooEntity>();
+  let last: QlooResult<QlooInsightsResponse> | undefined;
+  let lastNote = "";
+  for (const [index, step] of steps.entries()) {
+    if (index > 0 && (found.size >= MIN_USEFUL_RESULTS || ctx.deadline - Date.now() < WIDEN_MIN_TIME_MS)) break;
+    if (last) {
+      attempts.push({ summary: `${last.body.results.entities.length} ${label}${lastNote ? ` ${lastNote}` : ""}; asking again ${step.note}`, qloo: traceOf(last, last.body.results.entities.length) });
+    }
+    let res: QlooResult<QlooInsightsResponse>;
+    try {
+      const page = step.args.filter_type === "urn:entity:artist" ? { ...step.args, take: Math.max(take, ARTIST_PAGE) } : step.args;
+      res = await ctx.qloo.insights(insightsRequestFromArgs(page), { deadline: ctx.deadline });
+    } catch (error) {
+      // The first request's failure is the tool's failure; a widening step's only ends the widening.
+      if (index === 0) throw error;
+      attempts.pop();
+      break;
+    }
+    const stepSeeds = step.args.signal_entities ?? [];
+    const stepSeedNames = stepSeeds.length > 0 ? seedNames : [];
+    res.body.results.entities.forEach((entity, rank) => {
+      if (!inEra(entity, first.filter_type, era, ctx.youthWindow)) return;
+      ctx.names.set(entity.entity_id, entity.name);
+      ctx.pool.add({
+        entity,
+        qlooType: first.filter_type,
+        domain,
+        params: res.request.params,
+        source: res.source,
+        status: res.status,
+        durationMs: res.durationMs,
+        warnings: res.warnings,
+        rank: rank + 1,
+        seedIds: stepSeeds,
+        seedNames: stepSeedNames,
+      });
+      if (!found.has(entity.entity_id) && found.size < take) found.set(entity.entity_id, entity);
     });
-  });
-  const label = DOMAIN_LABEL_BY_TYPE[args.filter_type] ?? args.filter_type;
+    last = res;
+    lastNote = step.note;
+  }
+  const res = last!;
+  const entities = [...found.values()];
+  if (lastNote) adjustments.push(`asked again ${lastNote}`);
+  const empty = entities.length === 0;
   return {
     ok: true,
     result: {
-      filter_type: args.filter_type,
+      filter_type: first.filter_type,
       request: res.request.params,
       source: res.source,
       warnings: res.warnings,
+      ...(adjustments.length > 0 ? { adjusted: adjustments } : {}),
       entities: entities.map(compactEntity),
+      ...(empty ? { note: "Qloo has nothing for this in the person's years, even widened. Skip this domain; do not retry it." } : {}),
     },
-    summary: `${entities.length} ${label} came back${args.purpose ? ` for "${args.purpose}"` : ""}${
-      entities[0] ? `, first ${entities[0].name}` : ""
+    summary: `${entities.length} ${label} came back${first.purpose ? ` for "${first.purpose}"` : ""}${entities[0] ? `, first ${entities[0].name}` : ""}${
+      adjustments.length > 0 ? ` (${adjustments.join("; ")})` : ""
     }${res.warnings.length > 0 ? ` (${res.warnings.length} parameter${res.warnings.length === 1 ? "" : "s"} dropped before sending)` : ""}`,
     qloo: traceOf(res, entities.length),
+    attempts: attempts.length > 0 ? attempts : undefined,
+    domain,
+    preview: entities.slice(0, 3).map((e) => ({ name: e.name, imageUrl: entityImageUrl(e), year: entityYear(e) })),
   };
 }
 

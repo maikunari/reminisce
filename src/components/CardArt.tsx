@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import type { Domain } from "@/lib/session/types";
 
@@ -16,6 +16,9 @@ interface Props {
   variant?: "hero" | "thumb";
   className?: string;
 }
+
+/** Matches the photo's duration-500 fade. */
+const PHOTO_FADE_MS = 500;
 
 /** The small uppercase line on each sleeve, specific where the data allows (year, label). */
 function sleeveLabel(domain: Domain, year?: number): string | undefined {
@@ -42,15 +45,39 @@ function sleeveLabel(domain: Domain, year?: number): string | undefined {
  */
 export function CardArt({ title, domain, imageUrl, year, subtitle, variant = "hero", className = "" }: Props) {
   const [failed, setFailed] = useState(false);
+  // The photo fades in once it has loaded; until then the sleeve beneath it shows, never a blank box.
+  const [loaded, setLoaded] = useState(false);
+  const [settled, setSettled] = useState(false);
+  // Once the photo has faded in, the sleeve beneath it goes, so a transparent image never shows it through.
+  useEffect(() => {
+    if (!loaded) return;
+    const timer = window.setTimeout(() => setSettled(true), PHOTO_FADE_MS + 100);
+    return () => window.clearTimeout(timer);
+  }, [loaded]);
   const hero = variant === "hero";
 
   if (imageUrl && !failed) {
     const caption = [title, year ? String(year) : null].filter(Boolean).join(", ");
     return (
       <figure className={`photo ${className}`.trim()}>
-        {/* Qloo serves images from its own CDN hosts; a plain <img> with a fallback is more robust than next/image here. */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={imageUrl} alt="" loading={hero ? "eager" : "lazy"} decoding="async" onError={() => setFailed(true)} />
+        <div className="photo-well">
+          {/* The domain's printed sleeve holds the frame until the photo arrives, then the photo fades in over it. */}
+          {settled ? null : <Sleeve domain={domain} title={title} label={sleeveLabel(domain, year)} mini className="photo-wait" />}
+          {/* Qloo serves images from its own CDN hosts; a plain <img> with a fallback is more robust than next/image here. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={imageUrl}
+            alt=""
+            loading={hero ? "eager" : "lazy"}
+            decoding="async"
+            ref={(img) => {
+              if (img?.complete && img.naturalWidth > 0) setLoaded(true);
+            }}
+            onLoad={() => setLoaded(true)}
+            onError={() => setFailed(true)}
+            className={`transition-opacity duration-500 ${loaded ? "opacity-100" : "opacity-0"}`}
+          />
+        </div>
         {hero ? <figcaption>{caption}</figcaption> : null}
       </figure>
     );

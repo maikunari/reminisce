@@ -1,4 +1,5 @@
 import { planSession } from "@/lib/agent";
+import { LoopError } from "@/lib/agent/loop";
 import { jsonError, ndjsonResponse } from "@/lib/api/stream";
 import { looksLikeBot } from "@/lib/guard/botid";
 import { openGuard, presetSnapshotFor, rememberPreset } from "@/lib/guard/runtime";
@@ -33,7 +34,14 @@ export async function POST(request: Request): Promise<Response> {
       return;
     }
     const guard = await openGuard("plan");
-    const result = await planSession(person, { env: guard.env, qloo: guard.qloo, notes: guard.notes, emit });
+    let result;
+    try {
+      result = await planSession(person, { env: guard.env, qloo: guard.qloo, notes: guard.notes, emit });
+    } catch (error) {
+      // Too little came back from Qloo to make a session: the client shows its kind empty state.
+      if (error instanceof LoopError && error.reason === "empty") return send({ type: "error", code: "empty", message: error.message });
+      throw error;
+    }
     await rememberPreset(person, result, guard);
     const notice = guard.notice();
     send({ type: "plan", result: notice ? { ...result, notice } : result });

@@ -26,6 +26,11 @@ export interface Dictionary {
     heading: (name: string) => string;
     summary: (p: { name: string; hometown: string; start: number; end: number; favorites: string[] }) => string;
     buildFailed: string;
+    /** Under buildFailed: a kind word that a second try usually works. */
+    failedBody: string;
+    /** When Qloo had too little for this person to make a deck at all. */
+    emptyTitle: (name: string) => string;
+    emptyBody: string;
     tryAgain: string;
     retuning: string;
     litUpCount: (n: number) => string;
@@ -66,6 +71,15 @@ export interface Dictionary {
     asking: (hometown: string, start: number, end: number) => string;
     calls: (n: number) => string;
     seeds: (names: string[]) => string;
+    /** One domain's line while the session is built. */
+    waiting: string;
+    askingDomain: string;
+    found: (names: string[], more: number) => string;
+    empty: string;
+    /** Shown for a moment once the deck is chosen. */
+    ready: string;
+    /** Accessible name of the progress bar. */
+    progress: (settled: number, total: number) => string;
   };
   keepsake: {
     duration: (dateLabel: string, minutes: number) => string;

@@ -21,6 +21,20 @@ import { TracePanel } from "./TracePanel";
 
 type Loaded = { kind: "missing" } | { kind: "ready"; session: Session };
 
+/** How long the finished planning table stays up before the session appears. */
+const PLAN_HOLD_MS = 700;
+/** How long the session's arrival animation runs; cards dealt after it (by re-tuning) appear without it. */
+const REVEAL_MS = 1_800;
+
+class PlanStreamError extends Error {
+  constructor(
+    message: string,
+    readonly code: "empty" | "failed" = "failed",
+  ) {
+    super(message);
+  }
+}
+
 /** Sessions live in localStorage, so the view mounts only in the browser. */
 export function SessionView({ id }: { id: string }) {
   const isClient = useIsClient();
@@ -46,6 +60,9 @@ function SessionClient({ id }: { id: string }) {
   const sessionRef = useRef<Session | null>(null);
   const advanceTimer = useRef<number | null>(null);
   const reducedMotion = useReducedMotion();
+  const reducedMotionRef = useRef(reducedMotion);
+  const [planDone, setPlanDone] = useState(false);
+  const [revealing, setRevealing] = useState(false);
 
   const session = state.kind === "ready" ? state.session : null;
   const language = session?.person.language;
@@ -54,6 +71,14 @@ function SessionClient({ id }: { id: string }) {
   useEffect(() => {
     sessionRef.current = session;
   }, [session]);
+  useEffect(() => {
+    reducedMotionRef.current = reducedMotion;
+  }, [reducedMotion]);
+  useEffect(() => {
+    if (!revealing) return;
+    const timer = window.setTimeout(() => setRevealing(false), REVEAL_MS);
+    return () => window.clearTimeout(timer);
+  }, [revealing]);
 
   const update = useCallback((fn: (s: Session) => Session) => {
     setState((prev) => {
@@ -72,7 +97,9 @@ function SessionClient({ id }: { id: string }) {
     if (!person) return;
     const strings = dictionary(person.language).session;
     const controller = new AbortController();
+    let holdTimer: number | undefined;
     setLiveEvents([]);
+    setPlanDone(false);
     (async () => {
       try {
         let planned = false;
@@ -84,34 +111,48 @@ function SessionClient({ id }: { id: string }) {
             else if (ev.type === "plan") {
               planned = true;
               const r = ev.result;
-              update((s) => ({
-                ...s,
-                cards: r.cards,
-                trace: r.trace,
-                youthWindow: r.youthWindow,
-                ageBucket: r.ageBucket,
-                planner: r.planner,
-                qlooMode: r.qlooMode,
-                person: { ...s.person, favorites: r.favorites },
-                status: "ready",
-                currentIndex: 0,
-                error: undefined,
-                notice: r.notice,
-                replayedAt: r.replayedAt,
-              }));
-              setLiveEvents([]);
-            } else if (ev.type === "error") throw new Error(ev.message);
+              const deal = () => {
+                update((s) => ({
+                  ...s,
+                  cards: r.cards,
+                  trace: r.trace,
+                  youthWindow: r.youthWindow,
+                  ageBucket: r.ageBucket,
+                  planner: r.planner,
+                  qlooMode: r.qlooMode,
+                  person: { ...s.person, favorites: r.favorites },
+                  status: "ready",
+                  currentIndex: 0,
+                  error: undefined,
+                  errorCode: undefined,
+                  notice: r.notice,
+                  replayedAt: r.replayedAt,
+                }));
+                setLiveEvents([]);
+                setPlanDone(false);
+                setRevealing(true);
+              };
+              // Let the finished table read for a moment, then deal the session.
+              setPlanDone(true);
+              if (reducedMotionRef.current) deal();
+              else holdTimer = window.setTimeout(deal, PLAN_HOLD_MS);
+            } else if (ev.type === "error") throw new PlanStreamError(ev.message, ev.code);
           },
           controller.signal,
         );
-        if (!planned) throw new Error(strings.plannerStopped);
+        if (!planned) throw new PlanStreamError(strings.plannerStopped);
       } catch (error) {
         if (controller.signal.aborted) return;
         const message = error instanceof Error ? error.message : strings.planningFailed;
-        update((s) => ({ ...s, status: "error", error: message }));
+        const code = error instanceof PlanStreamError ? error.code : "failed";
+        setPlanDone(false);
+        update((s) => ({ ...s, status: "error", error: message, errorCode: code }));
       }
     })();
-    return () => controller.abort();
+    return () => {
+      controller.abort();
+      window.clearTimeout(holdTimer);
+    };
   }, [needsPlan, id, update]);
 
   const cancelAdvance = useCallback(() => {
@@ -280,15 +321,30 @@ function SessionClient({ id }: { id: string }) {
         <main id="main" className="min-w-0">
           <h1 className="sr-only">{t.session.heading(s.person.name)}</h1>
           {s.status === "error" ? (
-            <div role="alert" className="surface p-6">
-              <p className="notice font-semibold text-ember-700">{t.session.buildFailed}</p>
-              <p className="mt-2 text-md text-ink-700">{s.error}</p>
-              <button type="button" onClick={() => update((prev) => ({ ...prev, status: "planning", error: undefined }))} className="btn btn-outline mt-4">
-                {t.session.tryAgain}
-              </button>
+            <div role="alert" className="line-in mx-auto max-w-[40rem] py-10 text-center sm:py-16" data-testid="build-failed" data-code={s.errorCode ?? "failed"}>
+              {s.errorCode === "empty" ? (
+                <>
+                  <h2 className="balance text-3xl sm:text-4xl">{t.session.emptyTitle(s.person.name)}</h2>
+                  <p className="lede mt-4">{t.session.emptyBody}</p>
+                </>
+              ) : (
+                <>
+                  <h2 className="balance text-3xl sm:text-4xl">{t.session.buildFailed}</h2>
+                  <p className="lede mt-4">{t.session.failedBody}</p>
+                  {s.error ? <p className="mt-3 text-sm text-ink-500">{s.error}</p> : null}
+                </>
+              )}
+              <div className="mt-8 flex flex-wrap justify-center gap-3">
+                <button type="button" onClick={() => update((prev) => ({ ...prev, status: "planning", error: undefined, errorCode: undefined }))} className="btn btn-primary">
+                  {t.session.tryAgain}
+                </button>
+                <Link href="/" className="btn btn-outline">
+                  {t.nav.newSession}
+                </Link>
+              </div>
             </div>
           ) : s.cards.length === 0 ? (
-            <PlanningView person={s.person} youthWindow={s.youthWindow} events={liveEvents} />
+            <PlanningView person={s.person} youthWindow={s.youthWindow} events={liveEvents} done={planDone} />
           ) : (
             <>
               {s.notice ? (
@@ -309,7 +365,7 @@ function SessionClient({ id }: { id: string }) {
                 {litUp.length > 0 ? <p className="label flex-none">{t.session.litUpCount(litUp.length)}</p> : null}
               </div>
               {current ? (
-                <div className={reactedAll ? "print-hide" : ""}>
+                <div className={`${reactedAll ? "print-hide" : ""} ${revealing ? "reveal-rise" : ""}`.trim()}>
                   <MemoryCard
                     key={current.id}
                     card={current}
@@ -335,7 +391,7 @@ function SessionClient({ id }: { id: string }) {
                 </button>
               </div>
               <div className="mt-6">
-                <DeckStrip cards={s.cards} currentIndex={s.currentIndex} onSelect={go} retuning={retuning} language={s.person.language} />
+                <DeckStrip cards={s.cards} currentIndex={s.currentIndex} onSelect={go} retuning={retuning} language={s.person.language} reveal={revealing} />
               </div>
               {reactedAll ? <Keepsake session={s} /> : null}
             </>

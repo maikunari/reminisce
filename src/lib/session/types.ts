@@ -138,6 +138,16 @@ export interface TraceEvent {
   args?: Record<string, unknown>;
   summary: string;
   qloo?: TraceQloo;
+  /** For Insights calls: the session domain the call is filling. */
+  domain?: Domain;
+  /** For Insights results: the first few entities, so the planning view can fill its sleeves. */
+  preview?: TracePreviewItem[];
+}
+
+export interface TracePreviewItem {
+  name: string;
+  imageUrl?: string;
+  year?: number;
 }
 
 export interface YouthWindow {
@@ -164,6 +174,8 @@ export interface Session {
   qlooMode: "live" | "fixture";
   currentIndex: number;
   error?: string;
+  /** `empty` when Qloo had too little for this person to make a deck; otherwise the build failed. */
+  errorCode?: "empty" | "failed";
   /** Server-written line for the session header when the session was built with less than full Qloo access. */
   notice?: string;
   /** When the plan was replayed from an earlier live run of a preset: that run's time (ISO 8601). */
@@ -200,4 +212,5 @@ export type StreamEvent =
   | { type: "trace"; event: TraceEvent }
   | { type: "plan"; result: PlanResult }
   | { type: "adapt"; result: AdaptResult }
-  | { type: "error"; message: string };
+  /** `empty`: Qloo had too little for these inputs to build a deck; anything else is a failure. */
+  | { type: "error"; message: string; code?: "empty" | "failed" };
