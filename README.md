@@ -159,6 +159,7 @@ To capture real responses once a key exists:
 QLOO_API_KEY=… npm run record                      # both presets, their adaptations and autocomplete searches
 QLOO_API_KEY=… npm run record -- --preset frank
 QLOO_API_KEY=… npm run record -- --search "Edith Piaf" --search "Lyon"
+QLOO_API_KEY=… npm run record -- --live              # live-Qloo regression people, into fixtures/live/ (git-ignored)
 ```
 
 Then `QLOO_MODE=fixture` replays the recordings and falls back to the synthetic catalog only for requests that were never recorded. The Why Qloo panel says where each answer came from in plain words: a live session says "live Qloo API" and nothing more; a replay says "replayed from saved Qloo responses" or "demo catalogue". Those strings live in one place, `src/lib/session/provenance.ts`, with their translations in the dictionaries.
@@ -229,11 +230,14 @@ npm test           # vitest: Qloo parameter building and validation, youth windo
                    #         fixture engine shape, client live/fixture behaviour, planner domain mix,
                    #         adaptation (liked entity as signal, only upcoming cards replaced),
                    #         daily budget and breaker, guard degradation ladder, response cache,
-                   #         preset snapshots and replay
+                   #         preset snapshots and replay, live-Qloo regressions (thin and empty answers,
+                   #         era enforcement, running out of time; replays fixtures/live/ when present),
+                   #         planning-view progress
 npm run test:e2e   # Playwright, fixture mode, tablet viewport: both presets end to end
                    #         (plan → cards → Why Qloo → reaction → re-tune → reload persistence),
                    #         preset difference, intake autocomplete + a Spanish session, a Mexico City
-                   #         custom person, auto-advance, the programme strip, unknown session
+                   #         custom person, auto-advance, the programme strip, unknown session,
+                   #         the empty state when Qloo has too little
 ```
 
 The Playwright run builds the app and starts it on port 3100 with `QLOO_MODE=fixture` and `LLM_MODE=fixture`.
@@ -280,6 +284,7 @@ src/lib/i18n/            typed UI dictionaries: en, es, ja
 src/lib/guard/           daily budget and breaker (Upstash), per-request guard, preset snapshots, BotID check
 fixtures/synthetic/      hand-authored synthetic catalog, nine worlds (committed, marked synthetic)
 fixtures/recorded/       real responses from `npm run record` (git-ignored)
+fixtures/live/           real responses from `npm run record -- --live` (git-ignored)
 scripts/record.ts        recorder
 tests/unit, tests/e2e    vitest and Playwright suites
 ```
