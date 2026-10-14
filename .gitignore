@@ -50,6 +50,7 @@ next-env.d.ts
 # repository (hackathon guide FAQ). They stay local; only the synthetic catalog
 # is committed.
 /fixtures/recorded/*.json
+/fixtures/live/
 
 # Keep the documented template; real keys live only in .env.local
 !.env.example

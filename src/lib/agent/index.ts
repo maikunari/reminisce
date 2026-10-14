@@ -21,8 +21,9 @@ import { ageBucketFor, computeYouthWindow } from "@/lib/session/youth-window";
 
 import { LoopError, runLoop, traceEvent, type Policy } from "./loop";
 import { LlmPolicy } from "./policies/llm";
+import { PoolPlanPolicy } from "./policies/pool";
 import { ScriptedAdaptPolicy, ScriptedPlanPolicy } from "./policies/scripted";
-import { EntityPool, type ToolContext, type ToolFinal } from "./tools";
+import { EntityPool, PLAN_MIN_CARDS, type ToolContext, type ToolFinal } from "./tools";
 
 export interface AgentOptions {
   emit?: (event: TraceEvent) => void;
@@ -34,10 +35,17 @@ export interface AgentOptions {
   notes?: string[];
 }
 
-/** Total agent time per request; leaves headroom under the routes' maxDuration of 60 s. */
-export const AGENT_BUDGET_MS = 50_000;
-/** Time held back from the LLM loop so the scripted fallback can still finish. */
+/**
+ * Total agent time per request. Leaves headroom under the routes' maxDuration
+ * of 60 s, and keeps the wait on the planning screen reasonable.
+ */
+export const AGENT_BUDGET_MS = 45_000;
+/** Time held back from the LLM loop so the scripted fallback can still finish (a full live run takes about 6 s). */
 export const FALLBACK_RESERVE_MS = 15_000;
+/** A commit from the pool makes no Qloo calls; it gets this long past whatever deadline the run had. */
+export const POOL_COMMIT_GRACE_MS = 3_000;
+/** The fewest cards a session built from a part-finished run may have; fewer, and the caregiver sees the empty state. */
+export const POOL_MIN_CARDS = 5;
 /**
  * Completions the model may use before the deterministic planner takes over.
  * Each completion re-sends the whole history, so the cap bounds spend roughly
@@ -76,12 +84,37 @@ async function runWithFallback(
           summary: `LLM planner unavailable (${message}). Switching to the deterministic planner; same tools, fixed rules.`,
         }),
       );
+      // The model usually stops after Qloo has answered: build from those answers
+      // rather than asking Qloo the same things again.
+      if (phase === "plan") {
+        const final = await commitFromPool(ctx, emit, "Qloo has already answered enough; choosing the cards from those results.", PLAN_MIN_CARDS);
+        if (final) return { final, planner: "deterministic", ctx };
+      }
     }
   }
   const ctx = makeCtx(deadline);
   const policy: Policy = phase === "plan" ? new ScriptedPlanPolicy(ctx) : new ScriptedAdaptPolicy(ctx);
-  const { final } = await runLoop({ policy, ctx, emit, maxSteps: 30 });
-  return { final, planner: "deterministic", ctx };
+  try {
+    const { final } = await runLoop({ policy, ctx, emit, maxSteps: 30 });
+    return { final, planner: "deterministic", ctx };
+  } catch (error) {
+    if (phase !== "plan" || !(error instanceof LoopError)) throw error;
+    const final = await commitFromPool(ctx, emit, "Out of time for more Qloo calls; choosing the cards from what came back.", POOL_MIN_CARDS);
+    if (final) return { final, planner: "deterministic", ctx };
+    throw new LoopError(`Qloo returned too little to build a session (${error.message})`, "empty");
+  }
+}
+
+/** Commit a plan from the entities this run already fetched, with no new Qloo calls; undefined when there are too few. */
+async function commitFromPool(ctx: ToolContext, emit: (event: TraceEvent) => void, narration: string, minCards: number): Promise<ToolFinal | undefined> {
+  if (ctx.pool.size < minCards) return undefined;
+  const poolCtx: ToolContext = { ...ctx, deadline: Date.now() + POOL_COMMIT_GRACE_MS };
+  try {
+    const { final } = await runLoop({ policy: new PoolPlanPolicy(poolCtx, narration, minCards), ctx: poolCtx, emit, maxSteps: 2 });
+    return final.kind === "plan" ? final : undefined;
+  } catch {
+    return undefined;
+  }
 }
 
 function baseContext(

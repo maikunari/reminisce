@@ -5,7 +5,7 @@
  */
 import type { TraceEvent } from "@/lib/session/types";
 
-import { executeTool, isToolName, type ToolContext, type ToolFinal, type ToolName, type ToolOutcome } from "./tools";
+import { domainForInsights, executeTool, isToolName, type ToolContext, type ToolFinal, type ToolName, type ToolOutcome } from "./tools";
 
 export interface ToolCall {
   id: string;
@@ -37,7 +37,7 @@ export interface LoopOptions {
 export class LoopError extends Error {
   constructor(
     message: string,
-    readonly reason: "no-final" | "max-steps" | "budget" | "policy",
+    readonly reason: "no-final" | "max-steps" | "budget" | "policy" | "empty",
   ) {
     super(message);
     this.name = "LoopError";
@@ -48,6 +48,12 @@ let counter = 0;
 export function traceEvent(partial: Omit<TraceEvent, "id" | "at">): TraceEvent {
   counter += 1;
   return { id: `t${Date.now().toString(36)}${counter}`, at: Date.now(), ...partial };
+}
+
+function insightsDomain(call: ToolCall) {
+  if (call.name !== "qloo_insights" || !call.args || typeof call.args !== "object") return undefined;
+  const a = call.args as { filter_type?: unknown; filter_tags?: unknown };
+  return domainForInsights(String(a.filter_type ?? ""), Array.isArray(a.filter_tags) ? a.filter_tags.map(String) : undefined);
 }
 
 function summariseArgs(args: unknown): Record<string, unknown> | undefined {
@@ -83,13 +89,17 @@ export async function runLoop(opts: LoopOptions): Promise<{ final: ToolFinal; st
         continue;
       }
       if (Date.now() > deadline) throw new LoopError("agent budget exceeded", "budget");
-      emit(traceEvent({ phase: ctx.phase, kind: "tool_call", tool: call.name, args: summariseArgs(call.args), summary: describeCall(call) }));
+      const domain = insightsDomain(call);
+      emit(traceEvent({ phase: ctx.phase, kind: "tool_call", tool: call.name, args: summariseArgs(call.args), summary: describeCall(call), ...(domain ? { domain } : {}) }));
       let outcome: ToolOutcome;
       try {
         outcome = await executeTool(call.name, call.args, ctx);
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
         outcome = { ok: false, result: { ok: false, error: message }, summary: `${call.name} failed: ${message}` };
+      }
+      for (const attempt of outcome.attempts ?? []) {
+        emit(traceEvent({ phase: ctx.phase, kind: "tool_result", tool: call.name, summary: attempt.summary, qloo: attempt.qloo, ...(domain ? { domain } : {}) }));
       }
       emit(
         traceEvent({
@@ -98,6 +108,8 @@ export async function runLoop(opts: LoopOptions): Promise<{ final: ToolFinal; st
           tool: call.name,
           summary: outcome.summary,
           qloo: outcome.qloo,
+          ...(outcome.domain ?? domain ? { domain: outcome.domain ?? domain } : {}),
+          ...(outcome.preview ? { preview: outcome.preview } : {}),
         }),
       );
       policy.observe(call, outcome);

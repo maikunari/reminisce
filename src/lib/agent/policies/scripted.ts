@@ -4,13 +4,14 @@
  * decision is a fixed rule. Used when no LLM key is configured, when
  * LLM_MODE=fixture, or as a fallback when the LLM fails.
  */
-import { isTypedPlace } from "@/lib/qloo/place";
+import { fold, isTypedPlace } from "@/lib/qloo/place";
 import type { QlooEntityType } from "@/lib/qloo/types";
 import { DOMAIN_INFO, type Domain, type Favorite } from "@/lib/session/types";
 
 import type { Policy, PolicyStep, ToolCall } from "../loop";
 import { newCallId } from "../loop";
 import { NARRATION } from "../prompts";
+import { chooseDeck } from "./pool";
 import type { InsightsArgs, PlanArgs, AdaptArgs, ToolContext, ToolName, ToolOutcome } from "../tools";
 import type { z } from "zod";
 
@@ -138,12 +139,28 @@ const DISAMBIGUATION_COUNTRIES: Record<string, string> = {
   cuba: "Cuba",
   chile: "Chile",
   ireland: "Ireland",
+  // Qloo often answers in the locality's own language: "大阪市, 大阪府, 近畿地方, 日本", "Ciudad de México, ..., México".
+  日本: "Japan",
+  espana: "Spain",
+  deutschland: "Germany",
+  italia: "Italy",
+  brasil: "Brazil",
+  polska: "Poland",
+  대한민국: "South Korea",
+  한국: "South Korea",
+  中国: "China",
+  中华人民共和国: "China",
+  台灣: "Taiwan",
+  臺灣: "Taiwan",
+  台湾: "Taiwan",
+  香港: "Hong Kong",
+  pilipinas: "Philippines",
 };
 
 export function countryNameFor(hit: SearchHit | undefined): string | undefined {
   if (!hit) return undefined;
   if (hit.country_code && COUNTRY_NAMES[hit.country_code.toUpperCase()]) return COUNTRY_NAMES[hit.country_code.toUpperCase()];
-  const last = hit.disambiguation?.split(",").map((s) => s.trim().toLowerCase().replace(/\s+/g, "_")).pop();
+  const last = hit.disambiguation?.split(",").map((s) => fold(s).replace(/\s+/g, "_")).pop();
   return last ? DISAMBIGUATION_COUNTRIES[last] : undefined;
 }
 
@@ -175,22 +192,13 @@ function pickTagIds(tags: { id: string; name: string }[], words: string[], max: 
   return matches.slice(0, max).map((t) => t.id);
 }
 
-function unique<T>(items: T[]): T[] {
-  return [...new Set(items)];
+/** A canonical place tag such as urn:tag:genre:place:landmark, preferring the genre form over the category form. */
+function placeTag(tags: { id: string }[], word: string): string | undefined {
+  return tags.find((t) => t.id === `urn:tag:genre:place:${word}`)?.id ?? tags.find((t) => t.id === `urn:tag:category:place:${word}`)?.id;
 }
 
-/** Round-robin interleave so consecutive cards change domain. */
-function interleave(groups: { domain: Domain; ids: string[] }[], limit: number): { domain: Domain; entity_id: string }[] {
-  const out: { domain: Domain; entity_id: string }[] = [];
-  const queues = groups.map((g) => ({ domain: g.domain, ids: [...g.ids] }));
-  while (out.length < limit && queues.some((q) => q.ids.length > 0)) {
-    for (const q of queues) {
-      const id = q.ids.shift();
-      if (id !== undefined) out.push({ domain: q.domain, entity_id: id });
-      if (out.length >= limit) break;
-    }
-  }
-  return out;
+function unique<T>(items: T[]): T[] {
+  return [...new Set(items)];
 }
 
 abstract class GeneratorPolicy implements Policy {
@@ -262,11 +270,12 @@ export class ScriptedPlanPolicy extends GeneratorPolicy {
       toolCalls: [call("qloo_search_tags", { query: "restaurant", parent_type: "urn:entity:place", take: 8 })],
     };
     const restaurantTags = pickTagIds(tagHits(restOut), ["restaurant"], 1);
-    const attrOut = yield {
+    const sightsOut = yield {
       narration: NARRATION.tags("landmarks and attractions"),
-      toolCalls: [call("qloo_search_tags", { query: "landmark", parent_type: "urn:entity:place", take: 8 })],
+      toolCalls: [call("qloo_search_tags", { query: "tourist attraction", parent_type: "urn:entity:place", take: 8 })],
     };
-    const attractionTags = pickTagIds(tagHits(attrOut), ["landmark", "attraction", "park", "museum", "monument"], 4);
+    const landmarkOut = yield { toolCalls: [call("qloo_search_tags", { query: "landmark", parent_type: "urn:entity:place", take: 8 })] };
+    const attractionTags = [placeTag(tagHits(sightsOut), "tourist_attraction"), placeTag(tagHits(landmarkOut), "landmark")].filter((t): t is string => !!t);
 
     const base = {
       signal_entities: seedIds.length > 0 ? seedIds : undefined,
@@ -291,10 +300,8 @@ export class ScriptedPlanPolicy extends GeneratorPolicy {
       filter_release_country: country ? [country] : undefined,
       take: 10,
     };
-    let filmOut = yield { narration: NARRATION.insights(`films from ${yw.start} to ${yw.end}`), toolCalls: [call("qloo_insights", filmArgs)] };
-    if (insightHits(filmOut).length < 3 && country) {
-      filmOut = yield { narration: NARRATION.widen("film"), toolCalls: [call("qloo_insights", { ...filmArgs, filter_release_country: undefined })] };
-    }
+    // A thin answer is widened by the tool itself, always inside the youth window.
+    const filmOut = yield { narration: NARRATION.insights(`films from ${yw.start} to ${yw.end}`), toolCalls: [call("qloo_insights", filmArgs)] };
     const filmIds = insightHits(filmOut).map((h) => h.entity_id);
 
     // 6. Television that premiered around the youth window.
@@ -307,10 +314,7 @@ export class ScriptedPlanPolicy extends GeneratorPolicy {
       filter_release_country: country ? [country] : undefined,
       take: 8,
     };
-    let tvOut = yield { narration: NARRATION.insights("television shows of the era"), toolCalls: [call("qloo_insights", tvArgs)] };
-    if (insightHits(tvOut).length < 2 && country) {
-      tvOut = yield { narration: NARRATION.widen("television"), toolCalls: [call("qloo_insights", { ...tvArgs, filter_release_country: undefined })] };
-    }
+    const tvOut = yield { narration: NARRATION.insights("television shows of the era"), toolCalls: [call("qloo_insights", tvArgs)] };
     const tvIds = insightHits(tvOut).map((h) => h.entity_id);
 
     // 7. Places to eat in the hometown.
@@ -330,9 +334,10 @@ export class ScriptedPlanPolicy extends GeneratorPolicy {
     };
     const diningIds = insightHits(diningOut).map((h) => h.entity_id);
 
-    // 8. Landmarks in the hometown, excluding the dining results.
+    // 8. Landmarks in the hometown, excluding the dining results. Tuned by age
+    // only: the seed's taste pulls in modern venues (an arena, a gym) where the
+    // hometown's own sights (its theatre, its museums, its zoo) belong.
     const placeArgs: InsightsArgsT = {
-      signal_entities: base.signal_entities,
       signal_age: base.signal_age,
       filter_type: "urn:entity:place",
       purpose: `landmarks of ${locationQuery}`,
@@ -364,40 +369,7 @@ export class ScriptedPlanPolicy extends GeneratorPolicy {
     const destIds = insightHits(destOut).map((h) => h.entity_id);
 
     // 10. Choose and commit.
-    const quota: { domain: Domain; ids: string[]; want: number }[] = [
-      { domain: "music", ids: musicIds, want: 3 },
-      { domain: "film", ids: filmIds, want: 2 },
-      { domain: "dining", ids: diningIds, want: 1 },
-      { domain: "place", ids: placeIds, want: 1 },
-      { domain: "destination", ids: destIds, want: 1 },
-      { domain: "tv", ids: tvIds, want: 1 },
-    ];
-    const target = 9;
-    const chosen = new Set<string>();
-    const groups = quota.map((q) => ({ domain: q.domain, ids: [] as string[] }));
-    const takeFrom = (q: (typeof quota)[number], g: { ids: string[] }, n: number) => {
-      for (const id of q.ids) {
-        if (n <= 0) break;
-        if (chosen.has(id)) continue;
-        chosen.add(id);
-        g.ids.push(id);
-        n -= 1;
-      }
-    };
-    quota.forEach((q, i) => takeFrom(q, groups[i]!, q.want));
-    let guard = 0;
-    while (chosen.size < target && guard < 12) {
-      guard += 1;
-      let added = false;
-      quota.forEach((q, i) => {
-        if (chosen.size >= target) return;
-        const before = chosen.size;
-        takeFrom(q, groups[i]!, 1);
-        if (chosen.size > before) added = true;
-      });
-      if (!added) break;
-    }
-    const cards = interleave(groups, target);
+    const cards = chooseDeck({ music: musicIds, film: filmIds, dining: diningIds, place: placeIds, destination: destIds, tv: tvIds });
     const domainCount = new Set(cards.map((c) => c.domain)).size;
     const planArgs: PlanArgsT = { cards: cards.map((c) => ({ entity_id: c.entity_id, domain: c.domain })) };
     yield { narration: NARRATION.plan(cards.length, domainCount), toolCalls: [call("plan_session", planArgs)] };

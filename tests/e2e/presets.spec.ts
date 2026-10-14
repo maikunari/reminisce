@@ -199,3 +199,24 @@ test("reacting to every card ends in a printable keepsake", async ({ page }) => 
   expect(await keepsake.locator("ol li").count()).toBeGreaterThanOrEqual(5);
   await expect(keepsake.getByRole("button", { name: "Print for the care file" })).toBeVisible();
 });
+
+test("when Qloo has too little for a person, planning ends in a kind empty state with a way on", async ({ page }) => {
+  let attempts = 0;
+  await page.route("**/api/plan", (route) => {
+    attempts += 1;
+    const lines = [
+      { type: "trace", event: { id: "t1", at: 1, phase: "plan", kind: "narration", summary: "Asking Qloo for films from 1960 to 1975." } },
+      { type: "error", code: "empty", message: "Qloo returned too little to build a session" },
+    ];
+    return route.fulfill({ status: 200, contentType: "application/x-ndjson", body: lines.map((l) => JSON.stringify(l)).join("\n") });
+  });
+  await page.goto("/");
+  await page.getByTestId("preset-frank").click();
+  const empty = page.getByTestId("build-failed");
+  await expect(empty).toHaveAttribute("data-code", "empty");
+  await expect(empty).toContainText("Qloo didn't find enough from Frank's years to fill a session");
+  await expect(empty).not.toContainText("returned too little");
+  await expect(empty.getByRole("link", { name: "New session" })).toBeVisible();
+  await empty.getByRole("button", { name: "Try again" }).click();
+  await expect.poll(() => attempts).toBe(2);
+});

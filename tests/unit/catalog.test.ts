@@ -45,8 +45,12 @@ describe("regional synthetic catalogue", () => {
     expect(titles).not.toContain("Café de Flore");
     expect(titles).toContain("Jorge Negrete");
     for (const card of result.cards) {
-      expect(card.signals.seedNames).toContain("Pedro Infante");
-      expect(card.why).toContain("Pedro Infante");
+      // Landmarks are tuned by the hometown and age alone; every other card follows the seed.
+      if (card.domain === "place") expect(card.signals.seedNames).toEqual([]);
+      else {
+        expect(card.signals.seedNames).toContain("Pedro Infante");
+        expect(card.why).toContain("Pedro Infante");
+      }
       const hints = engine.hintsFor(card.entityId)!;
       if (hints.countries) expect(hints.countries).toContain("MX");
     }
@@ -96,7 +100,7 @@ describe("regional synthetic catalogue", () => {
     for (const worlds of worldsOfDeck(result.cards)) expect(worlds).toContain(world);
     if (favorite) {
       expect(result.favorites[0]?.entityId).toBeDefined();
-      for (const card of result.cards) expect(card.signals.seedNames).toContain(favorite);
+      for (const card of result.cards.filter((c) => c.domain !== "place")) expect(card.signals.seedNames).toContain(favorite);
     }
   });
 

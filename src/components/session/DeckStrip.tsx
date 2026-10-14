@@ -1,5 +1,7 @@
 "use client";
 
+import type { CSSProperties } from "react";
+
 import { CardArt } from "@/components/CardArt";
 import { dictionary } from "@/lib/i18n";
 import type { Card, Language } from "@/lib/session/types";
@@ -10,6 +12,8 @@ interface Props {
   onSelect: (index: number) => void;
   retuning: boolean;
   language?: Language;
+  /** The session has just arrived: the programme deals in one card at a time. */
+  reveal?: boolean;
 }
 
 /**
@@ -18,7 +22,7 @@ interface Props {
  * card lets it run to its full length, and the button's accessible name
  * always carries the whole title.
  */
-export function DeckStrip({ cards, currentIndex, onSelect, retuning, language }: Props) {
+export function DeckStrip({ cards, currentIndex, onSelect, retuning, language, reveal = false }: Props) {
   const t = dictionary(language).strip;
   return (
     <nav aria-label={t.ariaLabel} className="print-hide">
@@ -30,7 +34,13 @@ export function DeckStrip({ cards, currentIndex, onSelect, retuning, language }:
           const isNew = card.addedBy === "adapt" && !card.reaction;
           const reactionWord = card.reaction === "lit_up" ? `, ${t.litUp}` : card.reaction === "not_this" ? `, ${t.notThis}` : "";
           return (
-            <li key={card.id} className="w-[148px] flex-none" data-domain={card.domain} aria-current={current ? "step" : undefined}>
+            <li
+              key={card.id}
+              className={`w-[148px] flex-none ${reveal ? "reveal-rise" : ""}`}
+              style={reveal ? ({ "--i": i + 2 } as CSSProperties) : undefined}
+              data-domain={card.domain}
+              aria-current={current ? "step" : undefined}
+            >
               <button
                 type="button"
                 onClick={() => onSelect(i)}
