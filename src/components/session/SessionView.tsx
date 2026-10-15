@@ -69,6 +69,8 @@ function SessionClient({ id }: { id: string }) {
   const [retunes, setRetunes] = useState(0);
   /** Re-tunes run one after another, each from the deck as the last one left it. */
   const retuneQueue = useRef<Promise<void>>(Promise.resolve());
+  /** The plan stream; it outlives the deal, because the model's prompts arrive after the deck is up. */
+  const planStream = useRef<AbortController | null>(null);
 
   const session = state.kind === "ready" ? state.session : null;
   const language = session?.person.language;
@@ -103,7 +105,10 @@ function SessionClient({ id }: { id: string }) {
     if (!person) return;
     const strings = dictionary(person.language).session;
     const controller = new AbortController();
+    planStream.current = controller;
     let holdTimer: number | undefined;
+    // Dealing the deck ends `needsPlan`, which cleans this effect up; the stream must survive that.
+    let dealt = false;
     setLiveEvents([]);
     setPlanDone(false);
     (async () => {
@@ -122,6 +127,7 @@ function SessionClient({ id }: { id: string }) {
               const deal = () => {
                 const r = pending!;
                 pending = null;
+                dealt = true;
                 update((s) => ({
                   ...s,
                   cards: r.cards,
@@ -160,7 +166,8 @@ function SessionClient({ id }: { id: string }) {
         );
         if (!planned) throw new PlanStreamError(strings.plannerStopped);
       } catch (error) {
-        if (controller.signal.aborted) return;
+        // A stream that fails after the deck is up has nothing to take away from it.
+        if (controller.signal.aborted || dealt) return;
         const message = isBlocked(error) ? strings.blocked : error instanceof Error ? error.message : strings.planningFailed;
         const code = error instanceof PlanStreamError ? error.code : "failed";
         setPlanDone(false);
@@ -168,10 +175,12 @@ function SessionClient({ id }: { id: string }) {
       }
     })();
     return () => {
-      controller.abort();
+      // Once dealt, the stream is left running for the prompts; leaving the page aborts it below.
+      if (!dealt) controller.abort();
       window.clearTimeout(holdTimer);
     };
   }, [needsPlan, id, update]);
+  useEffect(() => () => planStream.current?.abort(), []);
 
   const cancelAdvance = useCallback(() => {
     if (advanceTimer.current !== null) {

@@ -1,12 +1,12 @@
 /**
- * The facts a card states must be true: an artist's decade is the artist's
- * own, films and shows come from the person's country, and a place that may
+ * The facts a card states must be true: a template never dates an artist,
+ * films and shows come from the person's country, and a place that may
  * be newer than their youth is never said to have been there back then.
  */
 import { describe, expect, it } from "vitest";
 
 import { adaptSession, planSession } from "@/lib/agent";
-import { artistDecade, offlinePrompt } from "@/lib/agent/prompts";
+import { offlinePrompt } from "@/lib/agent/prompts";
 import { readServerEnv } from "@/lib/env";
 import { QlooClient } from "@/lib/qloo/client";
 import { PRESETS } from "@/lib/session/presets";
@@ -22,25 +22,15 @@ const ruth: Person = { name: "Ruth", birthYear: 1938, hometown: "Boston", favori
 const youth = { start: 1953, end: 1968 };
 const ids = Array.from({ length: 40 }, (_, i) => `ffffffff-0000-4000-8000-${String(i).padStart(12, "0")}`);
 
-describe("an artist's decade", () => {
-  it("is the artist's own first decade when it falls in the person's youth, otherwise none", () => {
-    expect(artistDecade(1957, youth)).toBe("1950s");
-    expect(artistDecade(1965, youth)).toBe("1960s");
-    expect(artistDecade(1972, youth)).toBeUndefined();
-    expect(artistDecade(1940, youth)).toBeUndefined();
-    expect(artistDecade(undefined, youth)).toBeUndefined();
-  });
-
-  it("is never the youth window's start for an artist Qloo gives no year", () => {
+describe("an artist's conversation prompt", () => {
+  it("makes no claim about a decade, in any language", () => {
     for (const entityId of ids) {
       for (const language of ["en", "es", "ja"] as Language[]) {
-        const prompt = offlinePrompt({ domain: "music", language, title: "Bette Midler", entityId, person: { ...ruth, language }, youthWindow: youth });
-        expect(prompt).not.toMatch(/195\d|196\d|1950s|1960s/);
+        const prompt = offlinePrompt({ domain: "music", language, title: "Dionne Warwick", entityId, person: { ...ruth, language }, youthWindow: youth });
+        expect(prompt).not.toMatch(/\d{4}|\d0s|everywhere|por todas partes|どこでも/);
         expect(prompt).not.toContain("{");
       }
     }
-    const withStart = ids.map((entityId) => offlinePrompt({ domain: "music", language: "en", title: "Patti Page", startYear: 1948, entityId, person: ruth, youthWindow: { start: 1945, end: 1960 } }));
-    expect(withStart.some((p) => p.includes("everywhere in the 1940s"))).toBe(true);
   });
 });
 

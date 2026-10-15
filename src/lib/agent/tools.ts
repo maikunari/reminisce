@@ -721,7 +721,6 @@ export function buildCard(
           language: ctx.language,
           title: e.name,
           year,
-          startYear,
           entityId: e.entity_id,
           person: ctx.person,
           youthWindow: ctx.youthWindow,
