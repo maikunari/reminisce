@@ -20,11 +20,11 @@ describe("auto-advance after a reaction", () => {
     expect(nextCardIndex([], 0)).toBeNull();
   });
 
-  it("pauses long enough to read the notice, shorter when motion is reduced", () => {
+  it("pauses only for a beat to see the tap land, shorter when motion is reduced", () => {
     expect(autoAdvanceDelay(false)).toBe(AUTO_ADVANCE_DELAY_MS);
     expect(autoAdvanceDelay(true)).toBe(AUTO_ADVANCE_DELAY_REDUCED_MS);
     expect(AUTO_ADVANCE_DELAY_REDUCED_MS).toBeLessThanOrEqual(AUTO_ADVANCE_DELAY_MS);
-    expect(AUTO_ADVANCE_DELAY_MS).toBeGreaterThanOrEqual(800);
-    expect(AUTO_ADVANCE_DELAY_MS).toBeLessThanOrEqual(3000);
+    expect(AUTO_ADVANCE_DELAY_MS).toBeGreaterThanOrEqual(300);
+    expect(AUTO_ADVANCE_DELAY_MS).toBeLessThanOrEqual(1000);
   });
 });

@@ -53,13 +53,24 @@ export function openGuard(kind: GuardKind, env: ServerEnv = readServerEnv()): Pr
   });
 }
 
+/**
+ * Production keeps one set of snapshots across deploys (SNAPSHOT_VERSION
+ * already retires incompatible ones), so a deploy never makes presets slow.
+ * Preview and development deployments keep their own, so their test runs
+ * never reach production.
+ */
+export function snapshotPrefix(env: Record<string, string | undefined> = process.env): string {
+  const deployment = env.VERCEL_DEPLOYMENT_ID?.trim();
+  return deployment && env.VERCEL_ENV !== "production" ? `reminisce:${deployment}:` : "reminisce:";
+}
+
 /** Today's snapshot for this person, when they are a preset and Qloo is configured live. */
 export async function presetSnapshotFor(person: Person, env: ServerEnv = readServerEnv(), now = new Date()): Promise<PresetSnapshot | null> {
   const rt = getRuntime();
   if (!rt.redis || env.qlooMode !== "live") return null;
   const preset = matchingPreset(person);
   if (!preset) return null;
-  return loadSnapshot(rt.redis, preset.id, now);
+  return loadSnapshot(rt.redis, preset.id, now, snapshotPrefix());
 }
 
 /**
@@ -72,7 +83,7 @@ export async function rememberPreset(person: Person, result: PlanResult, guard: 
   const preset = matchingPreset(person);
   if (!preset) return false;
   try {
-    await storeSnapshot(rt.redis, preset.id, result, now);
+    await storeSnapshot(rt.redis, preset.id, result, now, snapshotPrefix());
     return true;
   } catch (error) {
     console.error("[snapshots] could not store preset snapshot", error);

@@ -76,9 +76,8 @@ export const ja: Dictionary = {
     close: "閉じる",
     closeAria: "Qlooの理由パネルを閉じる",
     calls: (n) => `Qloo Insights APIへの問い合わせ ${n}回`,
-    llmAgent: "LLM主導のエージェント",
-    scriptedAgent: "決定的なエージェント",
-    mixed: "（オフラインの代替ステップあり）",
+    llmAgent: "Qlooへの問い合わせは決まった手順、問いかけはモデルが作成",
+    scriptedAgent: "Qlooへの問い合わせは決まった手順、問いかけはテンプレート",
     youthWindow: (start, end) => `青春期 ${start}〜${end}年`,
     thisCard: "このカード",
     asked: ({ plural: what, seeds, within, tunedTo, age }) =>

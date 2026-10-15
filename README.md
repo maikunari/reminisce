@@ -11,7 +11,7 @@ Built for the Qloo Agentic Hackathon. MIT licensed.
 
 A caregiver (a daughter, a care-home activity coordinator) enters three things about a loved one: the year they were born, where they grew up, and one to three things they loved. Reminisce works out the years they were 15 to 30, the "reminiscence bump" where autobiographical memory is densest, and asks the Qloo taste graph what their generation and their hometown adored. The result is a 20-minute deck of 8 to 10 cards: singers, films, TV shows, dishes and restaurants, local landmarks and destinations. Each card carries a gentle, open conversation prompt in the person's language.
 
-During the session the caregiver taps **They lit up** or **Not this one**. The agent goes back to Qloo with the liked entity as a new signal (or the disliked one excluded), and swaps the upcoming cards while a visible "re-tuning" state shows what it is doing. A **Why Qloo** panel exposes every call: the endpoint, entity type, signals, filters, affinity score and Qloo's explainability breakdown of which seed pulled each item in.
+During the session the caregiver taps **They lit up** or **Not this one** and the deck moves straight on. Behind it, the agent goes back to Qloo with the liked entity as a new signal (or the disliked one excluded) and swaps cards further ahead, never the one in front of the caregiver, while a quiet "re-tuning" line shows what it is doing. A **Why Qloo** panel exposes every call: the endpoint, entity type, signals, filters, affinity score and Qloo's explainability breakdown of which seed pulled each item in.
 
 ![Frank's session: Nat King Cole with a prompt about singing along at home, one example of the cards Qloo dealt for him](docs/screenshots/session-frank.png)
 
@@ -28,7 +28,7 @@ Reminisce cannot be built on an LLM alone, and the reason is the centre of the p
 - **Live adaptation.** When a card lands, the liked entity goes straight back into `signal.interests.entities`. The deck re-tunes from real affinity data in a second, something no static playlist can do.
 - **Privacy by design.** Qloo works on cultural entities, not on the person. Reminisce never sends a name, a birth year or a diagnosis anywhere. The only things that leave the browser are entity ids, a city name and an age bucket.
 
-The LLM's job is narrower and genuinely agentic: decide which Qloo calls to make, interpret the results, choose and order the cards, and write the prompts. Everything factual on a card comes from Qloo.
+The agent asks Qloo, chooses and orders the cards, and re-tunes the deck as the person responds; the language model's job is narrower: it writes each card's conversation prompt from what Qloo returned. Everything factual on a card comes from Qloo.
 
 ## How the agent works
 
@@ -37,22 +37,25 @@ caregiver intake ──► /api/plan ──────────────�
   name, birth year,     │                                                     │
   hometown, favorites   ▼                                                     │
                  ┌───────────────────────────────────────────────┐            │
-                 │ agent loop (LLM policy, or deterministic one) │            │
+                 │ agent loop (tool calls run together, paced to │            │
+                 │ Qloo's limit: 4 in flight, 5 per second)      │            │
                  │                                               │            │
                  │  1. qloo_search_entity  favorites → ids       │  GET /search
                  │     qloo_search_entity  hometown  → locality  │            │
-                 │  2. qloo_search_tags    "restaurant", ...     │  GET /v2/tags
-                 │  3. qloo_insights × N   artist, movie,        │  GET /v2/insights
+                 │  2. qloo_insights × 6   artist, movie,        │  GET /v2/insights
                  │        tv_show, place (dining), place         │    signal.interests.entities
-                 │        (landmarks), destination               │    signal.location.query
+                 │        (landmarks), destination, all at once  │    signal.location.query
                  │        with seeds + hometown + age signals    │    signal.demographics.age
                  │        and youth-window year filters          │    filter.release_year.*
-                 │  4. plan_session        8–10 cards, ≥3 domains│    feature.explainability
+                 │  3. plan_session        8–10 cards, ≥3 domains│    feature.explainability
                  └───────────────┬───────────────────────────────┘            │
                                  │ NDJSON stream: every tool call,            │
                                  │ every Qloo request and result,             │
-                                 ▼ then the plan                              │
+                                 ▼ then the plan (dealt at once)              │
                        card deck in the browser  (localStorage)               │
+                                 ▲                                            │
+                                 │ then the model's prompts, in place         │
+                          write_prompts (Claude Haiku 4.5 or any model)       │
                                  │                                            │
       tap ❤ / 👎 ────────► /api/adapt                                         │
                                  │  qloo_insights with the liked entity       │
@@ -65,17 +68,21 @@ caregiver intake ──► /api/plan ──────────────�
 
 ![Planning view: "Asking Qloo what Osaka loved from 1965 to 1980", nine Qloo calls so far, four of six sleeves filled (Yujiro Ishihara, a Tora-san film, Yoshimoto Shinkigeki, a Dotonbori crab house) and one line per kind of memory, places still being asked](docs/screenshots/planning.png)
 
-The loop is a real tool-calling loop. The model (any OpenAI-compatible chat model with function calling) sees five tools and nothing else; it cannot invent an entity because `plan_session` and `adapt_session` only accept entity ids that an earlier `qloo_insights` call returned in this session. Every step is emitted as a trace event and streamed to the browser as NDJSON, so the planning screen shows the agent thinking and the Why Qloo panel keeps the full timeline.
+The loop is a real tool-calling loop: a policy decides the next tool calls, the loop runs them and records a trace, and nothing is committed except through `plan_session` and `adapt_session`, which only accept entity ids that an earlier `qloo_insights` call returned in this session, so no card can be invented. The calls of one step run together, behind a limiter that keeps the hackathon key under its rate limit (4 requests in flight, 5 started per second, and a 429 asked again once after 300 ms instead of falling back). Every step is emitted as a trace event and streamed to the browser as NDJSON, so the planning screen fills in as Qloo answers and the Why Qloo panel keeps the full timeline.
+
+Qloo is asked by fixed rules, so the deck is on the table as soon as Qloo has answered, about two seconds for a new person. The model's job comes after that and off the caregiver's critical path: it reads the dealt cards (by short refs, with what Qloo said about each) and writes each card's conversation prompt in the person's language through one forced `write_prompts` tool call. Its prompts replace the template prompts in place a few seconds later; a model that is slow, fails or answers with something other than the tool call costs nothing visible, because the template prompts are already on the cards.
 
 | Tool | What it does | Qloo call |
 | --- | --- | --- |
 | `qloo_search_entity` | Resolve a favorite or hometown to a Qloo entity (with `urn:entity:locality` for places) | `GET /search` |
-| `qloo_search_tags` | Find tag ids such as the restaurant genre before filtering by them | `GET /v2/tags` |
+| `qloo_search_tags` | Find tag ids by keyword (the restaurant, tourist-attraction and landmark ids are constant, so planning uses them directly) | `GET /v2/tags` |
 | `qloo_insights` | Recommendations for one entity type with seed, location, demographic and year parameters, explainability on | `GET /v2/insights` |
 | `plan_session` | Commit 8 to 10 cards across at least 3 domains, each with a prompt | none |
 | `adapt_session` | Replace up to 3 upcoming, unreacted cards after feedback | none |
 
-When no LLM key is configured, or the model fails or misbehaves, the session is built without it. If the model had already fetched enough from Qloo, the deck is chosen from those results with no new calls; otherwise the same loop runs a deterministic policy that performs the same tool calls in a fixed order and writes prompts from templates. In the Why Qloo panel, every step in the "How this session was built" timeline carries a small word naming the policy that produced it ("model" or "scripted"), and the panel's "This card" section notes "Prompt written from a template, not by a model" when a card's prompt came from a template. The deterministic policy is also what the unit tests and the fixture-mode demo use, so the demo never depends on model latency or availability.
+When no LLM key is configured, or the model fails, the cards keep their template prompts. If Qloo runs out of time part-way, the deck is chosen from what it had already returned. In the Why Qloo panel, every step in the "How this session was built" timeline carries a small word naming who produced it ("model" or "scripted"), the header says whether the prompts were written by a model or come from templates, and the panel's "This card" section notes "Prompt written from a template, not by a model" when a card's prompt came from a template. The unit tests and the fixture-mode demo run without a model, so the demo never depends on model latency or availability.
+
+Facts on a card are only ever ones Qloo gave: a template names an artist's decade only when Qloo's `start_year` puts it inside the person's youth, films and TV are kept to the hometown country's releases (films widen to other countries only when the home country has none; television never does, and an empty answer skips the domain), and prompts for places and restaurants, which may be newer than the person's youth, ask about the hometown rather than saying the person went there back then. The model is given the same rules.
 
 ### Youth window and age signal
 
@@ -131,14 +138,14 @@ With no keys configured the app runs in **fixture mode**: every Qloo call is ans
 | `QLOO_API_KEY` | unset | Hackathon API key. Never commit it; `.env.local` is git-ignored. |
 | `QLOO_MODE` | auto | `live` or `fixture`. Unset means live when a key is present, fixture otherwise. |
 | `QLOO_BASE_URL` | `https://hackathon.api.qloo.com` | Override only if Qloo moves the hackathon host. |
-| `LLM_API_KEY` | unset | Key for an OpenAI-compatible chat completions endpoint with tool calling. |
+| `LLM_API_KEY` | unset | Key for the model that writes the prompts. |
 | `LLM_MODE` | auto | `live` or `fixture`. Unset means live when a key is present. |
-| `LLM_BASE_URL` | `https://api.openai.com/v1` | Any provider that speaks `/chat/completions` (OpenAI, OpenRouter, Groq, Together, a local server). |
-| `LLM_MODEL` | `gpt-4o-mini` | Model name sent to that endpoint. |
+| `LLM_BASE_URL` | `https://api.openai.com/v1` | `https://api.anthropic.com/v1` uses Anthropic's Messages API; anything else is called as an OpenAI-compatible `/chat/completions` endpoint (OpenAI, OpenRouter, Groq, Together, a local server). |
+| `LLM_MODEL` | `gpt-4o-mini` | Model name sent to that endpoint, e.g. `claude-haiku-4-5`. |
 | `NEXT_PUBLIC_SITE_URL` | derived | Absolute site URL for Open Graph tags. Vercel's production URL is used when unset. |
 | `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` | unset | Upstash Redis for the daily budget and preset snapshots (the Vercel Marketplace integration sets them; `KV_REST_API_URL` / `KV_REST_API_TOKEN` work too). Unset means no budget and no snapshots. |
-| `BUDGET_LLM_PLANS_PER_DAY` | `40` | Model-written sessions allowed per UTC day. Past it, the deterministic planner writes template prompts. `unlimited` removes the cap. |
-| `BUDGET_LLM_ADAPTS_PER_DAY` | `120` | Model-driven re-tunes per UTC day; same fallback. |
+| `BUDGET_LLM_PLANS_PER_DAY` | `40` | Sessions per UTC day whose prompts the model writes. Past it, sessions keep their template prompts. `unlimited` removes the cap. |
+| `BUDGET_LLM_ADAPTS_PER_DAY` | `120` | Re-tunes per UTC day whose prompts the model writes; same fallback. |
 | `NEXT_PUBLIC_BOTID` | unset | `off` disables Vercel BotID on `/api/plan` and `/api/adapt` (client and server). |
 | `BUDGET_QLOO_CALLS_PER_DAY` | `600` | Live Qloo calls per UTC day (cached answers are free). Past it, sessions come from the offline catalog with a note in the header. |
 
@@ -166,18 +173,18 @@ Then `QLOO_MODE=fixture` replays the recordings and falls back to the synthetic 
 
 ### The LLM
 
-The agent calls `${LLM_BASE_URL}/chat/completions` with the five tools above, `tool_choice: "auto"`, and the person's details in the user prompt (no name is needed by the model, but it is included so prompts can address the person; nothing is stored). Up to two nudges are sent if the model stops without committing a plan. If the model errors, times out, or exceeds the step budget, the trace records why and the deterministic policy takes over, so the caregiver always gets a deck.
+After the deck is dealt, the model gets one request: the person's details (no name is needed, but it is included so prompts can address the person; nothing is stored) and the cards by short refs with what Qloo said about each, and one tool, `write_prompts`, which it must call. With `LLM_BASE_URL=https://api.anthropic.com/v1` and `LLM_MODEL=claude-haiku-4-5` the request goes to Anthropic's Messages API through the official SDK; any other base URL is called as `${LLM_BASE_URL}/chat/completions`. A reply that runs out of tokens (`finish_reason: "length"`, `stop_reason: "max_tokens"`) or makes no tool call is a failure at once, with no retries or nudges; so is one that takes longer than 15 s for a plan or 8 s for a re-tune. On a failure the trace records why and the cards keep their template prompts. Prompts carrying markup, JSON or ids are dropped, and the agent's narration is never shown if it is anything but a plain sentence.
 
-`LLM_MODE=fixture` (or no key) skips the model entirely.
+Switching the model is an environment change only. `LLM_MODE=fixture` (or no key) skips the model entirely.
 
 ## Live adaptation
 
 Tapping **They lit up** on a card:
 
-1. marks it, puts the deck into the animated re-tuning state and streams `/api/adapt`;
-2. the agent calls `qloo_insights` for the same domain and one other domain with the liked entity added to `signal.interests.entities` and every entity already in the deck in `filter.exclude.entities`;
-3. `adapt_session` replaces up to three upcoming, unreacted cards (same domain first), never a card already shown or reacted to, and keeps at least three domains in the deck;
-4. the replaced cards slide into the deck strip marked **new**, and the trace is appended to the Why Qloo panel.
+1. marks it and moves the deck on to the next card after a beat, without waiting; the buttons never lock;
+2. in the background, streams `/api/adapt`: the agent calls `qloo_insights` for the same domain and one other domain together, with the liked entity added to `signal.interests.entities` and every entity already in the deck in `filter.exclude.entities` (about a second on live Qloo);
+3. `adapt_session` replaces up to three unreacted cards beyond the one the deck moved to (same domain first), never a card already shown, reacted to or in front of the caregiver, and keeps at least three domains in the deck;
+4. the replaced cards slide into the deck strip marked **new**, the model's prompts for them follow, and the trace is appended to the Why Qloo panel. Taps made meanwhile queue their own re-tunes, one after another.
 
 **Not this one** excludes that entity and steers the next cards of that domain toward a different domain (the last one that lit up, if any).
 
@@ -227,24 +234,27 @@ Reminiscence work and music are widely used in dementia care, and the evidence b
 ```bash
 npm run check      # typecheck + lint + unit tests
 npm test           # vitest: Qloo parameter building and validation, youth window and age bucket,
-                   #         fixture engine shape, client live/fixture behaviour, planner domain mix,
-                   #         adaptation (liked entity as signal, only upcoming cards replaced),
+                   #         fixture engine shape, client live/fixture behaviour, rate limiter and 429 retry, planner domain mix,
+                   #         adaptation (liked entity as signal, only cards ahead replaced), facts on cards,
+                   #         model-written prompts (recorded Claude Haiku 4.5 reply; OpenAI-compatible
+                   #         shape; failures keep the templates), deck updates landing on a deck in use,
                    #         daily budget and breaker, guard degradation ladder, response cache,
                    #         preset snapshots and replay, live-Qloo regressions (thin and empty answers,
                    #         era enforcement, running out of time; replays fixtures/live/ when present),
                    #         planning-view progress
 npm run test:e2e   # Playwright, fixture mode, tablet viewport: both presets end to end
-                   #         (plan → cards → Why Qloo → reaction → re-tune → reload persistence),
+                   #         (plan → cards → Why Qloo → reaction moves on at once → re-tune → reload persistence),
                    #         preset difference, intake autocomplete + a Spanish session, a Mexico City
                    #         custom person, auto-advance, the programme strip, unknown session,
-                   #         the empty state when Qloo has too little
+                   #         the empty state when Qloo has too little, model prompts landing in
+                   #         place with leaked markup kept off the screen
 ```
 
 The Playwright run builds the app and starts it on port 3100 with `QLOO_MODE=fixture` and `LLM_MODE=fixture`.
 
 ## Deploying to Vercel
 
-`vercel.json` sets the framework; nothing else is required. Import the repository, then set the environment variables above in the project settings (`QLOO_API_KEY` and, if you want the model, `LLM_API_KEY`, `LLM_BASE_URL`, `LLM_MODEL`). Leave `QLOO_MODE` unset so the deployment goes live the moment the key exists. The API routes declare `maxDuration` (60 s for plan and adapt) and the agent keeps one 50 s budget inside that, shared by the LLM loop, the deterministic fallback and every live Qloo request (the last 15 s are held back so the fallback can always finish). `fixtures/synthetic` is included in the function bundle via `outputFileTracingIncludes` so fixture mode also works when deployed.
+`vercel.json` sets the framework; nothing else is required. Import the repository, then set the environment variables above in the project settings (`QLOO_API_KEY` and, if you want the model, `LLM_API_KEY`, `LLM_BASE_URL`, `LLM_MODEL`). Leave `QLOO_MODE` unset so the deployment goes live the moment the key exists. The API routes declare `maxDuration` (60 s for plan and adapt); inside that the agent gives Qloo a 40 s budget (a live plan takes about two seconds) and the model at most 15 s after the deck is dealt. `fixtures/synthetic` is included in the function bundle via `outputFileTracingIncludes` so fixture mode also works when deployed.
 
 For a public demo, add the free Upstash Redis integration from the Vercel Marketplace and read the next section.
 
@@ -255,11 +265,11 @@ The three API routes are public and need no login, so anyone could loop them and
 1. **Edge rules, no code.** In the Vercel dashboard: one WAF rate-limit rule on `/api/*` (40 requests per minute per IP), the Bot Protection managed ruleset in Challenge mode and the AI Bots ruleset in Deny mode. Blocked requests never invoke a function.
 2. **Every live Qloo answer is cached.** The live client wraps each `GET` in Next.js's persistent fetch cache (`unstable_cache`, which on Vercel is the Data Cache: shared by every function instance, kept across deployments, free on all plans). Entries live 30 days under the tag `qloo`; the hackathon guide allows private server-side caching with no time limit. Only `200` answers are stored, so a "no results" search is asked again. A preset's plan therefore costs Qloo nothing after its first run, and a repeated autocomplete query nothing at all. `/api/search` additionally sends `Cache-Control: public, max-age=120, s-maxage=86400, stale-while-revalidate=604800`, so the CDN answers repeats without invoking the function. The Why Qloo panel marks cached calls.
 3. **A global daily budget with graceful degradation.** Three counters in Upstash Redis, one per UTC day (`INCR` + `EXPIRE`, keyed `reminisce:budget:<kind>:<day>`), bound the whole demo's spend regardless of how many visitors there are: model-written plans, model-driven re-tunes, and live Qloo calls that the cache did not answer. The caps are the `BUDGET_*` variables above. The ladder when a cap is reached:
-   - model budget spent: the deterministic planner builds the session through the same tools, and the panel labels every prompt as template-written;
+   - model budget spent: the session is the same, with its prompts from the template set, and the panel labels every prompt as template-written;
    - Qloo budget spent, or a Qloo call answering 429, 5xx or timing out: the synthetic catalog answers instead, and the session header carries a quiet line ("Reminisce has had a busy day. This session uses the offline catalog; Qloo returns tomorrow.").
    Never an error page. The budget fails safe: with no Redis configured there is no budget; with Redis configured but unreachable, the cheap path is taken for a minute at a time.
-4. **Preset snapshots.** Michiko's and Frank's first live run of the day is kept in Redis for 24 hours (`reminisce:preset:<id>:v1`), and later visitors get it replayed: the trace streams again with a short gap between events so the planning view still animates, the cards and their Qloo provenance are the same, and the trace and the Why Qloo panel say "Replayed from a live Qloo run at 09:14 UTC on 5 November". Only a full-strength run is kept, never a degraded one or one where the configured model fell back to the deterministic planner, and re-tunes on a preset stay live. Nothing is written to the repository: the guide forbids Qloo data in public repositories.
-5. **A smaller model loop.** The model gets 12 completions for a plan and 8 for a re-tune (was 22), `max_tokens: 1500` per completion, and a system-prompt line asking for all `qloo_insights` calls as parallel tool calls in one turn. The deterministic planner takes over when the cap is reached, as it does on any model error.
+4. **Preset snapshots.** Michiko's and Frank's first live run of the day is kept in Redis for 24 hours (`reminisce:preset:<id>:v2` in production, kept across deploys; preview and development deployments use `reminisce:<deployment id>:preset:<id>:v2`, so their runs never reach production), with the model's prompts in place, and later visitors get it replayed: the trace streams again 40 ms apart so the planning view still fills in and the preset opens in about a second, the cards and their Qloo provenance are the same, and the trace and the Why Qloo panel say "Replayed from a live Qloo run at 09:14 UTC on 5 November". Any full-strength run is kept (live, undegraded Qloo and a full deck), whoever wrote its prompts; if the model failed on that run, the next replay asks it again and keeps its prompts for the rest of the day. Narration that is not a plain sentence is stripped before a snapshot is kept and again when one is replayed. Re-tunes on a preset stay live. Nothing is written to the repository: the guide forbids Qloo data in public repositories.
+5. **One small model call.** The model is asked once per plan and once per re-tune, with `max_tokens: 1500` and no retries; it never drives the Qloo calls, so it can never multiply them.
 6. **Vercel BotID (Basic).** `src/instrumentation-client.ts` attaches an invisible classification to the browser's own calls to `/api/plan` and `/api/adapt` (production builds only, so development stays offline-capable), and each route answers `403` to a bot. The server check runs only on Vercel and fails open, so a classifier hiccup can never cost a human their session; the daily budget bounds whatever gets by. `NEXT_PUBLIC_BOTID=off` turns it off on both sides.
 
 Residual risk is a headless-browser farm rotating IPs: it passes the challenge and the classifier, then burns the day's budget in minutes, and the demo degrades (rather than going down or burning the key) until midnight UTC.
@@ -277,9 +287,9 @@ Residual risk is a headless-browser farm rotating IPs: it passes the challenge a
 src/app/                 pages, layout, API routes (/api/plan, /api/adapt, /api/search)
 src/components/home/     intake form, Qloo autocomplete, presets
 src/components/session/  memory card, deck strip, planning and re-tuning views, Why Qloo panel
-src/lib/qloo/            client (live + fixture), response cache, parameter validation tables, fixture engine, place-name matching, types
+src/lib/qloo/            client (live + fixture), rate limiter, response cache, parameter validation tables, fixture engine, place-name matching, types
 src/lib/agent/           tool definitions, tool execution + entity pool, loop, LLM and scripted policies, prompts
-src/lib/session/         person/session types, youth window, presets, localStorage, zod schemas, deck size, provenance wording, display names, auto-advance
+src/lib/session/         person/session types, youth window, presets, localStorage, zod schemas, deck size, provenance wording, display names, auto-advance, deck updates, narration filter
 src/lib/i18n/            typed UI dictionaries: en, es, ja
 src/lib/guard/           daily budget and breaker (Upstash), per-request guard, preset snapshots, BotID check
 fixtures/synthetic/      hand-authored synthetic catalog, nine worlds (committed, marked synthetic)

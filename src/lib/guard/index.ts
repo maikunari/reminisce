@@ -4,7 +4,7 @@
  * the answer is "the cheaper one".
  *
  * The degradation ladder, from the review:
- *   model budget spent  -> deterministic planner, template prompts (labelled in the panel)
+ *   model budget spent  -> template prompts, no model call (labelled in the panel)
  *   Qloo budget spent   -> synthetic catalog for the whole session, with a quiet banner
  *   Qloo call fails     -> synthetic catalog for that call, with a quiet banner
  * Never an error page.
@@ -44,8 +44,8 @@ export function isFallbackWorthy(error: QlooError): boolean {
 }
 
 export const GUARD_COPY = {
-  llmSpent: "Today's allowance of model-written sessions is used up, so the deterministic planner is building this one: the same Qloo calls, with prompts from the template set.",
-  llmUnknown: "Reminisce couldn't check today's model allowance, so the deterministic planner is building this session: the same Qloo calls, with prompts from the template set.",
+  llmSpent: "Today's allowance of model-written prompts is used up, so this session keeps its prompts from the template set: the same Qloo calls and cards.",
+  llmUnknown: "Reminisce couldn't check today's model allowance, so this session keeps its prompts from the template set: the same Qloo calls and cards.",
   qlooSpentNote: "Today's allowance of live Qloo calls is used up, so this session is built from the offline catalog.",
   qlooUnknownNote: "Reminisce couldn't check today's Qloo allowance, so this session is built from the offline catalog.",
   qlooSpentBanner: "Reminisce has had a busy day. This session uses the offline catalog; Qloo returns tomorrow.",

@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { LLM_MAX_STEPS, planSession } from "@/lib/agent";
-import { LLM_MAX_TOKENS } from "@/lib/agent/policies/llm";
+import { planSession } from "@/lib/agent";
 import { readServerEnv } from "@/lib/env";
 import { QlooClient } from "@/lib/qloo/client";
 import { PRESETS } from "@/lib/session/presets";
@@ -90,7 +89,7 @@ describe("planSession (deterministic planner, fixture Qloo)", () => {
     expect(a.cards.map((c) => c.entityId)).toEqual(b.cards.map((c) => c.entityId));
     const qlooCalls = a.trace.filter((e) => e.qloo);
     expect(qlooCalls.length).toBeGreaterThanOrEqual(8);
-    expect(qlooCalls.map((e) => e.qloo!.path)).toEqual(expect.arrayContaining(["/search", "/v2/tags", "/v2/insights"]));
+    expect(qlooCalls.map((e) => e.qloo!.path)).toEqual(expect.arrayContaining(["/search", "/v2/insights"]));
     expect(a.trace.some((e) => e.tool === "plan_session" && e.kind === "tool_result")).toBe(true);
     expect(a.trace.every((e) => e.phase === "plan")).toBe(true);
   });
@@ -111,72 +110,8 @@ describe("planSession (deterministic planner, fixture Qloo)", () => {
   });
 });
 
-describe("planSession (LLM policy, fixture Qloo)", () => {
-  const llmEnv = readServerEnv({ QLOO_MODE: "fixture", LLM_MODE: "live", LLM_API_KEY: "test-key" });
-
-  function toolCall(name: string, args: unknown) {
-    return { id: `call_${Math.random().toString(36).slice(2, 8)}`, type: "function", function: { name, arguments: JSON.stringify(args) } };
-  }
-
-  it("validates the domain mix on the committed cards, not on cards beyond the cap", async () => {
-    let turn = 0;
-    const requests: { max_tokens?: number; messages: { role: string; content: string | null }[] }[] = [];
-    const fetchImpl = (async (_url: string, init: RequestInit) => {
-      const body = JSON.parse(String(init.body)) as { max_tokens?: number; messages: { role: string; content: string | null }[] };
-      requests.push(body);
-      const tools = body.messages.filter((m) => m.role === "tool").map((m) => JSON.parse(m.content ?? "{}") as Record<string, unknown>);
-      const ids = (i: number) => ((tools[i]?.entities ?? []) as { entity_id: string }[]).map((e) => e.entity_id);
-      let calls;
-      turn += 1;
-      if (turn === 1) {
-        calls = [
-          toolCall("qloo_insights", { filter_type: "urn:entity:artist", signal_location_query: "Chicago", take: 6 }),
-          toolCall("qloo_insights", { filter_type: "urn:entity:movie", signal_location_query: "Chicago", release_year_min: 1960, release_year_max: 1975, take: 6 }),
-          toolCall("qloo_insights", { filter_type: "urn:entity:destination", signal_location_query: "Chicago", take: 4 }),
-        ];
-      } else {
-        const music = ids(0).map((id) => ({ entity_id: id, domain: "music", prompt: "Tell me about this song." }));
-        const film = ids(1).map((id) => ({ entity_id: id, domain: "film", prompt: "Tell me about this film." }));
-        const trips = ids(2).map((id) => ({ entity_id: id, domain: "destination", prompt: "Tell me about this trip." }));
-        const cards =
-          turn === 2
-            ? [...music.slice(0, 5), ...film.slice(0, 5), ...trips.slice(0, 2)]
-            : [...music.slice(0, 4), ...film.slice(0, 3), ...trips.slice(0, 2)];
-        calls = [toolCall("plan_session", { cards })];
-      }
-      return new Response(JSON.stringify({ choices: [{ message: { role: "assistant", content: null, tool_calls: calls } }] }), { status: 200 });
-    }) as unknown as typeof fetch;
-
-    const result = await planSession(frank, { env: llmEnv, qloo, now: NOW, fetchImpl });
-
-    expect(result.planner).toBe("llm");
-    expect(turn).toBe(3);
-    const rejected = result.trace.find((e) => e.tool === "plan_session" && e.kind === "error");
-    expect(rejected?.summary).toMatch(/at least 3 domains in the first 10 cards, got 2/);
-    expect(result.cards).toHaveLength(9);
-    expect(new Set(result.cards.map((c) => c.domain)).size).toBe(3);
-    expect(result.cards.every((c) => c.promptSource === "llm")).toBe(true);
-    expect(result.trace.filter((e) => e.kind === "tool_call").every((e) => e.policy === "llm")).toBe(true);
-    // Spend caps: a bounded completion, and a prompt that asks for the Qloo calls in one turn.
-    expect(requests.every((r) => r.max_tokens === LLM_MAX_TOKENS)).toBe(true);
-    expect(requests[0]?.messages[0]?.content).toMatch(/parallel tool calls in one turn/);
-  });
-
-  it("hands over to the deterministic planner once the model has used its step cap", async () => {
-    let completions = 0;
-    const fetchImpl = (async () => {
-      completions += 1;
-      const calls = [toolCall("qloo_search_tags", { query: "restaurant", parent_type: "urn:entity:place" })];
-      return new Response(JSON.stringify({ choices: [{ message: { role: "assistant", content: null, tool_calls: calls } }] }), { status: 200 });
-    }) as unknown as typeof fetch;
-    const result = await planSession(frank, { env: llmEnv, qloo, now: NOW, fetchImpl });
-    expect(completions).toBe(LLM_MAX_STEPS.plan);
-    expect(result.planner).toBe("deterministic");
-    expect(result.cards.length).toBeGreaterThanOrEqual(8);
-    expect(result.trace.some((e) => e.kind === "note" && /stopped after 12 steps/.test(e.summary))).toBe(true);
-  });
-
-  it("labels the scripted fallback's steps and template prompts", async () => {
+describe("planSession (labels)", () => {
+  it("labels the scripted steps and template prompts", async () => {
     const result = await plan(frank);
     expect(result.cards.every((c) => c.promptSource === "template")).toBe(true);
     expect(result.trace.filter((e) => e.kind === "tool_call").every((e) => e.policy === "scripted")).toBe(true);

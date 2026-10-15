@@ -34,12 +34,12 @@ const TEMPLATES: Record<Language, Record<Domain, string[]>> = {
     dining: [
       "Did you ever eat somewhere like {title}? What would you order?",
       "Tell me about a special night out in {hometown}. Somewhere like {title}?",
-      "What did a treat taste like back then? Something from {title}, or made at home?",
+      "What was a special meal out in {hometown} like when you were young? Anywhere like {title}?",
     ],
     place: [
-      "Tell me about {title}. What was it like when you were young?",
-      "Did you ever spend a day at {title}? Was the weather good?",
-      "How would you get to {title} from home? Who would come along?",
+      "Have you been to {title}? What was that part of {hometown} like when you were young?",
+      "Tell me about a day out in {hometown} when you were young. Did you go anywhere like {title}?",
+      "Have you seen {title}? How did you get around {hometown} when you were young?",
     ],
     destination: [
       "Did you ever take a trip to {title}? How did you get there?",
@@ -67,12 +67,12 @@ const TEMPLATES: Record<Language, Record<Domain, string[]>> = {
     dining: [
       "{title}のようなお店で食べたことはありますか？何を頼みましたか？",
       "{hometown}での特別な外食のこと、教えてください。{title}のようなお店で？",
-      "昔のごちそうはどんな味でしたか？{title}のようなお店の味、それともお家の味？",
+      "{title}のようなお店の味を思い出しますか？昔のごちそうは外で食べましたか、それともお家の味でしたか？",
     ],
     place: [
-      "{title}のこと、教えてください。若い頃はどんな場所でしたか？",
-      "{title}で一日過ごしたことはありますか？お天気は良かったですか？",
-      "お家から{title}へはどうやって行きましたか？誰と一緒でしたか？",
+      "{title}に行かれたことはありますか？若い頃、{hometown}のそのあたりはどんな様子でしたか？",
+      "若い頃、{hometown}での休日はどう過ごしましたか？{title}のような場所へも出かけましたか？",
+      "{title}をご覧になったことはありますか？若い頃は{hometown}の中をどうやって移動していましたか？",
     ],
     destination: [
       "{title}へ旅行したことはありますか？どうやって行きましたか？",
@@ -100,12 +100,12 @@ const TEMPLATES: Record<Language, Record<Domain, string[]>> = {
     dining: [
       "¿Comió alguna vez en un sitio como {title}? ¿Qué pedía?",
       "Cuénteme sobre una salida especial en {hometown}. ¿Algún sitio como {title}?",
-      "¿A qué sabía un capricho entonces? ¿Algo de {title} o hecho en casa?",
+      "¿Cómo era una comida especial fuera de casa en {hometown} cuando era joven? ¿Había algún sitio como {title}?",
     ],
     place: [
-      "Cuénteme sobre {title}. ¿Cómo era cuando usted era joven?",
-      "¿Pasó alguna vez un día en {title}? ¿Hacía buen tiempo?",
-      "¿Cómo iba a {title} desde casa? ¿Quién le acompañaba?",
+      "¿Ha estado alguna vez en {title}? ¿Cómo era esa parte de {hometown} cuando usted era joven?",
+      "Cuénteme sobre un día de paseo en {hometown} cuando era joven. ¿Iba a algún sitio como {title}?",
+      "¿Conoce {title}? ¿Cómo se movía por {hometown} cuando era joven?",
     ],
     destination: [
       "¿Hizo alguna vez un viaje a {title}? ¿Cómo llegó hasta allí?",
@@ -135,24 +135,42 @@ function fill(template: string, vars: Vars): string {
     .trim();
 }
 
-/** Deterministic conversation prompt for a card. */
+/**
+ * The decade to name in "{title} was everywhere in the {decade}": the artist's
+ * own first decade when it falls inside the person's youth, otherwise none.
+ * Qloo gives artists no release year, and the youth window's start is not a
+ * fact about the artist ("Bette Midler was everywhere in the 1950s").
+ */
+export function artistDecade(startYear: number | undefined, youth: { start: number; end: number }): string | undefined {
+  if (startYear === undefined || startYear < youth.start || startYear > youth.end) return undefined;
+  return describeDecade(startYear);
+}
+
+/**
+ * Deterministic conversation prompt for a card. Places and restaurants may be
+ * newer than the person's youth, so their templates never say the person went
+ * there back then; they ask about the hometown instead.
+ */
 export function offlinePrompt(opts: {
   domain: Domain;
   language: Language;
   title: string;
   year?: number;
+  /** Artists: the year they started performing (Qloo's start_year), if known. */
+  startYear?: number;
   entityId: string;
   person: Person;
-  youthStart: number;
+  youthWindow: { start: number; end: number };
 }): string {
   const list = TEMPLATES[opts.language][opts.domain];
-  const usable = list.filter((t) => !t.includes("{year}") || opts.year !== undefined);
+  const decade = opts.domain === "music" ? artistDecade(opts.startYear, opts.youthWindow) : undefined;
+  const usable = list.filter((t) => (!t.includes("{year}") || opts.year !== undefined) && (!t.includes("{decade}") || decade !== undefined));
   const pool = usable.length > 0 ? usable : list;
   const pick = pool[hashString(opts.entityId + opts.domain) % pool.length] ?? pool[0]!;
   return fill(pick, {
     title: opts.title,
     year: opts.year,
-    decade: describeDecade(opts.year ?? opts.youthStart),
+    decade,
     person: opts.person.name,
     hometown: opts.person.hometown,
   });
@@ -197,10 +215,13 @@ export const NARRATION = {
     `${p.name} was 15 to 30 between ${start} and ${end}. Building around ${p.hometown} and ${
       p.favorites.length > 0 ? p.favorites.map((f) => f.name).join(", ") : `${pronounsFor(p.pronoun).possessive} generation's taste`
     }.`,
-  resolveFavorite: (name: string) => `Looking up ${name} in Qloo's entity search so it can seed the taste graph.`,
-  resolveHometown: (name: string) => `Resolving ${name} to a Qloo locality for the location signal.`,
-  tags: (what: string) => `Finding Qloo's tag ids for ${what}.`,
+  resolve: (favorites: string[], hometown: string) =>
+    favorites.length === 0
+      ? `Resolving ${hometown} to a Qloo locality for the location signal.`
+      : `Looking up ${favorites.join(", ")} in Qloo's entity search to seed the taste graph, and resolving ${hometown} to a Qloo locality.`,
   insights: (what: string) => `Asking Qloo for ${what}.`,
+  insightsAll: (place: string, start: number, end: number) =>
+    `Asking Qloo, all at once, for the music, films, television, places to eat, landmarks and trips of ${place} from ${start} to ${end}.`,
   widen: (what: string) => `Few results. Widening the ${what} request.`,
   plan: (count: number, domains: number) => `Choosing ${count} cards across ${domains} domains, highest affinity first.`,
   adaptLiked: (title: string, p: Person) =>

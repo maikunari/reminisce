@@ -46,24 +46,26 @@ for (const preset of PRESETS) {
     await page.keyboard.press("Escape");
     await expect(panel).toBeHidden();
 
-    // Feedback re-tunes upcoming cards, then the deck moves on by itself.
+    // Feedback moves the deck on at once; the re-tune lands behind it, on cards further ahead.
     const before = await deckTitles(page);
     const currentTitle = await page.getByTestId("card-title").innerText();
     await page.getByTestId("react-lit-up").click();
-    await expect(page.getByTestId("react-lit-up")).toHaveAttribute("aria-pressed", "true");
-    await expect(page.getByTestId("react-lit-up")).toBeDisabled();
+    await expect(page.getByTestId("card-title")).toHaveText(before[1]!, { timeout: 3_000 });
+    await expect(page.getByTestId("react-lit-up")).toBeEnabled();
     await expect(page.getByTestId("notice")).toContainText(/of the next cards now lean/, { timeout: 45_000 });
     const after = await deckTitles(page);
     expect(after).not.toEqual(before);
-    expect(after[0]).toBe(before[0]);
+    // The card the deck moved to is never swapped under the caregiver.
+    expect(after.slice(0, 2)).toEqual(before.slice(0, 2));
     expect(after.length).toBe(before.length);
-    await expect(page.getByTestId("card-title")).not.toHaveText(currentTitle, { timeout: 5_000 });
     await expect(page.getByTestId("card-title")).toHaveText(after[1]!);
     await expect(page.getByTestId("react-lit-up")).toHaveAttribute("aria-pressed", "false");
 
     // Keyboard navigation and persistence across reload.
     await page.keyboard.press("ArrowLeft");
     await expect(page.getByTestId("card-title")).toHaveText(currentTitle);
+    await expect(page.getByTestId("react-lit-up")).toHaveAttribute("aria-pressed", "true");
+    await expect(page.getByTestId("react-lit-up")).toBeDisabled();
     await page.keyboard.press("ArrowRight");
     const secondTitle = await page.getByTestId("card-title").innerText();
     expect(secondTitle).toBe(after[1]);
@@ -208,10 +210,9 @@ test("reacting to every card ends in a printable keepsake", async ({ page }) => 
     const button = page.getByTestId(i % 3 === 2 ? "react-not-this" : "react-lit-up");
     await expect(button).toBeEnabled();
     await button.click();
-    await expect(button).toHaveAttribute("aria-pressed", "true");
-    await expect(page.getByTestId("retuning-banner")).toBeHidden({ timeout: 45_000 });
-    // No "Next" needed: the deck moves on by itself once the re-tune is done.
-    if (i < total - 1) await expect(page.getByTestId("card-title")).not.toHaveText(title, { timeout: 5_000 });
+    // No "Next" needed, and no waiting for the re-tune: the deck moves on by itself at once.
+    if (i < total - 1) await expect(page.getByTestId("card-title")).not.toHaveText(title, { timeout: 3_000 });
+    else await expect(button).toHaveAttribute("aria-pressed", "true");
   }
   const keepsake = page.getByTestId("keepsake");
   await expect(keepsake).toBeVisible();
@@ -239,4 +240,23 @@ test("when Qloo has too little for a person, planning ends in a kind empty state
   await expect(empty.getByRole("link", { name: "New session" })).toBeVisible();
   await empty.getByRole("button", { name: "Try again" }).click();
   await expect.poll(() => attempts).toBe(2);
+});
+
+test("the model's prompts land on the dealt cards in place, and its markup never reaches the screen", async ({ page }) => {
+  await page.route("**/api/plan", async (route) => {
+    const response = await route.fetch();
+    const lines = (await response.text()).split("\n").filter(Boolean).map((l) => JSON.parse(l) as { type: string; result?: { cards: { id: string }[] } });
+    const plan = lines.find((l) => l.type === "plan")!;
+    const leak = { type: "trace", event: { id: "leak", at: 1, phase: "plan", kind: "narration", policy: "llm", summary: '<｜DSML｜invoke name="plan_session"><｜DSML｜parameter name="cards">[{"entity_id": "x"}]' } };
+    const prompts = { type: "prompts", prompts: [{ cardId: plan.result!.cards[0]!.id, prompt: "Who did you sing these songs with, back home?" }], trace: [] };
+    const body = [leak, ...lines, prompts].map((l) => JSON.stringify(l)).join("\n");
+    await route.fulfill({ status: 200, contentType: "application/x-ndjson", body });
+  });
+  await page.goto("/");
+  await page.getByTestId("preset-michiko").click();
+  await expect(page.getByTestId("memory-card")).toBeVisible({ timeout: 45_000 });
+  await expect(page.getByTestId("card-prompt")).toHaveText("Who did you sing these songs with, back home?");
+  await page.getByTestId("why-qloo-toggle").click();
+  await expect(page.getByTestId("trace-timeline")).not.toContainText("DSML");
+  await expect(page.getByTestId("trace-policy")).toContainText("prompts written by a model");
 });

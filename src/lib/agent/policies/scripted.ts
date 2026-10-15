@@ -12,7 +12,7 @@ import type { Policy, PolicyStep, ToolCall } from "../loop";
 import { newCallId } from "../loop";
 import { NARRATION } from "../prompts";
 import { chooseDeck } from "./pool";
-import type { InsightsArgs, PlanArgs, AdaptArgs, ToolContext, ToolName, ToolOutcome } from "../tools";
+import { PLACE_TAGS, type InsightsArgs, type PlanArgs, type AdaptArgs, type ToolContext, type ToolName, type ToolOutcome } from "../tools";
 import type { z } from "zod";
 
 type InsightsArgsT = z.infer<typeof InsightsArgs>;
@@ -180,44 +180,31 @@ function insightHits(out: ToolOutcome | undefined): InsightHit[] {
   return Array.isArray(r.entities) ? r.entities : [];
 }
 
-function tagHits(out: ToolOutcome | undefined): { id: string; name: string }[] {
-  if (!out?.ok) return [];
-  const r = out.result as { tags?: { id: string; name: string }[] };
-  return Array.isArray(r.tags) ? r.tags : [];
-}
-
-function pickTagIds(tags: { id: string; name: string }[], words: string[], max: number): string[] {
-  const matches = tags.filter((t) => words.some((w) => t.id.toLowerCase().includes(w) || t.name.toLowerCase().includes(w)));
-  matches.sort((a, b) => a.id.length - b.id.length);
-  return matches.slice(0, max).map((t) => t.id);
-}
-
-/** A canonical place tag such as urn:tag:genre:place:landmark, preferring the genre form over the category form. */
-function placeTag(tags: { id: string }[], word: string): string | undefined {
-  return tags.find((t) => t.id === `urn:tag:genre:place:${word}`)?.id ?? tags.find((t) => t.id === `urn:tag:category:place:${word}`)?.id;
-}
-
 function unique<T>(items: T[]): T[] {
   return [...new Set(items)];
 }
 
+/**
+ * A policy written as a generator: each `yield` is one step, and the step's
+ * outcomes come back from the yield in the order of its tool calls.
+ */
 abstract class GeneratorPolicy implements Policy {
   abstract readonly kind: "deterministic";
-  private gen: Generator<PolicyStep, void, ToolOutcome | undefined> | null = null;
-  private last: ToolOutcome | undefined;
+  private gen: Generator<PolicyStep, void, ToolOutcome[]> | null = null;
+  private outcomes: ToolOutcome[] = [];
 
-  protected abstract script(): Generator<PolicyStep, void, ToolOutcome | undefined>;
+  protected abstract script(): Generator<PolicyStep, void, ToolOutcome[]>;
 
   async next(): Promise<PolicyStep> {
     if (!this.gen) this.gen = this.script();
-    const r = this.gen.next(this.last);
-    this.last = undefined;
+    const r = this.gen.next(this.outcomes);
+    this.outcomes = [];
     if (r.done) return { done: true };
     return r.value;
   }
 
   observe(_call: ToolCall, outcome: ToolOutcome): void {
-    this.last = outcome;
+    this.outcomes.push(outcome);
   }
 }
 
@@ -228,54 +215,52 @@ export class ScriptedPlanPolicy extends GeneratorPolicy {
     super();
   }
 
-  protected *script(): Generator<PolicyStep, void, ToolOutcome | undefined> {
+  protected *script(): Generator<PolicyStep, void, ToolOutcome[]> {
     const ctx = this.ctx;
     const person = ctx.person;
     const yw = ctx.youthWindow;
     yield { narration: NARRATION.start(person, yw.start, yw.end) };
 
-    // 1. Seeds: resolve each favorite to a Qloo entity id.
+    // 1. Seeds and the hometown, looked up together: each favorite to a Qloo
+    // entity id, the hometown to a locality (for the location signal and release country).
+    const favorites = person.favorites.slice(0, 3);
+    const lookups = favorites.filter((f) => !f.entityId);
+    const resolved = yield {
+      narration: NARRATION.resolve(
+        lookups.map((f) => f.name),
+        person.hometown,
+      ),
+      toolCalls: [
+        ...lookups.map((fav) => call("qloo_search_entity", { query: fav.name, types: fav.type ? [fav.type] : [...FAVORITE_SEARCH_TYPES], take: 5 })),
+        call("qloo_search_entity", { query: person.hometown, types: ["urn:entity:locality"], take: 3 }),
+      ],
+    };
     const seeds: Seed[] = [];
-    for (const fav of person.favorites.slice(0, 3)) {
+    const missing: string[] = [];
+    for (const fav of favorites) {
       if (fav.entityId) {
         seeds.push({ id: fav.entityId, name: fav.name });
         ctx.names.set(fav.entityId, fav.name);
         continue;
       }
-      const out = yield {
-        narration: NARRATION.resolveFavorite(fav.name),
-        toolCalls: [call("qloo_search_entity", { query: fav.name, types: fav.type ? [fav.type] : [...FAVORITE_SEARCH_TYPES], take: 5 })],
-      };
-      const hit = searchHits(out)[0];
+      const hit = searchHits(resolved[lookups.indexOf(fav)])[0];
       if (hit) seeds.push({ id: hit.entity_id, name: hit.name });
-      else yield { narration: `Qloo has no entity for "${fav.name}". Continuing without it.` };
+      else missing.push(fav.name);
     }
+    for (const name of missing) yield { narration: `Qloo has no entity for "${name}". Continuing without it.` };
     const seedIds = seeds.map((s) => s.id);
 
-    // 2. Hometown -> locality (for the location signal and release country).
-    const locOut = yield {
-      narration: NARRATION.resolveHometown(person.hometown),
-      toolCalls: [call("qloo_search_entity", { query: person.hometown, types: ["urn:entity:locality"], take: 3 })],
-    };
-    const top = searchHits(locOut)[0];
+    const top = searchHits(resolved[lookups.length])[0];
     // Adopt Qloo's locality only when it is the typed town itself; a lookalike
     // ("Chester" -> Manchester) is left to the location query to resolve.
     const locality = top && isTypedPlace(person.hometown, top) ? top : undefined;
     const locationQuery = locality?.name ?? person.hometown;
     const country = countryNameFor(locality);
+    if (country) ctx.homeCountry = country;
 
-    // 3. Tag ids for dining and landmarks (filter.tags only accepts real ids).
-    const restOut = yield {
-      narration: NARRATION.tags("restaurants"),
-      toolCalls: [call("qloo_search_tags", { query: "restaurant", parent_type: "urn:entity:place", take: 8 })],
-    };
-    const restaurantTags = pickTagIds(tagHits(restOut), ["restaurant"], 1);
-    const sightsOut = yield {
-      narration: NARRATION.tags("landmarks and attractions"),
-      toolCalls: [call("qloo_search_tags", { query: "tourist attraction", parent_type: "urn:entity:place", take: 8 })],
-    };
-    const landmarkOut = yield { toolCalls: [call("qloo_search_tags", { query: "landmark", parent_type: "urn:entity:place", take: 8 })] };
-    const attractionTags = [placeTag(tagHits(sightsOut), "tourist_attraction"), placeTag(tagHits(landmarkOut), "landmark")].filter((t): t is string => !!t);
+    // Tag ids for dining and landmarks are the same for everyone, so they are not looked up.
+    const restaurantTags = [PLACE_TAGS.restaurant];
+    const attractionTags = [PLACE_TAGS.touristAttraction, PLACE_TAGS.landmark];
 
     const base = {
       signal_entities: seedIds.length > 0 ? seedIds : undefined,
@@ -283,14 +268,10 @@ export class ScriptedPlanPolicy extends GeneratorPolicy {
       signal_age: ctx.ageBucket,
     };
 
-    // 4. Music.
-    const musicOut = yield {
-      narration: NARRATION.insights(`artists ${locationQuery} listeners of ${person.name}'s generation loved`),
-      toolCalls: [call("qloo_insights", { ...base, filter_type: "urn:entity:artist", purpose: "music of their youth", take: 10 } satisfies InsightsArgsT)],
-    };
-    const musicIds = insightHits(musicOut).map((h) => h.entity_id);
-
-    // 5. Film, restricted to the youth window (and the home country when known).
+    // 2. Every domain at once. A thin answer is widened by the tool itself,
+    // always inside the youth window.
+    const musicArgs: InsightsArgsT = { ...base, filter_type: "urn:entity:artist", purpose: "music of their youth", take: 10 };
+    // Films restricted to the youth window (and the home country when known).
     const filmArgs: InsightsArgsT = {
       ...base,
       filter_type: "urn:entity:movie",
@@ -300,11 +281,7 @@ export class ScriptedPlanPolicy extends GeneratorPolicy {
       filter_release_country: country ? [country] : undefined,
       take: 10,
     };
-    // A thin answer is widened by the tool itself, always inside the youth window.
-    const filmOut = yield { narration: NARRATION.insights(`films from ${yw.start} to ${yw.end}`), toolCalls: [call("qloo_insights", filmArgs)] };
-    const filmIds = insightHits(filmOut).map((h) => h.entity_id);
-
-    // 6. Television that premiered around the youth window.
+    // Television that premiered around the youth window.
     const tvArgs: InsightsArgsT = {
       ...base,
       filter_type: "urn:entity:tv_show",
@@ -314,61 +291,73 @@ export class ScriptedPlanPolicy extends GeneratorPolicy {
       filter_release_country: country ? [country] : undefined,
       take: 8,
     };
-    const tvOut = yield { narration: NARRATION.insights("television shows of the era"), toolCalls: [call("qloo_insights", tvArgs)] };
-    const tvIds = insightHits(tvOut).map((h) => h.entity_id);
-
-    // 7. Places to eat in the hometown.
-    const diningOut = yield {
-      narration: NARRATION.insights(`places to eat in ${locationQuery}`),
-      toolCalls: [
-        call("qloo_insights", {
-          signal_entities: base.signal_entities,
-          signal_age: base.signal_age,
-          filter_type: "urn:entity:place",
-          purpose: `dining in ${locationQuery}`,
-          filter_location_query: locationQuery,
-          filter_tags: restaurantTags.length > 0 ? restaurantTags : undefined,
-          take: 8,
-        } satisfies InsightsArgsT),
-      ],
+    // Places to eat in the hometown.
+    const diningArgs: InsightsArgsT = {
+      signal_entities: base.signal_entities,
+      signal_age: base.signal_age,
+      filter_type: "urn:entity:place",
+      purpose: `dining in ${locationQuery}`,
+      filter_location_query: locationQuery,
+      filter_tags: restaurantTags,
+      take: 8,
     };
-    const diningIds = insightHits(diningOut).map((h) => h.entity_id);
-
-    // 8. Landmarks in the hometown, excluding the dining results. Tuned by age
-    // only: the seed's taste pulls in modern venues (an arena, a gym) where the
-    // hometown's own sights (its theatre, its museums, its zoo) belong.
+    // Landmarks in the hometown, tuned by age only: the seed's taste pulls in
+    // modern venues (an arena, a gym) where the hometown's own sights (its
+    // theatre, its museums, its zoo) belong. Any that are also places to eat are dropped below.
     const placeArgs: InsightsArgsT = {
       signal_age: base.signal_age,
       filter_type: "urn:entity:place",
       purpose: `landmarks of ${locationQuery}`,
       filter_location_query: locationQuery,
-      filter_tags: attractionTags.length > 0 ? attractionTags : undefined,
-      exclude_entities: diningIds.length > 0 ? diningIds : undefined,
+      filter_tags: attractionTags,
       take: 8,
     };
-    let placeOut = yield { narration: NARRATION.insights(`landmarks of ${locationQuery}`), toolCalls: [call("qloo_insights", placeArgs)] };
-    if (insightHits(placeOut).length < 2 && attractionTags.length > 0) {
-      placeOut = yield { narration: NARRATION.widen("landmark"), toolCalls: [call("qloo_insights", { ...placeArgs, filter_tags: undefined })] };
-    }
-    const placeIds = insightHits(placeOut).map((h) => h.entity_id).filter((id) => !diningIds.includes(id));
-
-    // 9. Trips. Destination insights require entity signals; stand in with the top artist if needed.
-    const destSeeds = seedIds.length > 0 ? seedIds : musicIds.slice(0, 1);
-    const destOut = yield {
-      narration: NARRATION.insights(`destinations people from ${locationQuery} with these tastes travelled to`),
+    // Trips. Destination insights require entity signals; without a seed they
+    // wait for the top artist to stand in.
+    const destArgs = (seeds: string[]): InsightsArgsT => ({
+      ...base,
+      signal_entities: seeds,
+      filter_type: "urn:entity:destination",
+      purpose: "trips of a lifetime",
+      take: 8,
+    });
+    const asked = yield {
+      narration: NARRATION.insightsAll(locationQuery, yw.start, yw.end),
       toolCalls: [
-        call("qloo_insights", {
-          ...base,
-          signal_entities: destSeeds.length > 0 ? destSeeds : undefined,
-          filter_type: "urn:entity:destination",
-          purpose: "trips of a lifetime",
-          take: 8,
-        } satisfies InsightsArgsT),
+        call("qloo_insights", musicArgs),
+        call("qloo_insights", filmArgs),
+        call("qloo_insights", tvArgs),
+        call("qloo_insights", diningArgs),
+        call("qloo_insights", placeArgs),
+        ...(seedIds.length > 0 ? [call("qloo_insights", destArgs(seedIds))] : []),
       ],
     };
+    const [musicOut, filmOut, tvOut, diningOut] = asked;
+    let placeOut = asked[4];
+    let destOut = asked[5];
+    const musicIds = insightHits(musicOut).map((h) => h.entity_id);
+    const filmIds = insightHits(filmOut).map((h) => h.entity_id);
+    const tvIds = insightHits(tvOut).map((h) => h.entity_id);
+    const diningIds = insightHits(diningOut).map((h) => h.entity_id);
+
+    // 3. Only when needed: landmarks without the tags, and trips seeded by the top artist.
+    const widenPlaces = insightHits(placeOut).length < 2;
+    const lateDest = !destOut && musicIds.length > 0;
+    if (widenPlaces || lateDest) {
+      const more = yield {
+        narration: widenPlaces ? NARRATION.widen("landmark") : NARRATION.insights(`destinations people from ${locationQuery} with these tastes travelled to`),
+        toolCalls: [
+          ...(widenPlaces ? [call("qloo_insights", { ...placeArgs, filter_tags: undefined })] : []),
+          ...(lateDest ? [call("qloo_insights", destArgs(musicIds.slice(0, 1)))] : []),
+        ],
+      };
+      if (widenPlaces) placeOut = more[0];
+      if (lateDest) destOut = more[widenPlaces ? 1 : 0];
+    }
+    const placeIds = insightHits(placeOut).map((h) => h.entity_id).filter((id) => !diningIds.includes(id));
     const destIds = insightHits(destOut).map((h) => h.entity_id);
 
-    // 10. Choose and commit.
+    // 4. Choose and commit.
     const cards = chooseDeck({ music: musicIds, film: filmIds, dining: diningIds, place: placeIds, destination: destIds, tv: tvIds });
     const domainCount = new Set(cards.map((c) => c.domain)).size;
     const planArgs: PlanArgsT = { cards: cards.map((c) => ({ entity_id: c.entity_id, domain: c.domain })) };
@@ -418,7 +407,7 @@ export class ScriptedAdaptPolicy extends GeneratorPolicy {
     }
   }
 
-  protected *script(): Generator<PolicyStep, void, ToolOutcome | undefined> {
+  protected *script(): Generator<PolicyStep, void, ToolOutcome[]> {
     const ctx = this.ctx;
     const fb = ctx.feedback;
     if (!fb) return;
@@ -437,30 +426,20 @@ export class ScriptedAdaptPolicy extends GeneratorPolicy {
       yield { narration: NARRATION.adaptLiked(fb.card.title, this.ctx.person) };
       const signalSeeds = unique([fb.card.entityId, ...liked, ...seeds]);
       const domain = fb.card.domain;
-      let tagIds: string[] = [];
-      if (domain === "dining") {
-        const tagOut = yield {
-          narration: NARRATION.tags("restaurants"),
-          toolCalls: [call("qloo_search_tags", { query: "restaurant", parent_type: "urn:entity:place", take: 8 })],
-        };
-        tagIds = pickTagIds(tagHits(tagOut), ["restaurant"], 1);
-      }
-      const sameOut = yield {
-        narration: NARRATION.insights(`more ${DOMAIN_INFO[domain].plural} with "${fb.card.title}" as a signal`),
+      const cross = CROSS_DOMAIN[domain];
+      // The same domain and one other, asked together.
+      const [sameOut, crossOut] = yield {
+        narration: NARRATION.insights(`more ${DOMAIN_INFO[domain].plural} with "${fb.card.title}" as a signal, and ${DOMAIN_INFO[cross].plural} that match it`),
         toolCalls: [
           call(
             "qloo_insights",
             this.argsFor(domain, signalSeeds, currentIds, {
               purpose: `more like ${fb.card.title}`,
-              filter_tags: tagIds.length > 0 ? tagIds : undefined,
+              filter_tags: domain === "dining" ? [PLACE_TAGS.restaurant] : undefined,
             }),
           ),
+          call("qloo_insights", this.argsFor(cross, signalSeeds, currentIds, { purpose: `cross-domain from ${fb.card.title}` })),
         ],
-      };
-      const cross = CROSS_DOMAIN[domain];
-      const crossOut = yield {
-        narration: NARRATION.insights(`${DOMAIN_INFO[cross].plural} that match "${fb.card.title}" (cross-domain)`),
-        toolCalls: [call("qloo_insights", this.argsFor(cross, signalSeeds, currentIds, { purpose: `cross-domain from ${fb.card.title}` }))],
       };
       const same = insightHits(sameOut).filter((h) => !currentIds.includes(h.entity_id));
       const other = insightHits(crossOut).filter((h) => !currentIds.includes(h.entity_id));
@@ -490,7 +469,7 @@ export class ScriptedAdaptPolicy extends GeneratorPolicy {
       yield { narration: NARRATION.adaptDisliked(fb.card.title) };
       const lastLiked = [...cards].reverse().find((c) => c.reaction === "lit_up");
       const targetDomain: Domain = lastLiked ? lastLiked.domain : fb.card.domain === "music" ? "film" : "music";
-      const out = yield {
+      const [out] = yield {
         narration: NARRATION.insights(`${DOMAIN_INFO[targetDomain].plural} to replace the next ${DOMAIN_INFO[fb.card.domain].label.toLowerCase()} cards`),
         toolCalls: [
           call(

@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import { joinNames } from "@/lib/agent/prompts";
 import { describeRecordedAt } from "@/lib/guard/snapshots";
 import { dictionary, type Dictionary } from "@/lib/i18n";
+import { withCleanNarration } from "@/lib/session/narration";
 import { sessionModeLabel } from "@/lib/session/provenance";
 import type { Card, Session, TraceEvent } from "@/lib/session/types";
 import { isAgeBucket } from "@/lib/session/youth-window";
@@ -69,10 +70,9 @@ export function TracePanel({ open, onClose, session, card, liveEvents }: Props) 
   const names = new Map<string, string>();
   for (const c of session.cards) names.set(c.entityId, c.title);
   for (const f of session.person.favorites) if (f.entityId) names.set(f.entityId, f.name);
-  const events = [...session.trace, ...liveEvents];
+  // Narration that is not a plain sentence (a model's tool-call markup, JSON) is never shown.
+  const events = withCleanNarration([...session.trace, ...liveEvents]);
   const qlooCalls = events.filter((e) => e.qloo).length;
-  const sessionPolicy = session.planner === "llm" ? "llm" : "scripted";
-  const mixed = events.some((e) => e.policy && e.policy !== sessionPolicy);
   const take = card ? Number(card.signals.params.take ?? "10") : 10;
   const sources = [...session.cards.map((c) => c.signals.source), ...events.flatMap((e) => (e.qloo ? [e.qloo.source] : []))];
   const modeLabel = sessionModeLabel(session.qlooMode, sources, t.provenance);
@@ -92,8 +92,7 @@ export function TracePanel({ open, onClose, session, card, liveEvents }: Props) 
         </button>
       </div>
       <p className="mt-1 text-sm text-ink-500" data-testid="trace-policy">
-        {t.trace.calls(qlooCalls)} · <span data-testid="trace-mode">{modeLabel}</span> · {session.planner === "llm" ? t.trace.llmAgent : t.trace.scriptedAgent}
-        {mixed ? t.trace.mixed : ""} · {t.trace.youthWindow(session.youthWindow.start, session.youthWindow.end)}
+        {t.trace.calls(qlooCalls)} · <span data-testid="trace-mode">{modeLabel}</span> · {session.planner === "llm" ? t.trace.llmAgent : t.trace.scriptedAgent} · {t.trace.youthWindow(session.youthWindow.start, session.youthWindow.end)}
       </p>
       {session.replayedAt ? (
         <p className="mt-1 text-sm text-ink-500" data-testid="trace-replayed">

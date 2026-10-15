@@ -22,7 +22,6 @@ import { FAKE_IDS, liveQlooFake } from "./helpers/live-qloo";
 
 const NOW = new Date("2026-10-14T00:00:00Z");
 const scriptedEnv = readServerEnv({ QLOO_MODE: "live", QLOO_API_KEY: "test", LLM_MODE: "fixture" });
-const llmEnv = readServerEnv({ QLOO_MODE: "live", QLOO_API_KEY: "test", LLM_MODE: "live", LLM_API_KEY: "test-key" });
 
 const frank: Person = { name: "Frank", birthYear: 1945, hometown: "Chicago", favorites: [{ name: "Frank Sinatra" }], language: "en", pronoun: "he" };
 const michiko: Person = { name: "Michiko", birthYear: 1950, hometown: "Osaka", favorites: [{ name: "Hibari Misora" }], language: "ja", pronoun: "she" };
@@ -46,14 +45,6 @@ function expectInEra(cards: { domain: string; year?: number; title: string }[], 
   }
 }
 
-function toolCall(name: string, args: unknown) {
-  return { id: `call_${Math.random().toString(36).slice(2, 8)}`, type: "function", function: { name, arguments: JSON.stringify(args) } };
-}
-
-function completion(calls: ReturnType<typeof toolCall>[], content: string | null = null) {
-  return new Response(JSON.stringify({ choices: [{ message: { role: "assistant", content, tool_calls: calls } }] }), { status: 200 });
-}
-
 afterEach(() => {
   vi.restoreAllMocks();
 });
@@ -75,8 +66,9 @@ describe("live Qloo: Frank, Chicago, 1960 to 1975 (deterministic planner)", () =
     expect(place.title).toMatch(/^Old Theatre/);
     expect(place.signals.params["filter.tags"]).toBe("urn:tag:genre:place:tourist_attraction,urn:tag:genre:place:landmark");
     expect(place.signals.params["signal.interests.entities"]).toBeUndefined();
-    // A modest number of calls: one search per favorite and hometown, three tag lookups, six insights and one widening.
-    expect(fake.calls.length).toBeLessThanOrEqual(13);
+    // A modest number of calls: one search per favorite and hometown, six insights and one widening; tag ids are known.
+    expect(fake.calls.length).toBeLessThanOrEqual(9);
+    expect(fake.calls.some((c) => c.path === "/v2/tags")).toBe(false);
   });
 
   it("streams a domain and a preview with each Insights result so the planning view fills in place", async () => {
@@ -87,63 +79,6 @@ describe("live Qloo: Frank, Chicago, 1960 to 1975 (deterministic planner)", () =
     expect(progress.domains.map((d) => d.status)).toEqual(["found", "found", "found", "found", "found", "found"]);
     expect(progress.domains.find((d) => d.domain === "tv")?.items[0]?.year).toBeGreaterThanOrEqual(1955);
     expect(progress.qlooCalls).toBe(events.filter((e) => e.qloo).length);
-  });
-});
-
-describe("live Qloo: the model's run from the report", () => {
-  it("ends in a session built from what Qloo already returned, with no new Qloo calls and nothing from 2018", async () => {
-    const { fake, qloo } = liveClient();
-    let turn = 0;
-    let ids: string[] = [];
-    // The model resolves, asks every domain, then keeps re-checking TV without
-    // year filters ("Check whether TV domain returns anything at all") and never commits.
-    const fetchImpl = (async (_url: string, init: RequestInit) => {
-      const body = JSON.parse(String(init.body)) as { messages: { role: string; content: string | null }[] };
-      for (const m of body.messages) {
-        if (m.role !== "tool") continue;
-        const r = JSON.parse(m.content ?? "{}") as { results?: { entity_id: string }[] };
-        if (r.results?.[0]) ids = [...new Set([...ids, r.results[0].entity_id])];
-      }
-      turn += 1;
-      const base = { signal_entities: ids.slice(0, 1), signal_location_query: "Chicago", signal_age: "55_and_older" };
-      if (turn === 1) return completion([toolCall("qloo_search_entity", { query: "Frank Sinatra" }), toolCall("qloo_search_entity", { query: "Chicago", types: ["urn:entity:locality"] })]);
-      if (turn === 2)
-        return completion([
-          toolCall("qloo_search_tags", { query: "restaurant", parent_type: "urn:entity:place" }),
-          toolCall("qloo_search_tags", { query: "landmark", parent_type: "urn:entity:place" }),
-        ]);
-      if (turn === 3)
-        return completion([
-          toolCall("qloo_insights", { ...base, filter_type: "urn:entity:artist" }),
-          toolCall("qloo_insights", { ...base, filter_type: "urn:entity:movie", release_year_min: 1960, release_year_max: 1975 }),
-          toolCall("qloo_insights", { ...base, filter_type: "urn:entity:tv_show", release_year_min: 1960, release_year_max: 1975 }),
-          toolCall("qloo_insights", { ...base, filter_type: "urn:entity:place", filter_location_query: "Chicago", filter_tags: ["urn:tag:genre:place:restaurant"] }),
-          toolCall("qloo_insights", { ...base, filter_type: "urn:entity:place", filter_location_query: "Chicago", filter_tags: ["urn:tag:category:place:landmark"] }),
-          toolCall("qloo_insights", { ...base, filter_type: "urn:entity:destination" }),
-        ]);
-      return completion(
-        [toolCall("qloo_insights", { filter_type: "urn:entity:tv_show", purpose: "Check whether TV domain returns anything at all" })],
-        "TV still empty. One more attempt without year filters to see if TV is usable at all.",
-      );
-    }) as unknown as typeof fetch;
-
-    const events: TraceEvent[] = [];
-    const result = await planSession(frank, { env: llmEnv, qloo, now: NOW, fetchImpl, emit: (e) => events.push(e) });
-
-    expect(result.planner).toBe("deterministic");
-    expect(result.cards.length).toBeGreaterThanOrEqual(8);
-    expect(new Set(result.cards.map((c) => c.domain)).size).toBeGreaterThanOrEqual(5);
-    expectInEra(result.cards, frank);
-    expect(result.cards.some((c) => c.title === "South Side Drama")).toBe(false);
-    // The model's year-less TV checks were kept to the era by the tool.
-    const tvChecks = fake.calls.filter((c) => c.params["filter.type"] === "urn:entity:tv_show");
-    expect(tvChecks.length).toBeGreaterThan(1);
-    for (const c of tvChecks) expect(Number(c.params["filter.release_year.max"])).toBeLessThanOrEqual(1975);
-    // After the model stopped, the deck came from the pool: no second round of the same Qloo calls.
-    const handover = events.findIndex((e) => e.kind === "note" && /LLM planner unavailable/.test(e.summary));
-    expect(handover).toBeGreaterThan(0);
-    expect(events.slice(handover).filter((e) => e.qloo)).toHaveLength(0);
-    expect(events.slice(handover).some((e) => e.kind === "narration" && /already answered enough/.test(e.summary))).toBe(true);
   });
 });
 
@@ -210,7 +145,7 @@ describe("live Qloo: running out of time", () => {
 
   it("commits what Qloo already returned when the deterministic planner runs out of time", async () => {
     const fake = liveQlooFake();
-    const slow = slowClock(4_700);
+    const slow = slowClock(6_000);
     const qloo = new QlooClient({ mode: "live", apiKey: "test", fetchImpl: slow(fake.fetch) });
     const events: TraceEvent[] = [];
     const result = await planSession(frank, { env: scriptedEnv, qloo, now: NOW, emit: (e) => events.push(e) });

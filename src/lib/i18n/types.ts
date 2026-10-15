@@ -98,7 +98,6 @@ export interface Dictionary {
     calls: (n: number) => string;
     llmAgent: string;
     scriptedAgent: string;
-    mixed: string;
     youthWindow: (start: number, end: number) => string;
     thisCard: string;
     asked: (p: { plural: string; seeds?: string; within?: string; tunedTo?: string; age?: string }) => string;

@@ -1,12 +1,13 @@
 /**
- * After a reaction the deck moves on by itself: long enough to read the
- * notice, short enough that nobody reaches for "Next". Pure helpers so the
- * timing and the target card can be unit tested without a browser.
+ * After a reaction the deck moves on by itself, without waiting for the
+ * re-tune: just a beat to see the tap land, so the conversation never stalls.
+ * The re-tune's notice arrives on the next card. Pure helpers so the timing
+ * and the target card can be unit tested without a browser.
  */
-export const AUTO_ADVANCE_DELAY_MS = 1400;
+export const AUTO_ADVANCE_DELAY_MS = 600;
 
-/** With reduced motion there is no slide to wait for, only a beat to read the notice. */
-export const AUTO_ADVANCE_DELAY_REDUCED_MS = 900;
+/** With reduced motion there is no slide to wait for. */
+export const AUTO_ADVANCE_DELAY_REDUCED_MS = 400;
 
 export function autoAdvanceDelay(reducedMotion: boolean): number {
   return reducedMotion ? AUTO_ADVANCE_DELAY_REDUCED_MS : AUTO_ADVANCE_DELAY_MS;

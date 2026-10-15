@@ -1,6 +1,6 @@
 /**
- * The agent's five tools, as OpenAI-compatible function definitions plus the
- * server-side runtime that executes them against the Qloo client.
+ * The agent's five tools: argument schemas plus the server-side runtime that
+ * executes them against the Qloo client.
  *
  * Every Qloo call made through these tools is recorded in an EntityPool, so
  * `plan_session` / `adapt_session` can only commit entities the agent actually
@@ -48,7 +48,7 @@ import { PLAN_MAX_CARDS, PLAN_MIN_CARDS, PLAN_MIN_DOMAINS } from "@/lib/session/
 import { offlinePrompt, whyLine } from "./prompts";
 
 // ---------------------------------------------------------------------------
-// Argument schemas (zod validates LLM output; JSON schema is derived for the LLM)
+// Argument schemas (zod validates every policy's arguments)
 // ---------------------------------------------------------------------------
 
 export const SearchEntityArgs = z.object({
@@ -132,65 +132,6 @@ export const TOOL_NAMES = [
 ] as const;
 export type ToolName = (typeof TOOL_NAMES)[number];
 
-function jsonSchema(schema: z.ZodType): Record<string, unknown> {
-  const out = z.toJSONSchema(schema, { target: "draft-7" }) as Record<string, unknown>;
-  delete out.$schema;
-  return out;
-}
-
-export interface ToolDefinition {
-  type: "function";
-  function: { name: ToolName; description: string; parameters: Record<string, unknown> };
-}
-
-export const TOOL_DEFINITIONS: ToolDefinition[] = [
-  {
-    type: "function",
-    function: {
-      name: "qloo_search_entity",
-      description:
-        "Look up Qloo entity ids by name (GET /search). Use it to resolve the person's favorites to entity ids and the hometown to a urn:entity:locality.",
-      parameters: jsonSchema(SearchEntityArgs),
-    },
-  },
-  {
-    type: "function",
-    function: {
-      name: "qloo_search_tags",
-      description:
-        "Find valid Qloo tag ids by keyword (GET /v2/tags). filter_tags and signal_tags in qloo_insights only accept ids returned here.",
-      parameters: jsonSchema(SearchTagsArgs),
-    },
-  },
-  {
-    type: "function",
-    function: {
-      name: "qloo_insights",
-      description:
-        "Get taste-correlated entities from the Qloo Insights API (GET /v2/insights) for one filter_type, using seed entities, the hometown and the age bucket as signals. Returns entities with affinity scores; only these ids may be used in plan_session or adapt_session.",
-      parameters: jsonSchema(InsightsArgs),
-    },
-  },
-  {
-    type: "function",
-    function: {
-      name: "plan_session",
-      description:
-        "Commit the final reminiscence session: 8 to 10 cards across at least 3 domains, using entity ids from qloo_insights results. Returns ok:false with reasons if the plan is invalid; fix and call again.",
-      parameters: jsonSchema(PlanArgs),
-    },
-  },
-  {
-    type: "function",
-    function: {
-      name: "adapt_session",
-      description:
-        "Replace upcoming cards after caregiver feedback. Each replacement names the upcoming card's entity id it replaces and a new entity id from a fresh qloo_insights result.",
-      parameters: jsonSchema(AdaptArgs),
-    },
-  },
-];
-
 // ---------------------------------------------------------------------------
 // Runtime
 // ---------------------------------------------------------------------------
@@ -262,6 +203,8 @@ export interface ToolContext {
   names: Map<string, string>;
   existingCards: Card[];
   feedback?: Feedback;
+  /** Qloo's name for the hometown's country ("Japan"), once known: films and TV are kept to its releases. */
+  homeCountry?: string;
   now: Date;
   /** Epoch-ms deadline shared by the loop and every Qloo request it makes. */
   deadline: number;
@@ -451,6 +394,17 @@ export function eraFor(type: QlooEntityType, youthWindow: YouthWindow): [number,
   return undefined;
 }
 
+/**
+ * Qloo's tag ids for restaurants, tourist attractions and landmarks. They are
+ * the same for every session, so the planners use them directly instead of
+ * spending a /v2/tags call (and a model turn) to find them each time.
+ */
+export const PLACE_TAGS = {
+  restaurant: "urn:tag:genre:place:restaurant",
+  touristAttraction: "urn:tag:genre:place:tourist_attraction",
+  landmark: "urn:tag:genre:place:landmark",
+} as const;
+
 /** The session domain an Insights call fills. A place call is dining when it filters by a restaurant tag. */
 export function domainForInsights(filterType: string, filterTags?: readonly string[]): Domain | undefined {
   switch (filterType) {
@@ -496,24 +450,52 @@ function keepEra(args: InsightsArgsT, ctx: ToolContext, notes: string[]): Insigh
 }
 
 /**
+ * Keep films and TV to the hometown country's releases whatever the policy
+ * asked for, the way keepEra keeps them to the years: a missing country is
+ * filled in, and a list without it gets it. An Osaka youth gets Japanese
+ * films first, not Star Wars.
+ */
+function keepHome(args: InsightsArgsT, ctx: ToolContext, notes: string[]): InsightsArgsT {
+  if (!ctx.homeCountry || !eraFor(args.filter_type, ctx.youthWindow)) return args;
+  const asked = args.filter_release_country ?? [];
+  if (asked.some((c) => c.toLowerCase() === ctx.homeCountry!.toLowerCase())) return args;
+  if (asked.length > 0) notes.push(`kept to ${ctx.homeCountry} releases`);
+  return { ...args, filter_release_country: [ctx.homeCountry, ...asked].slice(0, 5) };
+}
+
+interface WideningStep {
+  args: InsightsArgsT;
+  note: string;
+  /** Leaves the home country's releases: only when they gave nothing at all. */
+  leavesHome?: boolean;
+}
+
+/**
  * Widening steps for a thin answer, tried in order until one brings enough.
  * Each keeps the era. On live Qloo the first matters most: it returns no TV
  * shows at all for a location signal combined with release years (Chicago,
  * 1955 to 1975: none; the same request without the location signal: eight
  * shows from the era). Dropping the release country instead keeps the
- * hometown's own taste, so dropping both comes last.
+ * hometown's own taste, so dropping both comes last; and a few home-country
+ * titles beat any number of foreign ones, so those steps run only when the
+ * home country had none.
  */
-function wideningSteps(args: InsightsArgsT): { args: InsightsArgsT; note: string }[] {
-  const steps: { args: InsightsArgsT; note: string }[] = [];
+function wideningSteps(args: InsightsArgsT): WideningStep[] {
+  const steps: WideningStep[] = [];
   const hasLocation = !!args.signal_location_query;
   const hasCountry = !!args.filter_release_country?.length;
   switch (args.filter_type) {
     case "urn:entity:movie":
     case "urn:entity:tv_show":
       if (hasLocation) steps.push({ args: { ...args, signal_location_query: undefined }, note: "without the hometown signal" });
-      if (hasCountry) steps.push({ args: { ...args, filter_release_country: undefined }, note: "from any country" });
-      if (hasLocation && hasCountry) {
-        steps.push({ args: { ...args, signal_location_query: undefined, filter_release_country: undefined }, note: "without the hometown signal, from any country" });
+      // Television is what was on at home: another country's shows are never it (live Qloo
+      // has no Japanese shows for the 1960s and offers an American science series instead),
+      // so a TV call keeps to the home country and an empty answer skips the domain.
+      if (args.filter_type === "urn:entity:movie") {
+        if (hasCountry) steps.push({ args: { ...args, filter_release_country: undefined }, note: "from any country", leavesHome: true });
+        if (hasLocation && hasCountry) {
+          steps.push({ args: { ...args, signal_location_query: undefined, filter_release_country: undefined }, note: "without the hometown signal, from any country", leavesHome: true });
+        }
       }
       break;
     case "urn:entity:artist":
@@ -545,11 +527,23 @@ function inEra(entity: QlooEntity, type: QlooEntityType, era: [number, number] |
   return year === undefined || (year >= era[0] && year <= era[1]);
 }
 
+/**
+ * Television from the home country is a show the country made, not one it
+ * also aired: live Qloo lists an American science series under Japan too, so
+ * a show counts only when the home country leads its release countries.
+ */
+function madeAtHome(entity: QlooEntity, type: QlooEntityType, homeCountry: string | undefined): boolean {
+  if (type !== "urn:entity:tv_show" || !homeCountry) return true;
+  const countries = entity.properties?.release_country;
+  if (!Array.isArray(countries) || countries.length === 0) return true;
+  return String(countries[0]).toLowerCase() === homeCountry.toLowerCase();
+}
+
 async function runInsights(rawArgs: unknown, ctx: ToolContext): Promise<ToolOutcome> {
   const parsed = InsightsArgs.safeParse(rawArgs);
   if (!parsed.success) return argError("qloo_insights", parsed.error);
   const adjustments: string[] = [];
-  const first = keepEra(parsed.data, ctx, adjustments);
+  const first = keepHome(keepEra(parsed.data, ctx, adjustments), ctx, adjustments);
   const era = eraFor(first.filter_type, ctx.youthWindow);
   const domain = domainForInsights(first.filter_type, first.filter_tags);
   const label = DOMAIN_LABEL_BY_TYPE[first.filter_type] ?? first.filter_type;
@@ -558,13 +552,14 @@ async function runInsights(rawArgs: unknown, ctx: ToolContext): Promise<ToolOutc
   // Only seeds we can name reach the caregiver's "why" line; an id is never printed.
   const seedNames = seedIds.map((id) => ctx.names.get(id) ?? ctx.pool.get(id)?.entity.name).filter((n): n is string => !!n);
 
-  const steps = [{ args: first, note: "" }, ...wideningSteps(first)];
+  const steps: WideningStep[] = [{ args: first, note: "" }, ...wideningSteps(first)];
   const attempts: { summary: string; qloo: TraceQloo }[] = [];
   const found = new Map<string, QlooEntity>();
   let last: QlooResult<QlooInsightsResponse> | undefined;
   let lastNote = "";
   for (const [index, step] of steps.entries()) {
     if (index > 0 && (found.size >= MIN_USEFUL_RESULTS || ctx.deadline - Date.now() < WIDEN_MIN_TIME_MS)) break;
+    if (step.leavesHome && found.size > 0) break;
     if (last) {
       attempts.push({ summary: `${last.body.results.entities.length} ${label}${lastNote ? ` ${lastNote}` : ""}; asking again ${step.note}`, qloo: traceOf(last, last.body.results.entities.length) });
     }
@@ -581,7 +576,7 @@ async function runInsights(rawArgs: unknown, ctx: ToolContext): Promise<ToolOutc
     const stepSeeds = step.args.signal_entities ?? [];
     const stepSeedNames = stepSeeds.length > 0 ? seedNames : [];
     res.body.results.entities.forEach((entity, rank) => {
-      if (!inEra(entity, first.filter_type, era, ctx.youthWindow)) return;
+      if (!inEra(entity, first.filter_type, era, ctx.youthWindow) || !madeAtHome(entity, first.filter_type, ctx.homeCountry)) return;
       ctx.names.set(entity.entity_id, entity.name);
       ctx.pool.add({
         entity,
@@ -705,6 +700,7 @@ export function buildCard(
     warnings: entry.warnings,
   };
   const year = entityYear(e);
+  const startYear = domain === "music" && typeof e.properties?.start_year === "number" ? e.properties.start_year : undefined;
   const cleanPrompt = prompt?.replace(/\s+/g, " ").trim();
   return {
     id: `card_${randomUUID().slice(0, 8)}`,
@@ -713,6 +709,7 @@ export function buildCard(
     title: e.name,
     subtitle: subtitleFor(domain, e, ctx.language),
     year,
+    ...(startYear !== undefined ? { startYear } : {}),
     imageUrl: entityImageUrl(e),
     description: short(e.properties?.description ?? e.properties?.short_description, 220),
     tags: (e.tags ?? []).slice(0, 3).map((t) => t.name),
@@ -724,9 +721,10 @@ export function buildCard(
           language: ctx.language,
           title: e.name,
           year,
+          startYear,
           entityId: e.entity_id,
           person: ctx.person,
-          youthStart: ctx.youthWindow.start,
+          youthWindow: ctx.youthWindow,
         }),
     promptSource: cleanPrompt ? "llm" : "template",
     signals,

@@ -81,9 +81,8 @@ export const en: Dictionary = {
     close: "Close",
     closeAria: "Close Why Qloo panel",
     calls: (n) => `${n} ${plural(n, "call", "calls")} to the Qloo Insights API`,
-    llmAgent: "LLM-driven agent",
-    scriptedAgent: "deterministic agent",
-    mixed: ", with offline fallback steps",
+    llmAgent: "Qloo asked by fixed rules, prompts written by a model",
+    scriptedAgent: "Qloo asked by fixed rules, prompts from templates",
     youthWindow: (start, end) => `youth window ${start} to ${end}`,
     thisCard: "This card",
     asked: ({ plural: what, seeds, within, tunedTo, age }) =>
