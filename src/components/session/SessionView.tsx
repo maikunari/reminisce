@@ -11,7 +11,7 @@ import { dictionary } from "@/lib/i18n";
 import { autoAdvanceDelay, nextCardIndex } from "@/lib/session/auto-advance";
 import { applyPrompts, applyReplacements } from "@/lib/session/deck-updates";
 import { displayName } from "@/lib/session/names";
-import { dropCard, restoreCard, shuffleCards } from "@/lib/session/overview";
+import { dropCard, restoreCard, shuffleCards, swapCard } from "@/lib/session/overview";
 import { loadSession, saveSession } from "@/lib/session/storage";
 import { pronounsFor, type Card, type PlanResult, type Reaction, type Session, type StreamEvent, type TraceEvent } from "@/lib/session/types";
 
@@ -70,6 +70,8 @@ function SessionClient({ id }: { id: string }) {
   /** The last card dropped on the overview, with the place it had, so it can go back. */
   const [dropped, setDropped] = useState<{ card: Card; index: number } | null>(null);
   const [shuffled, setShuffled] = useState(false);
+  /** The overview card being swapped for another, while its re-tune runs. */
+  const [swapping, setSwapping] = useState<string | null>(null);
   /** Re-tunes still running; the deck stays usable meanwhile. */
   const [retunes, setRetunes] = useState(0);
   /** Re-tunes run one after another, each from the deck as the last one left it. */
@@ -160,6 +162,8 @@ function SessionClient({ id }: { id: string }) {
                 pending = { ...pending, cards: applyPrompts(pending.cards, ev.prompts, 0), trace: [...pending.trace, ...ev.trace], planner: written ? "llm" : pending.planner };
               } else {
                 update((s) => ({ ...s, cards: applyPrompts(s.cards, ev.prompts, s.currentIndex), trace: [...s.trace, ...ev.trace], planner: written ? "llm" : s.planner }));
+                // A card dropped before the prompts came goes back with them.
+                setDropped((d) => d && { ...d, card: applyPrompts([d.card], ev.prompts, 0)[0]! });
               }
             } else if (ev.type === "error") throw new PlanStreamError(ev.message, ev.code);
           },
@@ -219,6 +223,7 @@ function SessionClient({ id }: { id: string }) {
   const start = useCallback(() => {
     setDropped(null);
     setShuffled(false);
+    setNotice(null);
     update((s) => ({ ...s, overview: false, currentIndex: 0 }));
     setRevealing(true);
     window.scrollTo({ top: 0 });
@@ -247,6 +252,52 @@ function SessionClient({ id }: { id: string }) {
     setShuffled(true);
     update((prev) => ({ ...prev, cards: shuffleCards(prev.cards) }));
   }, [update]);
+
+  /**
+   * Swaps one overview card for another of its kind through the same re-tune
+   * as "Not this one", with nothing shown yet (currentIndex -1). Only the
+   * replacement for that card is used, and only while the overview is still
+   * up: once the session has started, the answer is let go.
+   */
+  const swap = useCallback(
+    async (cardId: string) => {
+      const s = sessionRef.current;
+      const card = s?.cards.find((c) => c.id === cardId);
+      if (!s?.overview || !card || swapping) return;
+      const language = s.person.language;
+      const strings = dictionary(language);
+      setSwapping(cardId);
+      setNotice(null);
+      setShuffled(false);
+      setLiveEvents([]);
+      try {
+        let adapted = false;
+        await postNdjson<StreamEvent>("/api/adapt", { person: s.person, cards: s.cards, feedback: { cardId, reaction: "not_this" }, currentIndex: -1 }, (ev) => {
+          if (ev.type === "trace") setLiveEvents((list) => [...list, ev.event]);
+          else if (ev.type === "adapt") {
+            adapted = true;
+            setLiveEvents([]);
+            const now = sessionRef.current;
+            if (!now?.overview) return;
+            const { swapped } = swapCard(now.cards, cardId, ev.result.replacements);
+            update((prev) => (prev.overview ? { ...prev, cards: swapCard(prev.cards, cardId, ev.result.replacements).cards, trace: [...prev.trace, ...ev.result.trace] } : prev));
+            const from = displayName(card, language).title;
+            setNotice(swapped ? strings.overview.swapped(from, displayName(swapped, language).title) : strings.overview.swapNothingNew(from));
+          } else if (ev.type === "prompts") {
+            update((prev) => ({ ...prev, cards: applyPrompts(prev.cards, ev.prompts, prev.overview ? 0 : prev.currentIndex + 1), trace: [...prev.trace, ...ev.trace] }));
+            setDropped((d) => d && { ...d, card: applyPrompts([d.card], ev.prompts, 0)[0]! });
+          } else if (ev.type === "error") throw new Error(ev.message);
+        });
+        if (!adapted) throw new Error(strings.session.agentStopped);
+      } catch (error) {
+        setLiveEvents([]);
+        if (sessionRef.current?.overview) setNotice(isBlocked(error) ? strings.session.blocked : strings.overview.swapFailed);
+      } finally {
+        setSwapping(null);
+      }
+    },
+    [swapping, update],
+  );
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -434,11 +485,14 @@ function SessionClient({ id }: { id: string }) {
                 session={s}
                 dropped={dropped?.card ?? null}
                 shuffled={shuffled}
+                swapping={swapping}
+                notice={notice}
                 reveal={revealing}
                 onStart={start}
                 onShuffle={shuffle}
                 onDrop={drop}
                 onUndo={undoDrop}
+                onSwap={swap}
                 onWhy={() => setTraceOpen(true)}
               />
             </>

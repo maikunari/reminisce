@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { OVERVIEW_MIN_CARDS, canDrop, dropCard, groupByDomain, restoreCard, shuffleCards } from "@/lib/session/overview";
+import { OVERVIEW_MIN_CARDS, canDrop, dropCard, groupByDomain, restoreCard, shuffleCards, swapCard } from "@/lib/session/overview";
 import type { Card, Domain } from "@/lib/session/types";
 
 function card(n: number, domain: Domain): Card {
@@ -42,5 +42,19 @@ describe("the session overview lineup", () => {
     }
     expect(deck.map((c) => c.id)).toEqual(before);
     expect(shuffleCards([deck[0]!])).toEqual([deck[0]]);
+  });
+
+  it("swaps only the chosen card, in its place, for one the deck does not already hold", () => {
+    const fresh = { ...card(9, "music"), replacedEntityId: "e3" } as Card;
+    const other = { ...card(10, "film"), replacedEntityId: "e2" } as Card;
+    const { cards, swapped } = swapCard(deck, "c3", [other, fresh]);
+    expect(swapped).toBe(fresh);
+    expect(cards.map((c) => c.id)).toEqual(["c1", "c2", "c9", "c4", "c5", "c6"]);
+    expect(deck.map((c) => c.id)).toEqual(["c1", "c2", "c3", "c4", "c5", "c6"]);
+
+    const duplicate = { ...card(1, "music"), replacedEntityId: "e3" } as Card;
+    expect(swapCard(deck, "c3", [duplicate])).toEqual({ cards: deck, swapped: null });
+    expect(swapCard(deck, "c3", [other])).toEqual({ cards: deck, swapped: null });
+    expect(swapCard(deck, "nope", [fresh])).toEqual({ cards: deck, swapped: null });
   });
 });

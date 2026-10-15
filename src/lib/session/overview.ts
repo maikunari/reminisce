@@ -1,10 +1,12 @@
 /**
  * The "session ready" overview between planning and the first card: the
  * lineup the caregiver can trim or reorder before starting. Pure, so the
- * rules are unit tested without a browser. The deck holds no spares, so
- * "reshuffle" reorders what is there and "drop" removes a card for good.
+ * rules are unit tested without a browser. "Drop" removes a card, "shuffle"
+ * reorders what is there, and "swap" puts another card of the same kind,
+ * found by a re-tune, in one card's place.
  */
 import { PLAN_MIN_DOMAINS } from "./deck";
+import { applyReplacements } from "./deck-updates";
 import { DOMAINS, type Card, type Domain } from "./types";
 
 /** A session never drops below this many cards. */
@@ -39,6 +41,18 @@ export function shuffleCards(cards: Card[], random: () => number = Math.random):
     if (next.some((c, i) => c !== cards[i])) return next;
   }
   return [...cards.slice(1), cards[0]!];
+}
+
+/** A swap's answer: only the replacement naming the swapped card takes its place; any other replacement leaves the lineup alone. */
+export function swapCard(cards: Card[], cardId: string, replacements: Card[]): { cards: Card[]; swapped: Card | null } {
+  const card = cards.find((c) => c.id === cardId);
+  if (!card) return { cards, swapped: null };
+  const { cards: next, applied } = applyReplacements(
+    cards,
+    replacements.filter((r) => r.replacedEntityId === card.entityId),
+    -1,
+  );
+  return { cards: next, swapped: applied[0] ?? null };
 }
 
 export interface LineupGroup {

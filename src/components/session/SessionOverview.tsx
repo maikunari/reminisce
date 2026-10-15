@@ -17,23 +17,27 @@ interface Props {
   dropped: Card | null;
   /** Announced to screen readers after a shuffle. */
   shuffled: boolean;
+  /** The card being swapped for another, if any. */
+  swapping: string | null;
+  /** How the last swap went. */
+  notice: string | null;
   /** The deck has just been dealt: the groups arrive one after another. */
   reveal?: boolean;
   onStart: () => void;
   onShuffle: () => void;
   onDrop: (cardId: string) => void;
   onUndo: () => void;
+  onSwap: (cardId: string) => void;
   onWhy: () => void;
 }
 
 /**
  * "Session ready": where planning stops. The lineup as small sleeves grouped
  * by kind of memory, each with the Qloo line that chose it, a large Start
- * button, a drop button per card and a shuffle for the order, and under the
- * heading a short strip of how Qloo built the deck. Nothing here calls Qloo
- * or a model; it only reads what planning already returned.
+ * button, a drop and a swap button per card and a shuffle for the order,
+ * and under the heading a short strip of how Qloo built the deck.
  */
-export function SessionOverview({ session: s, dropped, shuffled, reveal = false, onStart, onShuffle, onDrop, onUndo, onWhy }: Props) {
+export function SessionOverview({ session: s, dropped, shuffled, swapping, notice, reveal = false, onStart, onShuffle, onDrop, onUndo, onSwap, onWhy }: Props) {
   const language = s.person.language;
   const t = dictionary(language);
   const o = t.overview;
@@ -88,6 +92,11 @@ export function SessionOverview({ session: s, dropped, shuffled, reveal = false,
           </button>
         </p>
       ) : null}
+      {notice ? (
+        <p role="status" className="notice mt-5" data-testid="overview-notice">
+          {notice}
+        </p>
+      ) : null}
       {!droppable ? (
         <p role="status" className="mt-5 text-sm text-ink-500">
           {o.atMinimum(OVERVIEW_MIN_CARDS)}
@@ -104,14 +113,16 @@ export function SessionOverview({ session: s, dropped, shuffled, reveal = false,
             <ol className="mt-3 flex flex-col gap-3">
               {group.entries.map(({ card, position }) => {
                 const name = displayName(card, language).title;
+                const busy = swapping === card.id;
                 return (
                   <li
                     key={card.id}
+                    aria-busy={busy}
                     className={`surface grid grid-cols-[5.5rem_minmax(0,1fr)] items-start gap-4 p-3 sm:grid-cols-[6.5rem_minmax(0,1fr)] ${reveal ? "reveal-rise" : ""}`.trim()}
                     style={reveal ? ({ "--i": g + 1 } as CSSProperties) : undefined}
                     data-testid="overview-card"
                   >
-                    <div className="aspect-square overflow-hidden rounded-md border border-paper-300">
+                    <div className={`aspect-square overflow-hidden rounded-md border border-paper-300 transition-opacity ${busy ? "opacity-50" : ""}`.trim()}>
                       <CardArt title={name} domain={card.domain} imageUrl={card.imageUrl} year={card.year} variant="thumb" className="h-full w-full text-[10px]" />
                     </div>
                     <div className="min-w-0">
@@ -122,16 +133,28 @@ export function SessionOverview({ session: s, dropped, shuffled, reveal = false,
                       <p className="mt-1 text-sm text-ink-500">
                         {t.card.fromQloo} {card.why}
                       </p>
-                      <button
-                        type="button"
-                        onClick={() => onDrop(card.id)}
-                        disabled={!droppable}
-                        aria-label={o.dropAria(name)}
-                        className="btn btn-quiet mt-2 min-h-[48px] px-4 text-sm"
-                        data-testid="drop-card"
-                      >
-                        {o.drop}
-                      </button>
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        <button
+                          type="button"
+                          onClick={() => onDrop(card.id)}
+                          disabled={!droppable || busy}
+                          aria-label={o.dropAria(name)}
+                          className="btn btn-quiet min-h-[48px] px-4 text-sm"
+                          data-testid="drop-card"
+                        >
+                          {o.drop}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => onSwap(card.id)}
+                          disabled={swapping !== null}
+                          aria-label={busy ? undefined : o.swapAria(name)}
+                          className="btn btn-quiet min-h-[48px] px-4 text-sm"
+                          data-testid="swap-card"
+                        >
+                          {busy ? o.swapping : o.swap}
+                        </button>
+                      </div>
                     </div>
                   </li>
                 );

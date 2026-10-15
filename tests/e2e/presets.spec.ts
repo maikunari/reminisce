@@ -294,6 +294,18 @@ test("planning stops at a session-ready overview; nothing opens card 1 until Sta
   await page.getByTestId("undo-drop").click();
   await expect(cards).toHaveCount(total);
 
+  // Swap one card for another of its kind, in the same place; the rest of the lineup stays put.
+  const before = await page.getByTestId("overview-title").allInnerTexts();
+  const swapTitle = before[2]!;
+  const swapPosition = (await cards.nth(2).locator(".label").first().textContent())!;
+  await cards.nth(2).getByTestId("swap-card").click();
+  await expect(page.getByTestId("overview-notice")).toContainText(`Swapped ${swapTitle} for`);
+  await expect(cards).toHaveCount(total);
+  const after = await page.getByTestId("overview-title").allInnerTexts();
+  expect(after).not.toContain(swapTitle);
+  expect(after.filter((t, i) => t !== before[i])).toHaveLength(1);
+  await expect(cards.nth(2).locator(".label").first()).toHaveText(swapPosition);
+
   // Drop a different one for good, shuffle, and survive a reload still on the overview.
   const dropTitle = await cards.nth(1).getByTestId("overview-title").innerText();
   await cards.nth(1).getByTestId("drop-card").click();
@@ -326,4 +338,6 @@ test("the overview fits a phone: no sideways scroll, a tappable Start above the 
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   const drop = page.getByTestId("drop-card").first();
   expect((await drop.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+  const swap = page.getByTestId("swap-card").first();
+  expect((await swap.boundingBox())!.height).toBeGreaterThanOrEqual(47.5);
 });

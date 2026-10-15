@@ -61,6 +61,12 @@ export interface Dictionary {
     drop: string;
     dropAria: (title: string) => string;
     dropped: (title: string) => string;
+    swap: string;
+    swapAria: (title: string) => string;
+    swapping: string;
+    swapped: (from: string, to: string) => string;
+    swapNothingNew: (title: string) => string;
+    swapFailed: string;
     undo: string;
     atMinimum: (n: number) => string;
     built: string;

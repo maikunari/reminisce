@@ -465,6 +465,23 @@ export class ScriptedAdaptPolicy extends GeneratorPolicy {
         if (!target) break;
         replacements.push({ replaces_entity_id: target.entityId, entity_id: hit.entity_id, domain: d });
       }
+    } else if (upcoming.some((c) => c.entityId === fb.card.entityId)) {
+      // A swap from the overview: one other card of the same kind, in its place.
+      const domain = fb.card.domain;
+      const [out] = yield {
+        narration: NARRATION.insights(`another ${DOMAIN_INFO[domain].label.toLowerCase()} in place of "${fb.card.title}"`),
+        toolCalls: [
+          call(
+            "qloo_insights",
+            this.argsFor(domain, unique([...liked, ...seeds]), currentIds, {
+              purpose: `swap for ${fb.card.title}`,
+              filter_tags: domain === "dining" ? [PLACE_TAGS.restaurant] : undefined,
+            }),
+          ),
+        ],
+      };
+      const hit = insightHits(out).find((h) => !currentIds.includes(h.entity_id));
+      if (hit) replacements.push({ replaces_entity_id: fb.card.entityId, entity_id: hit.entity_id, domain });
     } else {
       yield { narration: NARRATION.adaptDisliked(fb.card.title) };
       const lastLiked = [...cards].reverse().find((c) => c.reaction === "lit_up");

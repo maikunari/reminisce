@@ -167,8 +167,10 @@ export async function adaptSession(input: AdaptInput, opts: AgentOptions = {}): 
   const card = input.cards[cardIndex];
   if (!card) throw new Error("feedback card not found in session");
   for (const note of opts.notes ?? []) emit(traceEvent({ phase: "adapt", kind: "note", summary: note }));
-  const cards = input.cards.map((c, i) => (i === cardIndex ? { ...c, reaction: input.feedback.reaction } : c));
-  const currentIndex = Math.max(input.currentIndex, cardIndex);
+  // On the overview nothing has been shown yet, so the card stays unreacted and is itself the one swapped.
+  const swap = input.currentIndex < 0;
+  const cards = swap ? input.cards : input.cards.map((c, i) => (i === cardIndex ? { ...c, reaction: input.feedback.reaction } : c));
+  const currentIndex = swap ? -1 : Math.max(input.currentIndex, cardIndex);
   const upcoming = cards.filter((c, i) => i > currentIndex && !c.reaction);
   if (upcoming.length === 0) {
     emit(traceEvent({ phase: "adapt", kind: "note", summary: "No upcoming cards left to re-tune." }));
