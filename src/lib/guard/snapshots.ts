@@ -15,7 +15,7 @@ import { withCleanNarration } from "@/lib/session/narration";
 import { PRESETS, type Preset } from "@/lib/session/presets";
 import type { Person, PlanResult, TraceEvent } from "@/lib/session/types";
 
-import type { Guard } from "./index";
+import { GUARD_COPY, type Guard } from "./index";
 import type { RedisLike } from "./redis";
 
 /** Version 2: decks dealt by fixed rules with the model's prompts, and narration that is fit to show. */
@@ -46,6 +46,13 @@ export function isFullStrength(result: PlanResult, guard: Pick<Guard, "env" | "d
 
 export function snapshotKey(presetId: string, prefix = "reminisce:"): string {
   return `${prefix}preset:${presetId}:v${SNAPSHOT_VERSION}`;
+}
+
+const MODEL_ALLOWANCE_NOTES: ReadonlySet<string> = new Set([GUARD_COPY.llmSpent, GUARD_COPY.llmUnknown]);
+
+/** The trace fit to keep for later visitors: clean narration, and no note about that day's model allowance. */
+function keptTrace(trace: TraceEvent[]): TraceEvent[] {
+  return withCleanNarration(trace).filter((e) => !(e.kind === "note" && MODEL_ALLOWANCE_NOTES.has(e.summary)));
 }
 
 function fold(text: string): string {
@@ -97,7 +104,7 @@ export async function loadSnapshot(redis: RedisLike, presetId: string, now: Date
 }
 
 export async function storeSnapshot(redis: RedisLike, presetId: string, result: PlanResult, now: Date, prefix?: string): Promise<PresetSnapshot> {
-  const snapshot: PresetSnapshot = { version: SNAPSHOT_VERSION, presetId, recordedAt: now.toISOString(), result: { ...result, trace: withCleanNarration(result.trace) } };
+  const snapshot: PresetSnapshot = { version: SNAPSHOT_VERSION, presetId, recordedAt: now.toISOString(), result: { ...result, trace: keptTrace(result.trace) } };
   await redis.pipeline([["SET", snapshotKey(presetId, prefix), JSON.stringify(snapshot), "EX", SNAPSHOT_TTL_SECONDS]]);
   return snapshot;
 }
@@ -128,7 +135,7 @@ export async function replaySnapshot(
   opts: { spacingMs?: number; maxMs?: number; sleep?: (ms: number) => Promise<void> } = {},
 ): Promise<PlanResult> {
   const sleep = opts.sleep ?? ((ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms)));
-  const events = withCleanNarration(snapshot.result.trace);
+  const events = keptTrace(snapshot.result.trace);
   const spacing = Math.min(opts.spacingMs ?? REPLAY_SPACING_MS, Math.floor((opts.maxMs ?? REPLAY_MAX_MS) / Math.max(1, events.length)));
   replayCounter += 1;
   const note: TraceEvent = { id: `replay${Date.now().toString(36)}${replayCounter}`, at: Date.now(), phase: "plan", kind: "note", summary: replayNote(snapshot) };

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { planSession } from "@/lib/agent";
 import { readServerEnv } from "@/lib/env";
+import { GUARD_COPY } from "@/lib/guard";
 import { describeRecordedAt, isFullStrength, loadSnapshot, matchingPreset, REPLAY_MAX_MS, REPLAY_SPACING_MS, replaySnapshot, snapshotKey, storeSnapshot } from "@/lib/guard/snapshots";
 import { QlooClient } from "@/lib/qloo/client";
 import { PRESETS } from "@/lib/session/presets";
@@ -112,6 +113,20 @@ describe("preset snapshots", () => {
     expect(sleeps.reduce((a, b) => a + b, 0)).toBeLessThanOrEqual(REPLAY_MAX_MS);
   });
 
+  it("never keeps or replays a note about that day's model allowance", async () => {
+    const redis = new FakeRedis();
+    const notes = [GUARD_COPY.llmSpent, GUARD_COPY.llmUnknown];
+    const result = await planSession(michiko, { env, qloo, now: RECORDED, notes });
+    expect(result.trace.filter((e) => notes.includes(e.summary as (typeof notes)[number]))).toHaveLength(2);
+    const snapshot = await storeSnapshot(redis, "michiko", result, RECORDED);
+    expect(snapshot.result.trace.some((e) => notes.includes(e.summary as (typeof notes)[number]))).toBe(false);
+    const stored = await loadSnapshot(redis, "michiko", RECORDED);
+    expect(stored?.result.trace.some((e) => notes.includes(e.summary as (typeof notes)[number]))).toBe(false);
+    const emitted: TraceEvent[] = [];
+    await replaySnapshot({ ...snapshot, result }, (e) => emitted.push(e), { sleep: async () => {} });
+    expect(emitted.some((e) => notes.includes(e.summary as (typeof notes)[number]))).toBe(false);
+  });
+
   it("describes the recorded time in UTC", () => {
     expect(describeRecordedAt("2026-11-05T09:14:00Z")).toBe("09:14 UTC on 5 November");
     expect(describeRecordedAt("not a date")).toBe("an earlier time today");
@@ -119,10 +134,12 @@ describe("preset snapshots", () => {
 });
 
 describe("snapshot keys", () => {
-  it("belong to the deployment that recorded them", async () => {
+  it("survive production deploys but keep preview and development deployments to themselves", async () => {
     const { snapshotPrefix } = await import("@/lib/guard/runtime");
-    expect(snapshotPrefix({ VERCEL_DEPLOYMENT_ID: "dpl_abc" })).toBe("reminisce:dpl_abc:");
+    expect(snapshotPrefix({ VERCEL_ENV: "production", VERCEL_DEPLOYMENT_ID: "dpl_abc" })).toBe("reminisce:");
+    expect(snapshotPrefix({ VERCEL_ENV: "preview", VERCEL_DEPLOYMENT_ID: "dpl_abc" })).toBe("reminisce:dpl_abc:");
+    expect(snapshotPrefix({ VERCEL_ENV: "development", VERCEL_DEPLOYMENT_ID: "dpl_dev" })).toBe("reminisce:dpl_dev:");
     expect(snapshotPrefix({})).toBe("reminisce:");
-    expect(snapshotKey("michiko", snapshotPrefix({ VERCEL_DEPLOYMENT_ID: "dpl_abc" }))).toBe("reminisce:dpl_abc:preset:michiko:v2");
+    expect(snapshotKey("michiko", snapshotPrefix({ VERCEL_ENV: "preview", VERCEL_DEPLOYMENT_ID: "dpl_abc" }))).toBe("reminisce:dpl_abc:preset:michiko:v2");
   });
 });

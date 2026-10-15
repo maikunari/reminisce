@@ -241,19 +241,15 @@ function SessionClient({ id }: { id: string }) {
       setLiveEvents([]);
       try {
         let adapted = false;
-        await postNdjson<StreamEvent>("/api/adapt", { person: s.person, cards, feedback: { cardId, reaction }, currentIndex: protectedIndex }, (ev) => {
+        await postNdjson<StreamEvent>("/api/adapt", { person: s.person, cards, feedback: { cardId, reaction }, currentIndex: Math.max(protectedIndex, s.currentIndex) }, (ev) => {
           if (ev.type === "trace") setLiveEvents((list) => [...list, ev.event]);
           else if (ev.type === "adapt") {
             adapted = true;
-            let applied = 0;
-            update((prev) => {
-              const next = applyReplacements(prev.cards, ev.result.replacements, Math.max(protectedIndex, prev.currentIndex));
-              applied = next.applied.length;
-              return { ...prev, cards: next.cards, trace: [...prev.trace, ...ev.result.trace] };
-            });
+            const now = sessionRef.current ?? s;
+            const applied = applyReplacements(now.cards, ev.result.replacements, Math.max(protectedIndex, now.currentIndex)).applied.length;
+            update((prev) => ({ ...prev, cards: applyReplacements(prev.cards, ev.result.replacements, Math.max(protectedIndex, prev.currentIndex)).cards, trace: [...prev.trace, ...ev.result.trace] }));
             setLiveEvents([]);
-            const n = applied || ev.result.replacements.length;
-            const line = ev.result.replacements.length === 0 ? strings.nothingNew : reaction === "lit_up" ? strings.leanToward(n, displayName(card, s.person.language).title) : strings.steerAway(n);
+            const line = applied === 0 ? strings.nothingNew : reaction === "lit_up" ? strings.leanToward(applied, displayName(card, s.person.language).title) : strings.steerAway(applied);
             setNotice(ev.result.notice ? `${line} ${ev.result.notice}` : line);
           } else if (ev.type === "prompts") {
             update((prev) => ({ ...prev, cards: applyPrompts(prev.cards, ev.prompts, prev.currentIndex + 1), trace: [...prev.trace, ...ev.trace] }));

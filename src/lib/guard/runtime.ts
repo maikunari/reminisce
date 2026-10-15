@@ -54,13 +54,14 @@ export function openGuard(kind: GuardKind, env: ServerEnv = readServerEnv()): Pr
 }
 
 /**
- * Snapshots belong to the deployment that recorded them: a preview's test
- * runs never reach production, and a new deployment (new planning code)
- * records its own on the day's first run instead of replaying the last one's.
+ * Production keeps one set of snapshots across deploys (SNAPSHOT_VERSION
+ * already retires incompatible ones), so a deploy never makes presets slow.
+ * Preview and development deployments keep their own, so their test runs
+ * never reach production.
  */
 export function snapshotPrefix(env: Record<string, string | undefined> = process.env): string {
   const deployment = env.VERCEL_DEPLOYMENT_ID?.trim();
-  return deployment ? `reminisce:${deployment}:` : "reminisce:";
+  return deployment && env.VERCEL_ENV !== "production" ? `reminisce:${deployment}:` : "reminisce:";
 }
 
 /** Today's snapshot for this person, when they are a preset and Qloo is configured live. */
