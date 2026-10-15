@@ -52,7 +52,10 @@ test("model prompts that arrive after the deck is dealt replace the templates, c
 
   await page.goto("/");
   await page.getByTestId("preset-frank").click();
-  await expect(page.getByTestId("memory-card")).toBeVisible({ timeout: 45_000 });
+  // Planning stops at the overview; Start opens card 1 before the prompts come.
+  await expect(page.getByTestId("session-overview")).toBeVisible({ timeout: 45_000 });
+  await page.getByTestId("start-session").click();
+  await expect(page.getByTestId("memory-card")).toBeVisible();
   // The deck is up on templates first.
   await expect(page.getByTestId("card-prompt")).not.toContainText("Model prompt");
   await page.getByTestId("why-qloo-toggle").click();
