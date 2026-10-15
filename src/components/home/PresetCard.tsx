@@ -1,34 +1,25 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-
 import { Sleeve } from "@/components/Sleeve";
 import { useCurrentYear } from "@/lib/client/hooks";
 import type { Preset } from "@/lib/session/presets";
-import { createSessionShell } from "@/lib/session/storage";
 import { pronounsFor } from "@/lib/session/types";
 import { YOUTH_AGE_TO, computeYouthWindow } from "@/lib/session/youth-window";
+
+import { useStartPreset } from "./use-start-preset";
 
 function capitalize(word: string): string {
   return word.charAt(0).toUpperCase() + word.slice(1);
 }
 
 export function PresetCard({ preset }: { preset: Preset }) {
-  const router = useRouter();
-  const [busy, setBusy] = useState(false);
+  const { start, busy } = useStartPreset(preset);
   const { person } = preset;
   // Prerender can't read the clock; both presets' windows ended decades ago, so the
   // uncapped window is exact there and the client re-checks after hydration.
   const year = useCurrentYear();
   const window = computeYouthWindow(person.birthYear, year ?? person.birthYear + YOUTH_AGE_TO);
   const pronouns = pronounsFor(person.pronoun);
-
-  const start = () => {
-    setBusy(true);
-    const session = createSessionShell(person);
-    router.push(`/session/${session.id}`);
-  };
 
   return (
     <article className="surface grid gap-6 p-6 min-[520px]:grid-cols-[160px_minmax(0,1fr)]">

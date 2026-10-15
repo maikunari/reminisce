@@ -32,6 +32,7 @@ export const es: Dictionary = {
     retuneFailed: (message) => `No se pudo reajustar: ${message}.`,
     plannerStopped: "El planificador se detuvo antes de terminar. Inténtelo de nuevo.",
     planningFailed: "La planificación falló",
+    blocked: "No pudimos confirmar este navegador. Inténtelo de nuevo o abra una de las personas preparadas en la página de inicio.",
     agentStopped: "el agente se detuvo antes de terminar",
   },
   card: {

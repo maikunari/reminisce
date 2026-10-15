@@ -1,6 +1,7 @@
 import { Footer } from "@/components/Footer";
 import { Masthead } from "@/components/Masthead";
 import { Sleeve } from "@/components/Sleeve";
+import { HeroPresets } from "@/components/home/HeroPresets";
 import { IntakeForm } from "@/components/home/IntakeForm";
 import { PresetCard } from "@/components/home/PresetCard";
 import { deckSizeLabel } from "@/lib/session/deck";
@@ -37,6 +38,7 @@ export default function HomePage() {
               Tell us the year a loved one was born, where they grew up, and a few things they loved. Reminisce asks Qloo what their generation
               and their hometown adored, and sets a table of songs, films, dishes and places to talk about together.
             </p>
+            <HeroPresets presets={PRESETS} />
             <ol className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-md text-ink-500">
               <li className="flex items-baseline gap-2.5">
                 <span className="font-display text-md text-ember-700">1</span>Three facts about them
@@ -64,7 +66,7 @@ export default function HomePage() {
             <Sleeve
               domain="film"
               title="Red Beard"
-              label="Nikkatsu"
+              label="Toho"
               line="1965"
               className="absolute top-0 right-0 aspect-square w-1/2 rotate-[4deg] border border-paper-300 text-[12px] shadow-lift sm:text-[15px]"
             />

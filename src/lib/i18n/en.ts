@@ -34,6 +34,7 @@ export const en: Dictionary = {
     retuneFailed: (message) => `Couldn't re-tune: ${message}.`,
     plannerStopped: "The planner stopped before finishing. Please try again.",
     planningFailed: "Planning failed",
+    blocked: "We couldn't confirm this browser. Try again, or open one of the people we prepared on the home page.",
     agentStopped: "the agent stopped before finishing",
   },
   card: {

@@ -45,6 +45,8 @@ export interface Dictionary {
     retuneFailed: (message: string) => string;
     plannerStopped: string;
     planningFailed: string;
+    /** When the bot check cannot confirm the browser; never the server's own wording. */
+    blocked: string;
     agentStopped: string;
   };
   card: {
