@@ -151,6 +151,8 @@ export interface AdaptInput {
   cards: Card[];
   feedback: { cardId: string; reaction: Reaction };
   currentIndex: number;
+  /** Entities the re-tune must not bring in, beyond the cards in the deck. */
+  exclude?: string[];
 }
 
 /** Re-plan upcoming cards after one piece of caregiver feedback. */
@@ -183,7 +185,7 @@ export async function adaptSession(input: AdaptInput, opts: AgentOptions = {}): 
     homeCountry,
     existingCards: cards,
     deadline,
-    feedback: { card: { ...card, reaction: input.feedback.reaction }, reaction: input.feedback.reaction, currentIndex },
+    feedback: { card: { ...card, reaction: input.feedback.reaction }, reaction: input.feedback.reaction, currentIndex, exclude: input.exclude ?? [] },
   });
   try {
     const run = await runScripted(makeCtx, emit, "adapt", deadline);

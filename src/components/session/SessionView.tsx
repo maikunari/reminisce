@@ -272,7 +272,7 @@ function SessionClient({ id }: { id: string }) {
       setLiveEvents([]);
       try {
         let adapted = false;
-        await postNdjson<StreamEvent>("/api/adapt", { person: s.person, cards: s.cards, feedback: { cardId, reaction: "not_this" }, currentIndex: -1 }, (ev) => {
+        await postNdjson<StreamEvent>("/api/adapt", { person: s.person, cards: s.cards, feedback: { cardId, reaction: "not_this" }, currentIndex: -1, exclude: dropped ? [dropped.card.entityId] : undefined }, (ev) => {
           if (ev.type === "trace") setLiveEvents((list) => [...list, ev.event]);
           else if (ev.type === "adapt") {
             adapted = true;

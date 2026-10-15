@@ -69,6 +69,19 @@ describe("adaptSession", () => {
     }
   });
 
+  it("never swaps in a card held aside, choosing the next fresh one instead", async () => {
+    const { plan, person } = await planned();
+    const target = plan.cards[0]!;
+    const swap = (cards: typeof plan.cards, exclude?: string[]) =>
+      adaptSession({ person, cards, feedback: { cardId: target.id, reaction: "not_this" }, currentIndex: -1, exclude }, { env, qloo, now: NOW });
+    const first = (await swap(plan.cards)).replacements[0]!;
+    const result = await swap(plan.cards, [first.entityId]);
+    expect(result.replacements).toHaveLength(1);
+    expect(result.replacements[0]!.entityId).not.toBe(first.entityId);
+    expect(result.replacements[0]!.replacedEntityId).toBe(target.entityId);
+    expect(result.trace.find((e) => e.qloo?.path === "/v2/insights")?.qloo?.params["filter.exclude.entities"]).toContain(first.entityId);
+  });
+
   it("does nothing when there is nothing upcoming", async () => {
     const { plan, person } = await planned();
     const last = plan.cards[plan.cards.length - 1]!;

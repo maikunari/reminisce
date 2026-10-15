@@ -419,7 +419,7 @@ export class ScriptedAdaptPolicy extends GeneratorPolicy {
     }
     const seeds = favoriteIds(ctx.favorites);
     const liked = cards.filter((c) => c.reaction === "lit_up").map((c) => c.entityId);
-    const currentIds = cards.map((c) => c.entityId);
+    const currentIds = unique([...cards.map((c) => c.entityId), ...fb.exclude]);
     const replacements: AdaptArgsT["replacements"] = [];
 
     if (fb.reaction === "lit_up") {

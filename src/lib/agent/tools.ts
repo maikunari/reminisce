@@ -187,6 +187,8 @@ export interface Feedback {
   card: Card;
   reaction: Reaction;
   currentIndex: number;
+  /** Entities to keep out besides the deck's own cards. */
+  exclude: string[];
 }
 
 export interface ToolContext {
@@ -808,7 +810,7 @@ function runAdapt(rawArgs: unknown, ctx: ToolContext): ToolOutcome {
   ctx.existingCards.forEach((card, index) => {
     if (index > feedback.currentIndex && !card.reaction) upcoming.set(card.entityId, card);
   });
-  const currentIds = new Set(ctx.existingCards.map((c) => c.entityId));
+  const currentIds = new Set([...ctx.existingCards.map((c) => c.entityId), ...feedback.exclude]);
   const used = new Set<string>();
   const replaced = new Set<string>();
   const replacements: Card[] = [];

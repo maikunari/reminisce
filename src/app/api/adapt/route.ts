@@ -22,10 +22,10 @@ export async function POST(request: Request): Promise<Response> {
   }
   const parsed = AdaptRequestSchema.safeParse(body);
   if (!parsed.success) return jsonError(400, "Invalid adapt request", parsed.error.issues);
-  const { person, cards, feedback, currentIndex } = parsed.data;
+  const { person, cards, feedback, currentIndex, exclude } = parsed.data;
   return ndjsonResponse(async (send) => {
     const guard = await openGuard("adapt");
-    const input = { person, cards: cards as unknown as Card[], feedback, currentIndex };
+    const input = { person, cards: cards as unknown as Card[], feedback, currentIndex, exclude };
     const result = await adaptSession(input, { env: guard.env, qloo: guard.qloo, notes: guard.notes, emit: (event) => send({ type: "trace", event }) });
     const notice = guard.notice();
     send({ type: "adapt", result: notice ? { ...result, notice } : result });
