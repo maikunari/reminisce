@@ -279,7 +279,7 @@ src/components/home/     intake form, Qloo autocomplete, presets
 src/components/session/  memory card, deck strip, planning and re-tuning views, Why Qloo panel
 src/lib/qloo/            client (live + fixture), response cache, parameter validation tables, fixture engine, place-name matching, types
 src/lib/agent/           tool definitions, tool execution + entity pool, loop, LLM and scripted policies, prompts
-src/lib/session/         person/session types, youth window, presets, localStorage, zod schemas, deck size, provenance wording, auto-advance
+src/lib/session/         person/session types, youth window, presets, localStorage, zod schemas, deck size, provenance wording, display names, auto-advance
 src/lib/i18n/            typed UI dictionaries: en, es, ja
 src/lib/guard/           daily budget and breaker (Upstash), per-request guard, preset snapshots, BotID check
 fixtures/synthetic/      hand-authored synthetic catalog, nine worlds (committed, marked synthetic)
