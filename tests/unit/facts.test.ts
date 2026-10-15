@@ -119,4 +119,22 @@ describe("the home country's films and shows", () => {
     expect(result.cards.some((c) => c.domain === "tv")).toBe(false);
     expect(result.cards.length).toBeGreaterThanOrEqual(8);
   });
+
+  it("count a show as home television only when the home country made it", async () => {
+    const fake = liveQlooFake();
+    const show = (id: string, name: string, countries: string[]) => ({ entity_id: id, name, properties: { release_year: 1974, release_country: countries }, query: { affinity: 0.9 } });
+    const fetchImpl = (async (input: string | URL | Request, init?: RequestInit) => {
+      const url = new URL(String(input));
+      if (url.searchParams.get("filter.type") === "urn:entity:tv_show") {
+        const entities = [show("cccccccc-2222-4000-8000-000000000001", "Science Hour", ["United States", "Japan"]), show("cccccccc-2222-4000-8000-000000000002", "Osaka Family", ["Japan"])];
+        return new Response(JSON.stringify({ success: true, results: { entities } }), { status: 200 });
+      }
+      return fake.fetch(input, init);
+    }) as unknown as typeof fetch;
+    const live = new QlooClient({ mode: "live", apiKey: "test", fetchImpl });
+    const osaka: Person = { name: "Michiko", birthYear: 1950, hometown: "Osaka", favorites: [{ name: "Hibari Misora" }], language: "ja", pronoun: "she" };
+    const result = await planSession(osaka, { env: readServerEnv({ QLOO_MODE: "live", QLOO_API_KEY: "test", LLM_MODE: "fixture" }), qloo: live, now: NOW });
+    expect(result.cards.filter((c) => c.domain === "tv").map((c) => c.title)).toEqual(["Osaka Family"]);
+  });
 });
+

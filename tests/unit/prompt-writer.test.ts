@@ -10,7 +10,7 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 
 import { adaptPrompts, adaptSession, planPrompts, planSession } from "@/lib/agent";
-import { applyPromptUpdate, isAnthropicBaseUrl, LLM_MAX_TOKENS, WRITE_PROMPTS_TOOL, writePrompts } from "@/lib/agent/policies/llm";
+import { applyPromptUpdate, cleanPrompt, isAnthropicBaseUrl, LLM_MAX_TOKENS, WRITE_PROMPTS_TOOL, writePrompts } from "@/lib/agent/policies/llm";
 import { readServerEnv } from "@/lib/env";
 import { QlooClient } from "@/lib/qloo/client";
 import { PRESETS } from "@/lib/session/presets";
@@ -87,7 +87,7 @@ describe("Claude Haiku 4.5 through the Messages API (recorded response)", () => 
     expect(request.body.model).toBe("claude-haiku-4-5");
     expect(request.body.max_tokens).toBe(LLM_MAX_TOKENS);
     expect(request.body.tool_choice).toEqual({ type: "tool", name: WRITE_PROMPTS_TOOL });
-    expect(JSON.stringify(request.body.system)).toContain("title exactly as it is written");
+    expect(JSON.stringify(request.body.system)).toContain("title exactly as the card gives it");
     // Cards go by short refs, never by 36-character ids.
     const user = JSON.stringify(request.body.messages);
     expect(user).toContain("c1 · singer or band · Yujiro Ishihara");
@@ -208,3 +208,21 @@ describe("when the model is asked", () => {
     expect(update?.prompts.map((p) => p.cardId)).toEqual(result.replacements.map((c) => c.id));
   });
 });
+
+describe("a model-written prompt", () => {
+  it("is dropped when it quotes a title the card does not have (a 'translated' film title)", async () => {
+    const plan = await michikoPlan();
+    const film = { ...plan.cards.find((c) => c.domain === "film")!, title: "Under the Flag of the Rising Sun" };
+    expect(cleanPrompt("1972年の『日本のいちばん長い日』をご覧になりましたか？", film, "ja")).toBeUndefined();
+    expect(cleanPrompt("『Under the Flag of the Rising Sun』をご覧になりましたか？誰と行きましたか？", film, "ja")).toBeDefined();
+    expect(cleanPrompt("Did you see it at the cinema? Who went with you?", film, "en")).toBeDefined();
+  });
+
+  it("may name an artist by the romanised name the card shows", async () => {
+    const plan = await michikoPlan();
+    const singer = { ...plan.cards.find((c) => c.domain === "music")!, title: "岩崎宏美", description: "Hiromi Iwasaki is a Japanese singer." };
+    expect(cleanPrompt('Did you ever hear "Hiromi Iwasaki" sing on the radio?', singer, "en")).toBeDefined();
+    expect(cleanPrompt("「岩崎宏美」の歌を聴いたことはありますか？", singer, "ja")).toBeDefined();
+  });
+});
+

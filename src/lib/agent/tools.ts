@@ -527,6 +527,18 @@ function inEra(entity: QlooEntity, type: QlooEntityType, era: [number, number] |
   return year === undefined || (year >= era[0] && year <= era[1]);
 }
 
+/**
+ * Television from the home country is a show the country made, not one it
+ * also aired: live Qloo lists an American science series under Japan too, so
+ * a show counts only when the home country leads its release countries.
+ */
+function madeAtHome(entity: QlooEntity, type: QlooEntityType, homeCountry: string | undefined): boolean {
+  if (type !== "urn:entity:tv_show" || !homeCountry) return true;
+  const countries = entity.properties?.release_country;
+  if (!Array.isArray(countries) || countries.length === 0) return true;
+  return String(countries[0]).toLowerCase() === homeCountry.toLowerCase();
+}
+
 async function runInsights(rawArgs: unknown, ctx: ToolContext): Promise<ToolOutcome> {
   const parsed = InsightsArgs.safeParse(rawArgs);
   if (!parsed.success) return argError("qloo_insights", parsed.error);
@@ -564,7 +576,7 @@ async function runInsights(rawArgs: unknown, ctx: ToolContext): Promise<ToolOutc
     const stepSeeds = step.args.signal_entities ?? [];
     const stepSeedNames = stepSeeds.length > 0 ? seedNames : [];
     res.body.results.entities.forEach((entity, rank) => {
-      if (!inEra(entity, first.filter_type, era, ctx.youthWindow)) return;
+      if (!inEra(entity, first.filter_type, era, ctx.youthWindow) || !madeAtHome(entity, first.filter_type, ctx.homeCountry)) return;
       ctx.names.set(entity.entity_id, entity.name);
       ctx.pool.add({
         entity,

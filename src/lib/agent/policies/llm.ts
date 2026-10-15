@@ -17,6 +17,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 
 import type { ServerEnv } from "@/lib/env";
+import { displayName } from "@/lib/session/names";
 import { cleanNarration, hasMarkup } from "@/lib/session/narration";
 import { LANGUAGES, type Card, type Domain, type Person, type Reaction, type TraceEvent, type YouthWindow } from "@/lib/session/types";
 
@@ -99,7 +100,7 @@ export function buildSystemPrompt(): string {
     "Each prompt: in the language named below, warm and unhurried, one open question of at most 25 words that invites a story (\"Tell me about...\", \"Did you ever...\"). Never quiz or test memory (no \"Do you remember...?\" or \"Did you know...?\"), and never mention dementia, illness or age.",
     "Facts: use only what a card tells you. Name a year or a decade only when the card gives it, and never say an artist was popular in a decade the card does not give.",
     "A place to eat or a place in the hometown may be newer than the person's youth: never say they went there back then. Ask whether they know it, and about the hometown or that kind of place when they were young.",
-    "Use each card's title exactly as it is written, in the same script: never translate it or swap in another title you think it means.",
+    "Write each title exactly as the card gives it, in the same script, even inside a Japanese or Spanish sentence (in Japanese, inside 『』): never translate it or swap in another title you think it means.",
     "Call an artist by name rather than he, she or they.",
   ].join("\n");
 }
@@ -113,8 +114,9 @@ const DOMAIN_WORD: Record<Domain, string> = {
   destination: "trip",
 };
 
-function cardLine(card: Card, index: number): string {
-  const bits = [`c${index + 1}`, DOMAIN_WORD[card.domain], card.title];
+function cardLine(card: Card, index: number, language: Person["language"]): string {
+  const name = displayName(card, language);
+  const bits = [`c${index + 1}`, DOMAIN_WORD[card.domain], name.native ? `${name.title} (${name.native})` : name.title];
   if (card.domain === "music" && card.startYear) bits.push(`performing since ${card.startYear}`);
   if ((card.domain === "film" || card.domain === "tv") && card.year) bits.push(`released ${card.year}`);
   if (card.subtitle) bits.push(card.subtitle);
@@ -135,15 +137,32 @@ export function buildUserPrompt(req: PromptRequest): string {
         : `"${req.feedback.title}" did not land; these cards were added to try something else.`,
     );
   }
-  lines.push("", "Cards:", ...req.cards.map(cardLine));
+  lines.push("", "Cards:", ...req.cards.map((c, i) => cardLine(c, i, p.language)));
   return lines.join("\n");
 }
 
-/** A prompt is kept only if it reads as a sentence to say aloud: no markup, ids or runaway text. */
-function cleanPrompt(text: unknown): string | undefined {
+const QUOTED = /『([^』]+)』|「([^」]+)」|“([^”]+)”|"([^"]+)"/g;
+
+function fold(text: string): string {
+  return text.normalize("NFKC").toLowerCase().replace(/\s+/g, " ").trim();
+}
+
+/**
+ * A prompt is kept only if it reads as a sentence to say aloud (no markup,
+ * ids or runaway text) and every title it quotes is this card's own: a model
+ * writing in Japanese will otherwise "translate" an English film title into
+ * the name of a different film.
+ */
+export function cleanPrompt(text: unknown, card: Card, language: Person["language"]): string | undefined {
   if (typeof text !== "string") return undefined;
   const line = text.replace(/\s+/g, " ").trim();
   if (line.length < 8 || line.length > 300 || hasMarkup(line)) return undefined;
+  const name = displayName(card, language);
+  const own = [card.title, name.title, name.native].filter((t): t is string => !!t).map(fold);
+  for (const match of line.matchAll(QUOTED)) {
+    const quoted = fold(match.slice(1).find((g) => g !== undefined) ?? "");
+    if (!own.some((t) => t === quoted || t.includes(quoted))) return undefined;
+  }
   return line;
 }
 
@@ -274,7 +293,7 @@ export async function writePrompts(req: PromptRequest, opts: PromptWriterOptions
     const done = new Set<string>();
     for (const entry of parsed.data.prompts) {
       const card = req.cards[Number(entry.ref.replace(/^c/i, "")) - 1];
-      const prompt = cleanPrompt(entry.prompt);
+      const prompt = card ? cleanPrompt(entry.prompt, card, req.person.language) : undefined;
       if (!card || !prompt || done.has(card.id)) continue;
       done.add(card.id);
       prompts.push({ cardId: card.id, prompt });
