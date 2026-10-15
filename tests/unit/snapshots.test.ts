@@ -117,3 +117,12 @@ describe("preset snapshots", () => {
     expect(describeRecordedAt("not a date")).toBe("an earlier time today");
   });
 });
+
+describe("snapshot keys", () => {
+  it("belong to the deployment that recorded them", async () => {
+    const { snapshotPrefix } = await import("@/lib/guard/runtime");
+    expect(snapshotPrefix({ VERCEL_DEPLOYMENT_ID: "dpl_abc" })).toBe("reminisce:dpl_abc:");
+    expect(snapshotPrefix({})).toBe("reminisce:");
+    expect(snapshotKey("michiko", snapshotPrefix({ VERCEL_DEPLOYMENT_ID: "dpl_abc" }))).toBe("reminisce:dpl_abc:preset:michiko:v2");
+  });
+});

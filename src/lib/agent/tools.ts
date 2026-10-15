@@ -488,9 +488,14 @@ function wideningSteps(args: InsightsArgsT): WideningStep[] {
     case "urn:entity:movie":
     case "urn:entity:tv_show":
       if (hasLocation) steps.push({ args: { ...args, signal_location_query: undefined }, note: "without the hometown signal" });
-      if (hasCountry) steps.push({ args: { ...args, filter_release_country: undefined }, note: "from any country", leavesHome: true });
-      if (hasLocation && hasCountry) {
-        steps.push({ args: { ...args, signal_location_query: undefined, filter_release_country: undefined }, note: "without the hometown signal, from any country", leavesHome: true });
+      // Television is what was on at home: another country's shows are never it (live Qloo
+      // has no Japanese shows for the 1960s and offers an American science series instead),
+      // so a TV call keeps to the home country and an empty answer skips the domain.
+      if (args.filter_type === "urn:entity:movie") {
+        if (hasCountry) steps.push({ args: { ...args, filter_release_country: undefined }, note: "from any country", leavesHome: true });
+        if (hasLocation && hasCountry) {
+          steps.push({ args: { ...args, signal_location_query: undefined, filter_release_country: undefined }, note: "without the hometown signal, from any country", leavesHome: true });
+        }
       }
       break;
     case "urn:entity:artist":

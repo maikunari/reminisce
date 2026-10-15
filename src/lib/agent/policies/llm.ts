@@ -99,6 +99,7 @@ export function buildSystemPrompt(): string {
     "Each prompt: in the language named below, warm and unhurried, one open question of at most 25 words that invites a story (\"Tell me about...\", \"Did you ever...\"). Never quiz or test memory (no \"Do you remember...?\" or \"Did you know...?\"), and never mention dementia, illness or age.",
     "Facts: use only what a card tells you. Name a year or a decade only when the card gives it, and never say an artist was popular in a decade the card does not give.",
     "A place to eat or a place in the hometown may be newer than the person's youth: never say they went there back then. Ask whether they know it, and about the hometown or that kind of place when they were young.",
+    "Use each card's title exactly as it is written, in the same script: never translate it or swap in another title you think it means.",
     "Call an artist by name rather than he, she or they.",
   ].join("\n");
 }

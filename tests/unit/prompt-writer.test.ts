@@ -87,6 +87,7 @@ describe("Claude Haiku 4.5 through the Messages API (recorded response)", () => 
     expect(request.body.model).toBe("claude-haiku-4-5");
     expect(request.body.max_tokens).toBe(LLM_MAX_TOKENS);
     expect(request.body.tool_choice).toEqual({ type: "tool", name: WRITE_PROMPTS_TOOL });
+    expect(JSON.stringify(request.body.system)).toContain("title exactly as it is written");
     // Cards go by short refs, never by 36-character ids.
     const user = JSON.stringify(request.body.messages);
     expect(user).toContain("c1 · singer or band · Yujiro Ishihara");
