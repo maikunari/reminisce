@@ -451,6 +451,17 @@ export function eraFor(type: QlooEntityType, youthWindow: YouthWindow): [number,
   return undefined;
 }
 
+/**
+ * Qloo's tag ids for restaurants, tourist attractions and landmarks. They are
+ * the same for every session, so the planners use them directly instead of
+ * spending a /v2/tags call (and a model turn) to find them each time.
+ */
+export const PLACE_TAGS = {
+  restaurant: "urn:tag:genre:place:restaurant",
+  touristAttraction: "urn:tag:genre:place:tourist_attraction",
+  landmark: "urn:tag:genre:place:landmark",
+} as const;
+
 /** The session domain an Insights call fills. A place call is dining when it filters by a restaurant tag. */
 export function domainForInsights(filterType: string, filterTags?: readonly string[]): Domain | undefined {
   switch (filterType) {

@@ -90,7 +90,7 @@ describe("planSession (deterministic planner, fixture Qloo)", () => {
     expect(a.cards.map((c) => c.entityId)).toEqual(b.cards.map((c) => c.entityId));
     const qlooCalls = a.trace.filter((e) => e.qloo);
     expect(qlooCalls.length).toBeGreaterThanOrEqual(8);
-    expect(qlooCalls.map((e) => e.qloo!.path)).toEqual(expect.arrayContaining(["/search", "/v2/tags", "/v2/insights"]));
+    expect(qlooCalls.map((e) => e.qloo!.path)).toEqual(expect.arrayContaining(["/search", "/v2/insights"]));
     expect(a.trace.some((e) => e.tool === "plan_session" && e.kind === "tool_result")).toBe(true);
     expect(a.trace.every((e) => e.phase === "plan")).toBe(true);
   });

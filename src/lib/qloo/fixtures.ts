@@ -475,7 +475,7 @@ export class SyntheticQloo {
       if (countryCode && e.properties?.geocode?.country_code?.toUpperCase() !== countryCode) continue;
       if (popularityMin !== undefined && (e.popularity ?? 0) < popularityMin) continue;
       const tagIds = new Set((e.tags ?? []).map((t) => t.id));
-      if (filterTags.length > 0 && !filterTags.some((t) => tagIds.has(t))) continue;
+      if (filterTags.length > 0 && !filterTags.some((t) => tagIds.has(t) || tagIds.has(placeTagCounterpart(t)))) continue;
       if (filterLocality) {
         // A place is only "in" a town the catalog lists it under. A town the
         // catalog does not know gets no places at all rather than another city's.
@@ -583,4 +583,15 @@ let synthetic: SyntheticQloo | null = null;
 export function getSyntheticQloo(): SyntheticQloo {
   if (!synthetic) synthetic = new SyntheticQloo();
   return synthetic;
+}
+
+/**
+ * The catalog tags its sights with the category form of a place tag
+ * (urn:tag:category:place:landmark); live Qloo's filters use the genre form
+ * (urn:tag:genre:place:landmark). Either asks for the same thing here.
+ */
+function placeTagCounterpart(tag: string): string {
+  if (tag.startsWith("urn:tag:genre:place:")) return tag.replace("urn:tag:genre:place:", "urn:tag:category:place:");
+  if (tag.startsWith("urn:tag:category:place:")) return tag.replace("urn:tag:category:place:", "urn:tag:genre:place:");
+  return tag;
 }

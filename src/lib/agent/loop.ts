@@ -61,6 +61,11 @@ function summariseArgs(args: unknown): Record<string, unknown> | undefined {
   return args as Record<string, unknown>;
 }
 
+/** Commits read what the step's Qloo calls put in the pool, so they run after them. */
+function isCommit(name: ToolName): boolean {
+  return name === "plan_session" || name === "adapt_session";
+}
+
 export async function runLoop(opts: LoopOptions): Promise<{ final: ToolFinal; steps: number }> {
   const { policy, ctx } = opts;
   const { deadline } = ctx;
@@ -70,6 +75,32 @@ export async function runLoop(opts: LoopOptions): Promise<{ final: ToolFinal; st
   let steps = 0;
   let final: ToolFinal | undefined;
 
+  /** Execute one call and stream its results; never throws. */
+  const execute = async (call: ToolCall, domain: ReturnType<typeof insightsDomain>): Promise<ToolOutcome> => {
+    let outcome: ToolOutcome;
+    try {
+      outcome = await executeTool(call.name, call.args, ctx);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      outcome = { ok: false, result: { ok: false, error: message }, summary: `${call.name} failed: ${message}` };
+    }
+    for (const attempt of outcome.attempts ?? []) {
+      emit(traceEvent({ phase: ctx.phase, kind: "tool_result", tool: call.name, summary: attempt.summary, qloo: attempt.qloo, ...(domain ? { domain } : {}) }));
+    }
+    emit(
+      traceEvent({
+        phase: ctx.phase,
+        kind: outcome.ok ? "tool_result" : "error",
+        tool: call.name,
+        summary: outcome.summary,
+        qloo: outcome.qloo,
+        ...(outcome.domain ?? domain ? { domain: outcome.domain ?? domain } : {}),
+        ...(outcome.preview ? { preview: outcome.preview } : {}),
+      }),
+    );
+    return outcome;
+  };
+
   while (steps < maxSteps) {
     if (Date.now() > deadline) throw new LoopError("agent budget exceeded", "budget");
     steps += 1;
@@ -77,7 +108,10 @@ export async function runLoop(opts: LoopOptions): Promise<{ final: ToolFinal; st
     if (step.narration) {
       emit(traceEvent({ phase: ctx.phase, kind: "narration", summary: step.narration }));
     }
-    for (const call of step.toolCalls ?? []) {
+    const calls = step.toolCalls ?? [];
+    const outcomes = new Map<ToolCall, ToolOutcome>();
+    const known: { call: ToolCall & { name: ToolName }; domain: ReturnType<typeof insightsDomain> }[] = [];
+    for (const call of calls) {
       if (!isToolName(call.name)) {
         const outcome: ToolOutcome = {
           ok: false,
@@ -85,33 +119,25 @@ export async function runLoop(opts: LoopOptions): Promise<{ final: ToolFinal; st
           summary: `unknown tool ${call.name}`,
         };
         emit(traceEvent({ phase: ctx.phase, kind: "error", tool: call.name, summary: outcome.summary }));
-        policy.observe(call, outcome);
+        outcomes.set(call, outcome);
         continue;
       }
-      if (Date.now() > deadline) throw new LoopError("agent budget exceeded", "budget");
-      const domain = insightsDomain(call);
+      known.push({ call, domain: insightsDomain(call) });
+    }
+    if (known.length > 0 && Date.now() > deadline) throw new LoopError("agent budget exceeded", "budget");
+    // Every call of the step is announced first, so the planning view shows them all being asked.
+    for (const { call, domain } of known) {
       emit(traceEvent({ phase: ctx.phase, kind: "tool_call", tool: call.name, args: summariseArgs(call.args), summary: describeCall(call), ...(domain ? { domain } : {}) }));
-      let outcome: ToolOutcome;
-      try {
-        outcome = await executeTool(call.name, call.args, ctx);
-      } catch (error) {
-        const message = error instanceof Error ? error.message : String(error);
-        outcome = { ok: false, result: { ok: false, error: message }, summary: `${call.name} failed: ${message}` };
-      }
-      for (const attempt of outcome.attempts ?? []) {
-        emit(traceEvent({ phase: ctx.phase, kind: "tool_result", tool: call.name, summary: attempt.summary, qloo: attempt.qloo, ...(domain ? { domain } : {}) }));
-      }
-      emit(
-        traceEvent({
-          phase: ctx.phase,
-          kind: outcome.ok ? "tool_result" : "error",
-          tool: call.name,
-          summary: outcome.summary,
-          qloo: outcome.qloo,
-          ...(outcome.domain ?? domain ? { domain: outcome.domain ?? domain } : {}),
-          ...(outcome.preview ? { preview: outcome.preview } : {}),
-        }),
-      );
+    }
+    // Qloo calls run together (the client paces them to the key's limit); commits follow in order.
+    await Promise.all(
+      known.filter(({ call }) => !isCommit(call.name)).map(async ({ call, domain }) => outcomes.set(call, await execute(call, domain))),
+    );
+    for (const { call, domain } of known.filter(({ call }) => isCommit(call.name))) {
+      outcomes.set(call, await execute(call, domain));
+    }
+    for (const call of calls) {
+      const outcome = outcomes.get(call)!;
       policy.observe(call, outcome);
       if (outcome.final) final = outcome.final;
     }

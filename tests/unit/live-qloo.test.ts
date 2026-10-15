@@ -75,8 +75,9 @@ describe("live Qloo: Frank, Chicago, 1960 to 1975 (deterministic planner)", () =
     expect(place.title).toMatch(/^Old Theatre/);
     expect(place.signals.params["filter.tags"]).toBe("urn:tag:genre:place:tourist_attraction,urn:tag:genre:place:landmark");
     expect(place.signals.params["signal.interests.entities"]).toBeUndefined();
-    // A modest number of calls: one search per favorite and hometown, three tag lookups, six insights and one widening.
-    expect(fake.calls.length).toBeLessThanOrEqual(13);
+    // A modest number of calls: one search per favorite and hometown, six insights and one widening; tag ids are known.
+    expect(fake.calls.length).toBeLessThanOrEqual(9);
+    expect(fake.calls.some((c) => c.path === "/v2/tags")).toBe(false);
   });
 
   it("streams a domain and a preview with each Insights result so the planning view fills in place", async () => {
@@ -210,7 +211,7 @@ describe("live Qloo: running out of time", () => {
 
   it("commits what Qloo already returned when the deterministic planner runs out of time", async () => {
     const fake = liveQlooFake();
-    const slow = slowClock(4_700);
+    const slow = slowClock(6_000);
     const qloo = new QlooClient({ mode: "live", apiKey: "test", fetchImpl: slow(fake.fetch) });
     const events: TraceEvent[] = [];
     const result = await planSession(frank, { env: scriptedEnv, qloo, now: NOW, emit: (e) => events.push(e) });

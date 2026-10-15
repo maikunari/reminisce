@@ -197,10 +197,13 @@ export const NARRATION = {
     `${p.name} was 15 to 30 between ${start} and ${end}. Building around ${p.hometown} and ${
       p.favorites.length > 0 ? p.favorites.map((f) => f.name).join(", ") : `${pronounsFor(p.pronoun).possessive} generation's taste`
     }.`,
-  resolveFavorite: (name: string) => `Looking up ${name} in Qloo's entity search so it can seed the taste graph.`,
-  resolveHometown: (name: string) => `Resolving ${name} to a Qloo locality for the location signal.`,
-  tags: (what: string) => `Finding Qloo's tag ids for ${what}.`,
+  resolve: (favorites: string[], hometown: string) =>
+    favorites.length === 0
+      ? `Resolving ${hometown} to a Qloo locality for the location signal.`
+      : `Looking up ${favorites.join(", ")} in Qloo's entity search to seed the taste graph, and resolving ${hometown} to a Qloo locality.`,
   insights: (what: string) => `Asking Qloo for ${what}.`,
+  insightsAll: (place: string, start: number, end: number) =>
+    `Asking Qloo, all at once, for the music, films, television, places to eat, landmarks and trips of ${place} from ${start} to ${end}.`,
   widen: (what: string) => `Few results. Widening the ${what} request.`,
   plan: (count: number, domains: number) => `Choosing ${count} cards across ${domains} domains, highest affinity first.`,
   adaptLiked: (title: string, p: Person) =>

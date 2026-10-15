@@ -36,6 +36,7 @@ import {
   toQueryString,
   type InsightsRequest,
 } from "./params";
+import { sharedQlooLimiter, type RateLimiter } from "./limiter";
 import type { QlooInsightsResponse, QlooSearchResponse, QlooTagsResponse } from "./types";
 
 export type QlooSource = "live" | "recorded" | "synthetic";
@@ -97,7 +98,18 @@ export interface QlooClientOptions {
   cache?: QlooResponseCache;
   /** Live mode only: budget and failure handling around each uncached request. */
   guard?: QlooGuardHooks;
+  /**
+   * Live mode only: paces network requests to the key's rate limit. Defaults
+   * to the process-wide limiter; a client with an injected `fetchImpl` (a test
+   * double) is unpaced unless one is passed.
+   */
+  limiter?: RateLimiter;
+  /** Wait before asking again after a 429. */
+  retryDelayMs?: number;
 }
+
+/** A 429 is asked again once after this long, rather than handed to the offline catalog at once. */
+export const QLOO_RETRY_DELAY_MS = 300;
 
 interface LiveAnswer {
   status: number;
@@ -129,6 +141,8 @@ export class QlooClient {
   private readonly timeoutMs: number;
   private readonly cache: QlooResponseCache | undefined;
   private readonly guard: QlooGuardHooks | undefined;
+  private readonly limiter: RateLimiter | undefined;
+  private readonly retryDelayMs: number;
 
   constructor(opts: QlooClientOptions) {
     this.mode = opts.mode;
@@ -140,6 +154,8 @@ export class QlooClient {
     this.timeoutMs = opts.timeoutMs ?? 15_000;
     this.cache = opts.cache;
     this.guard = opts.guard;
+    this.limiter = opts.limiter ?? (opts.mode === "live" && !opts.fetchImpl ? sharedQlooLimiter() : undefined);
+    this.retryDelayMs = opts.retryDelayMs ?? QLOO_RETRY_DELAY_MS;
     if (this.mode === "live" && !this.apiKey) {
       throw new Error("QLOO_API_KEY is required when QLOO_MODE=live");
     }
@@ -245,7 +261,20 @@ export class QlooClient {
     }
   }
 
+  /** One network request, paced by the limiter; a 429 is asked again once after a short wait while time allows. */
   private async fetchLive(req: QlooRequest, deadline: number | undefined): Promise<LiveAnswer> {
+    const once = () => (this.limiter ? this.limiter.run(() => this.fetchOnce(req, deadline)) : this.fetchOnce(req, deadline));
+    try {
+      return await once();
+    } catch (error) {
+      const timeLeft = deadline === undefined ? Infinity : deadline - Date.now();
+      if (!(error instanceof QlooError) || error.status !== 429 || timeLeft < this.retryDelayMs * 2) throw error;
+      await new Promise<void>((resolve) => setTimeout(resolve, this.retryDelayMs));
+      return once();
+    }
+  }
+
+  private async fetchOnce(req: QlooRequest, deadline: number | undefined): Promise<LiveAnswer> {
     const timeoutMs = deadline === undefined ? this.timeoutMs : Math.min(this.timeoutMs, deadline - Date.now());
     if (timeoutMs <= 0) throw new QlooError(`Qloo ${req.path} skipped: time budget exhausted`, 0, req);
     const url = `${this.baseUrl}${req.path}?${toQueryString(req.params)}`;
