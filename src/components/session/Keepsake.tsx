@@ -3,6 +3,7 @@
 import Link from "next/link";
 
 import { dictionary } from "@/lib/i18n";
+import { displayName } from "@/lib/session/names";
 import type { Session } from "@/lib/session/types";
 
 /** The end of a session as something to keep: what lit them up, printable for the care file. */
@@ -22,7 +23,7 @@ export function Keepsake({ session }: { session: Session }) {
         <ol className="mt-4 list-decimal space-y-2 pl-6 text-md leading-[1.5] marker:font-display marker:text-ember-700">
           {lit.map((c) => (
             <li key={c.id}>
-              {c.title} <span className="font-display text-ink-500 italic">· “{c.prompt}”</span>
+              {displayName(c, session.person.language).title} <span className="font-display text-ink-500 italic">· “{c.prompt}”</span>
             </li>
           ))}
         </ol>

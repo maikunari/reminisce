@@ -126,7 +126,13 @@ export function EntityAutocomplete({ id, label, placeholder, types, value, onCha
             setSearch("idle");
           }
         }}
-        onFocus={() => items.length > 0 && setOpen(true)}
+        style={{ scrollMarginTop: "1rem" }}
+        onFocus={(e) => {
+          if (items.length > 0) setOpen(true);
+          // On a phone the keyboard covers the suggestion list; bring the field to the top once it is up.
+          const field = e.currentTarget;
+          if (window.matchMedia("(max-width: 640px)").matches) window.setTimeout(() => field.scrollIntoView({ block: "start" }), 300);
+        }}
         onBlur={() => setTimeout(() => setOpen(false), 120)}
         onKeyDown={(e) => {
           if (e.key === "ArrowDown" && items.length > 0) {

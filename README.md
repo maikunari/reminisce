@@ -15,7 +15,7 @@ During the session the caregiver taps **They lit up** or **Not this one**. The a
 
 ![Frank's session: Nat King Cole with a prompt about singing along at home, and a deck of Rat Pack films, a steakhouse, the Chicago Theatre and Las Vegas](docs/screenshots/session-frank.png)
 
-Two presets let you try it in one tap. Michiko (born 1950, Osaka, loved Hibari Misora) and Frank (born 1945, Chicago, loved Frank Sinatra) get sessions that differ end to end: Japanese enka singers, Tora-san films, a Dotonbori crab house and a Kyoto trip for Michiko; Nat King Cole, Rat Pack films, a River North steakhouse, the Chicago Theatre and Las Vegas for Frank.
+Two presets let you try it in one tap. Michiko (born 1950, Osaka, loved Hibari Misora) and Frank (born 1945, Chicago, loved Frank Sinatra) get sessions that differ end to end: Japanese singers, Japanese films of 1965 to 1980, Osaka's own landmarks and a trip for Michiko; standards singers, American films and television of 1960 to 1975, Chicago's own landmarks and a trip for Frank. Which exact names turn up is Qloo's answer on the day.
 
 ## Why Qloo is essential
 

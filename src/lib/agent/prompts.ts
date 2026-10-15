@@ -16,9 +16,9 @@ type Vars = { title: string; year?: number; decade?: string; person: string; hom
 const TEMPLATES: Record<Language, Record<Domain, string[]>> = {
   en: {
     music: [
-      "Tell me about {title}. Where would you have heard their songs?",
+      "Tell me about {title}. Where did you first hear that music?",
       "Did you ever dance to {title}? Who was there with you?",
-      "{title} was everywhere in the {decade}. Did you have a favourite of their songs?",
+      "{title} was everywhere in the {decade}. Did you have a favourite song?",
       "Did anyone at home sing along to {title}? Who had the best voice?",
     ],
     film: [

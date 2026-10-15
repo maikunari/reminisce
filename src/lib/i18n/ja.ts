@@ -29,6 +29,7 @@ export const ja: Dictionary = {
     retuneFailed: (message) => `調整できませんでした: ${message}。`,
     plannerStopped: "途中で止まりました。もう一度お試しください。",
     planningFailed: "作成に失敗しました",
+    blocked: "このブラウザーを確認できませんでした。もう一度お試しいただくか、トップページに用意した方をお選びください。",
     agentStopped: "エージェントが途中で止まりました",
   },
   card: {

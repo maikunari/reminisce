@@ -6,9 +6,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Footer } from "@/components/Footer";
 import { Masthead } from "@/components/Masthead";
 import { useIsClient, useReducedMotion } from "@/lib/client/hooks";
-import { postNdjson } from "@/lib/client/ndjson";
+import { isBlocked, postNdjson } from "@/lib/client/ndjson";
 import { dictionary } from "@/lib/i18n";
 import { autoAdvanceDelay, nextCardIndex } from "@/lib/session/auto-advance";
+import { displayName } from "@/lib/session/names";
 import { loadSession, saveSession } from "@/lib/session/storage";
 import { pronounsFor, type Reaction, type Session, type StreamEvent, type TraceEvent } from "@/lib/session/types";
 
@@ -143,7 +144,7 @@ function SessionClient({ id }: { id: string }) {
         if (!planned) throw new PlanStreamError(strings.plannerStopped);
       } catch (error) {
         if (controller.signal.aborted) return;
-        const message = error instanceof Error ? error.message : strings.planningFailed;
+        const message = isBlocked(error) ? strings.blocked : error instanceof Error ? error.message : strings.planningFailed;
         const code = error instanceof PlanStreamError ? error.code : "failed";
         setPlanDone(false);
         update((s) => ({ ...s, status: "error", error: message, errorCode: code }));
@@ -238,7 +239,7 @@ function SessionClient({ id }: { id: string }) {
             }));
             setLiveEvents([]);
             const n = ev.result.replacements.length;
-            const line = n === 0 ? strings.nothingNew : reaction === "lit_up" ? strings.leanToward(n, card.title) : strings.steerAway(n);
+            const line = n === 0 ? strings.nothingNew : reaction === "lit_up" ? strings.leanToward(n, displayName(card, s.person.language).title) : strings.steerAway(n);
             setNotice(ev.result.notice ? `${line} ${ev.result.notice}` : line);
           } else if (ev.type === "error") throw new Error(ev.message);
         });
@@ -246,7 +247,7 @@ function SessionClient({ id }: { id: string }) {
       } catch (error) {
         setLiveEvents([]);
         update((prev) => ({ ...prev, status: "ready" }));
-        setNotice(strings.retuneFailed(error instanceof Error ? error.message : "unknown error"));
+        setNotice(isBlocked(error) ? strings.blocked : strings.retuneFailed(error instanceof Error ? error.message : "unknown error"));
       }
       scheduleAdvance(index);
     },

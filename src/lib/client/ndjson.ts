@@ -24,6 +24,24 @@ export async function readNdjson<T>(response: Response, onEvent: (event: T) => v
   if (rest) onEvent(JSON.parse(rest) as T);
 }
 
+/** A non-2xx answer from the API. The status lets the UI word it kindly instead of showing the server's text. */
+export class HttpError extends Error {
+  constructor(
+    message: string,
+    readonly status: number,
+  ) {
+    super(message);
+    this.name = "HttpError";
+  }
+}
+
+/** The status BotID's check answers with when it cannot confirm a browser. */
+export const BLOCKED_STATUS = 403;
+
+export function isBlocked(error: unknown): boolean {
+  return error instanceof HttpError && error.status === BLOCKED_STATUS;
+}
+
 export async function postNdjson<T>(url: string, body: unknown, onEvent: (event: T) => void, signal?: AbortSignal): Promise<void> {
   const response = await fetch(url, {
     method: "POST",
@@ -39,7 +57,7 @@ export async function postNdjson<T>(url: string, body: unknown, onEvent: (event:
     } catch {
       // keep default
     }
-    throw new Error(message);
+    throw new HttpError(message, response.status);
   }
   await readNdjson<T>(response, onEvent);
 }

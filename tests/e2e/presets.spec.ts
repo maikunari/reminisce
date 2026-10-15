@@ -74,6 +74,26 @@ for (const preset of PRESETS) {
   });
 }
 
+test("the hero offers each prepared person in one tap, above the intake form", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.getByTestId("hero-preset-michiko")).toHaveText(/Try Michiko's session/);
+  await expect(page.getByTestId("hero-preset-frank")).toHaveText(/Try Frank's session/);
+  await page.getByTestId("hero-preset-frank").click();
+  await expect(page).toHaveURL(/\/session\/[a-z0-9-]+/);
+  await expect(page.getByTestId("person-summary")).toContainText("Chicago");
+  await expect(page.getByTestId("memory-card")).toBeVisible({ timeout: 45_000 });
+});
+
+test("a bot-check refusal reads as a kind line, never the server's wording", async ({ page }) => {
+  await page.route("**/api/plan", (route) => route.fulfill({ status: 403, contentType: "application/json", body: JSON.stringify({ error: "Automated requests are not allowed" }) }));
+  await page.goto("/");
+  await page.getByTestId("preset-michiko").click();
+  const failed = page.getByTestId("build-failed");
+  await expect(failed).toBeVisible();
+  await expect(failed).toContainText("We couldn't confirm this browser");
+  await expect(failed).not.toContainText("Automated requests");
+});
+
 test("the two presets produce culturally different sessions", async ({ page }) => {
   const sets: string[][] = [];
   for (const preset of PRESETS) {

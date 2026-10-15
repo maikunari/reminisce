@@ -3,6 +3,7 @@
 import { CardArt } from "@/components/CardArt";
 import { dictionary } from "@/lib/i18n";
 import { DOMAIN_INK } from "@/lib/session/domain-ink";
+import { displayName } from "@/lib/session/names";
 import type { Card, Language, Pronouns, Reaction } from "@/lib/session/types";
 
 interface Props {
@@ -20,12 +21,14 @@ interface Props {
 export function MemoryCard({ card, index, total, onReact, onWhy, disabled, language, pronouns }: Props) {
   const t = dictionary(language);
   const reacted = card.reaction;
+  const name = displayName(card, language);
+  const subline = [name.native, card.subtitle].filter(Boolean).join(" · ");
   const affinity = card.signals.affinity !== null ? ` · ${t.card.affinity(card.signals.affinity.toFixed(2))}` : "";
   return (
     <article key={card.id} aria-labelledby={`card-title-${card.id}`} className="surface animate-fade-in grid overflow-hidden md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]" data-testid="memory-card">
       <div className="aspect-[4/3] border-b border-paper-300 md:aspect-auto md:min-h-[30rem] md:border-r md:border-b-0">
         <CardArt
-          title={card.title}
+          title={name.title}
           domain={card.domain}
           imageUrl={card.imageUrl}
           year={card.year}
@@ -43,9 +46,9 @@ export function MemoryCard({ card, index, total, onReact, onWhy, disabled, langu
         </div>
         <div>
           <h2 id={`card-title-${card.id}`} className="balance text-3xl sm:text-4xl" data-testid="card-title">
-            {card.title}
+            {name.title}
           </h2>
-          {card.subtitle ? <p className="mt-2 text-md text-ink-500">{card.subtitle}</p> : null}
+          {subline ? <p className="mt-2 text-md text-ink-500">{subline}</p> : null}
         </div>
         <blockquote className="prompt my-2 ml-[1.1em]" data-testid="card-prompt">
           {card.prompt}
