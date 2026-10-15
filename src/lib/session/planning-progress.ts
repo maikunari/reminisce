@@ -3,6 +3,7 @@
  * per domain that only ever moves forward (waiting, asking, then found or
  * empty), so the screen updates in place instead of scrolling a log.
  */
+import { cleanNarration } from "./narration";
 import { DOMAINS, type Domain, type TraceEvent, type TracePreviewItem } from "./types";
 
 export type DomainStatus = "waiting" | "asking" | "found" | "empty";
@@ -49,7 +50,7 @@ export function planningProgress(events: TraceEvent[]): PlanningProgress {
   let narration: string | undefined;
   for (const event of events) {
     if (event.qloo) qlooCalls += 1;
-    if (event.kind === "narration") narration = event.summary;
+    if (event.kind === "narration") narration = cleanNarration(event.summary) ?? narration;
     const domain = domainOf(event);
     if (!domain) continue;
     const state = byDomain.get(domain)!;

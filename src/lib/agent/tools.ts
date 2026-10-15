@@ -1,6 +1,6 @@
 /**
- * The agent's five tools, as OpenAI-compatible function definitions plus the
- * server-side runtime that executes them against the Qloo client.
+ * The agent's five tools: argument schemas plus the server-side runtime that
+ * executes them against the Qloo client.
  *
  * Every Qloo call made through these tools is recorded in an EntityPool, so
  * `plan_session` / `adapt_session` can only commit entities the agent actually
@@ -48,7 +48,7 @@ import { PLAN_MAX_CARDS, PLAN_MIN_CARDS, PLAN_MIN_DOMAINS } from "@/lib/session/
 import { offlinePrompt, whyLine } from "./prompts";
 
 // ---------------------------------------------------------------------------
-// Argument schemas (zod validates LLM output; JSON schema is derived for the LLM)
+// Argument schemas (zod validates every policy's arguments)
 // ---------------------------------------------------------------------------
 
 export const SearchEntityArgs = z.object({
@@ -131,65 +131,6 @@ export const TOOL_NAMES = [
   "adapt_session",
 ] as const;
 export type ToolName = (typeof TOOL_NAMES)[number];
-
-function jsonSchema(schema: z.ZodType): Record<string, unknown> {
-  const out = z.toJSONSchema(schema, { target: "draft-7" }) as Record<string, unknown>;
-  delete out.$schema;
-  return out;
-}
-
-export interface ToolDefinition {
-  type: "function";
-  function: { name: ToolName; description: string; parameters: Record<string, unknown> };
-}
-
-export const TOOL_DEFINITIONS: ToolDefinition[] = [
-  {
-    type: "function",
-    function: {
-      name: "qloo_search_entity",
-      description:
-        "Look up Qloo entity ids by name (GET /search). Use it to resolve the person's favorites to entity ids and the hometown to a urn:entity:locality.",
-      parameters: jsonSchema(SearchEntityArgs),
-    },
-  },
-  {
-    type: "function",
-    function: {
-      name: "qloo_search_tags",
-      description:
-        "Find valid Qloo tag ids by keyword (GET /v2/tags). filter_tags and signal_tags in qloo_insights only accept ids returned here.",
-      parameters: jsonSchema(SearchTagsArgs),
-    },
-  },
-  {
-    type: "function",
-    function: {
-      name: "qloo_insights",
-      description:
-        "Get taste-correlated entities from the Qloo Insights API (GET /v2/insights) for one filter_type, using seed entities, the hometown and the age bucket as signals. Returns entities with affinity scores; only these ids may be used in plan_session or adapt_session.",
-      parameters: jsonSchema(InsightsArgs),
-    },
-  },
-  {
-    type: "function",
-    function: {
-      name: "plan_session",
-      description:
-        "Commit the final reminiscence session: 8 to 10 cards across at least 3 domains, using entity ids from qloo_insights results. Returns ok:false with reasons if the plan is invalid; fix and call again.",
-      parameters: jsonSchema(PlanArgs),
-    },
-  },
-  {
-    type: "function",
-    function: {
-      name: "adapt_session",
-      description:
-        "Replace upcoming cards after caregiver feedback. Each replacement names the upcoming card's entity id it replaces and a new entity id from a fresh qloo_insights result.",
-      parameters: jsonSchema(AdaptArgs),
-    },
-  },
-];
 
 // ---------------------------------------------------------------------------
 // Runtime
@@ -742,6 +683,7 @@ export function buildCard(
     warnings: entry.warnings,
   };
   const year = entityYear(e);
+  const startYear = domain === "music" && typeof e.properties?.start_year === "number" ? e.properties.start_year : undefined;
   const cleanPrompt = prompt?.replace(/\s+/g, " ").trim();
   return {
     id: `card_${randomUUID().slice(0, 8)}`,
@@ -750,6 +692,7 @@ export function buildCard(
     title: e.name,
     subtitle: subtitleFor(domain, e, ctx.language),
     year,
+    ...(startYear !== undefined ? { startYear } : {}),
     imageUrl: entityImageUrl(e),
     description: short(e.properties?.description ?? e.properties?.short_description, 220),
     tags: (e.tags ?? []).slice(0, 3).map((t) => t.name),
@@ -761,7 +704,7 @@ export function buildCard(
           language: ctx.language,
           title: e.name,
           year,
-          startYear: typeof e.properties?.start_year === "number" ? e.properties.start_year : undefined,
+          startYear,
           entityId: e.entity_id,
           person: ctx.person,
           youthWindow: ctx.youthWindow,

@@ -1,10 +1,11 @@
 "use client";
 
+import { cleanNarration } from "@/lib/session/narration";
 import type { TraceEvent } from "@/lib/session/types";
 
 /** One sentence under the status line and a 2px indeterminate rule. Nothing pulses. */
 export function RetuningBanner({ events, label }: { events: TraceEvent[]; label: string }) {
-  const latest = events.filter((e) => e.kind === "narration" || e.kind === "tool_result").at(-1);
+  const latest = events.filter((e) => (e.kind === "narration" && cleanNarration(e.summary)) || e.kind === "tool_result").at(-1);
   return (
     <div role="status" aria-live="polite" className="min-w-0 flex-1" data-testid="retuning-banner">
       <p className="notice">{label}</p>

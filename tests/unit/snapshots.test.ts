@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { planSession } from "@/lib/agent";
 import { readServerEnv } from "@/lib/env";
-import { describeRecordedAt, isFullStrength, loadSnapshot, matchingPreset, replaySnapshot, snapshotKey, storeSnapshot } from "@/lib/guard/snapshots";
+import { describeRecordedAt, isFullStrength, loadSnapshot, matchingPreset, REPLAY_MAX_MS, REPLAY_SPACING_MS, replaySnapshot, snapshotKey, storeSnapshot } from "@/lib/guard/snapshots";
 import { QlooClient } from "@/lib/qloo/client";
 import { PRESETS } from "@/lib/session/presets";
 import type { TraceEvent } from "@/lib/session/types";
@@ -29,20 +29,23 @@ describe("isFullStrength", () => {
   const liveEnv = readServerEnv({ QLOO_MODE: "live", QLOO_API_KEY: "k", LLM_MODE: "live", LLM_API_KEY: "k" });
   const guard = (over: Partial<Parameters<typeof isFullStrength>[1]> = {}) => ({ env: liveEnv, degraded: { llm: false, qloo: false }, fallbacks: { budget: 0, error: 0 }, ...over });
 
-  it("refuses a run whose configured model fell back to the deterministic planner", async () => {
+  it("keeps a full deck from live, undegraded Qloo whoever wrote the prompts", async () => {
     const result = await planSession(michiko, { env, qloo, now: RECORDED });
     expect(result.planner).toBe("deterministic");
-    expect(isFullStrength(result, guard())).toBe(false);
+    expect(isFullStrength(result, guard())).toBe(true);
     expect(isFullStrength({ ...result, planner: "llm" }, guard())).toBe(true);
+    expect(isFullStrength(result, guard({ env: { ...liveEnv, llmMode: "fixture" } }))).toBe(true);
+    // The model's allowance being spent only means template prompts; the cards are as good.
+    expect(isFullStrength(result, guard({ degraded: { llm: true, qloo: false } }))).toBe(true);
   });
 
-  it("keeps a deterministic run when no model is configured, and refuses degraded ones", async () => {
+  it("refuses a degraded, offline or short run", async () => {
     const result = await planSession(michiko, { env, qloo, now: RECORDED });
-    expect(isFullStrength(result, guard({ env: { ...liveEnv, llmMode: "fixture" } }))).toBe(true);
-    expect(isFullStrength(result, guard({ env: { ...liveEnv, llmApiKey: "" } }))).toBe(true);
-    expect(isFullStrength(result, guard({ env: { ...liveEnv, llmMode: "fixture" }, degraded: { llm: true, qloo: false } }))).toBe(false);
-    expect(isFullStrength(result, guard({ env: { ...liveEnv, llmMode: "fixture" }, fallbacks: { budget: 0, error: 1 } }))).toBe(false);
-    expect(isFullStrength(result, guard({ env: { ...liveEnv, llmMode: "fixture", qlooMode: "fixture" } }))).toBe(false);
+    expect(isFullStrength(result, guard({ degraded: { llm: false, qloo: true } }))).toBe(false);
+    expect(isFullStrength(result, guard({ fallbacks: { budget: 0, error: 1 } }))).toBe(false);
+    expect(isFullStrength(result, guard({ fallbacks: { budget: 1, error: 0 } }))).toBe(false);
+    expect(isFullStrength(result, guard({ env: { ...liveEnv, qlooMode: "fixture" } }))).toBe(false);
+    expect(isFullStrength({ ...result, cards: result.cards.slice(0, 7) }, guard())).toBe(false);
   });
 });
 
@@ -68,7 +71,7 @@ describe("preset snapshots", () => {
     expect(await loadSnapshot(redis, "frank", RECORDED)).toBeNull();
     redis.store.set(snapshotKey("frank"), "{not json");
     expect(await loadSnapshot(redis, "frank", RECORDED)).toBeNull();
-    redis.store.set(snapshotKey("frank"), JSON.stringify({ version: 1, presetId: "michiko", recordedAt: RECORDED.toISOString(), result }));
+    redis.store.set(snapshotKey("frank"), JSON.stringify({ version: 2, presetId: "michiko", recordedAt: RECORDED.toISOString(), result }));
     expect(await loadSnapshot(redis, "frank", RECORDED)).toBeNull();
     redis.failWith = new Error("down");
     expect(await loadSnapshot(redis, "michiko", RECORDED)).toBeNull();
@@ -90,6 +93,23 @@ describe("preset snapshots", () => {
     expect(replayed.replayedAt).toBe(RECORDED.toISOString());
     expect(replayed.trace).toEqual(emitted);
     expect(replayed.cards).toEqual(result.cards);
+  });
+
+  it("never keeps or replays narration that is not fit to show, and opens a preset in about a second", async () => {
+    const redis = new FakeRedis();
+    const result = await planSession(michiko, { env, qloo, now: RECORDED });
+    const leak: TraceEvent = { id: "leak", at: 1, phase: "plan", kind: "narration", policy: "llm", summary: '<｜DSML｜invoke name="plan_session"><｜DSML｜parameter name="cards">[{"entity_id": "x"}]' };
+    const snapshot = await storeSnapshot(redis, "michiko", { ...result, trace: [...result.trace, leak] }, RECORDED);
+    expect(snapshot.result.trace.some((e) => e.id === "leak")).toBe(false);
+    // An older snapshot that still carries one is cleaned on the way out.
+    const sleeps: number[] = [];
+    const emitted: TraceEvent[] = [];
+    const replayed = await replaySnapshot({ ...snapshot, result: { ...snapshot.result, trace: [...snapshot.result.trace, leak] } }, (e) => emitted.push(e), { sleep: async (ms) => void sleeps.push(ms) });
+    expect(emitted.some((e) => e.id === "leak")).toBe(false);
+    expect(replayed.trace.some((e) => e.id === "leak")).toBe(false);
+    expect(REPLAY_SPACING_MS).toBe(40);
+    expect(sleeps.every((ms) => ms <= 40)).toBe(true);
+    expect(sleeps.reduce((a, b) => a + b, 0)).toBeLessThanOrEqual(REPLAY_MAX_MS);
   });
 
   it("describes the recorded time in UTC", () => {

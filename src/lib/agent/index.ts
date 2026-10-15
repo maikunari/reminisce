@@ -1,10 +1,12 @@
 /**
  * Entry points for the planning and adaptation agent.
  *
- * Policy selection is a pure environment switch: LLM_MODE=live (or an LLM key)
- * drives the loop with the model; otherwise, or on any LLM failure, the
- * deterministic policy produces the same shape of result through the same
- * tools, so the app works end to end with no keys at all.
+ * Qloo is asked first, by fixed rules that make every domain's call at once,
+ * and the deck is dealt with template prompts as soon as the answers are in.
+ * The model, when one is configured (LLM_MODE=live or an LLM key), then
+ * writes each card's prompt and the new prompts replace the templates in
+ * place, so the model is never on the caregiver's critical path and a model
+ * failure costs nothing visible. With no keys at all the app works end to end.
  */
 import { readServerEnv, type ServerEnv } from "@/lib/env";
 import { getQlooClient, type QlooClient } from "@/lib/qloo/client";
@@ -20,10 +22,10 @@ import type {
 import { ageBucketFor, computeYouthWindow } from "@/lib/session/youth-window";
 
 import { LoopError, runLoop, traceEvent, type Policy } from "./loop";
-import { LlmPolicy } from "./policies/llm";
+import { writePrompts, type PromptUpdate } from "./policies/llm";
 import { PoolPlanPolicy } from "./policies/pool";
 import { ScriptedAdaptPolicy, ScriptedPlanPolicy } from "./policies/scripted";
-import { EntityPool, PLAN_MIN_CARDS, type ToolContext, type ToolFinal } from "./tools";
+import { EntityPool, type ToolContext, type ToolFinal } from "./tools";
 
 export interface AgentOptions {
   emit?: (event: TraceEvent) => void;
@@ -36,71 +38,31 @@ export interface AgentOptions {
 }
 
 /**
- * Total agent time per request. Leaves headroom under the routes' maxDuration
- * of 60 s, and keeps the wait on the planning screen reasonable.
+ * Time for the Qloo part of a request. A full live run takes about 2 s; the
+ * rest is headroom for a slow Qloo, and with the model's prompt time after it
+ * the whole request stays under the routes' maxDuration of 60 s.
  */
-export const AGENT_BUDGET_MS = 45_000;
-/** Time held back from the LLM loop so the scripted fallback can still finish (a full live run takes about 6 s). */
-export const FALLBACK_RESERVE_MS = 15_000;
+export const AGENT_BUDGET_MS = 40_000;
 /** A commit from the pool makes no Qloo calls; it gets this long past whatever deadline the run had. */
 export const POOL_COMMIT_GRACE_MS = 3_000;
 /** The fewest cards a session built from a part-finished run may have; fewer, and the caregiver sees the empty state. */
 export const POOL_MIN_CARDS = 5;
-/**
- * Completions the model may use before the deterministic planner takes over.
- * Each completion re-sends the whole history, so the cap bounds spend roughly
- * quadratically; the prompt asks for parallel tool calls so a plan fits well
- * inside it (searches, tags, insights, commit).
- */
-export const LLM_MAX_STEPS = { plan: 12, adapt: 8 } as const;
 
 interface Run {
   final: ToolFinal;
-  planner: "llm" | "deterministic";
   ctx: ToolContext;
 }
 
-async function runWithFallback(
-  makeCtx: (deadline: number) => ToolContext,
-  env: ServerEnv,
-  emit: (event: TraceEvent) => void,
-  fetchImpl: typeof fetch | undefined,
-  phase: "plan" | "adapt",
-  deadline: number,
-): Promise<Run> {
-  if (env.llmMode === "live" && env.llmApiKey) {
-    const llmDeadline = deadline - FALLBACK_RESERVE_MS;
-    const ctx = makeCtx(llmDeadline);
-    try {
-      const policy: Policy = new LlmPolicy({ env, ctx, fetchImpl, deadline: llmDeadline });
-      const { final } = await runLoop({ policy, ctx, emit, maxSteps: LLM_MAX_STEPS[phase] });
-      return { final, planner: "llm", ctx };
-    } catch (error) {
-      const message = error instanceof Error ? error.message : String(error);
-      emit(
-        traceEvent({
-          phase,
-          kind: "note",
-          summary: `LLM planner unavailable (${message}). Switching to the deterministic planner; same tools, fixed rules.`,
-        }),
-      );
-      // The model usually stops after Qloo has answered: build from those answers
-      // rather than asking Qloo the same things again.
-      if (phase === "plan") {
-        const final = await commitFromPool(ctx, emit, "Qloo has already answered enough; choosing the cards from those results.", PLAN_MIN_CARDS);
-        if (final) return { final, planner: "deterministic", ctx };
-      }
-    }
-  }
+async function runScripted(makeCtx: (deadline: number) => ToolContext, emit: (event: TraceEvent) => void, phase: "plan" | "adapt", deadline: number): Promise<Run> {
   const ctx = makeCtx(deadline);
   const policy: Policy = phase === "plan" ? new ScriptedPlanPolicy(ctx) : new ScriptedAdaptPolicy(ctx);
   try {
     const { final } = await runLoop({ policy, ctx, emit, maxSteps: 30 });
-    return { final, planner: "deterministic", ctx };
+    return { final, ctx };
   } catch (error) {
     if (phase !== "plan" || !(error instanceof LoopError)) throw error;
     const final = await commitFromPool(ctx, emit, "Out of time for more Qloo calls; choosing the cards from what came back.", POOL_MIN_CARDS);
-    if (final) return { final, planner: "deterministic", ctx };
+    if (final) return { final, ctx };
     throw new LoopError(`Qloo returned too little to build a session (${error.message})`, "empty");
   }
 }
@@ -115,6 +77,11 @@ async function commitFromPool(ctx: ToolContext, emit: (event: TraceEvent) => voi
   } catch {
     return undefined;
   }
+}
+
+/** Whether a model is configured to write prompts. */
+export function modelConfigured(env: ServerEnv): boolean {
+  return env.llmMode === "live" && Boolean(env.llmApiKey);
 }
 
 function baseContext(
@@ -145,7 +112,6 @@ function baseContext(
 
 /** Build a full session plan for a person. Streams trace events via `emit`. */
 export async function planSession(person: Person, opts: AgentOptions = {}): Promise<PlanResult> {
-  const env = opts.env ?? readServerEnv();
   const qloo = opts.qloo ?? getQlooClient();
   const now = opts.now ?? new Date();
   const deadline = Date.now() + AGENT_BUDGET_MS;
@@ -156,17 +122,28 @@ export async function planSession(person: Person, opts: AgentOptions = {}): Prom
   };
   for (const note of opts.notes ?? []) emit(traceEvent({ phase: "plan", kind: "note", summary: note }));
   const makeCtx = (deadline: number): ToolContext => ({ ...baseContext(person, qloo, now, "plan"), existingCards: [], deadline });
-  const run = await runWithFallback(makeCtx, env, emit, opts.fetchImpl, "plan", deadline);
+  const run = await runScripted(makeCtx, emit, "plan", deadline);
   if (run.final.kind !== "plan") throw new LoopError("planner committed the wrong kind of result", "no-final");
   return {
     youthWindow: run.ctx.youthWindow,
     ageBucket: run.ctx.ageBucket,
     cards: run.final.cards,
     trace,
-    planner: run.planner,
+    planner: "deterministic",
     qlooMode: qloo.mode,
     favorites: run.ctx.favorites,
   };
+}
+
+/**
+ * The model's prompts for a dealt plan, or undefined when no model is
+ * configured. Never throws; a failed attempt comes back with no prompts and a
+ * trace note.
+ */
+export async function planPrompts(person: Person, plan: Pick<PlanResult, "cards" | "youthWindow">, opts: Pick<AgentOptions, "env" | "fetchImpl"> = {}): Promise<PromptUpdate | undefined> {
+  const env = opts.env ?? readServerEnv();
+  if (!modelConfigured(env)) return undefined;
+  return writePrompts({ phase: "plan", person, youthWindow: plan.youthWindow, cards: plan.cards }, { env, fetchImpl: opts.fetchImpl });
 }
 
 export interface AdaptInput {
@@ -178,7 +155,6 @@ export interface AdaptInput {
 
 /** Re-plan upcoming cards after one piece of caregiver feedback. */
 export async function adaptSession(input: AdaptInput, opts: AgentOptions = {}): Promise<AdaptResult> {
-  const env = opts.env ?? readServerEnv();
   const qloo = opts.qloo ?? getQlooClient();
   const now = opts.now ?? new Date();
   const deadline = Date.now() + AGENT_BUDGET_MS;
@@ -208,9 +184,9 @@ export async function adaptSession(input: AdaptInput, opts: AgentOptions = {}): 
     feedback: { card: { ...card, reaction: input.feedback.reaction }, reaction: input.feedback.reaction, currentIndex },
   });
   try {
-    const run = await runWithFallback(makeCtx, env, emit, opts.fetchImpl, "adapt", deadline);
+    const run = await runScripted(makeCtx, emit, "adapt", deadline);
     if (run.final.kind !== "adapt") throw new LoopError("adapter committed the wrong kind of result", "no-final");
-    return { replacements: run.final.replacements, trace, planner: run.planner };
+    return { replacements: run.final.replacements, trace, planner: "deterministic" };
   } catch (error) {
     if (error instanceof LoopError && error.reason === "no-final") {
       // The policy decided nothing should change (for example, Qloo returned nothing new).
@@ -218,6 +194,27 @@ export async function adaptSession(input: AdaptInput, opts: AgentOptions = {}): 
     }
     throw error;
   }
+}
+
+/** The model's prompts for a re-tune's new cards, or undefined when no model is configured. */
+export async function adaptPrompts(
+  input: Pick<AdaptInput, "person" | "cards" | "feedback">,
+  result: Pick<AdaptResult, "replacements">,
+  opts: Pick<AgentOptions, "env" | "fetchImpl" | "now"> = {},
+): Promise<PromptUpdate | undefined> {
+  const env = opts.env ?? readServerEnv();
+  if (!modelConfigured(env) || result.replacements.length === 0) return undefined;
+  const card = input.cards.find((c) => c.id === input.feedback.cardId);
+  return writePrompts(
+    {
+      phase: "adapt",
+      person: input.person,
+      youthWindow: computeYouthWindow(input.person.birthYear, opts.now ?? new Date()),
+      cards: result.replacements,
+      feedback: card ? { title: card.title, reaction: input.feedback.reaction } : undefined,
+    },
+    { env, fetchImpl: opts.fetchImpl },
+  );
 }
 
 export type { Favorite };

@@ -1,0 +1,112 @@
+{
+  "cards": [
+    {
+      "title": "Yujiro Ishihara",
+      "domain": "music"
+    },
+    {
+      "title": "Otoko wa Tsurai yo",
+      "domain": "film"
+    },
+    {
+      "title": "Kani Doraku Dotonbori Honten",
+      "domain": "dining"
+    },
+    {
+      "title": "Dotonbori",
+      "domain": "place"
+    },
+    {
+      "title": "Kyoto",
+      "domain": "destination"
+    },
+    {
+      "title": "Yoshimoto Shinkigeki",
+      "domain": "tv"
+    },
+    {
+      "title": "Harumi Miyako",
+      "domain": "music"
+    },
+    {
+      "title": "The Yellow Handkerchief",
+      "domain": "film"
+    },
+    {
+      "title": "Chiemi Eri",
+      "domain": "music"
+    }
+  ],
+  "response": {
+    "model": "claude-haiku-4-5-20251001",
+    "type": "message",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "tool_use",
+        "id": "toolu_01JwStfLbAiJhLyfb7MxpTk3",
+        "name": "write_prompts",
+        "input": {
+          "prompts": [
+            {
+              "ref": "c1",
+              "prompt": "Did you ever see Yujiro Ishihara in the films or hear his ballads?"
+            },
+            {
+              "ref": "c2",
+              "prompt": "Tell me about the first Tora-san film—did you see it when it came out?"
+            },
+            {
+              "ref": "c3",
+              "prompt": "Do you know Kani Doraku in Dotonbori? What was that area like when you were young?"
+            },
+            {
+              "ref": "c4",
+              "prompt": "What do you remember about Dotonbori when you were growing up in Osaka?"
+            },
+            {
+              "ref": "c5",
+              "prompt": "Did you ever visit Kyoto from Osaka? What was it like?"
+            },
+            {
+              "ref": "c6",
+              "prompt": "Tell me about watching Yoshimoto Shinkigeki—what made you laugh?"
+            },
+            {
+              "ref": "c7",
+              "prompt": "Did you hear Harumi Miyako's songs? What do you remember about her?"
+            },
+            {
+              "ref": "c8",
+              "prompt": "Tell me about The Yellow Handkerchief—did that film stay with you?"
+            },
+            {
+              "ref": "c9",
+              "prompt": "You loved Hibari Misora—did you know she was in the Sannin Musume trio with Chiemi Eri?"
+            }
+          ]
+        },
+        "caller": {
+          "type": "direct"
+        }
+      }
+    ],
+    "container": null,
+    "stop_reason": "tool_use",
+    "stop_sequence": null,
+    "stop_details": null,
+    "usage": {
+      "input_tokens": 1645,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 0
+      },
+      "output_tokens": 416,
+      "service_tier": "standard",
+      "inference_geo": "not_available"
+    },
+    "diagnostics": null
+  }
+}

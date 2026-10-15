@@ -9,9 +9,10 @@ import { useIsClient, useReducedMotion } from "@/lib/client/hooks";
 import { isBlocked, postNdjson } from "@/lib/client/ndjson";
 import { dictionary } from "@/lib/i18n";
 import { autoAdvanceDelay, nextCardIndex } from "@/lib/session/auto-advance";
+import { applyPrompts, applyReplacements } from "@/lib/session/deck-updates";
 import { displayName } from "@/lib/session/names";
 import { loadSession, saveSession } from "@/lib/session/storage";
-import { pronounsFor, type Reaction, type Session, type StreamEvent, type TraceEvent } from "@/lib/session/types";
+import { pronounsFor, type PlanResult, type Reaction, type Session, type StreamEvent, type TraceEvent } from "@/lib/session/types";
 
 import { DeckStrip } from "./DeckStrip";
 import { Keepsake } from "./Keepsake";
@@ -64,6 +65,10 @@ function SessionClient({ id }: { id: string }) {
   const reducedMotionRef = useRef(reducedMotion);
   const [planDone, setPlanDone] = useState(false);
   const [revealing, setRevealing] = useState(false);
+  /** Re-tunes still running; the deck stays usable meanwhile. */
+  const [retunes, setRetunes] = useState(0);
+  /** Re-tunes run one after another, each from the deck as the last one left it. */
+  const retuneQueue = useRef<Promise<void>>(Promise.resolve());
 
   const session = state.kind === "ready" ? state.session : null;
   const language = session?.person.language;
@@ -104,6 +109,8 @@ function SessionClient({ id }: { id: string }) {
     (async () => {
       try {
         let planned = false;
+        /** The plan waiting out the hold before it is dealt; prompts that arrive meanwhile go straight onto it. */
+        let pending: PlanResult | null = null;
         await postNdjson<StreamEvent>(
           "/api/plan",
           { person },
@@ -111,8 +118,10 @@ function SessionClient({ id }: { id: string }) {
             if (ev.type === "trace") setLiveEvents((list) => [...list, ev.event]);
             else if (ev.type === "plan") {
               planned = true;
-              const r = ev.result;
+              pending = ev.result;
               const deal = () => {
+                const r = pending!;
+                pending = null;
                 update((s) => ({
                   ...s,
                   cards: r.cards,
@@ -137,6 +146,14 @@ function SessionClient({ id }: { id: string }) {
               setPlanDone(true);
               if (reducedMotionRef.current) deal();
               else holdTimer = window.setTimeout(deal, PLAN_HOLD_MS);
+            } else if (ev.type === "prompts") {
+              // The model's prompts replace the templates in place; the deck never waited for them.
+              const written = ev.prompts.length > 0;
+              if (pending) {
+                pending = { ...pending, cards: applyPrompts(pending.cards, ev.prompts, 0), trace: [...pending.trace, ...ev.trace], planner: written ? "llm" : pending.planner };
+              } else {
+                update((s) => ({ ...s, cards: applyPrompts(s.cards, ev.prompts, s.currentIndex), trace: [...s.trace, ...ev.trace], planner: written ? "llm" : s.planner }));
+              }
             } else if (ev.type === "error") throw new PlanStreamError(ev.message, ev.code);
           },
           controller.signal,
@@ -174,9 +191,9 @@ function SessionClient({ id }: { id: string }) {
   );
 
   /**
-   * After a reaction the deck moves on by itself once the re-tune has
-   * finished: a short pause to read the notice, then the next card that has
-   * not been reacted to. Pressing a key or a card in the meantime wins.
+   * After a reaction the deck moves on by itself after a beat, without
+   * waiting for the re-tune: to the next card that has not been reacted to.
+   * Pressing a key or a card in the meantime wins.
    */
   const scheduleAdvance = useCallback(
     (from: number) => {
@@ -205,53 +222,78 @@ function SessionClient({ id }: { id: string }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [go]);
 
-  const react = useCallback(
-    async (cardId: string, reaction: Reaction) => {
+  /**
+   * One re-tune: asks /api/adapt with the deck as it stands now and applies
+   * the replacements only to cards after `protectedIndex` (and after wherever
+   * the caregiver has got to since), then the model's prompts for them.
+   */
+  const retune = useCallback(
+    async (cardId: string, reaction: Reaction, protectedIndex: number) => {
       const s = sessionRef.current;
-      if (!s || s.status === "retuning") return;
+      if (!s) return;
       const index = s.cards.findIndex((c) => c.id === cardId);
       const card = s.cards[index];
       if (!card) return;
       const strings = dictionary(s.person.language).session;
-      const pronouns = pronounsFor(s.person.pronoun);
+      // The tap may not have reached the stored session yet; the request carries it either way.
       const cards = s.cards.map((c) => (c.id === cardId ? { ...c, reaction } : c));
-      const hasUpcoming = cards.some((c, i) => i > index && !c.reaction);
-      cancelAdvance();
-      update((prev) => ({ ...prev, cards, status: hasUpcoming ? "retuning" : "ready" }));
-      if (!hasUpcoming) {
-        setNotice(reaction === "lit_up" ? strings.notedLitUp(pronouns) : strings.notedNothingAhead);
-        return;
-      }
+      setRetunes((n) => n + 1);
       setLiveEvents([]);
-      setNotice(null);
       try {
         let adapted = false;
-        await postNdjson<StreamEvent>("/api/adapt", { person: s.person, cards, feedback: { cardId, reaction }, currentIndex: index }, (ev) => {
+        await postNdjson<StreamEvent>("/api/adapt", { person: s.person, cards, feedback: { cardId, reaction }, currentIndex: protectedIndex }, (ev) => {
           if (ev.type === "trace") setLiveEvents((list) => [...list, ev.event]);
           else if (ev.type === "adapt") {
             adapted = true;
-            const byReplaced = new Map(ev.result.replacements.map((r) => [r.replacedEntityId, r]));
-            update((prev) => ({
-              ...prev,
-              cards: prev.cards.map((c) => byReplaced.get(c.entityId) ?? c),
-              trace: [...prev.trace, ...ev.result.trace],
-              status: "ready",
-            }));
+            let applied = 0;
+            update((prev) => {
+              const next = applyReplacements(prev.cards, ev.result.replacements, Math.max(protectedIndex, prev.currentIndex));
+              applied = next.applied.length;
+              return { ...prev, cards: next.cards, trace: [...prev.trace, ...ev.result.trace] };
+            });
             setLiveEvents([]);
-            const n = ev.result.replacements.length;
-            const line = n === 0 ? strings.nothingNew : reaction === "lit_up" ? strings.leanToward(n, displayName(card, s.person.language).title) : strings.steerAway(n);
+            const n = applied || ev.result.replacements.length;
+            const line = ev.result.replacements.length === 0 ? strings.nothingNew : reaction === "lit_up" ? strings.leanToward(n, displayName(card, s.person.language).title) : strings.steerAway(n);
             setNotice(ev.result.notice ? `${line} ${ev.result.notice}` : line);
+          } else if (ev.type === "prompts") {
+            update((prev) => ({ ...prev, cards: applyPrompts(prev.cards, ev.prompts, prev.currentIndex + 1), trace: [...prev.trace, ...ev.trace] }));
           } else if (ev.type === "error") throw new Error(ev.message);
         });
         if (!adapted) throw new Error(strings.agentStopped);
       } catch (error) {
         setLiveEvents([]);
-        update((prev) => ({ ...prev, status: "ready" }));
         setNotice(isBlocked(error) ? strings.blocked : strings.retuneFailed(error instanceof Error ? error.message : "unknown error"));
+      } finally {
+        setRetunes((n) => n - 1);
       }
-      scheduleAdvance(index);
     },
-    [update, cancelAdvance, scheduleAdvance],
+    [update],
+  );
+
+  const react = useCallback(
+    (cardId: string, reaction: Reaction) => {
+      const s = sessionRef.current;
+      if (!s) return;
+      const index = s.cards.findIndex((c) => c.id === cardId);
+      const card = s.cards[index];
+      if (!card || card.reaction) return;
+      const strings = dictionary(s.person.language).session;
+      const pronouns = pronounsFor(s.person.pronoun);
+      const cards = s.cards.map((c) => (c.id === cardId ? { ...c, reaction } : c));
+      const next = nextCardIndex(cards, index);
+      cancelAdvance();
+      update((prev) => ({ ...prev, cards: prev.cards.map((c) => (c.id === cardId ? { ...c, reaction } : c)), status: "ready" }));
+      if (next === null) {
+        setNotice(reaction === "lit_up" ? strings.notedLitUp(pronouns) : strings.notedNothingAhead);
+        return;
+      }
+      setNotice(null);
+      // The deck moves on now; the card it moves to is never swapped by this re-tune.
+      scheduleAdvance(index);
+      if (!cards.some((c, i) => i > next && !c.reaction)) return;
+      retuneQueue.current = retuneQueue.current.then(() => retune(cardId, reaction, next));
+    },
+    [update, cancelAdvance, scheduleAdvance, retune],
   );
 
   if (state.kind === "missing") {
@@ -282,7 +324,7 @@ function SessionClient({ id }: { id: string }) {
   const current = s.cards[s.currentIndex];
   const litUp = s.cards.filter((c) => c.reaction === "lit_up");
   const reactedAll = s.cards.length > 0 && s.cards.every((c) => c.reaction);
-  const retuning = s.status === "retuning";
+  const retuning = retunes > 0;
   const pronouns = pronounsFor(s.person.pronoun);
 
   return (
@@ -374,7 +416,6 @@ function SessionClient({ id }: { id: string }) {
                     total={s.cards.length}
                     onReact={(r) => react(current.id, r)}
                     onWhy={() => setTraceOpen(true)}
-                    disabled={retuning}
                     language={s.person.language}
                     pronouns={pronouns}
                   />

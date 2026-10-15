@@ -79,9 +79,8 @@ export const es: Dictionary = {
     close: "Cerrar",
     closeAria: "Cerrar el panel Por qué Qloo",
     calls: (n) => `${n} ${plural(n, "consulta", "consultas")} a la API Qloo Insights`,
-    llmAgent: "agente guiado por un modelo",
-    scriptedAgent: "agente determinista",
-    mixed: ", con pasos de reserva sin conexión",
+    llmAgent: "consultas a Qloo con reglas fijas, preguntas escritas por un modelo",
+    scriptedAgent: "consultas a Qloo con reglas fijas, preguntas de plantilla",
     youthWindow: (start, end) => `ventana de juventud de ${start} a ${end}`,
     thisCard: "Esta tarjeta",
     asked: ({ plural: what, seeds, within, tunedTo, age }) =>

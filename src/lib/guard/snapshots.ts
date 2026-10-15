@@ -11,18 +11,20 @@
  * Nothing is written to the repository: the hackathon guide forbids Qloo
  * data in public repositories, and Redis is private to the deployment.
  */
+import { withCleanNarration } from "@/lib/session/narration";
 import { PRESETS, type Preset } from "@/lib/session/presets";
 import type { Person, PlanResult, TraceEvent } from "@/lib/session/types";
 
 import type { Guard } from "./index";
 import type { RedisLike } from "./redis";
 
-export const SNAPSHOT_VERSION = 1;
+/** Version 2: decks dealt by fixed rules with the model's prompts, and narration that is fit to show. */
+export const SNAPSHOT_VERSION = 2;
 export const SNAPSHOT_TTL_SECONDS = 24 * 60 * 60;
-/** Gap between replayed trace events, so the planning view reads as it would live. */
-export const REPLAY_SPACING_MS = 150;
+/** Gap between replayed trace events: the planning view still fills in, and a preset opens in about a second. */
+export const REPLAY_SPACING_MS = 40;
 /** A replay never takes longer than this, whatever the trace length. */
-export const REPLAY_MAX_MS = 8_000;
+export const REPLAY_MAX_MS = 2_000;
 
 export interface PresetSnapshot {
   version: typeof SNAPSHOT_VERSION;
@@ -33,14 +35,13 @@ export interface PresetSnapshot {
 }
 
 /**
- * Whether a plan is worth replaying all day: Qloo live and undegraded, a full
- * deck, and the model's own prompts whenever the model was configured to write them.
+ * Whether a plan is worth replaying all day: Qloo live and undegraded, and a
+ * full deck. Who wrote the prompts does not matter: a replay whose prompts are
+ * still templates gets the model's on its next run (see the plan route).
  */
 export function isFullStrength(result: PlanResult, guard: Pick<Guard, "env" | "degraded" | "fallbacks">): boolean {
-  if (guard.env.qlooMode !== "live" || guard.degraded.llm || guard.degraded.qloo) return false;
-  if (guard.fallbacks.budget > 0 || guard.fallbacks.error > 0 || result.cards.length < 8) return false;
-  const modelConfigured = guard.env.llmMode === "live" && Boolean(guard.env.llmApiKey);
-  return !modelConfigured || result.planner === "llm";
+  if (guard.env.qlooMode !== "live" || guard.degraded.qloo) return false;
+  return guard.fallbacks.budget === 0 && guard.fallbacks.error === 0 && result.cards.length >= 8;
 }
 
 export function snapshotKey(presetId: string, prefix = "reminisce:"): string {
@@ -96,7 +97,7 @@ export async function loadSnapshot(redis: RedisLike, presetId: string, now: Date
 }
 
 export async function storeSnapshot(redis: RedisLike, presetId: string, result: PlanResult, now: Date, prefix?: string): Promise<PresetSnapshot> {
-  const snapshot: PresetSnapshot = { version: SNAPSHOT_VERSION, presetId, recordedAt: now.toISOString(), result };
+  const snapshot: PresetSnapshot = { version: SNAPSHOT_VERSION, presetId, recordedAt: now.toISOString(), result: { ...result, trace: withCleanNarration(result.trace) } };
   await redis.pipeline([["SET", snapshotKey(presetId, prefix), JSON.stringify(snapshot), "EX", SNAPSHOT_TTL_SECONDS]]);
   return snapshot;
 }
@@ -127,7 +128,7 @@ export async function replaySnapshot(
   opts: { spacingMs?: number; maxMs?: number; sleep?: (ms: number) => Promise<void> } = {},
 ): Promise<PlanResult> {
   const sleep = opts.sleep ?? ((ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms)));
-  const events = snapshot.result.trace;
+  const events = withCleanNarration(snapshot.result.trace);
   const spacing = Math.min(opts.spacingMs ?? REPLAY_SPACING_MS, Math.floor((opts.maxMs ?? REPLAY_MAX_MS) / Math.max(1, events.length)));
   replayCounter += 1;
   const note: TraceEvent = { id: `replay${Date.now().toString(36)}${replayCounter}`, at: Date.now(), phase: "plan", kind: "note", summary: replayNote(snapshot) };

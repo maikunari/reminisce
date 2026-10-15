@@ -1,4 +1,4 @@
-import { adaptSession } from "@/lib/agent";
+import { adaptPrompts, adaptSession } from "@/lib/agent";
 import { jsonError, ndjsonResponse } from "@/lib/api/stream";
 import { looksLikeBot } from "@/lib/guard/botid";
 import { openGuard } from "@/lib/guard/runtime";
@@ -9,7 +9,8 @@ export const maxDuration = 60;
 
 /**
  * Re-tunes upcoming cards after one reaction. Streams NDJSON trace events,
- * then `{type:"adapt"}` with the replacements.
+ * then `{type:"adapt"}` with the replacements as soon as Qloo has answered,
+ * then, when a model is configured, `{type:"prompts"}` with its prompts for them.
  */
 export async function POST(request: Request): Promise<Response> {
   if (await looksLikeBot()) return jsonError(403, "Automated requests are not allowed");
@@ -24,11 +25,11 @@ export async function POST(request: Request): Promise<Response> {
   const { person, cards, feedback, currentIndex } = parsed.data;
   return ndjsonResponse(async (send) => {
     const guard = await openGuard("adapt");
-    const result = await adaptSession(
-      { person, cards: cards as unknown as Card[], feedback, currentIndex },
-      { env: guard.env, qloo: guard.qloo, notes: guard.notes, emit: (event) => send({ type: "trace", event }) },
-    );
+    const input = { person, cards: cards as unknown as Card[], feedback, currentIndex };
+    const result = await adaptSession(input, { env: guard.env, qloo: guard.qloo, notes: guard.notes, emit: (event) => send({ type: "trace", event }) });
     const notice = guard.notice();
     send({ type: "adapt", result: notice ? { ...result, notice } : result });
+    const update = await adaptPrompts(input, result, { env: guard.env });
+    if (update) send({ type: "prompts", prompts: update.prompts, trace: update.trace });
   });
 }

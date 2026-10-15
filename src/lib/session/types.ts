@@ -99,6 +99,8 @@ export interface Card {
   title: string;
   subtitle?: string;
   year?: number;
+  /** Artists: the year they started performing (Qloo's start_year), when known. */
+  startYear?: number;
   imageUrl?: string;
   description?: string;
   tags: string[];
@@ -212,5 +214,7 @@ export type StreamEvent =
   | { type: "trace"; event: TraceEvent }
   | { type: "plan"; result: PlanResult }
   | { type: "adapt"; result: AdaptResult }
+  /** After a plan or adapt result: the model's prompts for those cards, to put in place of the templates. */
+  | { type: "prompts"; prompts: { cardId: string; prompt: string }[]; trace: TraceEvent[] }
   /** `empty`: Qloo had too little for these inputs to build a deck; anything else is a failure. */
   | { type: "error"; message: string; code?: "empty" | "failed" };

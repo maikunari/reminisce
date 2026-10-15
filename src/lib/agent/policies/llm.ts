@@ -1,13 +1,26 @@
 /**
- * OpenAI-compatible tool-calling policy. Works with any provider that speaks
- * POST {LLM_BASE_URL}/chat/completions with `tools` (OpenAI, OpenRouter,
- * Groq, Together, Ollama, vLLM...).
+ * The model's part of a session: writing each card's conversation prompt.
+ *
+ * Qloo chooses the cards and the deck is dealt with template prompts the
+ * moment its answers are in; this runs afterwards, off the caregiver's
+ * critical path, and its prompts replace the templates in place. One
+ * completion with one forced tool call: a reply that runs out of tokens or
+ * makes no tool call is a failure at once, and a failure costs nothing
+ * visible because the template prompts are already on the cards.
+ *
+ * Two transports, chosen by LLM_BASE_URL alone:
+ * - api.anthropic.com: the Messages API through the official SDK (Claude Haiku 4.5);
+ * - anything else: POST {LLM_BASE_URL}/chat/completions, the OpenAI-compatible
+ *   shape most providers speak.
  */
-import type { ServerEnv } from "@/lib/env";
-import { DOMAIN_INFO, DOMAINS, LANGUAGES } from "@/lib/session/types";
+import Anthropic from "@anthropic-ai/sdk";
+import { z } from "zod";
 
-import type { Policy, PolicyStep, ToolCall } from "../loop";
-import { TOOL_DEFINITIONS, type ToolContext, type ToolName, type ToolOutcome } from "../tools";
+import type { ServerEnv } from "@/lib/env";
+import { cleanNarration, hasMarkup } from "@/lib/session/narration";
+import { LANGUAGES, type Card, type Domain, type Person, type Reaction, type TraceEvent, type YouthWindow } from "@/lib/session/types";
+
+import { traceEvent } from "../loop";
 
 export class LlmError extends Error {
   constructor(
@@ -19,39 +32,58 @@ export class LlmError extends Error {
   }
 }
 
-interface ChatToolCall {
-  id: string;
-  type: "function";
-  function: { name: string; arguments: string };
-}
-
-interface ChatMessage {
-  role: "system" | "user" | "assistant" | "tool";
-  content: string | null;
-  tool_calls?: ChatToolCall[];
-  tool_call_id?: string;
-}
-
-interface ChatResponse {
-  choices?: { message?: ChatMessage; finish_reason?: string }[];
-  error?: { message?: string };
-}
-
 /**
- * Output cap per completion. A plan_session call with ten cards and their
- * prompts is about 700 tokens; narration is one sentence. The cap bounds a
- * runaway completion's cost, not the plan.
+ * Output cap per completion. Ten prompts of at most 25 words each are about
+ * 600 tokens of tool input; the cap bounds a runaway completion, not the work.
  */
 export const LLM_MAX_TOKENS = 1500;
 
-export interface LlmPolicyOptions {
+/** How long the model may take: a plan's nine prompts, or a re-tune's one to three. */
+export const PROMPT_TIMEOUT_MS = { plan: 15_000, adapt: 8_000 } as const;
+
+export const WRITE_PROMPTS_TOOL = "write_prompts";
+
+export const WritePromptsArgs = z.object({
+  prompts: z
+    .array(
+      z.object({
+        ref: z.string().describe("The card's ref from the list, e.g. c1."),
+        prompt: z.string().describe("The conversation prompt for that card, in the person's language. One open question, at most 25 words."),
+      }),
+    )
+    .max(14),
+});
+
+function inputSchema(): Record<string, unknown> {
+  const out = z.toJSONSchema(WritePromptsArgs, { target: "draft-7" }) as Record<string, unknown>;
+  delete out.$schema;
+  return out;
+}
+
+const TOOL_DESCRIPTION = "Give every card in the list its conversation prompt. Call once, with one entry per card ref.";
+
+export interface PromptRequest {
+  phase: "plan" | "adapt";
+  person: Person;
+  youthWindow: YouthWindow;
+  /** The cards to write for; each gets a short ref (c1, c2...) in the request instead of its id. */
+  cards: Card[];
+  /** Re-tunes: the reaction that brought these cards in. */
+  feedback?: { title: string; reaction: Reaction };
+}
+
+export interface PromptUpdate {
+  prompts: { cardId: string; prompt: string }[];
+  /** What happened, for the Why Qloo timeline; also says so when the templates were kept. */
+  trace: TraceEvent[];
+}
+
+export interface PromptWriterOptions {
   env: ServerEnv;
-  ctx: ToolContext;
   fetchImpl?: typeof fetch;
   timeoutMs?: number;
-  /** Epoch-ms deadline; each request's timeout is capped by the time left. */
+  /** Epoch-ms deadline; the request's timeout is capped by the time left. */
   deadline?: number;
-  temperature?: number;
 }
 
 function languageName(code: string): string {
@@ -59,145 +91,214 @@ function languageName(code: string): string {
 }
 
 export function buildSystemPrompt(): string {
-  const domains = DOMAINS.map((d) => `${d} (${DOMAIN_INFO[d].qlooType})`).join(", ");
   return [
-    "You are Reminisce, an agent that builds a 20-minute reminiscence session for a person living with dementia, for a caregiver to lead.",
-    "You must use the Qloo taste graph through the tools provided; never invent entities or ids.",
+    "You write the conversation prompts for Reminisce, a 20-minute reminiscence session that a caregiver leads with a person living with dementia.",
+    "Each card is something Qloo's taste graph chose from the person's youth: a singer or band, a film, a television show, a place to eat, a place in their hometown, or a trip.",
+    `Call ${WRITE_PROMPTS_TOOL} once with a prompt for every card ref you are given.`,
     "",
-    "Procedure for planning:",
-    "1. Resolve each favorite with qloo_search_entity, and the hometown with qloo_search_entity using types [\"urn:entity:locality\"].",
-    "2. Use qloo_search_tags before any filter_tags: \"restaurant\" for dining; \"tourist attraction\" and \"landmark\" for landmarks (use urn:tag:genre:place:tourist_attraction and urn:tag:genre:place:landmark when they come back).",
-    "3. Call qloo_insights for at least four of: urn:entity:artist, urn:entity:movie, urn:entity:tv_show, urn:entity:place (dining: filter_location_query = hometown plus a restaurant tag), urn:entity:place (landmarks: filter_location_query = hometown plus the attraction and landmark tags, signal_age only, no signal_entities), urn:entity:destination.",
-    "   Pass signal_entities (the resolved favorites), signal_location_query (the hometown) and signal_age, except where noted. For movie and tv_show also pass release_year_min/max from the youth window.",
-    "   The tool keeps every film and show inside the person's years and widens a thin answer by itself, so never retry a call and never drop the year filters. If a call still returns no entities, skip that domain and plan with the rest.",
-    "   Make every qloo_insights call for the plan as parallel tool calls in one turn, and resolve all favorites and the hometown together in one turn, so the plan takes few turns.",
-    "4. Finish by calling plan_session with 8 to 10 cards across at least 3 domains, highest affinity first, mixing domains so consecutive cards differ.",
-    `   Domains: ${domains}.`,
-    "",
-    "Procedure for adapting after feedback:",
-    "- If the person lit up: call qloo_insights again for the same domain AND one other domain with the liked entity added to signal_entities, excluding entities already in the session, then call adapt_session to replace up to 3 upcoming cards.",
-    "- If a card did not land: call qloo_insights for a different domain, excluding that entity, then adapt_session to replace the next cards of the disliked domain.",
-    "",
-    "Conversation prompts: write each card's prompt in the person's language, warm and unhurried, one open question of at most 25 words that invites a story (\"Tell me about...\"). Never quiz or test memory, never mention dementia.",
-    "Keep any narration to one short sentence per step. Only ids returned by qloo_insights in this run may be used in plan_session or adapt_session.",
+    "Each prompt: in the language named below, warm and unhurried, one open question of at most 25 words that invites a story (\"Tell me about...\", \"Did you ever...\"). Never quiz or test memory (no \"Do you remember...?\" or \"Did you know...?\"), and never mention dementia, illness or age.",
+    "Facts: use only what a card tells you. Name a year or a decade only when the card gives it, and never say an artist was popular in a decade the card does not give.",
+    "A place to eat or a place in the hometown may be newer than the person's youth: never say they went there back then. Ask whether they know it, and about the hometown or that kind of place when they were young.",
+    "Call an artist by name rather than he, she or they.",
   ].join("\n");
 }
 
-export function buildUserPrompt(ctx: ToolContext): string {
-  const p = ctx.person;
+const DOMAIN_WORD: Record<Domain, string> = {
+  music: "singer or band",
+  film: "film",
+  tv: "television show",
+  dining: "place to eat",
+  place: "place in the hometown",
+  destination: "trip",
+};
+
+function cardLine(card: Card, index: number): string {
+  const bits = [`c${index + 1}`, DOMAIN_WORD[card.domain], card.title];
+  if (card.domain === "music" && card.startYear) bits.push(`performing since ${card.startYear}`);
+  if ((card.domain === "film" || card.domain === "tv") && card.year) bits.push(`released ${card.year}`);
+  if (card.subtitle) bits.push(card.subtitle);
+  if (card.description) bits.push(card.description.slice(0, 160));
+  return bits.join(" · ");
+}
+
+export function buildUserPrompt(req: PromptRequest): string {
+  const p = req.person;
   const lines = [
-    `Person: ${p.name}, born ${p.birthYear}, grew up in ${p.hometown}.`,
-    `Favorites: ${p.favorites.map((f) => (f.entityId ? `${f.name} (id ${f.entityId})` : f.name)).join("; ") || "none given"}.`,
-    `Youth window (ages ${ctx.youthWindow.ageFrom} to ${ctx.youthWindow.ageTo}): ${ctx.youthWindow.start} to ${ctx.youthWindow.end}.`,
-    `Age bucket today: ${ctx.ageBucket}. Prompt language: ${languageName(ctx.language)}.`,
+    `Person: ${p.name}, born ${p.birthYear}, grew up in ${p.hometown}. Loved: ${p.favorites.map((f) => f.name).join(", ") || "not given"}.`,
+    `Their youth: ${req.youthWindow.start} to ${req.youthWindow.end}. Write in ${languageName(p.language)}.`,
   ];
-  if (ctx.phase === "adapt" && ctx.feedback) {
-    const fb = ctx.feedback;
+  if (req.feedback) {
     lines.push(
-      "",
-      `Feedback: card "${fb.card.title}" (${fb.card.domain}, id ${fb.card.entityId}) -> ${fb.reaction === "lit_up" ? "they lit up" : "not this one"}.`,
-      `Current card index: ${fb.currentIndex}. Session cards in order:`,
-      ...ctx.existingCards.map(
-        (c, i) => `${i}. [${c.domain}] ${c.title} (id ${c.entityId})${c.reaction ? ` reaction=${c.reaction}` : ""}${i > fb.currentIndex && !c.reaction ? " upcoming" : ""}`,
-      ),
-      "Re-tune the upcoming cards now.",
+      req.feedback.reaction === "lit_up"
+        ? `They just lit up at "${req.feedback.title}"; these cards were added to follow that thread.`
+        : `"${req.feedback.title}" did not land; these cards were added to try something else.`,
     );
-  } else {
-    lines.push("", "Plan the session now.");
   }
+  lines.push("", "Cards:", ...req.cards.map(cardLine));
   return lines.join("\n");
 }
 
-export class LlmPolicy implements Policy {
-  readonly kind = "llm" as const;
-  private readonly messages: ChatMessage[];
-  private nudges = 0;
-  private readonly fetchImpl: typeof fetch;
-  private readonly timeoutMs: number;
+/** A prompt is kept only if it reads as a sentence to say aloud: no markup, ids or runaway text. */
+function cleanPrompt(text: unknown): string | undefined {
+  if (typeof text !== "string") return undefined;
+  const line = text.replace(/\s+/g, " ").trim();
+  if (line.length < 8 || line.length > 300 || hasMarkup(line)) return undefined;
+  return line;
+}
 
-  constructor(private readonly opts: LlmPolicyOptions) {
-    this.fetchImpl = opts.fetchImpl ?? fetch;
-    this.timeoutMs = opts.timeoutMs ?? 45_000;
-    this.messages = [
-      { role: "system", content: buildSystemPrompt() },
-      { role: "user", content: buildUserPrompt(opts.ctx) },
-    ];
-  }
+interface Completion {
+  /** The tool call's arguments, or undefined when the model made none. */
+  args?: unknown;
+  /** Any text the model wrote beside the call. */
+  text?: string;
+}
 
-  async next(): Promise<PolicyStep> {
-    const message = await this.complete();
-    this.messages.push(message);
-    const calls = (message.tool_calls ?? []).map<ToolCall>((tc) => ({
-      id: tc.id || `call_${Math.random().toString(36).slice(2, 10)}`,
-      name: tc.function.name as ToolName,
-      args: parseArgs(tc.function.arguments),
-    }));
-    const narration = message.content?.trim() || undefined;
-    if (calls.length > 0) return { narration, toolCalls: calls };
-    this.nudges += 1;
-    if (this.nudges > 2) return { narration, done: true };
-    this.messages.push({
-      role: "user",
-      content:
-        this.opts.ctx.phase === "adapt"
-          ? "Continue by calling a tool. Finish with adapt_session."
-          : "Continue by calling a tool. Finish with plan_session.",
-    });
-    return { narration, toolCalls: [] };
-  }
-
-  observe(call: ToolCall, outcome: ToolOutcome): void {
-    let content = JSON.stringify(outcome.result);
-    if (content.length > 16_000) content = `${content.slice(0, 16_000)}…(truncated)`;
-    this.messages.push({ role: "tool", tool_call_id: call.id, content });
-  }
-
-  private async complete(): Promise<ChatMessage> {
-    const { env, deadline } = this.opts;
-    const timeoutMs = deadline === undefined ? this.timeoutMs : Math.min(this.timeoutMs, deadline - Date.now());
-    if (timeoutMs <= 0) throw new LlmError("LLM time budget exhausted");
-    let response: Response;
-    try {
-      response = await this.fetchImpl(`${env.llmBaseUrl}/chat/completions`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${env.llmApiKey}`,
-        },
-        body: JSON.stringify({
-          model: env.llmModel,
-          messages: this.messages,
-          tools: TOOL_DEFINITIONS,
-          tool_choice: "auto",
-          temperature: this.opts.temperature ?? 0.4,
-          max_tokens: LLM_MAX_TOKENS,
-        }),
-        signal: AbortSignal.timeout(timeoutMs),
-      });
-    } catch (error) {
-      throw new LlmError(`LLM request failed: ${error instanceof Error ? error.message : String(error)}`);
-    }
-    const text = await response.text();
-    let data: ChatResponse;
-    try {
-      data = JSON.parse(text) as ChatResponse;
-    } catch {
-      throw new LlmError(`LLM returned non-JSON (${response.status})`, response.status);
-    }
-    if (!response.ok) {
-      throw new LlmError(`LLM responded ${response.status}: ${data.error?.message ?? text.slice(0, 200)}`, response.status);
-    }
-    const message = data.choices?.[0]?.message;
-    if (!message) throw new LlmError("LLM response had no choices");
-    return { role: "assistant", content: message.content ?? null, tool_calls: message.tool_calls };
+export function isAnthropicBaseUrl(url: string): boolean {
+  try {
+    return new URL(url).hostname === "api.anthropic.com";
+  } catch {
+    return false;
   }
 }
 
-function parseArgs(raw: string): unknown {
-  if (!raw) return {};
+async function completeAnthropic(opts: PromptWriterOptions, system: string, user: string, timeoutMs: number): Promise<Completion> {
+  const { env } = opts;
+  const client = new Anthropic({
+    apiKey: env.llmApiKey,
+    baseURL: env.llmBaseUrl.replace(/\/v1\/?$/, ""),
+    fetch: opts.fetchImpl,
+    maxRetries: 0,
+    timeout: timeoutMs,
+  });
+  let response: Anthropic.Message;
   try {
-    return JSON.parse(raw);
-  } catch {
-    return { __parse_error: `could not parse arguments: ${raw.slice(0, 120)}` };
+    response = await client.messages.create({
+      model: env.llmModel,
+      max_tokens: LLM_MAX_TOKENS,
+      temperature: 0.4,
+      system,
+      messages: [{ role: "user", content: user }],
+      tools: [{ name: WRITE_PROMPTS_TOOL, description: TOOL_DESCRIPTION, input_schema: inputSchema() as Anthropic.Tool.InputSchema }],
+      tool_choice: { type: "tool", name: WRITE_PROMPTS_TOOL },
+    });
+  } catch (error) {
+    if (error instanceof Anthropic.APIError) throw new LlmError(`responded ${error.status ?? "with an error"}`, error.status);
+    throw new LlmError(`request failed: ${error instanceof Error ? error.message : String(error)}`);
   }
+  if (response.stop_reason === "max_tokens") throw new LlmError("ran out of tokens");
+  const call = response.content.find((b): b is Anthropic.ToolUseBlock => b.type === "tool_use" && b.name === WRITE_PROMPTS_TOOL);
+  const text = response.content
+    .filter((b): b is Anthropic.TextBlock => b.type === "text")
+    .map((b) => b.text)
+    .join(" ");
+  return { args: call?.input, text };
+}
+
+interface ChatResponse {
+  choices?: { message?: { content?: string | null; tool_calls?: { function?: { name?: string; arguments?: string } }[] }; finish_reason?: string }[];
+  error?: { message?: string };
+}
+
+async function completeOpenAi(opts: PromptWriterOptions, system: string, user: string, timeoutMs: number): Promise<Completion> {
+  const { env } = opts;
+  const fetchImpl = opts.fetchImpl ?? fetch;
+  let response: Response;
+  try {
+    response = await fetchImpl(`${env.llmBaseUrl}/chat/completions`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${env.llmApiKey}` },
+      body: JSON.stringify({
+        model: env.llmModel,
+        messages: [
+          { role: "system", content: system },
+          { role: "user", content: user },
+        ],
+        tools: [{ type: "function", function: { name: WRITE_PROMPTS_TOOL, description: TOOL_DESCRIPTION, parameters: inputSchema() } }],
+        tool_choice: { type: "function", function: { name: WRITE_PROMPTS_TOOL } },
+        temperature: 0.4,
+        max_tokens: LLM_MAX_TOKENS,
+      }),
+      signal: AbortSignal.timeout(timeoutMs),
+    });
+  } catch (error) {
+    throw new LlmError(`request failed: ${error instanceof Error ? error.message : String(error)}`);
+  }
+  const raw = await response.text();
+  let data: ChatResponse;
+  try {
+    data = JSON.parse(raw) as ChatResponse;
+  } catch {
+    throw new LlmError(`returned non-JSON (${response.status})`, response.status);
+  }
+  if (!response.ok) throw new LlmError(`responded ${response.status}`, response.status);
+  const choice = data.choices?.[0];
+  if (!choice?.message) throw new LlmError("returned no choices");
+  if (choice.finish_reason === "length") throw new LlmError("ran out of tokens");
+  const call = choice.message.tool_calls?.find((c) => c.function?.name === WRITE_PROMPTS_TOOL);
+  let args: unknown;
+  if (call) {
+    try {
+      args = JSON.parse(call.function?.arguments ?? "");
+    } catch {
+      throw new LlmError("wrote arguments that were not JSON");
+    }
+  }
+  return { args, text: choice.message.content ?? undefined };
+}
+
+/**
+ * Ask the model for the cards' prompts. Never throws: on any failure the
+ * update has no prompts and its trace says the templates were kept.
+ */
+export async function writePrompts(req: PromptRequest, opts: PromptWriterOptions): Promise<PromptUpdate> {
+  const { env, deadline } = opts;
+  const phase = req.phase;
+  const trace: TraceEvent[] = [];
+  const add = (event: Omit<TraceEvent, "id" | "at">) => trace.push(traceEvent({ ...event, policy: "llm" }));
+  if (req.cards.length === 0) return { prompts: [], trace };
+  const started = Date.now();
+  try {
+    const budget = opts.timeoutMs ?? PROMPT_TIMEOUT_MS[phase];
+    const timeoutMs = deadline === undefined ? budget : Math.min(budget, deadline - Date.now());
+    if (timeoutMs <= 0) throw new LlmError("had no time left");
+    const system = buildSystemPrompt();
+    const user = buildUserPrompt(req);
+    const completion = isAnthropicBaseUrl(env.llmBaseUrl) ? await completeAnthropic(opts, system, user, timeoutMs) : await completeOpenAi(opts, system, user, timeoutMs);
+    const narration = cleanNarration(completion.text);
+    if (narration) add({ phase, kind: "narration", summary: narration });
+    if (completion.args === undefined) throw new LlmError("made no tool call");
+    const parsed = WritePromptsArgs.safeParse(completion.args);
+    if (!parsed.success) throw new LlmError("wrote arguments in the wrong shape");
+    const prompts: PromptUpdate["prompts"] = [];
+    const done = new Set<string>();
+    for (const entry of parsed.data.prompts) {
+      const card = req.cards[Number(entry.ref.replace(/^c/i, "")) - 1];
+      const prompt = cleanPrompt(entry.prompt);
+      if (!card || !prompt || done.has(card.id)) continue;
+      done.add(card.id);
+      prompts.push({ cardId: card.id, prompt });
+    }
+    if (prompts.length === 0) throw new LlmError("wrote no usable prompts");
+    const seconds = ((Date.now() - started) / 1000).toFixed(1);
+    add({
+      phase,
+      kind: "tool_result",
+      tool: WRITE_PROMPTS_TOOL,
+      summary: `The model wrote ${prompts.length} conversation prompt${prompts.length === 1 ? "" : "s"} in ${seconds} s${prompts.length < req.cards.length ? `; ${req.cards.length - prompts.length} kept from the template set` : ""}`,
+    });
+    return { prompts, trace };
+  } catch (error) {
+    const reason = error instanceof LlmError ? error.message : error instanceof Error ? error.message : String(error);
+    add({ phase, kind: "note", summary: `Prompts kept from the template set: the model ${reason}.` });
+    return { prompts: [], trace };
+  }
+}
+
+/** The cards with the update's prompts in place, marked as model-written. */
+export function applyPromptUpdate(cards: Card[], update: Pick<PromptUpdate, "prompts">): Card[] {
+  const byId = new Map(update.prompts.map((p) => [p.cardId, p.prompt]));
+  return cards.map((c) => {
+    const prompt = byId.get(c.id);
+    return prompt ? { ...c, prompt, promptSource: "llm" as const } : c;
+  });
 }
