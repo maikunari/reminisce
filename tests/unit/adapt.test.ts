@@ -56,6 +56,32 @@ describe("adaptSession", () => {
     }
   });
 
+  it("swaps the card itself for another of its kind when nothing has been shown yet", async () => {
+    const { plan, person } = await planned();
+    for (const target of [plan.cards[0]!, plan.cards[plan.cards.length - 1]!]) {
+      const result = await adaptSession({ person, cards: plan.cards, feedback: { cardId: target.id, reaction: "not_this" }, currentIndex: -1 }, { env, qloo, now: NOW });
+      expect(result.replacements).toHaveLength(1);
+      const [r] = result.replacements;
+      expect(r!.replacedEntityId).toBe(target.entityId);
+      expect(r!.domain).toBe(target.domain);
+      expect(plan.cards.some((c) => c.entityId === r!.entityId)).toBe(false);
+      expect(r!.reaction).toBeUndefined();
+    }
+  });
+
+  it("never swaps in a card held aside, choosing the next fresh one instead", async () => {
+    const { plan, person } = await planned();
+    const target = plan.cards[0]!;
+    const swap = (cards: typeof plan.cards, exclude?: string[]) =>
+      adaptSession({ person, cards, feedback: { cardId: target.id, reaction: "not_this" }, currentIndex: -1, exclude }, { env, qloo, now: NOW });
+    const first = (await swap(plan.cards)).replacements[0]!;
+    const result = await swap(plan.cards, [first.entityId]);
+    expect(result.replacements).toHaveLength(1);
+    expect(result.replacements[0]!.entityId).not.toBe(first.entityId);
+    expect(result.replacements[0]!.replacedEntityId).toBe(target.entityId);
+    expect(result.trace.find((e) => e.qloo?.path === "/v2/insights")?.qloo?.params["filter.exclude.entities"]).toContain(first.entityId);
+  });
+
   it("does nothing when there is nothing upcoming", async () => {
     const { plan, person } = await planned();
     const last = plan.cards[plan.cards.length - 1]!;

@@ -175,6 +175,8 @@ export interface Session {
   planner: "llm" | "deterministic";
   qlooMode: "live" | "fixture";
   currentIndex: number;
+  /** True from the moment the deck is dealt until "Start the session": the lineup overview, not a card, is on screen. Absent on sessions saved before the overview existed, which count as started. */
+  overview?: boolean;
   error?: string;
   /** `empty` when Qloo had too little for this person to make a deck; otherwise the build failed. */
   errorCode?: "empty" | "failed";
