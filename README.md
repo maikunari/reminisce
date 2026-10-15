@@ -13,9 +13,9 @@ A caregiver (a daughter, a care-home activity coordinator) enters three things a
 
 During the session the caregiver taps **They lit up** or **Not this one**. The agent goes back to Qloo with the liked entity as a new signal (or the disliked one excluded), and swaps the upcoming cards while a visible "re-tuning" state shows what it is doing. A **Why Qloo** panel exposes every call: the endpoint, entity type, signals, filters, affinity score and Qloo's explainability breakdown of which seed pulled each item in.
 
-![Frank's session: Nat King Cole with a prompt about singing along at home, and a deck of Rat Pack films, a steakhouse, the Chicago Theatre and Las Vegas](docs/screenshots/session-frank.png)
+![Frank's session: Nat King Cole with a prompt about singing along at home, one example of the cards Qloo dealt for him](docs/screenshots/session-frank.png)
 
-Two presets let you try it in one tap. Michiko (born 1950, Osaka, loved Hibari Misora) and Frank (born 1945, Chicago, loved Frank Sinatra) get sessions that differ end to end: Japanese singers, Japanese films of 1965 to 1980, Osaka's own landmarks and a trip for Michiko; standards singers, American films and television of 1960 to 1975, Chicago's own landmarks and a trip for Frank. Which exact names turn up is Qloo's answer on the day.
+Two presets let you try it in one tap. Michiko (born 1950, Osaka, loved Hibari Misora) and Frank (born 1945, Chicago, loved Frank Sinatra) get sessions that differ end to end: Japanese singers, Japanese films of 1965 to 1980, Osaka's own landmarks and a trip for Michiko; standards singers, American films and television of 1960 to 1975, Chicago's own landmarks and a trip for Frank.
 
 ## Why Qloo is essential
 
