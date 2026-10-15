@@ -5,6 +5,13 @@ const PRESETS = [
   { id: "frank", name: "Frank", hometown: "Chicago", seed: "Frank Sinatra" },
 ];
 
+/** Planning ends at the "session ready" overview; this presses Start and waits for the first card. */
+async function startSession(page: Page) {
+  await expect(page.getByTestId("session-overview")).toBeVisible({ timeout: 45_000 });
+  await page.getByTestId("start-session").click();
+  await expect(page.getByTestId("memory-card")).toBeVisible();
+}
+
 async function deckTitles(page: Page): Promise<string[]> {
   const labels = await page.getByTestId("deck-strip").locator("li button").evaluateAll((els) => els.map((el) => el.getAttribute("aria-label") ?? ""));
   return labels.map((l) => l.replace(/^Card \d+: /, "").replace(/, (they lit up|not this one)$/, ""));
@@ -24,7 +31,7 @@ for (const preset of PRESETS) {
     await expect(page.getByTestId("person-summary")).toContainText(preset.hometown);
 
     // The deck appears (planning streams trace events first).
-    await expect(page.getByTestId("memory-card")).toBeVisible({ timeout: 45_000 });
+    await startSession(page);
     const titles = await deckTitles(page);
     expect(titles.length).toBeGreaterThanOrEqual(8);
     expect(titles.length).toBeLessThanOrEqual(10);
@@ -83,7 +90,7 @@ test("the hero offers each prepared person in one tap, above the intake form", a
   await page.getByTestId("hero-preset-frank").click();
   await expect(page).toHaveURL(/\/session\/[a-z0-9-]+/);
   await expect(page.getByTestId("person-summary")).toContainText("Chicago");
-  await expect(page.getByTestId("memory-card")).toBeVisible({ timeout: 45_000 });
+  await startSession(page);
 });
 
 test("a bot-check refusal reads as a kind line, never the server's wording", async ({ page }) => {
@@ -101,7 +108,7 @@ test("the two presets produce culturally different sessions", async ({ page }) =
   for (const preset of PRESETS) {
     await page.goto("/");
     await page.getByTestId(`preset-${preset.id}`).click();
-    await expect(page.getByTestId("memory-card")).toBeVisible({ timeout: 45_000 });
+    await startSession(page);
     sets.push(await deckTitles(page));
   }
   const [a, b] = sets as [string[], string[]];
@@ -125,7 +132,7 @@ test("intake form: autocomplete from Qloo search, the whole session in the chose
   await expect(page.getByRole("list", { name: "Favoritos elegidos" })).toContainText("Julio Iglesias");
   await page.getByRole("button", { name: "Crear su sesión" }).click();
   await expect(page).toHaveURL(/\/session\//);
-  await expect(page.getByTestId("memory-card")).toBeVisible({ timeout: 45_000 });
+  await startSession(page);
   await expect(page.getByTestId("card-prompt")).toHaveText(/[¿?]/);
   await expect(page.getByTestId("person-summary")).toContainText("Madrid");
   // Not only the prompt: the chrome, the buttons and the Why Qloo panel speak Spanish too.
@@ -163,7 +170,7 @@ test("a custom person from Mexico City who loved Pedro Infante gets a Mexican de
   await favorite.fill("Pedro Infante");
   await page.getByRole("option", { name: /Pedro Infante/ }).first().click();
   await page.getByRole("button", { name: "Make their session" }).click();
-  await expect(page.getByTestId("memory-card")).toBeVisible({ timeout: 45_000 });
+  await startSession(page);
   const titles = await deckTitles(page);
   expect(titles.length).toBeGreaterThanOrEqual(8);
   for (const wrong of ["The Beatles", "Eiffel Tower", "Café de Flore", "Paris"]) expect(titles).not.toContain(wrong);
@@ -174,7 +181,7 @@ test("a custom person from Mexico City who loved Pedro Infante gets a Mexican de
 test("the programme strip keeps long titles readable and fully named", async ({ page }) => {
   await page.goto("/");
   await page.getByTestId("preset-frank").click();
-  await expect(page.getByTestId("memory-card")).toBeVisible({ timeout: 45_000 });
+  await startSession(page);
   const strip = page.getByTestId("deck-strip");
   const buttons = strip.locator("li button");
   const count = await buttons.count();
@@ -203,7 +210,7 @@ test("session pages for unknown ids explain that sessions stay on the device", a
 test("reacting to every card ends in a printable keepsake", async ({ page }) => {
   await page.goto("/");
   await page.getByTestId("preset-frank").click();
-  await expect(page.getByTestId("memory-card")).toBeVisible({ timeout: 45_000 });
+  await startSession(page);
   const total = await page.getByTestId("deck-strip").locator("li").count();
   for (let i = 0; i < total; i++) {
     const title = await page.getByTestId("card-title").innerText();
@@ -254,9 +261,83 @@ test("the model's prompts land on the dealt cards in place, and its markup never
   });
   await page.goto("/");
   await page.getByTestId("preset-michiko").click();
-  await expect(page.getByTestId("memory-card")).toBeVisible({ timeout: 45_000 });
+  await startSession(page);
   await expect(page.getByTestId("card-prompt")).toHaveText("Who did you sing these songs with, back home?");
   await page.getByTestId("why-qloo-toggle").click();
   await expect(page.getByTestId("trace-timeline")).not.toContainText("DSML");
   await expect(page.getByTestId("trace-policy")).toContainText("prompts written by a model");
+});
+
+test("planning stops at a session-ready overview; nothing opens card 1 until Start", async ({ page }) => {
+  await page.goto("/");
+  await page.getByTestId("hero-preset-michiko").click();
+  const overview = page.getByTestId("session-overview");
+  await expect(overview).toBeVisible({ timeout: 45_000 });
+  // Give an auto-open a chance to happen: it must not.
+  await page.waitForTimeout(1_500);
+  await expect(page.getByTestId("memory-card")).toHaveCount(0);
+  await expect(overview).toContainText("Michiko's session is ready");
+
+  // How Qloo built it, and the lineup: grouped by kind, each card with its Qloo line.
+  await expect(page.getByTestId("overview-built")).toContainText("Qloo call");
+  const cards = page.getByTestId("overview-card");
+  const total = await cards.count();
+  expect(total).toBeGreaterThanOrEqual(8);
+  expect(await page.getByTestId("overview-lineup").locator("section").count()).toBeGreaterThanOrEqual(3);
+  await expect(cards.first()).toContainText("From Qloo:");
+
+  // Drop a card, then put it back.
+  const firstTitle = await cards.first().getByTestId("overview-title").innerText();
+  await cards.first().getByTestId("drop-card").click();
+  await expect(cards).toHaveCount(total - 1);
+  await expect(page.getByTestId("overview-dropped")).toContainText(firstTitle);
+  await page.getByTestId("undo-drop").click();
+  await expect(cards).toHaveCount(total);
+
+  // Swap one card for another of its kind, in the same place; the rest of the lineup stays put.
+  const before = await page.getByTestId("overview-title").allInnerTexts();
+  const swapTitle = before[2]!;
+  const swapPosition = (await cards.nth(2).locator(".label").first().textContent())!;
+  await cards.nth(2).getByTestId("swap-card").click();
+  await expect(page.getByTestId("overview-notice")).toContainText(`Swapped ${swapTitle} for`);
+  await expect(cards).toHaveCount(total);
+  const after = await page.getByTestId("overview-title").allInnerTexts();
+  expect(after).not.toContain(swapTitle);
+  expect(after.filter((t, i) => t !== before[i])).toHaveLength(1);
+  await expect(cards.nth(2).locator(".label").first()).toHaveText(swapPosition);
+
+  // Drop a different one for good, shuffle, and survive a reload still on the overview.
+  const dropTitle = await cards.nth(1).getByTestId("overview-title").innerText();
+  await cards.nth(1).getByTestId("drop-card").click();
+  await expect(cards).toHaveCount(total - 1);
+  await page.getByTestId("shuffle-order").click();
+  await page.reload();
+  await expect(page.getByTestId("session-overview")).toBeVisible();
+  await expect(page.getByTestId("memory-card")).toHaveCount(0);
+  await expect(page.getByTestId("overview-card")).toHaveCount(total - 1);
+
+  // Start opens the first card of the deck as arranged, without the dropped one.
+  await page.getByTestId("start-session").click();
+  await expect(page.getByTestId("memory-card")).toBeVisible();
+  const titles = await deckTitles(page);
+  expect(titles.length).toBe(total - 1);
+  expect(titles).not.toContain(dropTitle);
+  await expect(page.getByTestId("card-title")).toHaveText(titles[0]!);
+  await page.reload();
+  await expect(page.getByTestId("memory-card")).toBeVisible();
+});
+
+test("the overview fits a phone: no sideways scroll, a tappable Start above the fold", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  await page.getByTestId("hero-preset-frank").click();
+  await expect(page.getByTestId("session-overview")).toBeVisible({ timeout: 45_000 });
+  const start = page.getByTestId("start-session");
+  await expect(start).toBeInViewport();
+  expect((await start.boundingBox())!.height).toBeGreaterThanOrEqual(56);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  const drop = page.getByTestId("drop-card").first();
+  expect((await drop.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+  const swap = page.getByTestId("swap-card").first();
+  expect((await swap.boundingBox())!.height).toBeGreaterThanOrEqual(47.5);
 });

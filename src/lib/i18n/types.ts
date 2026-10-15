@@ -49,6 +49,31 @@ export interface Dictionary {
     blocked: string;
     agentStopped: string;
   };
+  overview: {
+    label: string;
+    title: (name: string) => string;
+    lede: (count: number, hometown: string, start: number, end: number) => string;
+    start: string;
+    shuffle: string;
+    shuffled: string;
+    lineup: string;
+    position: (n: number) => string;
+    drop: string;
+    dropAria: (title: string) => string;
+    dropped: (title: string) => string;
+    swap: string;
+    swapAria: (title: string) => string;
+    swapping: string;
+    swapped: (from: string, to: string) => string;
+    swapNothingNew: (title: string) => string;
+    swapFailed: string;
+    undo: string;
+    atMinimum: (n: number) => string;
+    built: string;
+    builtCalls: (n: number) => string;
+    builtKind: (label: string, count: number) => string;
+    seeCalls: string;
+  };
   card: {
     counter: (index: number, total: number) => string;
     retunedFor: (pronouns: Pronouns) => string;

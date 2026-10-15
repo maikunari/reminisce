@@ -58,7 +58,10 @@ export const AdaptRequestSchema = z.object({
   person: PersonSchema,
   cards: z.array(CardSchema).min(1).max(24),
   feedback: z.object({ cardId: z.string().min(1).max(60), reaction: z.enum(["lit_up", "not_this"]) }),
-  currentIndex: z.number().int().min(0).max(23),
+  /** -1 on the overview: no card has been shown yet, and the feedback card is swapped for another. */
+  currentIndex: z.number().int().min(-1).max(23),
+  /** Entities a swap must not bring in, such as a card dropped on the overview and waiting for Undo. */
+  exclude: z.array(z.string().min(1).max(80)).max(24).optional(),
 });
 
 export type PlanRequest = z.infer<typeof PlanRequestSchema>;
