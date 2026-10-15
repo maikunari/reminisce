@@ -43,13 +43,18 @@ export function shuffleCards(cards: Card[], random: () => number = Math.random):
   return [...cards.slice(1), cards[0]!];
 }
 
-/** A swap's answer: only the replacement naming the swapped card takes its place; any other replacement leaves the lineup alone. */
-export function swapCard(cards: Card[], cardId: string, replacements: Card[]): { cards: Card[]; swapped: Card | null } {
+/**
+ * A swap's answer: only the replacement naming the swapped card takes its
+ * place; any other replacement leaves the lineup alone, and a card held
+ * aside (the one dropped, waiting for Undo) never comes back this way.
+ */
+export function swapCard(cards: Card[], cardId: string, replacements: Card[], held: readonly Card[] = []): { cards: Card[]; swapped: Card | null } {
   const card = cards.find((c) => c.id === cardId);
   if (!card) return { cards, swapped: null };
+  const heldIds = new Set(held.map((c) => c.entityId));
   const { cards: next, applied } = applyReplacements(
     cards,
-    replacements.filter((r) => r.replacedEntityId === card.entityId),
+    replacements.filter((r) => r.replacedEntityId === card.entityId && !heldIds.has(r.entityId)),
     -1,
   );
   return { cards: next, swapped: applied[0] ?? null };

@@ -57,4 +57,13 @@ describe("the session overview lineup", () => {
     expect(swapCard(deck, "c3", [other])).toEqual({ cards: deck, swapped: null });
     expect(swapCard(deck, "nope", [fresh])).toEqual({ cards: deck, swapped: null });
   });
+
+  it("never swaps in the card that was dropped, so Undo can still put it back", () => {
+    const fewer = dropCard(deck, "c3");
+    const comeback = { ...deck[2]!, replacedEntityId: "e1" } as Card;
+    const { cards, swapped } = swapCard(fewer, "c1", [comeback], [deck[2]!]);
+    expect(swapped).toBeNull();
+    expect(cards).toEqual(fewer);
+    expect(restoreCard(cards, deck[2]!, 2).map((c) => c.id)).toEqual(deck.map((c) => c.id));
+  });
 });

@@ -279,8 +279,9 @@ function SessionClient({ id }: { id: string }) {
             setLiveEvents([]);
             const now = sessionRef.current;
             if (!now?.overview) return;
-            const { swapped } = swapCard(now.cards, cardId, ev.result.replacements);
-            update((prev) => (prev.overview ? { ...prev, cards: swapCard(prev.cards, cardId, ev.result.replacements).cards, trace: [...prev.trace, ...ev.result.trace] } : prev));
+            const held = dropped ? [dropped.card] : [];
+            const { swapped } = swapCard(now.cards, cardId, ev.result.replacements, held);
+            update((prev) => (prev.overview ? { ...prev, cards: swapCard(prev.cards, cardId, ev.result.replacements, held).cards, trace: [...prev.trace, ...ev.result.trace] } : prev));
             const from = displayName(card, language).title;
             setNotice(swapped ? strings.overview.swapped(from, displayName(swapped, language).title) : strings.overview.swapNothingNew(from));
           } else if (ev.type === "prompts") {
@@ -296,7 +297,7 @@ function SessionClient({ id }: { id: string }) {
         setSwapping(null);
       }
     },
-    [swapping, update],
+    [dropped, swapping, update],
   );
 
   useEffect(() => {
