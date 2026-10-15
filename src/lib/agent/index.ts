@@ -198,8 +198,11 @@ export async function adaptSession(input: AdaptInput, opts: AgentOptions = {}): 
     emit(traceEvent({ phase: "adapt", kind: "note", summary: "No upcoming cards left to re-tune." }));
     return { replacements: [], trace, planner: "deterministic" };
   }
+  // The plan's films and shows carry the home country it found; re-tunes keep to it.
+  const homeCountry = cards.map((c) => c.signals.params["filter.release_country"]?.split(",")[0]).find((c): c is string => !!c);
   const makeCtx = (deadline: number): ToolContext => ({
     ...baseContext(input.person, qloo, now, "adapt", cards),
+    homeCountry,
     existingCards: cards,
     deadline,
     feedback: { card: { ...card, reaction: input.feedback.reaction }, reaction: input.feedback.reaction, currentIndex },

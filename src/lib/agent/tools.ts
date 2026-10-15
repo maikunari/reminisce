@@ -262,6 +262,8 @@ export interface ToolContext {
   names: Map<string, string>;
   existingCards: Card[];
   feedback?: Feedback;
+  /** Qloo's name for the hometown's country ("Japan"), once known: films and TV are kept to its releases. */
+  homeCountry?: string;
   now: Date;
   /** Epoch-ms deadline shared by the loop and every Qloo request it makes. */
   deadline: number;
@@ -507,24 +509,47 @@ function keepEra(args: InsightsArgsT, ctx: ToolContext, notes: string[]): Insigh
 }
 
 /**
+ * Keep films and TV to the hometown country's releases whatever the policy
+ * asked for, the way keepEra keeps them to the years: a missing country is
+ * filled in, and a list without it gets it. An Osaka youth gets Japanese
+ * films first, not Star Wars.
+ */
+function keepHome(args: InsightsArgsT, ctx: ToolContext, notes: string[]): InsightsArgsT {
+  if (!ctx.homeCountry || !eraFor(args.filter_type, ctx.youthWindow)) return args;
+  const asked = args.filter_release_country ?? [];
+  if (asked.some((c) => c.toLowerCase() === ctx.homeCountry!.toLowerCase())) return args;
+  if (asked.length > 0) notes.push(`kept to ${ctx.homeCountry} releases`);
+  return { ...args, filter_release_country: [ctx.homeCountry, ...asked].slice(0, 5) };
+}
+
+interface WideningStep {
+  args: InsightsArgsT;
+  note: string;
+  /** Leaves the home country's releases: only when they gave nothing at all. */
+  leavesHome?: boolean;
+}
+
+/**
  * Widening steps for a thin answer, tried in order until one brings enough.
  * Each keeps the era. On live Qloo the first matters most: it returns no TV
  * shows at all for a location signal combined with release years (Chicago,
  * 1955 to 1975: none; the same request without the location signal: eight
  * shows from the era). Dropping the release country instead keeps the
- * hometown's own taste, so dropping both comes last.
+ * hometown's own taste, so dropping both comes last; and a few home-country
+ * titles beat any number of foreign ones, so those steps run only when the
+ * home country had none.
  */
-function wideningSteps(args: InsightsArgsT): { args: InsightsArgsT; note: string }[] {
-  const steps: { args: InsightsArgsT; note: string }[] = [];
+function wideningSteps(args: InsightsArgsT): WideningStep[] {
+  const steps: WideningStep[] = [];
   const hasLocation = !!args.signal_location_query;
   const hasCountry = !!args.filter_release_country?.length;
   switch (args.filter_type) {
     case "urn:entity:movie":
     case "urn:entity:tv_show":
       if (hasLocation) steps.push({ args: { ...args, signal_location_query: undefined }, note: "without the hometown signal" });
-      if (hasCountry) steps.push({ args: { ...args, filter_release_country: undefined }, note: "from any country" });
+      if (hasCountry) steps.push({ args: { ...args, filter_release_country: undefined }, note: "from any country", leavesHome: true });
       if (hasLocation && hasCountry) {
-        steps.push({ args: { ...args, signal_location_query: undefined, filter_release_country: undefined }, note: "without the hometown signal, from any country" });
+        steps.push({ args: { ...args, signal_location_query: undefined, filter_release_country: undefined }, note: "without the hometown signal, from any country", leavesHome: true });
       }
       break;
     case "urn:entity:artist":
@@ -560,7 +585,7 @@ async function runInsights(rawArgs: unknown, ctx: ToolContext): Promise<ToolOutc
   const parsed = InsightsArgs.safeParse(rawArgs);
   if (!parsed.success) return argError("qloo_insights", parsed.error);
   const adjustments: string[] = [];
-  const first = keepEra(parsed.data, ctx, adjustments);
+  const first = keepHome(keepEra(parsed.data, ctx, adjustments), ctx, adjustments);
   const era = eraFor(first.filter_type, ctx.youthWindow);
   const domain = domainForInsights(first.filter_type, first.filter_tags);
   const label = DOMAIN_LABEL_BY_TYPE[first.filter_type] ?? first.filter_type;
@@ -569,13 +594,14 @@ async function runInsights(rawArgs: unknown, ctx: ToolContext): Promise<ToolOutc
   // Only seeds we can name reach the caregiver's "why" line; an id is never printed.
   const seedNames = seedIds.map((id) => ctx.names.get(id) ?? ctx.pool.get(id)?.entity.name).filter((n): n is string => !!n);
 
-  const steps = [{ args: first, note: "" }, ...wideningSteps(first)];
+  const steps: WideningStep[] = [{ args: first, note: "" }, ...wideningSteps(first)];
   const attempts: { summary: string; qloo: TraceQloo }[] = [];
   const found = new Map<string, QlooEntity>();
   let last: QlooResult<QlooInsightsResponse> | undefined;
   let lastNote = "";
   for (const [index, step] of steps.entries()) {
     if (index > 0 && (found.size >= MIN_USEFUL_RESULTS || ctx.deadline - Date.now() < WIDEN_MIN_TIME_MS)) break;
+    if (step.leavesHome && found.size > 0) break;
     if (last) {
       attempts.push({ summary: `${last.body.results.entities.length} ${label}${lastNote ? ` ${lastNote}` : ""}; asking again ${step.note}`, qloo: traceOf(last, last.body.results.entities.length) });
     }
@@ -735,9 +761,10 @@ export function buildCard(
           language: ctx.language,
           title: e.name,
           year,
+          startYear: typeof e.properties?.start_year === "number" ? e.properties.start_year : undefined,
           entityId: e.entity_id,
           person: ctx.person,
-          youthStart: ctx.youthWindow.start,
+          youthWindow: ctx.youthWindow,
         }),
     promptSource: cleanPrompt ? "llm" : "template",
     signals,

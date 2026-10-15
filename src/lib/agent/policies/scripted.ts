@@ -256,6 +256,7 @@ export class ScriptedPlanPolicy extends GeneratorPolicy {
     const locality = top && isTypedPlace(person.hometown, top) ? top : undefined;
     const locationQuery = locality?.name ?? person.hometown;
     const country = countryNameFor(locality);
+    if (country) ctx.homeCountry = country;
 
     // Tag ids for dining and landmarks are the same for everyone, so they are not looked up.
     const restaurantTags = [PLACE_TAGS.restaurant];
