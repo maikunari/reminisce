@@ -12,7 +12,7 @@ import { DOMAIN_INFO, type Domain } from "@/lib/session/types";
 
 import type { Policy, PolicyStep, ToolCall } from "../loop";
 import { newCallId } from "../loop";
-import type { PoolEntry, ToolContext } from "../tools";
+import { distinctArtistIds, type PoolEntry, type ToolContext } from "../tools";
 
 /** Cards per domain before the deck tops up round-robin: music leads, every other domain gets a seat. */
 export const DECK_QUOTA: { domain: Domain; want: number }[] = [
@@ -80,6 +80,7 @@ export function deckFromPool(ctx: ToolContext): { domain: Domain; entity_id: str
     if (!domain) continue;
     (candidates[domain] ??= []).push(entry.entity.entity_id);
   }
+  if (candidates.music) candidates.music = distinctArtistIds(candidates.music, ctx.pool);
   return chooseDeck(candidates);
 }
 

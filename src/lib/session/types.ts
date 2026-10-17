@@ -101,6 +101,8 @@ export interface Card {
   year?: number;
   /** Artists: the year they started performing (Qloo's start_year), when known. */
   startYear?: number;
+  /** Artists: the other names the entity goes by (Qloo aliases and akas, a romanisation), so a re-tune can tell the same artist under another entity. */
+  aliases?: string[];
   imageUrl?: string;
   description?: string;
   tags: string[];
