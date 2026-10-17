@@ -9,16 +9,14 @@
 import { dictionary } from "@/lib/i18n";
 import type { QlooAgeBucket } from "@/lib/qloo/types";
 import { type CardSignals, type Domain, type Language, type Person, pronounsFor } from "@/lib/session/types";
-import { describeDecade } from "@/lib/session/youth-window";
 
-type Vars = { title: string; year?: number; decade?: string; person: string; hometown: string };
+type Vars = { title: string; year?: number; person: string; hometown: string };
 
 const TEMPLATES: Record<Language, Record<Domain, string[]>> = {
   en: {
     music: [
       "Tell me about {title}. Where did you first hear that music?",
       "Did you ever dance to {title}? Who was there with you?",
-      "{title} was everywhere in the {decade}. Did you have a favourite song?",
       "Did anyone at home sing along to {title}? Who had the best voice?",
     ],
     film: [
@@ -51,7 +49,6 @@ const TEMPLATES: Record<Language, Record<Domain, string[]>> = {
     music: [
       "{title}の歌は、どこで聴いていましたか？",
       "{title}の曲で踊ったことはありますか？誰と一緒でしたか？",
-      "{decade}頃、{title}はどこでも流れていましたね。お気に入りの歌はありましたか？",
       "ご家族で{title}の歌を口ずさんだことはありますか？",
     ],
     film: [
@@ -84,7 +81,6 @@ const TEMPLATES: Record<Language, Record<Domain, string[]>> = {
     music: [
       "Cuénteme sobre {title}. ¿Dónde escuchaba sus canciones?",
       "¿Bailó alguna vez con la música de {title}? ¿Quién estaba con usted?",
-      "{title} sonaba por todas partes en los {decade}. ¿Tenía una canción favorita?",
       "¿Alguien en casa cantaba las canciones de {title}? ¿Quién tenía la mejor voz?",
     ],
     film: [
@@ -128,22 +124,10 @@ function fill(template: string, vars: Vars): string {
   return template
     .replace(/\{title\}/g, vars.title)
     .replace(/\{year\}/g, vars.year ? String(vars.year) : "")
-    .replace(/\{decade\}/g, vars.decade ?? "")
     .replace(/\{person\}/g, vars.person)
     .replace(/\{hometown\}/g, vars.hometown)
     .replace(/\s{2,}/g, " ")
     .trim();
-}
-
-/**
- * The decade to name in "{title} was everywhere in the {decade}": the artist's
- * own first decade when it falls inside the person's youth, otherwise none.
- * Qloo gives artists no release year, and the youth window's start is not a
- * fact about the artist ("Bette Midler was everywhere in the 1950s").
- */
-export function artistDecade(startYear: number | undefined, youth: { start: number; end: number }): string | undefined {
-  if (startYear === undefined || startYear < youth.start || startYear > youth.end) return undefined;
-  return describeDecade(startYear);
 }
 
 /**
@@ -156,21 +140,16 @@ export function offlinePrompt(opts: {
   language: Language;
   title: string;
   year?: number;
-  /** Artists: the year they started performing (Qloo's start_year), if known. */
-  startYear?: number;
   entityId: string;
   person: Person;
-  youthWindow: { start: number; end: number };
 }): string {
   const list = TEMPLATES[opts.language][opts.domain];
-  const decade = opts.domain === "music" ? artistDecade(opts.startYear, opts.youthWindow) : undefined;
-  const usable = list.filter((t) => (!t.includes("{year}") || opts.year !== undefined) && (!t.includes("{decade}") || decade !== undefined));
+  const usable = list.filter((t) => !t.includes("{year}") || opts.year !== undefined);
   const pool = usable.length > 0 ? usable : list;
   const pick = pool[hashString(opts.entityId + opts.domain) % pool.length] ?? pool[0]!;
   return fill(pick, {
     title: opts.title,
     year: opts.year,
-    decade,
     person: opts.person.name,
     hometown: opts.person.hometown,
   });

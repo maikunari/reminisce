@@ -12,7 +12,8 @@ import type { Policy, PolicyStep, ToolCall } from "../loop";
 import { newCallId } from "../loop";
 import { NARRATION } from "../prompts";
 import { chooseDeck } from "./pool";
-import { PLACE_TAGS, type InsightsArgs, type PlanArgs, type AdaptArgs, type ToolContext, type ToolName, type ToolOutcome } from "../tools";
+import { artistKeysOf, ledgerOfCards } from "../suitability";
+import { PLACE_TAGS, distinctArtistIds, type InsightsArgs, type PlanArgs, type AdaptArgs, type ToolContext, type ToolName, type ToolOutcome } from "../tools";
 import type { z } from "zod";
 
 type InsightsArgsT = z.infer<typeof InsightsArgs>;
@@ -335,7 +336,7 @@ export class ScriptedPlanPolicy extends GeneratorPolicy {
     const [musicOut, filmOut, tvOut, diningOut] = asked;
     let placeOut = asked[4];
     let destOut = asked[5];
-    const musicIds = insightHits(musicOut).map((h) => h.entity_id);
+    const musicIds = distinctArtistIds(insightHits(musicOut).map((h) => h.entity_id), ctx.pool);
     const filmIds = insightHits(filmOut).map((h) => h.entity_id);
     const tvIds = insightHits(tvOut).map((h) => h.entity_id);
     const diningIds = insightHits(diningOut).map((h) => h.entity_id);
@@ -421,6 +422,12 @@ export class ScriptedAdaptPolicy extends GeneratorPolicy {
     const liked = cards.filter((c) => c.reaction === "lit_up").map((c) => c.entityId);
     const currentIds = unique([...cards.map((c) => c.entityId), ...fb.exclude]);
     const replacements: AdaptArgsT["replacements"] = [];
+    // An artist already on a card comes back under another Qloo entity now and then; skip it.
+    const artists = ledgerOfCards(cards);
+    const freshFor = (d: Domain) => (h: InsightHit) => {
+      const entry = d === "music" ? this.ctx.pool.get(h.entity_id) : undefined;
+      return !entry || !artists.has(artistKeysOf(entry.entity));
+    };
 
     if (fb.reaction === "lit_up") {
       yield { narration: NARRATION.adaptLiked(fb.card.title, this.ctx.person) };
@@ -441,8 +448,8 @@ export class ScriptedAdaptPolicy extends GeneratorPolicy {
           call("qloo_insights", this.argsFor(cross, signalSeeds, currentIds, { purpose: `cross-domain from ${fb.card.title}` })),
         ],
       };
-      const same = insightHits(sameOut).filter((h) => !currentIds.includes(h.entity_id));
-      const other = insightHits(crossOut).filter((h) => !currentIds.includes(h.entity_id));
+      const same = insightHits(sameOut).filter((h) => !currentIds.includes(h.entity_id) && freshFor(domain)(h));
+      const other = insightHits(crossOut).filter((h) => !currentIds.includes(h.entity_id) && freshFor(cross)(h));
       // Fresh same-domain picks replace upcoming cards of that domain first, so the
       // deck keeps its mix; the cross-domain pick replaces a card of its own domain
       // when there is one, otherwise the next upcoming card.
@@ -480,7 +487,7 @@ export class ScriptedAdaptPolicy extends GeneratorPolicy {
           ),
         ],
       };
-      const hit = insightHits(out).find((h) => !currentIds.includes(h.entity_id));
+      const hit = insightHits(out).find((h) => !currentIds.includes(h.entity_id) && freshFor(domain)(h));
       if (hit) replacements.push({ replaces_entity_id: fb.card.entityId, entity_id: hit.entity_id, domain });
     } else {
       yield { narration: NARRATION.adaptDisliked(fb.card.title) };
@@ -497,7 +504,7 @@ export class ScriptedAdaptPolicy extends GeneratorPolicy {
           ),
         ],
       };
-      const hits = insightHits(out).filter((h) => !currentIds.includes(h.entity_id));
+      const hits = insightHits(out).filter((h) => !currentIds.includes(h.entity_id) && freshFor(targetDomain)(h));
       const sameDomainUpcoming = upcoming.filter((c) => c.domain === fb.card.domain);
       const targets = sameDomainUpcoming.length > 0 ? sameDomainUpcoming.slice(0, 2) : upcoming.slice(0, 1);
       targets.forEach((t, i) => {

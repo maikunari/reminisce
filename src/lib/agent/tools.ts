@@ -46,6 +46,7 @@ import { dictionary } from "@/lib/i18n";
 import { PLAN_MAX_CARDS, PLAN_MIN_CARDS, PLAN_MIN_DOMAINS } from "@/lib/session/deck";
 
 import { offlinePrompt, whyLine } from "./prompts";
+import { ArtistLedger, artistKeysOf, isMatureTitle, ledgerOfCards } from "./suitability";
 
 // ---------------------------------------------------------------------------
 // Argument schemas (zod validates every policy's arguments)
@@ -541,6 +542,8 @@ function madeAtHome(entity: QlooEntity, type: QlooEntityType, homeCountry: strin
   return String(countries[0]).toLowerCase() === homeCountry.toLowerCase();
 }
 
+const SCREEN_TYPES = new Set<QlooEntityType>(["urn:entity:movie", "urn:entity:tv_show"]);
+
 async function runInsights(rawArgs: unknown, ctx: ToolContext): Promise<ToolOutcome> {
   const parsed = InsightsArgs.safeParse(rawArgs);
   if (!parsed.success) return argError("qloo_insights", parsed.error);
@@ -579,6 +582,7 @@ async function runInsights(rawArgs: unknown, ctx: ToolContext): Promise<ToolOutc
     const stepSeedNames = stepSeeds.length > 0 ? seedNames : [];
     res.body.results.entities.forEach((entity, rank) => {
       if (!inEra(entity, first.filter_type, era, ctx.youthWindow) || !madeAtHome(entity, first.filter_type, ctx.homeCountry)) return;
+      if (SCREEN_TYPES.has(first.filter_type) && isMatureTitle(entity)) return;
       ctx.names.set(entity.entity_id, entity.name);
       ctx.pool.add({
         entity,
@@ -723,10 +727,8 @@ export function buildCard(
           language: ctx.language,
           title: e.name,
           year,
-          startYear,
           entityId: e.entity_id,
           person: ctx.person,
-          youthWindow: ctx.youthWindow,
         }),
     promptSource: cleanPrompt ? "llm" : "template",
     signals,
@@ -759,6 +761,7 @@ function runPlan(rawArgs: unknown, ctx: ToolContext): ToolOutcome {
   if (!parsed.success) return argError("plan_session", parsed.error);
   const errors: string[] = [];
   const seen = new Set<string>();
+  const artists = new ArtistLedger();
   const picked: { entry: PoolEntry; domain: Domain; prompt?: string }[] = [];
   for (const c of parsed.data.cards) {
     if (seen.has(c.entity_id)) continue;
@@ -772,6 +775,8 @@ function runPlan(rawArgs: unknown, ctx: ToolContext): ToolOutcome {
       continue;
     }
     seen.add(c.entity_id);
+    // One entity per artist: Qloo lists some under two (a romanised and a native name).
+    if (c.domain === "music" && !artists.claim(artistKeysOf(entry.entity))) continue;
     picked.push({ entry, domain: c.domain, prompt: c.prompt });
   }
   picked.splice(PLAN_MAX_CARDS);
@@ -811,6 +816,7 @@ function runAdapt(rawArgs: unknown, ctx: ToolContext): ToolOutcome {
     if (index > feedback.currentIndex && !card.reaction) upcoming.set(card.entityId, card);
   });
   const currentIds = new Set([...ctx.existingCards.map((c) => c.entityId), ...feedback.exclude]);
+  const artists = ledgerOfCards(ctx.existingCards);
   const used = new Set<string>();
   const replaced = new Set<string>();
   const replacements: Card[] = [];
@@ -831,6 +837,10 @@ function runAdapt(rawArgs: unknown, ctx: ToolContext): ToolOutcome {
     }
     if (!domainMatches(r.domain, entry)) {
       errors.push(`${entry.entity.name} is ${entry.qlooType}, which does not fit domain "${r.domain}"`);
+      continue;
+    }
+    if (r.domain === "music" && !artists.claim(artistKeysOf(entry.entity))) {
+      errors.push(`${entry.entity.name} is an artist already in the session`);
       continue;
     }
     used.add(r.entity_id);
@@ -872,3 +882,12 @@ export function bestEntries(pool: EntityPool, type: QlooEntityType, exclude: Set
 export type SearchResponseBody = QlooSearchResponse;
 export type TagsResponseBody = QlooTagsResponse;
 export type InsightsResponseBody = QlooInsightsResponse;
+
+/** The ids with each artist once, first listed wins: Qloo can list one artist as two entities. */
+export function distinctArtistIds(ids: string[], pool: EntityPool): string[] {
+  const artists = new ArtistLedger();
+  return ids.filter((id) => {
+    const entry = pool.get(id);
+    return !entry || artists.claim(artistKeysOf(entry.entity));
+  });
+}

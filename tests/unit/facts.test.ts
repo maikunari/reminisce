@@ -1,12 +1,12 @@
 /**
- * The facts a card states must be true: an artist's decade is the artist's
- * own, films and shows come from the person's country, and a place that may
+ * The facts a card states must be true: no prompt claims a decade for an
+ * artist, films and shows come from the person's country, and a place that may
  * be newer than their youth is never said to have been there back then.
  */
 import { describe, expect, it } from "vitest";
 
 import { adaptSession, planSession } from "@/lib/agent";
-import { artistDecade, offlinePrompt } from "@/lib/agent/prompts";
+import { offlinePrompt } from "@/lib/agent/prompts";
 import { readServerEnv } from "@/lib/env";
 import { QlooClient } from "@/lib/qloo/client";
 import { PRESETS } from "@/lib/session/presets";
@@ -19,28 +19,24 @@ const qloo = new QlooClient({ mode: "fixture" });
 const NOW = new Date("2026-10-11T00:00:00Z");
 const michiko = PRESETS.find((p) => p.id === "michiko")!.person;
 const ruth: Person = { name: "Ruth", birthYear: 1938, hometown: "Boston", favorites: [{ name: "Patti Page" }], language: "en", pronoun: "she" };
-const youth = { start: 1953, end: 1968 };
 const ids = Array.from({ length: 40 }, (_, i) => `ffffffff-0000-4000-8000-${String(i).padStart(12, "0")}`);
 
-describe("an artist's decade", () => {
-  it("is the artist's own first decade when it falls in the person's youth, otherwise none", () => {
-    expect(artistDecade(1957, youth)).toBe("1950s");
-    expect(artistDecade(1965, youth)).toBe("1960s");
-    expect(artistDecade(1972, youth)).toBeUndefined();
-    expect(artistDecade(1940, youth)).toBeUndefined();
-    expect(artistDecade(undefined, youth)).toBeUndefined();
-  });
-
-  it("is never the youth window's start for an artist Qloo gives no year", () => {
+describe("music prompts", () => {
+  it("never claim a decade, in any language, whatever year Qloo gives the artist", () => {
     for (const entityId of ids) {
       for (const language of ["en", "es", "ja"] as Language[]) {
-        const prompt = offlinePrompt({ domain: "music", language, title: "Bette Midler", entityId, person: { ...ruth, language }, youthWindow: youth });
-        expect(prompt).not.toMatch(/195\d|196\d|1950s|1960s/);
+        const prompt = offlinePrompt({ domain: "music", language, title: "Bette Midler", entityId, person: { ...ruth, language } });
+        expect(prompt).not.toMatch(/19\d\d|\d0s|everywhere|por todas partes|どこでも流れ/);
         expect(prompt).not.toContain("{");
       }
     }
-    const withStart = ids.map((entityId) => offlinePrompt({ domain: "music", language: "en", title: "Patti Page", startYear: 1948, entityId, person: ruth, youthWindow: { start: 1945, end: 1960 } }));
-    expect(withStart.some((p) => p.includes("everywhere in the 1940s"))).toBe(true);
+  });
+
+  it("keep three questions per language to pick from", () => {
+    for (const language of ["en", "es", "ja"] as Language[]) {
+      const seen = new Set(ids.map((entityId) => offlinePrompt({ domain: "music", language, title: "Patti Page", entityId, person: { ...ruth, language } })));
+      expect(seen.size).toBe(3);
+    }
   });
 });
 
@@ -49,7 +45,7 @@ describe("places that may be newer than the person's youth", () => {
     for (const language of ["en", "es", "ja"] as Language[]) {
       const seen = new Set<string>();
       for (const entityId of ids) {
-        const prompt = offlinePrompt({ domain: "place", language, title: "Cloud Gate", entityId, person: { ...ruth, hometown: "Chicago", language }, youthWindow: youth });
+        const prompt = offlinePrompt({ domain: "place", language, title: "Cloud Gate", entityId, person: { ...ruth, hometown: "Chicago", language } });
         seen.add(prompt);
         expect(prompt).toContain("Chicago");
         expect(prompt).not.toMatch(/What was it like when you were young|Was the weather good|¿Cómo era cuando usted era joven\?|若い頃はどんな場所でしたか/);
@@ -61,7 +57,7 @@ describe("places that may be newer than the person's youth", () => {
   it("restaurants are never said to have served the person back then", () => {
     for (const language of ["en", "es", "ja"] as Language[]) {
       for (const entityId of ids) {
-        const prompt = offlinePrompt({ domain: "dining", language, title: "Park Side Grille", entityId, person: { ...ruth, language }, youthWindow: youth });
+        const prompt = offlinePrompt({ domain: "dining", language, title: "Park Side Grille", entityId, person: { ...ruth, language } });
         expect(prompt).not.toMatch(/Something from Park Side Grille|Algo de Park Side Grille/);
       }
     }
