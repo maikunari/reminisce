@@ -46,6 +46,7 @@ export const CardSchema = z.looseObject({
   entityId: z.string().min(1).max(80),
   domain: z.enum(DOMAINS),
   title: z.string().min(1).max(200),
+  aliases: z.array(z.string().max(200)).max(10).optional(),
   prompt: z.string().max(400),
   why: z.string().max(400),
   tags: z.array(z.string().max(80)).max(10),

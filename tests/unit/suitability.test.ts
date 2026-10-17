@@ -4,13 +4,14 @@
  */
 import { describe, expect, it } from "vitest";
 
-import { planSession } from "@/lib/agent";
+import { adaptSession, planSession } from "@/lib/agent";
 import { EntityPool, distinctArtistIds, executeTool, type PoolEntry, type ToolContext } from "@/lib/agent/tools";
 import { artistKeys, artistKeysOf, isMatureTitle, ledgerOfCards } from "@/lib/agent/suitability";
 import { readServerEnv } from "@/lib/env";
 import { QlooClient } from "@/lib/qloo/client";
 import type { QlooEntity } from "@/lib/qloo/types";
-import type { Person } from "@/lib/session/types";
+import { CardSchema } from "@/lib/session/schemas";
+import type { Card, Person } from "@/lib/session/types";
 
 import { liveQlooFake } from "./helpers/live-qloo";
 
@@ -142,5 +143,44 @@ describe("the same artist under two Qloo entities", () => {
     expect(music.filter((t) => t === "Yukihiro Takahashi" || t === "高橋幸宏")).toHaveLength(1);
     expect(music.length).toBeGreaterThanOrEqual(3);
     expect(new Set(result.cards.map((c) => c.entityId)).size).toBe(result.cards.length);
+  });
+
+  it("is not swapped back in by a re-tune when only the card's own entity named the other", async () => {
+    const fake = liveQlooFake();
+    let phase: "plan" | "adapt" = "plan";
+    const artist = (id: string, name: string, affinity: number, properties: Record<string, unknown> = {}) => ({
+      entity_id: `cdcdcdcd-4444-4000-8000-${id.padStart(12, "0")}`,
+      name,
+      popularity: 0.8,
+      properties: { start_year: 1972, ...properties },
+      query: { affinity },
+    });
+    const fetchImpl = (async (input: string | URL | Request, init?: RequestInit) => {
+      const url = new URL(String(input));
+      if (url.searchParams.get("filter.type") === "urn:entity:artist") {
+        // The deck's own entities are excluded from a re-tune, so 細野晴臣 never returns then.
+        const entities =
+          phase === "plan"
+            ? [artist("1", "細野晴臣", 0.99, { description: "日本の音楽家。", akas: [{ value: "Haruomi Hosono" }] }), artist("2", "Enka Singer A", 0.9), artist("3", "Enka Singer B", 0.89), artist("4", "Enka Singer C", 0.88)]
+            : [artist("5", "Haruomi Hosono", 0.99), artist("6", "Teresa Teng", 0.95), artist("7", "Enka Singer D", 0.9), artist("8", "Enka Singer E", 0.89)];
+        return new Response(JSON.stringify({ success: true, results: { entities } }), { status: 200 });
+      }
+      return fake.fetch(input, init);
+    }) as unknown as typeof fetch;
+    const live = new QlooClient({ mode: "live", apiKey: "test", fetchImpl });
+    const plan = await planSession(osaka, { env, qloo: live, now: NOW });
+    const index = plan.cards.findIndex((c) => c.title === "細野晴臣");
+    expect(index).toBeGreaterThanOrEqual(0);
+    expect(plan.cards[index]!.description).toBe("日本の音楽家。");
+    // The deck comes back from the browser through the adapt request's schema.
+    const cards = plan.cards.map((c) => CardSchema.parse(JSON.parse(JSON.stringify(c))) as unknown as Card);
+    phase = "adapt";
+    const result = await adaptSession(
+      { person: { ...osaka, favorites: plan.favorites }, cards, feedback: { cardId: cards[index]!.id, reaction: "lit_up" }, currentIndex: index },
+      { env, qloo: live, now: NOW },
+    );
+    const titles = result.replacements.map((c) => c.title);
+    expect(result.replacements.some((c) => c.domain === "music")).toBe(true);
+    expect(titles).not.toContain("Haruomi Hosono");
   });
 });

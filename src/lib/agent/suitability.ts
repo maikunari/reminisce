@@ -91,30 +91,37 @@ export function artistKeys(artist: { name: string; description?: string; aliases
 }
 
 /**
- * The artists already on cards, by the names a card carries (its title and any
- * romanisation in its description) and, while its entity is still to hand, every
- * name that entity goes by.
+ * The artists already on cards, by the names a card carries (its title, the
+ * alternate names stored on it when it was built, and any romanisation in its
+ * description) and, while its entity is still to hand, every name that entity goes by.
  */
 export function ledgerOfCards(
-  cards: { domain: string; entityId: string; title: string; description?: string }[],
+  cards: { domain: string; entityId: string; title: string; description?: string; aliases?: string[] }[],
   entityOf: (id: string) => QlooEntity | undefined,
 ): ArtistLedger {
   const ledger = new ArtistLedger();
   for (const c of cards) {
     if (c.domain !== "music") continue;
     const entity = entityOf(c.entityId);
-    ledger.claim(new Set([...artistKeys({ name: c.title, description: c.description }), ...(entity ? artistKeysOf(entity) : [])]));
+    ledger.claim(new Set([...artistKeys({ name: c.title, description: c.description, aliases: c.aliases }), ...(entity ? artistKeysOf(entity) : [])]));
   }
   return ledger;
 }
 
-export function artistKeysOf(entity: QlooEntity): Set<string> {
+/** The other names an artist entity goes by: Qloo's aliases and akas, and a romanisation in its description. */
+export function artistAliasesOf(entity: QlooEntity): string[] {
   const p = entity.properties;
-  const aliases = [
+  const names = [
     ...(Array.isArray(p?.aliases) ? p.aliases.filter((a): a is string => typeof a === "string") : []),
     ...(p?.akas ?? []).map((a) => a.value).filter((v): v is string => typeof v === "string"),
   ];
-  return artistKeys({ name: entity.name, description: p?.description ?? p?.short_description, aliases });
+  const roman = romanisedName(entity.name, p?.description ?? p?.short_description);
+  if (roman) names.push(roman);
+  return [...new Set(names.map((n) => n.trim()).filter((n) => n.length > 0 && n !== entity.name))];
+}
+
+export function artistKeysOf(entity: QlooEntity): Set<string> {
+  return artistKeys({ name: entity.name, aliases: artistAliasesOf(entity) });
 }
 
 /** Hands out each artist once: `claim` is false when a name already seen belongs to the same artist. */

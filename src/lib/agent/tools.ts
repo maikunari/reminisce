@@ -46,7 +46,7 @@ import { dictionary } from "@/lib/i18n";
 import { PLAN_MAX_CARDS, PLAN_MIN_CARDS, PLAN_MIN_DOMAINS } from "@/lib/session/deck";
 
 import { offlinePrompt, whyLine } from "./prompts";
-import { ArtistLedger, artistKeysOf, isMatureTitle, ledgerOfCards } from "./suitability";
+import { ArtistLedger, artistAliasesOf, artistKeysOf, isMatureTitle, ledgerOfCards } from "./suitability";
 
 // ---------------------------------------------------------------------------
 // Argument schemas (zod validates every policy's arguments)
@@ -707,6 +707,7 @@ export function buildCard(
   };
   const year = entityYear(e);
   const startYear = domain === "music" && typeof e.properties?.start_year === "number" ? e.properties.start_year : undefined;
+  const aliases = domain === "music" ? artistAliasesOf(e).slice(0, 10) : [];
   const cleanPrompt = prompt?.replace(/\s+/g, " ").trim();
   return {
     id: `card_${randomUUID().slice(0, 8)}`,
@@ -716,6 +717,7 @@ export function buildCard(
     subtitle: subtitleFor(domain, e, ctx.language),
     year,
     ...(startYear !== undefined ? { startYear } : {}),
+    ...(aliases.length > 0 ? { aliases } : {}),
     imageUrl: entityImageUrl(e),
     description: short(e.properties?.description ?? e.properties?.short_description, 220),
     tags: (e.tags ?? []).slice(0, 3).map((t) => t.name),
