@@ -5,8 +5,8 @@
 import { describe, expect, it } from "vitest";
 
 import { planSession } from "@/lib/agent";
-import { EntityPool, distinctArtistIds, type PoolEntry } from "@/lib/agent/tools";
-import { artistKeys, isMatureTitle } from "@/lib/agent/suitability";
+import { EntityPool, distinctArtistIds, executeTool, type PoolEntry, type ToolContext } from "@/lib/agent/tools";
+import { artistKeys, artistKeysOf, isMatureTitle, ledgerOfCards } from "@/lib/agent/suitability";
 import { readServerEnv } from "@/lib/env";
 import { QlooClient } from "@/lib/qloo/client";
 import type { QlooEntity } from "@/lib/qloo/types";
@@ -86,6 +86,31 @@ describe("the same artist under two Qloo entities", () => {
     const c = entity("Hibari Misora", { subtype: "urn:entity:artist" });
     [a, b, c].forEach(add);
     expect(distinctArtistIds([a.entity_id, b.entity_id, c.entity_id], pool)).toEqual([a.entity_id, c.entity_id]);
+  });
+
+  it("is one artist when Qloo's akas name the other entity", () => {
+    const native = entity("高橋幸宏", { subtype: "urn:entity:artist", properties: { akas: [{ value: "Yukihiro Takahashi", languages: ["en"] }] } });
+    const romanised = artistKeysOf(entity("Yukihiro Takahashi", { subtype: "urn:entity:artist" }));
+    expect([...artistKeysOf(native)].some((k) => romanised.has(k))).toBe(true);
+  });
+
+  it("is already in the deck when a card's pool entity goes by the incoming name", () => {
+    const native = entity("高橋幸宏", { subtype: "urn:entity:artist", properties: { aliases: ["Yukihiro Takahashi"] } });
+    const card = { domain: "music", entityId: native.entity_id, title: "高橋幸宏" };
+    const incoming = artistKeysOf(entity("Yukihiro Takahashi", { subtype: "urn:entity:artist" }));
+    expect(ledgerOfCards([card], () => undefined).has(incoming)).toBe(false);
+    expect(ledgerOfCards([card], (id) => (id === native.entity_id ? native : undefined)).has(incoming)).toBe(true);
+  });
+
+  it("is named when a plan is rejected for dealing it twice", async () => {
+    const pool = new EntityPool();
+    const a = entity("Yukihiro Takahashi", { subtype: "urn:entity:artist" });
+    const b = entity("高橋幸宏", { subtype: "urn:entity:artist", properties: { akas: [{ value: "Yukihiro Takahashi" }] } });
+    for (const e of [a, b]) pool.add({ entity: e, qlooType: "urn:entity:artist", params: {}, source: "live", status: 200, durationMs: 0, warnings: [], rank: 1, seedIds: [], seedNames: [] } as PoolEntry);
+    const ctx = { pool, existingCards: [], phase: "plan" } as unknown as ToolContext;
+    const outcome = await executeTool("plan_session", { cards: [a, b].map((e) => ({ entity_id: e.entity_id, domain: "music" })) }, ctx);
+    expect(outcome.ok).toBe(false);
+    expect((outcome.result as { errors: string[] }).errors).toContain("高橋幸宏 is an artist already in the deck");
   });
 
   it("is dealt once in Kenji's kind of deck", async () => {

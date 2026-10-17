@@ -762,6 +762,7 @@ function runPlan(rawArgs: unknown, ctx: ToolContext): ToolOutcome {
   const errors: string[] = [];
   const seen = new Set<string>();
   const artists = new ArtistLedger();
+  const duplicates: string[] = [];
   const picked: { entry: PoolEntry; domain: Domain; prompt?: string }[] = [];
   for (const c of parsed.data.cards) {
     if (seen.has(c.entity_id)) continue;
@@ -776,7 +777,10 @@ function runPlan(rawArgs: unknown, ctx: ToolContext): ToolOutcome {
     }
     seen.add(c.entity_id);
     // One entity per artist: Qloo lists some under two (a romanised and a native name).
-    if (c.domain === "music" && !artists.claim(artistKeysOf(entry.entity))) continue;
+    if (c.domain === "music" && !artists.claim(artistKeysOf(entry.entity))) {
+      duplicates.push(`${entry.entity.name} is an artist already in the deck`);
+      continue;
+    }
     picked.push({ entry, domain: c.domain, prompt: c.prompt });
   }
   picked.splice(PLAN_MAX_CARDS);
@@ -788,6 +792,7 @@ function runPlan(rawArgs: unknown, ctx: ToolContext): ToolOutcome {
   if (picked.length < minCards) errors.push(`need at least ${minCards} valid cards, got ${picked.length}`);
   if (domains.size < minDomains) errors.push(`need at least ${minDomains} domains in the first ${PLAN_MAX_CARDS} cards, got ${domains.size}`);
   if (errors.length > 0) {
+    errors.push(...duplicates);
     return {
       ok: false,
       result: { ok: false, errors, available: availableByDomain(ctx) },
@@ -816,7 +821,7 @@ function runAdapt(rawArgs: unknown, ctx: ToolContext): ToolOutcome {
     if (index > feedback.currentIndex && !card.reaction) upcoming.set(card.entityId, card);
   });
   const currentIds = new Set([...ctx.existingCards.map((c) => c.entityId), ...feedback.exclude]);
-  const artists = ledgerOfCards(ctx.existingCards);
+  const artists = ledgerOfCards(ctx.existingCards, (id) => ctx.pool.get(id)?.entity);
   const used = new Set<string>();
   const replaced = new Set<string>();
   const replacements: Card[] = [];

@@ -423,7 +423,7 @@ export class ScriptedAdaptPolicy extends GeneratorPolicy {
     const currentIds = unique([...cards.map((c) => c.entityId), ...fb.exclude]);
     const replacements: AdaptArgsT["replacements"] = [];
     // An artist already on a card comes back under another Qloo entity now and then; skip it.
-    const artists = ledgerOfCards(cards);
+    const artists = ledgerOfCards(cards, (id) => ctx.pool.get(id)?.entity);
     const freshFor = (d: Domain) => (h: InsightHit) => {
       const entry = d === "music" ? this.ctx.pool.get(h.entity_id) : undefined;
       return !entry || !artists.has(artistKeysOf(entry.entity));

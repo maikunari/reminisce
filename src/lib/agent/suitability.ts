@@ -82,25 +82,39 @@ function nameKeys(name: string): string[] {
   return keys.filter((k) => k.length > 0);
 }
 
-/** Every name an artist goes by: its title, Qloo's aliases and a romanisation in its description. */
-export function artistKeys(artist: { name: string; description?: string; aliases?: unknown }): Set<string> {
-  const names = [artist.name];
-  if (Array.isArray(artist.aliases)) for (const a of artist.aliases) if (typeof a === "string") names.push(a);
+/** Every name an artist goes by: its title, Qloo's aliases and akas, and a romanisation in its description. */
+export function artistKeys(artist: { name: string; description?: string; aliases?: string[] }): Set<string> {
+  const names = [artist.name, ...(artist.aliases ?? [])];
   const roman = romanisedName(artist.name, artist.description);
   if (roman) names.push(roman);
   return new Set(names.flatMap(nameKeys));
 }
 
-/** The artists already on cards, by the names a card carries (its title and any romanisation in its description). */
-export function ledgerOfCards(cards: { domain: string; title: string; description?: string }[]): ArtistLedger {
+/**
+ * The artists already on cards, by the names a card carries (its title and any
+ * romanisation in its description) and, while its entity is still to hand, every
+ * name that entity goes by.
+ */
+export function ledgerOfCards(
+  cards: { domain: string; entityId: string; title: string; description?: string }[],
+  entityOf: (id: string) => QlooEntity | undefined,
+): ArtistLedger {
   const ledger = new ArtistLedger();
-  for (const c of cards) if (c.domain === "music") ledger.claim(artistKeys({ name: c.title, description: c.description }));
+  for (const c of cards) {
+    if (c.domain !== "music") continue;
+    const entity = entityOf(c.entityId);
+    ledger.claim(new Set([...artistKeys({ name: c.title, description: c.description }), ...(entity ? artistKeysOf(entity) : [])]));
+  }
   return ledger;
 }
 
 export function artistKeysOf(entity: QlooEntity): Set<string> {
   const p = entity.properties;
-  return artistKeys({ name: entity.name, description: p?.description ?? p?.short_description, aliases: p?.aliases });
+  const aliases = [
+    ...(Array.isArray(p?.aliases) ? p.aliases.filter((a): a is string => typeof a === "string") : []),
+    ...(p?.akas ?? []).map((a) => a.value).filter((v): v is string => typeof v === "string"),
+  ];
+  return artistKeys({ name: entity.name, description: p?.description ?? p?.short_description, aliases });
 }
 
 /** Hands out each artist once: `claim` is false when a name already seen belongs to the same artist. */
