@@ -88,13 +88,15 @@ When no LLM key is configured, or the model fails, the cards keep their template
 
 Facts on a card are only ever ones Qloo gave: template prompts never name a decade for an artist (Qloo's `start_year` is not when an artist was popular), films and TV are kept to the hometown country's releases (films widen to other countries only when the home country has none; television never does, and an empty answer skips the domain), and prompts for places and restaurants, which may be newer than the person's youth, ask about the hometown rather than saying the person went there back then. The model is given the same rules.
 
+Artist suggestions stay near the seed. Qloo blends every signal it is given, so a niche favourite blended with "55 and older" and a hometown is drowned out by what that whole crowd likes (Lonnie Donegan came back as Dolly Parton, Tom Jones and the Beatles). A seeded artist call therefore leaves the age signal out and caps `filter.popularity.max` a little above the seed's own popularity, and what comes back is ordered by fit as well as affinity: the seed's genre and the person's formative years (ages 10 to 30) count for it, being born in the home country helps a little, and anything more famous than the seed, and any household name above popularity 0.95 whoever the seed is, counts against it. The card then says why it is there ("Because Frank likes Frank Sinatra"). The scoring lives in `src/lib/agent/relevance.ts`.
+
 A deck holds each artist once and no mature films or shows. Qloo sometimes lists one artist as two entities (Yukihiro Takahashi and 高橋幸宏), so `plan_session` and `adapt_session` treat two music entities as the same artist when any of their names, Qloo aliases or romanisations agree. `qloo_insights` drops films and TV whose tags, rating or title mark them as adult. The rules live in `src/lib/agent/suitability.ts`.
 
 ### Youth window and age signal
 
 - Youth window: birth year + 15 to birth year + 30, capped at the current year. Michiko (1950) gets 1965 to 1980; Frank (1945) gets 1960 to 1975. Applied as `filter.release_year.min/max` on films and TV (TV reaches back five more years). The `qloo_insights` tool enforces it whatever the policy asks: missing year filters are filled in, wider ones narrowed, and artists who started (`start_year`) after the window, or were born too late to perform in it, are left out.
-- Thin answers: when a call returns fewer than three entities, the tool widens it itself, one step at a time and never past the era. Live Qloo returns no TV shows for a location signal combined with release years, so TV is asked again without `signal.location.query`; films try that, then any release country; places drop the seed. The trace shows each step. A domain that stays empty is skipped, and if a run ends with too little for a deck the caregiver sees a kind empty state with a way to try again.
-- Age signal: the person's age today mapped to the documented `signal.demographics.age` buckets (`24_and_younger`, `25_to_29`, `30_to_34`, `35_to_44`, `45_to_54`, `55_and_older`).
+- Thin answers: when a call returns fewer than three entities, the tool widens it itself, one step at a time and never past the era. Live Qloo returns no TV shows for a location signal combined with release years, so TV is asked again without `signal.location.query`; films try that, then any release country; artists lift the popularity cap, then drop the hometown signal; places drop the seed. The trace shows each step. A domain that stays empty is skipped, and if a run ends with too little for a deck the caregiver sees a kind empty state with a way to try again.
+- Age signal: the person's age today mapped to the documented `signal.demographics.age` buckets (`24_and_younger`, `25_to_29`, `30_to_34`, `35_to_44`, `45_to_54`, `55_and_older`). Seeded artist calls leave it out (see above).
 
 ## Qloo endpoints and parameters
 
@@ -112,7 +114,7 @@ Parameters Reminisce actually sends, per entity type:
 
 | `filter.type` | Signals | Filters | Output |
 | --- | --- | --- | --- |
-| `urn:entity:artist` | `signal.interests.entities`, `signal.location.query`, `signal.demographics.age` | `filter.exclude.entities` | `feature.explainability`, `take` |
+| `urn:entity:artist` | `signal.interests.entities`, `signal.location.query`, `signal.demographics.age` (only when there is no seed) | `filter.exclude.entities`, `filter.popularity.max` (seeded calls) | `feature.explainability`, `take` |
 | `urn:entity:movie` | same | `filter.release_year.min`, `filter.release_year.max`, `filter.release_country`, `filter.exclude.entities` | same |
 | `urn:entity:tv_show` | same | `filter.release_year.min`, `filter.release_year.max`, `filter.release_country`, `filter.exclude.entities` | same |
 | `urn:entity:place` (dining) | same | `filter.location.query` (hometown), `filter.tags` (restaurant genre from `/v2/tags`), `filter.exclude.entities` | same |
@@ -196,7 +198,7 @@ Tapping **They lit up** on a card:
 
 ![After tapping They lit up: a notice reads "Three of the next cards now lean toward Yujiro Ishihara" and the re-tuned deck cards are marked new](docs/screenshots/retuned.png)
 
-When every card has a reaction, the session closes with a keepsake: what lit them up, each with its prompt, ready to print for the care file.
+When every card has a reaction the session ends by itself after a beat, or the caregiver presses **Finish the session** on the last card. A calm **Session complete** screen thanks the caregiver by the person's name and shows a memory summary for family and caregivers: what lit them up, each with its kind, year and prompt, ready to print or save as a PDF. **Start another session** and **Done** both lead back to the start page. The ending is saved with the session, so a reload opens the same screen. The session's phases (planning, overview, in session, complete) are one typed state machine in `src/lib/session/flow.ts`.
 
 ![Keepsake at the end of Frank's session: "What lit Frank up today" lists six cards with their prompts above a Print for the care file button](docs/screenshots/keepsake.png)
 
@@ -220,7 +222,7 @@ Designed for a tablet on a care-home table, used by someone whose eyes and hands
 - No animation on load. `prefers-reduced-motion` removes the 160ms card crossfade and the moving re-tuning rule.
 - Qloo image URLs are shown as a matted photograph; without one, each card gets a printed sleeve for its domain (album sleeve, ticket stub, menu card, postcard, luggage label, television) with the title set in type, so no card is ever a grey box.
 - Works from phone portrait to desktop; the trace panel sits below the card on small screens and in a side column on wide ones.
-- When every card has a reaction, a keepsake lists what lit them up with its prompt and prints cleanly for the care file.
+- The Session complete screen moves focus to its heading, and its memory summary lists what lit them up with each prompt and prints cleanly for the care file.
 
 ## Privacy
 
@@ -247,13 +249,14 @@ npm test           # vitest: Qloo parameter building and validation, youth windo
                    #         daily budget and breaker, guard degradation ladder, response cache,
                    #         preset snapshots and replay, live-Qloo regressions (thin and empty answers,
                    #         era enforcement, running out of time; replays fixtures/live/ when present),
-                   #         planning-view progress
+                   #         planning-view progress, session flow transitions, artist relevance
+                   #         (a Lonnie Donegan seed yields skiffle and late-50s UK acts, not Dolly Parton)
 npm run test:e2e   # Playwright, fixture mode, tablet viewport: both presets end to end
                    #         (plan → cards → Why Qloo → reaction moves on at once → re-tune → reload persistence),
                    #         preset difference, intake autocomplete + a Spanish session, a Mexico City
                    #         custom person, auto-advance, the programme strip, unknown session,
                    #         the empty state when Qloo has too little, model prompts landing in
-                   #         place with leaked markup kept off the screen
+                   #         place with leaked markup kept off the screen, the Session complete screen
 ```
 
 The Playwright run builds the app and starts it on port 3100 with `QLOO_MODE=fixture` and `LLM_MODE=fixture`.
