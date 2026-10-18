@@ -208,6 +208,12 @@ export function entityAffinity(entity: QlooEntity): number | null {
   return null;
 }
 
+/** Up to a dozen tag names, trimmed, for carrying a seed's genres along with a favorite. */
+export function tagNamesOf(tags: QlooTag[] | undefined): string[] | undefined {
+  const names = (tags ?? []).map((t) => t.name?.trim()).filter((n): n is string => !!n);
+  return names.length > 0 ? [...new Set(names)].slice(0, 12) : undefined;
+}
+
 export function entityImageUrl(entity: { properties?: QlooEntityProperties } | QlooSearchResult): string | undefined {
   const url = entity.properties?.image?.url;
   return typeof url === "string" && url.length > 0 ? url : undefined;

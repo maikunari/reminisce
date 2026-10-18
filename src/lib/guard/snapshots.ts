@@ -18,8 +18,8 @@ import type { Person, PlanResult, TraceEvent } from "@/lib/session/types";
 import { GUARD_COPY, type Guard } from "./index";
 import type { RedisLike } from "./redis";
 
-/** Version 2: decks dealt by fixed rules with the model's prompts, and narration that is fit to show. */
-export const SNAPSHOT_VERSION = 2;
+/** Version 3: cards carry the favorite they were chosen near, and artists are seeded without the age bucket. Version 2: decks dealt by fixed rules with the model's prompts, and narration that is fit to show. */
+export const SNAPSHOT_VERSION = 3;
 export const SNAPSHOT_TTL_SECONDS = 24 * 60 * 60;
 /** Gap between replayed trace events: the planning view still fills in, and a preset opens in about a second. */
 export const REPLAY_SPACING_MS = 40;

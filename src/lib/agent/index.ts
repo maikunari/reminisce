@@ -23,6 +23,7 @@ import { ageBucketFor, computeYouthWindow } from "@/lib/session/youth-window";
 
 import { LoopError, runLoop, traceEvent, type Policy } from "./loop";
 import { writePrompts, type PromptUpdate } from "./policies/llm";
+import { foldTag, type SeedProfile } from "./relevance";
 import { PoolPlanPolicy } from "./policies/pool";
 import { ScriptedAdaptPolicy, ScriptedPlanPolicy } from "./policies/scripted";
 import { EntityPool, type ToolContext, type ToolFinal } from "./tools";
@@ -94,8 +95,16 @@ function baseContext(
   // Every id the loop may use as a seed must have a name, or the "why" line
   // would print an id prefix: favorites resolved earlier and cards already dealt.
   const names = new Map<string, string>();
-  for (const f of person.favorites) if (f.entityId) names.set(f.entityId, f.name);
-  for (const c of knownCards) names.set(c.entityId, c.title);
+  const seeds = new Map<string, SeedProfile>();
+  for (const f of person.favorites) {
+    if (!f.entityId) continue;
+    names.set(f.entityId, f.name);
+    seeds.set(f.entityId, { name: f.name, popularity: f.popularity, tags: (f.tags ?? []).map(foldTag) });
+  }
+  for (const c of knownCards) {
+    names.set(c.entityId, c.title);
+    if (!seeds.has(c.entityId)) seeds.set(c.entityId, { name: c.title, popularity: c.signals.popularity, tags: c.tags.map(foldTag) });
+  }
   return {
     qloo,
     person,
@@ -106,6 +115,7 @@ function baseContext(
     phase,
     pool: new EntityPool(),
     names,
+    seeds,
     now,
   };
 }

@@ -140,6 +140,6 @@ describe("snapshot keys", () => {
     expect(snapshotPrefix({ VERCEL_ENV: "preview", VERCEL_DEPLOYMENT_ID: "dpl_abc" })).toBe("reminisce:dpl_abc:");
     expect(snapshotPrefix({ VERCEL_ENV: "development", VERCEL_DEPLOYMENT_ID: "dpl_dev" })).toBe("reminisce:dpl_dev:");
     expect(snapshotPrefix({})).toBe("reminisce:");
-    expect(snapshotKey("michiko", snapshotPrefix({ VERCEL_ENV: "preview", VERCEL_DEPLOYMENT_ID: "dpl_abc" }))).toBe("reminisce:dpl_abc:preset:michiko:v2");
+    expect(snapshotKey("michiko", snapshotPrefix({ VERCEL_ENV: "preview", VERCEL_DEPLOYMENT_ID: "dpl_abc" }))).toBe("reminisce:dpl_abc:preset:michiko:v3");
   });
 });

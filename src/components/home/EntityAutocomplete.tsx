@@ -13,6 +13,8 @@ export interface Suggestion {
   imageUrl?: string;
   disambiguation?: string;
   description?: string;
+  popularity?: number;
+  tags?: string[];
 }
 
 interface Props {

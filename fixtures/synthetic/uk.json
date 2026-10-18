@@ -817,7 +817,8 @@
         "date_of_birth": "1931-04-29",
         "year_of_death": 2002,
         "place_of_birth": "Glasgow, Scotland",
-        "akas": []
+        "akas": [],
+        "start_year": 1952
       },
       "popularity": 0.74,
       "tags": [
@@ -7467,6 +7468,261 @@
           1960,
           2026
         ]
+      }
+    },
+    {
+      "name": "Chas McDevitt",
+      "entity_id": "ffffffff-0000-4000-8000-0000000e5101",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Freight Train' (1957) with Nancy Whiskey: a Soho coffee-bar skiffle group at the 2i's.",
+        "date_of_birth": "1934-11-04",
+        "place_of_birth": "Glasgow, Scotland",
+        "start_year": 1956,
+        "akas": []
+      },
+      "popularity": 0.31,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:skiffle",
+          "name": "Skiffle",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:folk",
+          "name": "Folk",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "uk",
+        "countries": [
+          "GB"
+        ],
+        "localities": [
+          "london",
+          "glasgow"
+        ],
+        "era": [
+          1956,
+          1960
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000e0020": 0.92
+        }
+      }
+    },
+    {
+      "name": "The Vipers Skiffle Group",
+      "entity_id": "ffffffff-0000-4000-8000-0000000e5102",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Don't You Rock Me Daddy-O' (1957): the Soho band that came out of the 2i's Coffee Bar.",
+        "date_of_birth": "1934-01-01",
+        "place_of_birth": "London, England",
+        "start_year": 1956,
+        "akas": []
+      },
+      "popularity": 0.3,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:skiffle",
+          "name": "Skiffle",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:folk",
+          "name": "Folk",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "uk",
+        "countries": [
+          "GB"
+        ],
+        "localities": [
+          "london"
+        ],
+        "era": [
+          1956,
+          1960
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000e0020": 0.9
+        }
+      }
+    },
+    {
+      "name": "Johnny Duncan",
+      "entity_id": "ffffffff-0000-4000-8000-0000000e5103",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Last Train to San Fernando' (1957): a Tennessee-born skiffle singer who worked in London with the Blue Grass Boys.",
+        "date_of_birth": "1932-10-07",
+        "place_of_birth": "Tennessee, United States",
+        "start_year": 1956,
+        "akas": []
+      },
+      "popularity": 0.33,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:skiffle",
+          "name": "Skiffle",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:folk",
+          "name": "Folk",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "uk",
+        "countries": [
+          "GB"
+        ],
+        "localities": [
+          "london"
+        ],
+        "era": [
+          1956,
+          1962
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000e0020": 0.88
+        }
+      }
+    },
+    {
+      "name": "Tommy Steele",
+      "entity_id": "ffffffff-0000-4000-8000-0000000e5104",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Singing the Blues' (1957): Britain's first rock-and-roll star, discovered in a Soho skiffle cellar.",
+        "date_of_birth": "1936-12-17",
+        "place_of_birth": "London, England",
+        "start_year": 1956,
+        "akas": []
+      },
+      "popularity": 0.58,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:skiffle",
+          "name": "Skiffle",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:pop",
+          "name": "Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "uk",
+        "countries": [
+          "GB"
+        ],
+        "localities": [
+          "london"
+        ],
+        "era": [
+          1956,
+          1975
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000e0020": 0.82
+        }
+      }
+    },
+    {
+      "name": "Nancy Whiskey",
+      "entity_id": "ffffffff-0000-4000-8000-0000000e5105",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Freight Train' (1957): the Glasgow voice of Britain's skiffle boom.",
+        "date_of_birth": "1935-05-02",
+        "place_of_birth": "Glasgow, Scotland",
+        "start_year": 1956,
+        "akas": []
+      },
+      "popularity": 0.27,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:skiffle",
+          "name": "Skiffle",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:folk",
+          "name": "Folk",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "uk",
+        "countries": [
+          "GB"
+        ],
+        "localities": [
+          "glasgow",
+          "london"
+        ],
+        "era": [
+          1956,
+          1960
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000e0020": 0.86
+        }
+      }
+    },
+    {
+      "name": "Wally Whyton",
+      "entity_id": "ffffffff-0000-4000-8000-0000000e5106",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "Leader of The Vipers, later a broadcaster of country and folk on the radio.",
+        "date_of_birth": "1929-09-23",
+        "place_of_birth": "London, England",
+        "start_year": 1956,
+        "akas": [],
+        "year_of_death": 1997
+      },
+      "popularity": 0.24,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:skiffle",
+          "name": "Skiffle",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:folk",
+          "name": "Folk",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "uk",
+        "countries": [
+          "GB"
+        ],
+        "localities": [
+          "london"
+        ],
+        "era": [
+          1956,
+          1965
+        ],
+        "related": {
+          "ffffffff-0000-4000-8000-0000000e0020": 0.84
+        }
       }
     }
   ]

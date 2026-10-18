@@ -427,6 +427,7 @@ export class SyntheticQloo {
     const releaseCountries = splitList(params["filter.release_country"]).map(fold);
     const countryCode = params["filter.geocode.country_code"]?.toUpperCase();
     const popularityMin = numberOr(params["filter.popularity.min"]);
+    const popularityMax = numberOr(params["filter.popularity.max"]);
     const take = Math.max(1, Math.min(50, Number(params.take ?? 20) || 20));
     const page = Math.max(1, Number(params.page ?? 1) || 1);
     const explain = params["feature.explainability"] === "true";
@@ -474,6 +475,7 @@ export class SyntheticQloo {
       }
       if (countryCode && e.properties?.geocode?.country_code?.toUpperCase() !== countryCode) continue;
       if (popularityMin !== undefined && (e.popularity ?? 0) < popularityMin) continue;
+      if (popularityMax !== undefined && (e.popularity ?? 0) > popularityMax) continue;
       const tagIds = new Set((e.tags ?? []).map((t) => t.id));
       if (filterTags.length > 0 && !filterTags.some((t) => tagIds.has(t) || tagIds.has(placeTagCounterpart(t)))) continue;
       if (filterLocality) {

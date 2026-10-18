@@ -11,15 +11,16 @@ import { dictionary } from "@/lib/i18n";
 import { autoAdvanceDelay, nextCardIndex } from "@/lib/session/auto-advance";
 import { applyPrompts, applyReplacements } from "@/lib/session/deck-updates";
 import { displayName } from "@/lib/session/names";
+import { allReacted, applyFlow, flowPatch, phaseOf } from "@/lib/session/flow";
 import { dropCard, restoreCard, shuffleCards, swapCard } from "@/lib/session/overview";
 import { loadSession, saveSession } from "@/lib/session/storage";
 import { pronounsFor, type Card, type PlanResult, type Reaction, type Session, type StreamEvent, type TraceEvent } from "@/lib/session/types";
 
 import { DeckStrip } from "./DeckStrip";
-import { Keepsake } from "./Keepsake";
 import { MemoryCard } from "./MemoryCard";
 import { SessionOverview } from "./SessionOverview";
 import { PlanningView } from "./PlanningView";
+import { SessionComplete } from "./SessionComplete";
 import { RetuningBanner } from "./RetuningBanner";
 import { TracePanel } from "./TracePanel";
 
@@ -144,10 +145,9 @@ function SessionClient({ id }: { id: string }) {
                   planner: r.planner,
                   qlooMode: r.qlooMode,
                   person: { ...s.person, favorites: r.favorites },
-                  status: "ready",
                   currentIndex: 0,
                   // Planning stops at the overview; nothing opens card 1 until the caregiver starts.
-                  overview: true,
+                  ...flowPatch("planning", "deal"),
                   error: undefined,
                   errorCode: undefined,
                   notice: r.notice,
@@ -182,7 +182,7 @@ function SessionClient({ id }: { id: string }) {
         const message = isBlocked(error) ? strings.blocked : error instanceof Error ? error.message : strings.planningFailed;
         const code = error instanceof PlanStreamError ? error.code : "failed";
         setPlanDone(false);
-        update((s) => ({ ...s, status: "error", error: message, errorCode: code }));
+        update((s) => ({ ...s, ...flowPatch("planning", "fail"), error: message, errorCode: code }));
       }
     })();
     return () => {
@@ -233,10 +233,20 @@ function SessionClient({ id }: { id: string }) {
     setDropped(null);
     setShuffled(false);
     setNotice(null);
-    update((s) => ({ ...s, overview: false, currentIndex: 0 }));
+    update((s) => ({ ...applyFlow(s, "start"), currentIndex: 0 }));
     setRevealing(true);
     window.scrollTo({ top: 0 });
   }, [update]);
+
+  /** Ends the session: the "Session complete" screen. Does nothing outside a session in progress. */
+  const finish = useCallback(() => {
+    cancelAdvance();
+    setNotice(null);
+    update((s) => applyFlow(s, "finish"));
+  }, [update, cancelAdvance]);
+  const done = useCallback(() => update((s) => applyFlow(s, "close")), [update]);
+  const backToCards = useCallback(() => update((s) => applyFlow(s, "resume")), [update]);
+  const reopenSummary = useCallback(() => update((s) => applyFlow(s, "reopen")), [update]);
 
   const drop = useCallback(
     (cardId: string) => {
@@ -314,7 +324,7 @@ function SessionClient({ id }: { id: string }) {
       const target = e.target as HTMLElement | null;
       if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.tagName === "SELECT" || target.isContentEditable)) return;
       const s = sessionRef.current;
-      if (!s || s.cards.length === 0 || s.overview) return;
+      if (!s || phaseOf(s) !== "in_session") return;
       if (e.key === "ArrowRight") go(s.currentIndex + 1);
       if (e.key === "ArrowLeft") go(s.currentIndex - 1);
     };
@@ -381,6 +391,13 @@ function SessionClient({ id }: { id: string }) {
       update((prev) => ({ ...prev, cards: prev.cards.map((c) => (c.id === cardId ? { ...c, reaction } : c)), status: "ready" }));
       if (next === null) {
         setNotice(reaction === "lit_up" ? strings.notedLitUp(pronouns) : strings.notedNothingAhead);
+        // The last reaction ends the session after a beat to see it land; any move of the caregiver's own cancels it.
+        if (allReacted(cards)) {
+          advanceTimer.current = window.setTimeout(() => {
+            advanceTimer.current = null;
+            if (sessionRef.current && allReacted(sessionRef.current.cards)) finish();
+          }, autoAdvanceDelay(reducedMotion) * 2);
+        }
         return;
       }
       setNotice(null);
@@ -389,7 +406,7 @@ function SessionClient({ id }: { id: string }) {
       if (!cards.some((c, i) => i > next && !c.reaction)) return;
       retuneQueue.current = retuneQueue.current.then(() => retune(cardId, reaction, next));
     },
-    [update, cancelAdvance, scheduleAdvance, retune],
+    [update, cancelAdvance, scheduleAdvance, retune, finish, reducedMotion],
   );
 
   if (state.kind === "missing") {
@@ -419,7 +436,7 @@ function SessionClient({ id }: { id: string }) {
   const s = state.session;
   const current = s.cards[s.currentIndex];
   const litUp = s.cards.filter((c) => c.reaction === "lit_up");
-  const reactedAll = s.cards.length > 0 && s.cards.every((c) => c.reaction);
+  const phase = phaseOf(s);
   const retuning = retunes > 0;
   const pronouns = pronounsFor(s.person.pronoun);
 
@@ -459,7 +476,7 @@ function SessionClient({ id }: { id: string }) {
       <div className={`flex-1 pt-6 ${traceOpen ? "xl:grid xl:grid-cols-[minmax(0,1fr)_26rem] xl:items-start xl:gap-8" : ""}`}>
         <main id="main" className="min-w-0">
           <h1 className="sr-only">{t.session.heading(s.person.name)}</h1>
-          {s.status === "error" ? (
+          {phase === "failed" ? (
             <div role="alert" className="line-in mx-auto max-w-[40rem] py-10 text-center sm:py-16" data-testid="build-failed" data-code={s.errorCode ?? "failed"}>
               {s.errorCode === "empty" ? (
                 <>
@@ -474,7 +491,7 @@ function SessionClient({ id }: { id: string }) {
                 </>
               )}
               <div className="mt-8 flex flex-wrap justify-center gap-3">
-                <button type="button" onClick={() => update((prev) => ({ ...prev, status: "planning", error: undefined, errorCode: undefined }))} className="btn btn-primary">
+                <button type="button" onClick={() => update((prev) => ({ ...applyFlow(prev, "retry"), error: undefined, errorCode: undefined }))} className="btn btn-primary">
                   {t.session.tryAgain}
                 </button>
                 <Link href="/" className="btn btn-outline">
@@ -482,9 +499,9 @@ function SessionClient({ id }: { id: string }) {
                 </Link>
               </div>
             </div>
-          ) : s.cards.length === 0 ? (
+          ) : phase === "planning" ? (
             <PlanningView person={s.person} youthWindow={s.youthWindow} events={liveEvents} done={planDone} />
-          ) : s.overview ? (
+          ) : phase === "overview" ? (
             <>
               {s.notice ? (
                 <p role="status" className="notice print-hide mb-4 text-ink-500" data-testid="session-notice">
@@ -506,6 +523,8 @@ function SessionClient({ id }: { id: string }) {
                 onWhy={() => setTraceOpen(true)}
               />
             </>
+          ) : phase === "complete" || phase === "closed" ? (
+            <SessionComplete session={s} closed={phase === "closed"} onDone={done} onBack={backToCards} onReopen={reopenSummary} />
           ) : (
             <>
               {s.notice ? (
@@ -526,7 +545,7 @@ function SessionClient({ id }: { id: string }) {
                 {litUp.length > 0 ? <p className="label flex-none">{t.session.litUpCount(litUp.length)}</p> : null}
               </div>
               {current ? (
-                <div className={`${reactedAll ? "print-hide" : ""} ${revealing ? "reveal-rise" : ""}`.trim()}>
+                <div className={revealing ? "reveal-rise" : undefined}>
                   <MemoryCard
                     key={current.id}
                     card={current}
@@ -536,6 +555,7 @@ function SessionClient({ id }: { id: string }) {
                     onWhy={() => setTraceOpen(true)}
                     language={s.person.language}
                     pronouns={pronouns}
+                    personName={s.person.name}
                   />
                 </div>
               ) : null}
@@ -546,18 +566,23 @@ function SessionClient({ id }: { id: string }) {
                 <p className="hidden text-center text-sm text-ink-500 sm:block" aria-live="polite">
                   {t.session.tapHint}
                 </p>
-                <button type="button" onClick={() => go(s.currentIndex + 1)} disabled={s.currentIndex >= s.cards.length - 1} data-testid="next-card" className="btn btn-quiet">
-                  {t.session.next}
-                </button>
+                {s.currentIndex >= s.cards.length - 1 ? (
+                  <button type="button" onClick={finish} data-testid="finish-session" className="btn btn-quiet">
+                    {t.ending.finish}
+                  </button>
+                ) : (
+                  <button type="button" onClick={() => go(s.currentIndex + 1)} data-testid="next-card" className="btn btn-quiet">
+                    {t.session.next}
+                  </button>
+                )}
               </div>
               <div className="mt-6">
                 <DeckStrip cards={s.cards} currentIndex={s.currentIndex} onSelect={go} retuning={retuning} language={s.person.language} reveal={revealing} />
               </div>
-              {reactedAll ? <Keepsake session={s} /> : null}
             </>
           )}
         </main>
-        <TracePanel open={traceOpen} onClose={() => setTraceOpen(false)} session={s} card={s.overview ? undefined : current} liveEvents={liveEvents} />
+        <TracePanel open={traceOpen} onClose={() => setTraceOpen(false)} session={s} card={phase === "in_session" ? current : undefined} liveEvents={liveEvents} />
       </div>
       <Footer language={language} />
     </div>

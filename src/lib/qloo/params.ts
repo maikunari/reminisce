@@ -186,6 +186,8 @@ export interface InsightsRequest {
     geocodeCountryCode?: string;
     /** `filter.popularity.min` */
     popularityMin?: number;
+    /** `filter.popularity.max` (0 to 1): leaves out entities more popular than this. */
+    popularityMax?: number;
     /** `filter.exists` */
     exists?: "properties.image" | "properties.description";
   };
@@ -231,7 +233,8 @@ export function buildInsightsParams(req: InsightsRequest): BuiltParams {
     "filter.location.query": clean(req.filters?.locationQuery),
     "filter.location.radius": num(req.filters?.locationRadius),
     "filter.geocode.country_code": clean(req.filters?.geocodeCountryCode),
-    "filter.popularity.min": num(req.filters?.popularityMin),
+    "filter.popularity.min": fraction(req.filters?.popularityMin),
+    "filter.popularity.max": fraction(req.filters?.popularityMax),
     "filter.exists": req.filters?.exists,
     "feature.explainability": req.explainability ? "true" : undefined,
     "bias.trends": req.biasTrends,
@@ -266,6 +269,11 @@ function clean(value: string | undefined): string | undefined {
 
 function num(value: number | undefined): string | undefined {
   return typeof value === "number" && Number.isFinite(value) ? String(Math.round(value)) : undefined;
+}
+
+/** A 0 to 1 fraction to two decimals: `num` would round it to a whole number. */
+function fraction(value: number | undefined): string | undefined {
+  return typeof value === "number" && Number.isFinite(value) ? String(Math.round(Math.min(1, Math.max(0, value)) * 100) / 100) : undefined;
 }
 
 /** Deterministic query string: sorted keys, standard encoding. */

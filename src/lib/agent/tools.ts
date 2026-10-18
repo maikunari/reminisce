@@ -18,6 +18,7 @@ import {
   entityAffinity,
   entityImageUrl,
   entityYear,
+  tagNamesOf,
   type QlooAgeBucket,
   type QlooEntity,
   type QlooEntityType,
@@ -46,6 +47,7 @@ import { dictionary } from "@/lib/i18n";
 import { PLAN_MAX_CARDS, PLAN_MIN_CARDS, PLAN_MIN_DOMAINS } from "@/lib/session/deck";
 
 import { offlinePrompt, whyLine } from "./prompts";
+import { artistFit, foldTag, popularityCapFor, type SeedProfile } from "./relevance";
 import { ArtistLedger, artistAliasesOf, artistKeysOf, isMatureTitle, ledgerOfCards } from "./suitability";
 
 // ---------------------------------------------------------------------------
@@ -96,6 +98,12 @@ export const InsightsArgs = z.object({
   release_year_min: z.number().int().optional().describe("Only for movie/tv_show: filter.release_year.min."),
   release_year_max: z.number().int().optional().describe("Only for movie/tv_show: filter.release_year.max."),
   exclude_entities: z.array(z.string()).max(60).optional().describe("Entity ids to leave out: filter.exclude.entities."),
+  filter_popularity_max: z
+    .number()
+    .min(0)
+    .max(1)
+    .optional()
+    .describe("Leave out entities more popular than this percentile (filter.popularity.max). Artist calls with a seed set it from the seed's own popularity."),
   take: z.number().int().min(1).max(25).optional().describe("Max results (default 10)."),
 });
 
@@ -150,6 +158,8 @@ export interface PoolEntry {
   rank: number;
   seedIds: string[];
   seedNames: string[];
+  /** Artists: how well the entity fits the person behind the seed (see relevance.ts); orders the deck ahead of raw affinity. */
+  fit?: number;
 }
 
 /** Every entity the agent has fetched this run, keyed by entity id. */
@@ -158,8 +168,8 @@ export class EntityPool {
 
   add(entry: PoolEntry): void {
     const existing = this.entries.get(entry.entity.entity_id);
-    const incoming = entityAffinity(entry.entity) ?? -1;
-    const current = existing ? (entityAffinity(existing.entity) ?? -1) : -Infinity;
+    const incoming = entry.fit ?? entityAffinity(entry.entity) ?? -1;
+    const current = existing ? (existing.fit ?? entityAffinity(existing.entity) ?? -1) : -Infinity;
     if (!existing || incoming > current) this.entries.set(entry.entity.entity_id, entry);
   }
 
@@ -204,6 +214,8 @@ export interface ToolContext {
   pool: EntityPool;
   /** entity id -> display name, for seeds that came from search rather than insights. */
   names: Map<string, string>;
+  /** entity id -> what is known of a seed (popularity, genres): from the intake form, search results and cards already dealt. */
+  seeds: Map<string, SeedProfile>;
   existingCards: Card[];
   feedback?: Feedback;
   /** Qloo's name for the hometown's country ("Japan"), once known: films and TV are kept to its releases. */
@@ -314,6 +326,7 @@ async function runSearchEntity(rawArgs: unknown, ctx: ToolContext): Promise<Tool
   const hits = args.types?.includes("urn:entity:locality") ? res.body.results : rankFavoriteHits(args.query, res.body.results);
   const results = hits.map((r) => {
     ctx.names.set(r.entity_id, r.name);
+    ctx.seeds.set(r.entity_id, { name: r.name, popularity: typeof r.popularity === "number" ? r.popularity : undefined, tags: (tagNamesOf(r.tags) ?? []).map(foldTag) });
     return {
       entity_id: r.entity_id,
       name: r.name,
@@ -334,6 +347,8 @@ async function runSearchEntity(rawArgs: unknown, ctx: ToolContext): Promise<Tool
       fav.entityId = top.entity_id;
       fav.type = top.types[0];
       fav.imageUrl = top.image_url;
+      fav.popularity = top.popularity;
+      fav.tags = tagNamesOf(hits[0]?.tags);
     }
   }
   return {
@@ -380,6 +395,7 @@ export function insightsRequestFromArgs(args: z.infer<typeof InsightsArgs>): Ins
     filters: {
       tags: args.filter_tags,
       excludeEntities: args.exclude_entities,
+      popularityMax: args.filter_popularity_max,
       releaseYearMin: args.release_year_min,
       releaseYearMax: args.release_year_max,
       releaseCountry: args.filter_release_country,
@@ -466,6 +482,43 @@ function keepHome(args: InsightsArgsT, ctx: ToolContext, notes: string[]): Insig
   return { ...args, filter_release_country: [ctx.homeCountry, ...asked].slice(0, 5) };
 }
 
+/** What is known of the seeds an Insights call names; ids nothing is known of are left out. */
+function profilesOf(ids: readonly string[], ctx: ToolContext): SeedProfile[] {
+  return ids
+    .map((id) => {
+      const known = ctx.seeds.get(id);
+      if (known) return known;
+      const pooled = ctx.pool.get(id)?.entity;
+      return pooled ? { name: pooled.name, popularity: pooled.popularity, tags: (pooled.tags ?? []).map((t) => foldTag(t.name)) } : undefined;
+    })
+    .filter((p): p is SeedProfile => !!p);
+}
+
+/**
+ * Keep a seeded artist call about the seed. Qloo blends every signal, so the
+ * person's age bucket and hometown pull in what that whole crowd likes (the
+ * Beatles, Tom Jones, Dolly Parton for a skiffle fan of 86). The age signal is
+ * left out, and artists far more popular than the seed are capped off unless
+ * the policy set its own cap; the widening steps lift the cap if that leaves
+ * too little. The hometown stays: it is how the country reaches the answer.
+ */
+function keepSeed(args: InsightsArgsT, ctx: ToolContext, notes: string[]): InsightsArgsT {
+  if (args.filter_type !== "urn:entity:artist" || !args.signal_entities?.length) return args;
+  let next = args;
+  if (next.signal_age) {
+    next = { ...next, signal_age: undefined };
+    notes.push("left the age signal out so the seed leads");
+  }
+  if (next.filter_popularity_max === undefined) {
+    const cap = popularityCapFor(profilesOf(args.signal_entities, ctx));
+    if (cap !== undefined) {
+      next = { ...next, filter_popularity_max: cap };
+      notes.push(`kept to artists no more popular than ${cap}`);
+    }
+  }
+  return next;
+}
+
 interface WideningStep {
   args: InsightsArgsT;
   note: string;
@@ -502,7 +555,8 @@ function wideningSteps(args: InsightsArgsT): WideningStep[] {
       }
       break;
     case "urn:entity:artist":
-      if (hasLocation) steps.push({ args: { ...args, signal_location_query: undefined }, note: "without the hometown signal" });
+      if (args.filter_popularity_max !== undefined) steps.push({ args: { ...args, filter_popularity_max: undefined }, note: "without the popularity cap" });
+      if (hasLocation) steps.push({ args: { ...args, filter_popularity_max: undefined, signal_location_query: undefined }, note: "without the hometown signal" });
       break;
     case "urn:entity:place":
       if (args.signal_entities?.length) steps.push({ args: { ...args, signal_entities: undefined }, note: "without the seed taste" });
@@ -548,7 +602,7 @@ async function runInsights(rawArgs: unknown, ctx: ToolContext): Promise<ToolOutc
   const parsed = InsightsArgs.safeParse(rawArgs);
   if (!parsed.success) return argError("qloo_insights", parsed.error);
   const adjustments: string[] = [];
-  const first = keepHome(keepEra(parsed.data, ctx, adjustments), ctx, adjustments);
+  const first = keepSeed(keepHome(keepEra(parsed.data, ctx, adjustments), ctx, adjustments), ctx, adjustments);
   const era = eraFor(first.filter_type, ctx.youthWindow);
   const domain = domainForInsights(first.filter_type, first.filter_tags);
   const label = DOMAIN_LABEL_BY_TYPE[first.filter_type] ?? first.filter_type;
@@ -560,6 +614,9 @@ async function runInsights(rawArgs: unknown, ctx: ToolContext): Promise<ToolOutc
   const steps: WideningStep[] = [{ args: first, note: "" }, ...wideningSteps(first)];
   const attempts: { summary: string; qloo: TraceQloo }[] = [];
   const found = new Map<string, QlooEntity>();
+  const fits = new Map<string, number>();
+  const isArtist = first.filter_type === "urn:entity:artist";
+  const seedProfiles = isArtist ? profilesOf(seedIds, ctx) : [];
   let last: QlooResult<QlooInsightsResponse> | undefined;
   let lastNote = "";
   for (const [index, step] of steps.entries()) {
@@ -584,6 +641,9 @@ async function runInsights(rawArgs: unknown, ctx: ToolContext): Promise<ToolOutc
       if (!inEra(entity, first.filter_type, era, ctx.youthWindow) || !madeAtHome(entity, first.filter_type, ctx.homeCountry)) return;
       if (SCREEN_TYPES.has(first.filter_type) && isMatureTitle(entity)) return;
       ctx.names.set(entity.entity_id, entity.name);
+      // A seeded artist is ordered by how well it fits the person, not by Qloo's affinity alone.
+      const fit = isArtist && seedProfiles.length > 0 ? artistFit(entity, { birthYear: ctx.person.birthYear, seeds: seedProfiles, homeCountry: ctx.homeCountry }).score : undefined;
+      if (fit !== undefined) fits.set(entity.entity_id, Math.max(fit, fits.get(entity.entity_id) ?? -Infinity));
       ctx.pool.add({
         entity,
         qlooType: first.filter_type,
@@ -596,14 +656,18 @@ async function runInsights(rawArgs: unknown, ctx: ToolContext): Promise<ToolOutc
         rank: rank + 1,
         seedIds: stepSeeds,
         seedNames: stepSeedNames,
+        fit,
       });
-      if (!found.has(entity.entity_id) && found.size < take) found.set(entity.entity_id, entity);
+      // Ranked artists are cut to `take` after the sort; everything else keeps Qloo's order.
+      if (!found.has(entity.entity_id) && (fit !== undefined || found.size < take)) found.set(entity.entity_id, entity);
     });
     last = res;
     lastNote = step.note;
   }
   const res = last!;
-  const entities = [...found.values()];
+  const ranked = [...found.values()];
+  if (fits.size > 0) ranked.sort((a, b) => (fits.get(b.entity_id) ?? -Infinity) - (fits.get(a.entity_id) ?? -Infinity));
+  const entities = ranked.slice(0, take);
   if (lastNote) adjustments.push(`asked again ${lastNote}`);
   const empty = entities.length === 0;
   return {
@@ -669,6 +733,20 @@ export function subtitleFor(domain: Domain, e: QlooEntity, language: Language = 
   }
 }
 
+const BECAUSE_DOMAINS: ReadonlySet<Domain> = new Set(["music", "film", "tv", "destination"]);
+
+/**
+ * The seed a card is "because of": the one Qloo says contributed most, else the
+ * first. Only for domains the seed's taste shapes; a restaurant is chosen for
+ * the town, not for a singer.
+ */
+function becauseOf(entry: PoolEntry, domain: Domain, ctx: ToolContext): string | undefined {
+  if (!BECAUSE_DOMAINS.has(domain) || entry.seedIds.length === 0) return undefined;
+  const contributions = explainabilityOf(entry.entity) ?? {};
+  const best = [...entry.seedIds].sort((a, b) => (contributions[b] ?? 0) - (contributions[a] ?? 0))[0];
+  return best ? (ctx.names.get(best) ?? ctx.pool.get(best)?.entity.name) : undefined;
+}
+
 function explainabilityOf(e: QlooEntity): Record<string, number> | undefined {
   const raw = e.query?.explainability?.entities;
   if (!raw || typeof raw !== "object") return undefined;
@@ -706,6 +784,7 @@ export function buildCard(
     warnings: entry.warnings,
   };
   const year = entityYear(e);
+  const because = becauseOf(entry, domain, ctx);
   const startYear = domain === "music" && typeof e.properties?.start_year === "number" ? e.properties.start_year : undefined;
   const aliases = domain === "music" ? artistAliasesOf(e).slice(0, 10) : [];
   const cleanPrompt = prompt?.replace(/\s+/g, " ").trim();
@@ -722,6 +801,7 @@ export function buildCard(
     description: short(e.properties?.description ?? e.properties?.short_description, 220),
     tags: (e.tags ?? []).slice(0, 3).map((t) => t.name),
     why: whyLine(domain, signals, ctx.language),
+    ...(because ? { becauseOf: because } : {}),
     prompt: cleanPrompt
       ? cleanPrompt
       : offlinePrompt({

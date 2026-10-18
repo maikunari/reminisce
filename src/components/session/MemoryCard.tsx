@@ -15,10 +15,12 @@ interface Props {
   disabled?: boolean;
   language: Language;
   pronouns: Pronouns;
+  /** The person's name, for the "Because {name} likes …" line. */
+  personName: string;
 }
 
 /** The card as a two-page spread: the sleeve on the left, the text on the right. */
-export function MemoryCard({ card, index, total, onReact, onWhy, disabled, language, pronouns }: Props) {
+export function MemoryCard({ card, index, total, onReact, onWhy, disabled, language, pronouns, personName }: Props) {
   const t = dictionary(language);
   const reacted = card.reaction;
   const name = displayName(card, language);
@@ -50,6 +52,11 @@ export function MemoryCard({ card, index, total, onReact, onWhy, disabled, langu
           </h2>
           {subline ? <p className="mt-2 text-md text-ink-500">{subline}</p> : null}
         </div>
+        {card.becauseOf ? (
+          <p className="label" data-testid="card-because">
+            {t.card.because(personName, card.becauseOf)}
+          </p>
+        ) : null}
         <blockquote className="prompt my-2 ml-[1.1em]" data-testid="card-prompt">
           {card.prompt}
         </blockquote>
