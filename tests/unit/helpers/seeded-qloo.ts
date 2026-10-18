@@ -1,14 +1,16 @@
 /**
- * A stand-in for the live Qloo API in the way Mike's 2026-10-17 test showed it
- * answering for a seed that is not mainstream: his dad's Lonnie Donegan (British
- * skiffle, 1950s). With the person's age bucket in the request the answer was
- * what every 55 and older likes (Dolly Parton, Tom Jones, the Beatles), the
- * seed counted for little; without it the seed leads, but a popularity pull
+ * A stand-in for the live Qloo API in the way it answered for a seed that is
+ * not mainstream: Mike's dad's Lonnie Donegan (British skiffle, 1950s). Probed
+ * live on 2026-10-19: Donegan alone returns the neighbourhood (Billy Fury, The
+ * Vipers Skiffle Group, Michael Holliday); Donegan with a hometown signal
+ * (London) returns what that crowd likes (Dolly Parton, Dave Davies, Twiggy),
+ * and the age bucket pulls the same way. Without either, a popularity pull
  * still puts the biggest names first until they are capped off.
  *
- * It models that reported behaviour; it is not a recording, and the entities
- * are real public names with invented ids and popularity scores. Everything
- * but artists is answered by the Frank-and-Chicago stand-in in live-qloo.ts.
+ * It models that behaviour; it is not a recording. The entities are real
+ * public names with invented ids; their popularity scores are rounded to what
+ * the live probe showed where it showed one (Donegan 0.90). Everything but
+ * artists is answered by the Frank-and-Chicago stand-in in live-qloo.ts.
  */
 import { liveQlooFake, type LiveQlooFake } from "./live-qloo";
 
@@ -44,24 +46,29 @@ export const ACTS: Act[] = [
 const MAINSTREAM = ["The Beatles", "Tom Jones", "Dolly Parton", "Cliff Richard", "The Rolling Stones"];
 
 export interface SeededQlooOptions {
-  /** Answer as if `filter.popularity.max` were not understood. */
-  ignoreCap?: boolean;
-  /** Keep only this many of the skiffle acts in the catalogue, so the capped answer is thin. */
-  skiffleActs?: number;
+  /** Answer a seed-only request with just the n acts nearest the seed, so the seed alone is thin. */
+  seedOnlyActs?: number;
+  /** Give one skiffle act a tag with no name and no id, the way live Qloo does (Herbie Hancock's `{"type":"urn:tag:voice_type:qloo"}`). */
+  namelessTag?: boolean;
 }
 
 function json(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
 }
 
-function entityOf(act: Act, affinity: number) {
+function entityOf(act: Act, affinity: number, options: SeededQlooOptions) {
   const index = ACTS.indexOf(act);
   return {
     entity_id: `33333333-0000-4000-8000-${String(index + 10).padStart(12, "0")}`,
     name: act.name,
     subtype: "urn:entity:artist",
     popularity: act.popularity,
-    tags: act.tags.map((name) => ({ id: `urn:tag:genre:music:${name.toLowerCase()}`, name })),
+    tags: [
+      ...act.tags.map((name) => ({ id: `urn:tag:genre:music:${name.toLowerCase()}`, name })),
+      // Mood tags that live Qloo mixes in with the genres: they are not music genres and must not count as one.
+      { id: "urn:tag:audience:qloo:loyal", name: "Loyal" },
+      ...(options.namelessTag && act.name === "Chas McDevitt" ? [{ type: "urn:tag:voice_type:qloo" }] : []),
+    ],
     properties: { start_year: act.start, date_of_birth: act.born, place_of_birth: act.place },
     query: { affinity, explainability: { entities: { [DONEGAN]: act.near } } },
   };
@@ -70,7 +77,7 @@ function entityOf(act: Act, affinity: number) {
 export function seededQlooFake(options: SeededQlooOptions = {}): LiveQlooFake {
   const base = liveQlooFake();
   const calls: LiveQlooFake["calls"] = [];
-  const catalogue = ACTS.filter((a) => !a.tags.includes("Skiffle") || a.name === "Tommy Steele" || options.skiffleActs === undefined || ACTS.filter((x) => x.tags.includes("Skiffle") && x.name !== "Tommy Steele").indexOf(a) < options.skiffleActs);
+  const catalogue = ACTS;
   const fetchImpl = (async (input: string | URL | Request, init?: RequestInit) => {
     const url = new URL(String(input));
     const params = Object.fromEntries(url.searchParams.entries());
@@ -81,7 +88,7 @@ export function seededQlooFake(options: SeededQlooOptions = {}): LiveQlooFake {
         return json({
           results: [
             { entity_id: DONEGAN_PERSON, name: "Lonnie Donegan", types: ["urn:entity:person"] },
-            { entity_id: DONEGAN, name: "Lonnie Donegan", types: ["urn:entity:artist"], popularity: 0.74, tags: [{ id: "urn:tag:genre:music:skiffle", name: "Skiffle" }, { id: "urn:tag:genre:music:folk", name: "Folk" }] },
+            { entity_id: DONEGAN, name: "Lonnie Donegan", types: ["urn:entity:artist"], popularity: 0.9, tags: [{ id: "urn:tag:genre:music:skiffle", name: "Skiffle" }, { id: "urn:tag:genre:music:folk", name: "Folk" }, { id: "urn:tag:audience:qloo:loyal", name: "Loyal" }] },
           ],
         });
       }
@@ -102,13 +109,14 @@ export function seededQlooFake(options: SeededQlooOptions = {}): LiveQlooFake {
     if (url.pathname === "/v2/insights" && params["filter.type"] === "urn:entity:artist") {
       const take = Number(params.take ?? 10);
       const exclude = new Set((params["filter.exclude.entities"] ?? "").split(",").filter(Boolean));
-      const cap = options.ignoreCap || params["filter.popularity.max"] === undefined ? 1 : Number(params["filter.popularity.max"]);
-      const pool = params["signal.demographics.age"]
-        ? // The age bucket drowns the seed: what that whole crowd likes, in order of fame.
+      const drowned = params["signal.demographics.age"] !== undefined || params["signal.location.query"] !== undefined;
+      const pool = drowned
+        ? // A hometown or age signal drowns the seed: what that whole crowd likes, in order of fame.
           catalogue.filter((a) => MAINSTREAM.includes(a.name)).sort((a, b) => b.popularity - a.popularity)
-        : // The seed leads, with a pull toward the famous.
-          catalogue.filter((a) => a.popularity <= cap).sort((a, b) => 0.4 * b.near + 0.6 * b.popularity - (0.4 * a.near + 0.6 * a.popularity));
-      const entities = pool.map((a) => entityOf(a, Math.round((0.4 * a.near + 0.6 * a.popularity) * 100) / 100)).filter((e) => !exclude.has(e.entity_id)).slice(0, take);
+        : // The seed leads, still with a pull toward the famous.
+          [...catalogue].sort((a, b) => 0.4 * b.near + 0.6 * b.popularity - (0.4 * a.near + 0.6 * a.popularity));
+      const limited = !drowned && options.seedOnlyActs !== undefined ? [...pool].sort((a, b) => b.near - a.near).slice(0, options.seedOnlyActs) : pool;
+      const entities = limited.map((a) => entityOf(a, Math.round((0.4 * a.near + 0.6 * a.popularity) * 100) / 100, options)).filter((e) => !exclude.has(e.entity_id)).slice(0, take);
       return json({ success: true, results: { entities } });
     }
     return base.fetch(input, init);

@@ -1,17 +1,21 @@
 /**
  * How well an artist fits the person behind the seed, beyond Qloo's own
- * affinity: the same genre as the seed, from the person's formative years, from
- * their country, and no more famous than the seed is.
+ * affinity: the same music genre as the seed, from the person's formative
+ * years, and from their country.
  *
- * Qloo blends every signal it is given. A seed such as Lonnie Donegan, blended
- * with "55 and older" and a hometown, is drowned out by what that crowd likes
- * in general (the Beatles, Tom Jones, Dolly Parton). The tool therefore leaves
- * the age signal out of a seeded artist call and caps popularity, and this
- * score then orders what comes back so the seed's own neighbourhood leads.
- * Household names are marked down even when the seed is famous too.
+ * Qloo blends every signal it is given, and measured live it is the hometown
+ * signal that drowns a niche seed: Lonnie Donegan alone returns Billy Fury and
+ * The Vipers Skiffle Group, Donegan with London returns Dolly Parton, Dave
+ * Davies and Twiggy (Hibari Misora with Osaka, J-pop idols; Sinatra with
+ * Chicago, Streisand and Elton John). So a seeded artist call carries the seed
+ * alone (see keepSeed in tools.ts), and the person's years and country come
+ * back in afterwards, as tie-breaks on this score: a seed-only answer's
+ * affinities are nearly flat, so these decide the order, and Qloo cannot let
+ * them outweigh the seed. There is no popularity term: the household names of
+ * a person's own era (Nat King Cole for a Sinatra fan) are what reminiscence
+ * is for, and a seed-only answer does not lead with strangers' favourites.
  */
-import type { QlooEntity } from "@/lib/qloo/types";
-import { entityAffinity } from "@/lib/qloo/types";
+import { GENRE_TAG_PREFIX, entityAffinity, genreTagIdsOf, type QlooEntity } from "@/lib/qloo/types";
 
 /** Ages the formative years run from; the youth window itself starts at 15. */
 export const FORMATIVE_FROM = 10;
@@ -20,38 +24,19 @@ export const FORMATIVE_TO = 30;
 /** What the planner knows of one seed: enough to keep suggestions near it. */
 export interface SeedProfile {
   name: string;
-  /** Qloo popularity percentile, 0 to 1, when known. */
-  popularity?: number;
-  /** Genre tag names, lower case. */
-  tags: string[];
+  /** Music genre tag ids, lower case (urn:tag:genre:music:skiffle). */
+  genres: string[];
 }
 
-/** How far above the seed's own popularity an artist may be before it counts as "more mainstream". */
-export const POPULARITY_MARGIN = 0.1;
-/** The popularity cap sent to Qloo is never tighter than this, so a very niche seed still finds neighbours. */
-const MIN_POPULARITY_CAP = 0.5;
-/** Popularity above which an artist counts as a household name, however famous the seed itself is. */
-export const MAINSTREAM_POPULARITY = 0.95;
-/** Taken off a household name: more than the genre and era bonuses together, so it falls below acts that have both. */
-const MAINSTREAM_PENALTY = 0.6;
-/** A seed whose popularity is unknown is treated as this popular when penalising mainstream names. */
-const ASSUMED_SEED_POPULARITY = 0.85;
+/** Added for an artist born in the person's country: a tie-break among artists Qloo scores almost alike. */
+const COUNTRY_BONUS = 0.15;
+const GENRE_BONUS = 0.3;
+const FORMATIVE_BONUS = 0.15;
+/** Taken off an artist that began performing after the person's formative years: they could not have been heard then. */
+const LATE_PENALTY = 0.3;
 
-export function foldTag(name: string): string {
+export function foldName(name: string): string {
   return name.normalize("NFKD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
-}
-
-/**
- * The `filter.popularity.max` for an artist call seeded on these profiles: a
- * little above the least famous seed, since that is the one a mainstream
- * answer would drown. Undefined when no seed has a known popularity or the cap
- * would not exclude anyone.
- */
-export function popularityCapFor(seeds: SeedProfile[]): number | undefined {
-  const known = seeds.map((s) => s.popularity).filter((p): p is number => typeof p === "number");
-  if (known.length === 0) return undefined;
-  const cap = Math.max(MIN_POPULARITY_CAP, Math.min(...known) + POPULARITY_MARGIN);
-  return cap >= 0.99 ? undefined : Math.round(cap * 100) / 100;
 }
 
 /** UK nations and the long forms Qloo uses for a place of birth, to the country name the planner holds. */
@@ -70,9 +55,9 @@ const COUNTRY_ALIASES: Record<string, string> = {
 export function bornInCountry(entity: QlooEntity, homeCountry: string | undefined): boolean {
   const place = entity.properties?.place_of_birth;
   if (!homeCountry || typeof place !== "string") return false;
-  const home = foldTag(homeCountry);
+  const home = foldName(homeCountry);
   return place.split(",").some((part) => {
-    const p = foldTag(part);
+    const p = foldName(part);
     return p === home || COUNTRY_ALIASES[p] === home;
   });
 }
@@ -93,11 +78,11 @@ export interface ArtistFit {
 
 export function artistFit(entity: QlooEntity, ctx: ArtistFitContext): ArtistFit {
   const base = entityAffinity(entity) ?? 0.5;
-  const own = new Set((entity.tags ?? []).map((t) => foldTag(t.name)));
-  const seedTags = new Set(ctx.seeds.flatMap((s) => s.tags));
+  const own = new Set(genreTagIdsOf(entity.tags));
+  const seedGenres = new Set(ctx.seeds.flatMap((s) => s.genres).filter((g) => g.startsWith(GENRE_TAG_PREFIX)));
   let shared = 0;
-  for (const t of seedTags) if (own.has(t)) shared += 1;
-  const genre = seedTags.size > 0 ? Math.min(1, shared / Math.min(seedTags.size, 2)) : 0;
+  for (const g of seedGenres) if (own.has(g)) shared += 1;
+  const genre = seedGenres.size > 0 ? Math.min(1, shared / Math.min(seedGenres.size, 2)) : 0;
 
   const from = ctx.birthYear + FORMATIVE_FROM;
   const to = ctx.birthYear + FORMATIVE_TO;
@@ -105,15 +90,9 @@ export function artistFit(entity: QlooEntity, ctx: ArtistFitContext): ArtistFit 
   const formative = started !== undefined && started >= from - 5 && started <= to;
   let era = 0;
   // An artist who died before the person's youth is no less loved for it (their records played on), so only the start counts.
-  if (formative) era += 0.15;
-  else if (started !== undefined && started > to) era -= 0.3;
+  if (formative) era += FORMATIVE_BONUS;
+  else if (started !== undefined && started > to) era -= LATE_PENALTY;
 
-  const known = ctx.seeds.map((s) => s.popularity).filter((p): p is number => typeof p === "number");
-  const reference = (known.length > 0 ? Math.min(...known) : ASSUMED_SEED_POPULARITY) + POPULARITY_MARGIN / 2;
-  const popularity = typeof entity.popularity === "number" ? entity.popularity : undefined;
-  const mainstream =
-    popularity === undefined ? 0 : 1.5 * Math.max(0, popularity - reference) + (popularity > MAINSTREAM_POPULARITY ? MAINSTREAM_PENALTY : 0);
-
-  const country = bornInCountry(entity, ctx.homeCountry) ? 0.1 : 0;
-  return { score: base + 0.3 * genre + era + country - mainstream, genre, formative };
+  const country = bornInCountry(entity, ctx.homeCountry) ? COUNTRY_BONUS : 0;
+  return { score: base + GENRE_BONUS * genre + era + country, genre, formative };
 }

@@ -36,6 +36,17 @@ describe("mature titles", () => {
     }
   });
 
+  it("does not count Qloo's audience tag \"Mature\", which sits on nearly every classic Japanese film", () => {
+    const mature = { id: "urn:tag:audience:qloo:mature", name: "Mature" } as never;
+    expect(isMatureTitle(entity("Tora-san, Our Lovable Tramp", { tags: [mature, { name: "Comedy" } as never], properties: { content_rating: "PG" } }))).toBe(false);
+    expect(isMatureTitle(entity("The Yellow Handkerchief", { tags: [mature] }))).toBe(false);
+    // Adult content is still the rating and the sexual-content keyword tags, with or without the audience tag.
+    expect(isMatureTitle(entity("The Red Angel", { tags: [mature, { name: "Rape" } as never] }))).toBe(true);
+    expect(isMatureTitle(entity("Nanami", { tags: [mature, { name: "Prostitution" } as never] }))).toBe(true);
+    expect(isMatureTitle(entity("Story of a Prostitute", { tags: [mature] }))).toBe(true);
+    expect(isMatureTitle(entity("Quiet Harbor", { tags: [mature], properties: { content_rating: "NC-17" } }))).toBe(true);
+  });
+
   it("never reach a dealt deck, even when Qloo ranks them first", async () => {
     const fake = liveQlooFake();
     const film = (id: string, name: string, year: number, tags: string[] = []) => ({

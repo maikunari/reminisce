@@ -23,7 +23,7 @@ import { ageBucketFor, computeYouthWindow } from "@/lib/session/youth-window";
 
 import { LoopError, runLoop, traceEvent, type Policy } from "./loop";
 import { writePrompts, type PromptUpdate } from "./policies/llm";
-import { foldTag, type SeedProfile } from "./relevance";
+import type { SeedProfile } from "./relevance";
 import { PoolPlanPolicy } from "./policies/pool";
 import { ScriptedAdaptPolicy, ScriptedPlanPolicy } from "./policies/scripted";
 import { EntityPool, type ToolContext, type ToolFinal } from "./tools";
@@ -99,11 +99,11 @@ function baseContext(
   for (const f of person.favorites) {
     if (!f.entityId) continue;
     names.set(f.entityId, f.name);
-    seeds.set(f.entityId, { name: f.name, popularity: f.popularity, tags: (f.tags ?? []).map(foldTag) });
+    seeds.set(f.entityId, { name: f.name, genres: f.genres ?? [] });
   }
   for (const c of knownCards) {
     names.set(c.entityId, c.title);
-    if (!seeds.has(c.entityId)) seeds.set(c.entityId, { name: c.title, popularity: c.signals.popularity, tags: c.tags.map(foldTag) });
+    if (!seeds.has(c.entityId)) seeds.set(c.entityId, { name: c.title, genres: [] });
   }
   return {
     qloo,

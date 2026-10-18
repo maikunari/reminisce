@@ -15,10 +15,8 @@ export interface Favorite {
   /** Qloo subtype, e.g. urn:entity:artist */
   type?: string;
   imageUrl?: string;
-  /** Qloo's popularity percentile (0 to 1), when the search that found it said. Tells the planner how mainstream the seed is. */
-  popularity?: number;
-  /** Qloo tag names (genres) the entity carries, used to keep suggestions in the seed's genre. */
-  tags?: string[];
+  /** Qloo music genre tag ids the entity carries (urn:tag:genre:music:skiffle), used to keep suggestions in the seed's genre. */
+  genres?: string[];
 }
 
 /** How to refer to the person in caregiver-facing copy. Defaults to "they". */
@@ -112,7 +110,7 @@ export interface Card {
   tags: string[];
   /** One line: which Qloo signal chose this card. */
   why: string;
-  /** The favorite this card came from ("Lonnie Donegan"), when Qloo picked it near a seed; shown as "Because {name} likes {becauseOf}". */
+  /** The liked card a re-tune chose this one near ("Nat King Cole"); shown as "Because {name} lit up at {becauseOf}". Never a typed favorite: the why-line already names those. */
   becauseOf?: string;
   /** Gentle conversation prompt for the caregiver to read aloud. */
   prompt: string;

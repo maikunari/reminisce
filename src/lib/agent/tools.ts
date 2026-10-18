@@ -18,7 +18,7 @@ import {
   entityAffinity,
   entityImageUrl,
   entityYear,
-  tagNamesOf,
+  genreTagIdsOf,
   type QlooAgeBucket,
   type QlooEntity,
   type QlooEntityType,
@@ -47,7 +47,7 @@ import { dictionary } from "@/lib/i18n";
 import { PLAN_MAX_CARDS, PLAN_MIN_CARDS, PLAN_MIN_DOMAINS } from "@/lib/session/deck";
 
 import { offlinePrompt, whyLine } from "./prompts";
-import { artistFit, foldTag, popularityCapFor, type SeedProfile } from "./relevance";
+import { artistFit, type SeedProfile } from "./relevance";
 import { ArtistLedger, artistAliasesOf, artistKeysOf, isMatureTitle, ledgerOfCards } from "./suitability";
 
 // ---------------------------------------------------------------------------
@@ -98,12 +98,6 @@ export const InsightsArgs = z.object({
   release_year_min: z.number().int().optional().describe("Only for movie/tv_show: filter.release_year.min."),
   release_year_max: z.number().int().optional().describe("Only for movie/tv_show: filter.release_year.max."),
   exclude_entities: z.array(z.string()).max(60).optional().describe("Entity ids to leave out: filter.exclude.entities."),
-  filter_popularity_max: z
-    .number()
-    .min(0)
-    .max(1)
-    .optional()
-    .describe("Leave out entities more popular than this percentile (filter.popularity.max). Artist calls with a seed set it from the seed's own popularity."),
   take: z.number().int().min(1).max(25).optional().describe("Max results (default 10)."),
 });
 
@@ -214,7 +208,7 @@ export interface ToolContext {
   pool: EntityPool;
   /** entity id -> display name, for seeds that came from search rather than insights. */
   names: Map<string, string>;
-  /** entity id -> what is known of a seed (popularity, genres): from the intake form, search results and cards already dealt. */
+  /** entity id -> what is known of a seed (its music genres): from the intake form, search results and cards already dealt. */
   seeds: Map<string, SeedProfile>;
   existingCards: Card[];
   feedback?: Feedback;
@@ -289,6 +283,11 @@ function short(text: string | undefined, max = 140): string | undefined {
   return t.length > max ? `${t.slice(0, max - 1)}…` : t;
 }
 
+/** Up to three tag names for a card or the model; Qloo leaves some tags without a name. */
+function tagNamesOf(e: QlooEntity): string[] {
+  return (e.tags ?? []).map((t) => t?.name).filter((n): n is string => typeof n === "string" && n.length > 0).slice(0, 3);
+}
+
 function compactEntity(e: QlooEntity) {
   return {
     entity_id: e.entity_id,
@@ -297,7 +296,7 @@ function compactEntity(e: QlooEntity) {
     year: entityYear(e),
     affinity: entityAffinity(e),
     popularity: typeof e.popularity === "number" ? Math.round(e.popularity * 100) / 100 : undefined,
-    tags: (e.tags ?? []).slice(0, 3).map((t) => t.name),
+    tags: tagNamesOf(e),
     description: short(e.properties?.short_description ?? e.properties?.description, 120),
     has_image: !!entityImageUrl(e),
   };
@@ -326,7 +325,7 @@ async function runSearchEntity(rawArgs: unknown, ctx: ToolContext): Promise<Tool
   const hits = args.types?.includes("urn:entity:locality") ? res.body.results : rankFavoriteHits(args.query, res.body.results);
   const results = hits.map((r) => {
     ctx.names.set(r.entity_id, r.name);
-    ctx.seeds.set(r.entity_id, { name: r.name, popularity: typeof r.popularity === "number" ? r.popularity : undefined, tags: (tagNamesOf(r.tags) ?? []).map(foldTag) });
+    ctx.seeds.set(r.entity_id, { name: r.name, genres: genreTagIdsOf(r.tags) });
     return {
       entity_id: r.entity_id,
       name: r.name,
@@ -347,8 +346,9 @@ async function runSearchEntity(rawArgs: unknown, ctx: ToolContext): Promise<Tool
       fav.entityId = top.entity_id;
       fav.type = top.types[0];
       fav.imageUrl = top.image_url;
-      fav.popularity = top.popularity;
-      fav.tags = tagNamesOf(hits[0]?.tags);
+      fav.genres = genreTagIdsOf(hits[0]?.tags);
+      // The seed answers to the name the caregiver typed ("Hibari Misora"), not Qloo's order of it ("Misora Hibari").
+      ctx.names.set(top.entity_id, fav.name);
     }
   }
   return {
@@ -395,7 +395,6 @@ export function insightsRequestFromArgs(args: z.infer<typeof InsightsArgs>): Ins
     filters: {
       tags: args.filter_tags,
       excludeEntities: args.exclude_entities,
-      popularityMax: args.filter_popularity_max,
       releaseYearMin: args.release_year_min,
       releaseYearMax: args.release_year_max,
       releaseCountry: args.filter_release_country,
@@ -489,34 +488,34 @@ function profilesOf(ids: readonly string[], ctx: ToolContext): SeedProfile[] {
       const known = ctx.seeds.get(id);
       if (known) return known;
       const pooled = ctx.pool.get(id)?.entity;
-      return pooled ? { name: pooled.name, popularity: pooled.popularity, tags: (pooled.tags ?? []).map((t) => foldTag(t.name)) } : undefined;
+      return pooled ? { name: pooled.name, genres: genreTagIdsOf(pooled.tags) } : undefined;
     })
     .filter((p): p is SeedProfile => !!p);
 }
 
 /**
- * Keep a seeded artist call about the seed. Qloo blends every signal, so the
- * person's age bucket and hometown pull in what that whole crowd likes (the
- * Beatles, Tom Jones, Dolly Parton for a skiffle fan of 86). The age signal is
- * left out, and artists far more popular than the seed are capped off unless
- * the policy set its own cap; the widening steps lift the cap if that leaves
- * too little. The hometown stays: it is how the country reaches the answer.
+ * Keep a seeded artist call about the seed. Qloo blends every signal, and live
+ * the hometown signal is what drowns a niche seed (a skiffle fan from London
+ * came back as Dolly Parton and Twiggy; the age bucket pulls the same way). So
+ * the call carries the seed alone, and the person's years and country are
+ * applied to what comes back (see relevance.ts). The hometown it left out is
+ * handed back so the widening can try it if the seed alone returns too little.
  */
-function keepSeed(args: InsightsArgsT, ctx: ToolContext, notes: string[]): InsightsArgsT {
-  if (args.filter_type !== "urn:entity:artist" || !args.signal_entities?.length) return args;
+function keepSeed(args: InsightsArgsT, ctx: ToolContext, notes: string[]): { args: InsightsArgsT; leftOut?: string } {
+  if (args.filter_type !== "urn:entity:artist" || !args.signal_entities?.length) return { args };
   let next = args;
+  let leftOut: string | undefined;
   if (next.signal_age) {
     next = { ...next, signal_age: undefined };
     notes.push("left the age signal out so the seed leads");
   }
-  if (next.filter_popularity_max === undefined) {
-    const cap = popularityCapFor(profilesOf(args.signal_entities, ctx));
-    if (cap !== undefined) {
-      next = { ...next, filter_popularity_max: cap };
-      notes.push(`kept to artists no more popular than ${cap}`);
-    }
+  // The synthetic catalogue has no birthplaces to rank by and needs the hometown to know which world to serve.
+  if (next.signal_location_query && ctx.qloo.mode === "live") {
+    leftOut = next.signal_location_query;
+    next = { ...next, signal_location_query: undefined };
+    notes.push("left the hometown signal out so the seed leads");
   }
-  return next;
+  return { args: next, leftOut };
 }
 
 interface WideningStep {
@@ -536,7 +535,7 @@ interface WideningStep {
  * titles beat any number of foreign ones, so those steps run only when the
  * home country had none.
  */
-function wideningSteps(args: InsightsArgsT): WideningStep[] {
+function wideningSteps(args: InsightsArgsT, leftOutLocation?: string): WideningStep[] {
   const steps: WideningStep[] = [];
   const hasLocation = !!args.signal_location_query;
   const hasCountry = !!args.filter_release_country?.length;
@@ -555,8 +554,9 @@ function wideningSteps(args: InsightsArgsT): WideningStep[] {
       }
       break;
     case "urn:entity:artist":
-      if (args.filter_popularity_max !== undefined) steps.push({ args: { ...args, filter_popularity_max: undefined }, note: "without the popularity cap" });
-      if (hasLocation) steps.push({ args: { ...args, filter_popularity_max: undefined, signal_location_query: undefined }, note: "without the hometown signal" });
+      // A seeded call left the hometown out; if the seed alone is thin, the hometown is tried as a second signal.
+      if (leftOutLocation) steps.push({ args: { ...args, signal_location_query: leftOutLocation }, note: "with the hometown signal" });
+      if (hasLocation) steps.push({ args: { ...args, signal_location_query: undefined }, note: "without the hometown signal" });
       break;
     case "urn:entity:place":
       if (args.signal_entities?.length) steps.push({ args: { ...args, signal_entities: undefined }, note: "without the seed taste" });
@@ -602,7 +602,8 @@ async function runInsights(rawArgs: unknown, ctx: ToolContext): Promise<ToolOutc
   const parsed = InsightsArgs.safeParse(rawArgs);
   if (!parsed.success) return argError("qloo_insights", parsed.error);
   const adjustments: string[] = [];
-  const first = keepSeed(keepHome(keepEra(parsed.data, ctx, adjustments), ctx, adjustments), ctx, adjustments);
+  const seeded = keepSeed(keepHome(keepEra(parsed.data, ctx, adjustments), ctx, adjustments), ctx, adjustments);
+  const first = seeded.args;
   const era = eraFor(first.filter_type, ctx.youthWindow);
   const domain = domainForInsights(first.filter_type, first.filter_tags);
   const label = DOMAIN_LABEL_BY_TYPE[first.filter_type] ?? first.filter_type;
@@ -611,7 +612,7 @@ async function runInsights(rawArgs: unknown, ctx: ToolContext): Promise<ToolOutc
   // Only seeds we can name reach the caregiver's "why" line; an id is never printed.
   const seedNames = seedIds.map((id) => ctx.names.get(id) ?? ctx.pool.get(id)?.entity.name).filter((n): n is string => !!n);
 
-  const steps: WideningStep[] = [{ args: first, note: "" }, ...wideningSteps(first)];
+  const steps: WideningStep[] = [{ args: first, note: "" }, ...wideningSteps(first, seeded.leftOut)];
   const attempts: { summary: string; qloo: TraceQloo }[] = [];
   const found = new Map<string, QlooEntity>();
   const fits = new Map<string, number>();
@@ -736,15 +737,19 @@ export function subtitleFor(domain: Domain, e: QlooEntity, language: Language = 
 const BECAUSE_DOMAINS: ReadonlySet<Domain> = new Set(["music", "film", "tv", "destination"]);
 
 /**
- * The seed a card is "because of": the one Qloo says contributed most, else the
- * first. Only for domains the seed's taste shapes; a restaurant is chosen for
+ * The card this one leans on: when a re-tune chose it near a card the person
+ * lit up, that card (Qloo's explainability says which seed counted most; the
+ * card that just lit up when it says nothing). A typed favorite is not named:
+ * the why-line already says "close to {favorite}", so repeating it adds
+ * nothing. Only for domains a seed's taste shapes; a restaurant is chosen for
  * the town, not for a singer.
  */
 function becauseOf(entry: PoolEntry, domain: Domain, ctx: ToolContext): string | undefined {
   if (!BECAUSE_DOMAINS.has(domain) || entry.seedIds.length === 0) return undefined;
   const contributions = explainabilityOf(entry.entity) ?? {};
   const best = [...entry.seedIds].sort((a, b) => (contributions[b] ?? 0) - (contributions[a] ?? 0))[0];
-  return best ? (ctx.names.get(best) ?? ctx.pool.get(best)?.entity.name) : undefined;
+  if (!best || ctx.favorites.some((f) => f.entityId === best)) return undefined;
+  return ctx.names.get(best) ?? ctx.pool.get(best)?.entity.name;
 }
 
 function explainabilityOf(e: QlooEntity): Record<string, number> | undefined {
@@ -799,7 +804,7 @@ export function buildCard(
     ...(aliases.length > 0 ? { aliases } : {}),
     imageUrl: entityImageUrl(e),
     description: short(e.properties?.description ?? e.properties?.short_description, 220),
-    tags: (e.tags ?? []).slice(0, 3).map((t) => t.name),
+    tags: tagNamesOf(e),
     why: whyLine(domain, signals, ctx.language),
     ...(because ? { becauseOf: because } : {}),
     prompt: cleanPrompt

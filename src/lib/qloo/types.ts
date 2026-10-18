@@ -208,11 +208,13 @@ export function entityAffinity(entity: QlooEntity): number | null {
   return null;
 }
 
-/** Up to a dozen tag names, trimmed, for carrying a seed's genres along with a favorite. */
-export function tagNamesOf(tags: QlooTag[] | undefined): string[] | undefined {
-  const names = (tags ?? []).map((t) => t.name?.trim()).filter((n): n is string => !!n);
-  return names.length > 0 ? [...new Set(names)].slice(0, 12) : undefined;
+/** Music genre tag ids ("urn:tag:genre:music:skiffle"), lower case. Live Qloo also tags moods ("Loyal", "Nostalgic") and leaves some tags without a name or id, so only a tag that has a genre id counts. */
+export function genreTagIdsOf(tags: Partial<QlooTag>[] | undefined): string[] {
+  const ids = (tags ?? []).map((t) => (typeof t?.id === "string" ? t.id.trim().toLowerCase() : "")).filter((id) => id.startsWith(GENRE_TAG_PREFIX));
+  return [...new Set(ids)].slice(0, 12);
 }
+
+export const GENRE_TAG_PREFIX = "urn:tag:genre:music";
 
 export function entityImageUrl(entity: { properties?: QlooEntityProperties } | QlooSearchResult): string | undefined {
   const url = entity.properties?.image?.url;
