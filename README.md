@@ -5,7 +5,7 @@ A cultural memory session builder for dementia caregivers, driven by an agent th
 
 Built for the Qloo Agentic Hackathon. MIT licensed.
 
-![Michiko's session: a record sleeve for Yujiro Ishihara beside the card, an italic conversation prompt, a "From Qloo" footnote and two large reaction buttons](docs/screenshots/session-michiko.png)
+![Michiko's session: a record sleeve for Yujiro Ishihara beside the card, a "Because Michiko likes Hibari Misora" line, an italic conversation prompt, a "From Qloo" footnote and two large reaction buttons](docs/screenshots/session-michiko.png)
 
 ## What it is
 
@@ -17,7 +17,7 @@ Planning ends at a **Session ready** overview rather than opening the first card
 
 During the session the caregiver taps **They lit up** or **Not this one** and the deck moves straight on. Behind it, the agent goes back to Qloo with the liked entity as a new signal (or the disliked one excluded) and swaps cards further ahead, never the one in front of the caregiver, while a quiet "re-tuning" line shows what it is doing. A **Why Qloo** panel exposes every call: the endpoint, entity type, signals, filters, affinity score and Qloo's explainability breakdown of which seed pulled each item in.
 
-![Frank's session: Nat King Cole with a prompt about singing along at home, one example of the cards Qloo dealt for him](docs/screenshots/session-frank.png)
+![Frank's session: Nat King Cole, "Because Frank likes Frank Sinatra", with a prompt about dancing to his music, one example of the cards Qloo dealt for him](docs/screenshots/session-frank.png)
 
 Two presets let you try it in one tap. Michiko (born 1950, Osaka, loved Hibari Misora) and Frank (born 1945, Chicago, loved Frank Sinatra) get sessions that differ end to end: Japanese singers, Japanese films of 1965 to 1980, Osaka's own landmarks and a trip for Michiko; standards singers, American films and television of 1960 to 1975, Chicago's own landmarks and a trip for Frank.
 
@@ -200,7 +200,7 @@ Tapping **They lit up** on a card:
 
 When every card has a reaction the session ends by itself after a beat, or the caregiver presses **Finish the session** on the last card. A calm **Session complete** screen thanks the caregiver by the person's name and shows a memory summary for family and caregivers: what lit them up, each with its kind, year and prompt, ready to print or save as a PDF. **Start another session** and **Done** both lead back to the start page. The ending is saved with the session, so a reload opens the same screen. The session's phases (planning, overview, in session, complete) are one typed state machine in `src/lib/session/flow.ts`.
 
-![Keepsake at the end of Frank's session: "What lit Frank up today" lists six cards with their prompts above a Print for the care file button](docs/screenshots/keepsake.png)
+![Session complete at the end of Frank's session: a thank-you with his name above the memory summary "What lit Frank up today", seven cards with their kind, year and prompt, a Print or save as PDF button, and Start another session and Done buttons](docs/screenshots/keepsake.png)
 
 ## Why Qloo panel
 
