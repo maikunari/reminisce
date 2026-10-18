@@ -110,8 +110,12 @@ export interface Card {
   tags: string[];
   /** One line: which Qloo signal chose this card. */
   why: string;
-  /** The liked card a re-tune chose this one near ("Nat King Cole"); shown as "Because {name} lit up at {becauseOf}". Never a typed favorite: the why-line already names those. */
-  becauseOf?: string;
+  /**
+   * What this card was chosen near: a typed favorite, under the name the
+   * caregiver typed ("Because Frank likes Frank Sinatra"), or a card the
+   * person lit up that a re-tune leans on ("Because Frank lit up at Nat King Cole").
+   */
+  becauseOf?: { name: string; via: "favorite" | "lit_up" };
   /** Gentle conversation prompt for the caregiver to read aloud. */
   prompt: string;
   /** Who wrote the prompt: the LLM, or the offline template set. */

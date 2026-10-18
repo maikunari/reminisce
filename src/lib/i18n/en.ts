@@ -65,7 +65,8 @@ export const en: Dictionary = {
   card: {
     counter: (index, total) => `Card ${index} of ${total}`,
     retunedFor: (p) => `Re-tuned for ${p.object}`,
-    because: (name, liked) => `Because ${name} lit up at ${liked}`,
+    because: (name, favorite) => `Because ${name} likes ${favorite}`,
+    becauseLitUp: (name, liked) => `Because ${name} lit up at ${liked}`,
     fromQloo: "From Qloo:",
     affinity: (value) => `affinity ${value}`,
     showCall: "Show the call",

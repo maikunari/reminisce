@@ -60,7 +60,8 @@ export const ja: Dictionary = {
   card: {
     counter: (index, total) => `${total}枚中${index}枚目`,
     retunedFor: () => "この方に合わせて調整",
-    because: (name, liked) => `${name}さんが「${liked}」に心を動かされたので`,
+    because: (name, favorite) => `${name}さんの好きな${favorite}から`,
+    becauseLitUp: (name, liked) => `${name}さんが「${liked}」に心を動かされたので`,
     fromQloo: "Qlooより:",
     affinity: (value) => `親和度 ${value}`,
     showCall: "リクエストを見る",

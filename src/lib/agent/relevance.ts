@@ -11,9 +11,10 @@
  * alone (see keepSeed in tools.ts), and the person's years and country come
  * back in afterwards, as tie-breaks on this score: a seed-only answer's
  * affinities are nearly flat, so these decide the order, and Qloo cannot let
- * them outweigh the seed. There is no popularity term: the household names of
- * a person's own era (Nat King Cole for a Sinatra fan) are what reminiscence
- * is for, and a seed-only answer does not lead with strangers' favourites.
+ * them outweigh the seed. Popularity is only a light tie-break: no cap goes to
+ * Qloo, since the household names of a person's own era (Nat King Cole for a
+ * Sinatra fan) are what reminiscence is for, but a megastar steps behind an
+ * equally fitting act of similar affinity.
  */
 import { GENRE_TAG_PREFIX, entityAffinity, genreTagIdsOf, type QlooEntity } from "@/lib/qloo/types";
 
@@ -34,6 +35,10 @@ const GENRE_BONUS = 0.3;
 const FORMATIVE_BONUS = 0.15;
 /** Taken off an artist that began performing after the person's formative years: they could not have been heard then. */
 const LATE_PENALTY = 0.3;
+/** Above this popularity percentile an artist is a household name everywhere. */
+export const MAINSTREAM_POPULARITY = 0.97;
+/** Taken off a household name: smaller than every fit bonus, so it only breaks ties among equally fitting acts. */
+const MAINSTREAM_PENALTY = 0.1;
 
 export function foldName(name: string): string {
   return name.normalize("NFKD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
@@ -94,5 +99,6 @@ export function artistFit(entity: QlooEntity, ctx: ArtistFitContext): ArtistFit 
   else if (started !== undefined && started > to) era -= LATE_PENALTY;
 
   const country = bornInCountry(entity, ctx.homeCountry) ? COUNTRY_BONUS : 0;
-  return { score: base + GENRE_BONUS * genre + era + country, genre, formative };
+  const mainstream = typeof entity.popularity === "number" && entity.popularity > MAINSTREAM_POPULARITY ? MAINSTREAM_PENALTY : 0;
+  return { score: base + GENRE_BONUS * genre + era + country - mainstream, genre, formative };
 }

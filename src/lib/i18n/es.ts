@@ -63,7 +63,8 @@ export const es: Dictionary = {
   card: {
     counter: (index, total) => `Tarjeta ${index} de ${total}`,
     retunedFor: () => "Reajustada a su medida",
-    because: (name, liked) => `Porque a ${name} le encantó ${liked}`,
+    because: (name, favorite) => `Porque a ${name} le gusta ${favorite}`,
+    becauseLitUp: (name, liked) => `Porque a ${name} le encantó ${liked}`,
     fromQloo: "De Qloo:",
     affinity: (value) => `afinidad ${value}`,
     showCall: "Ver la consulta",

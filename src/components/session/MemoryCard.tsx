@@ -25,7 +25,8 @@ export function MemoryCard({ card, index, total, onReact, onWhy, disabled, langu
   const reacted = card.reaction;
   const name = displayName(card, language);
   const subline = [name.native, card.subtitle].filter(Boolean).join(" · ");
-  const affinity = card.signals.affinity !== null ? ` · ${t.card.affinity(card.signals.affinity.toFixed(2))}` : "";
+  const affinity = card.signals.affinity !== null ? t.card.affinity(card.signals.affinity.toFixed(2)) : undefined;
+  const provenance = [card.becauseOf?.via === "favorite" ? undefined : `${t.card.fromQloo} ${card.why}`, affinity].filter(Boolean).join(" · ");
   return (
     <article key={card.id} aria-labelledby={`card-title-${card.id}`} className="surface animate-fade-in grid overflow-hidden md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]" data-testid="memory-card">
       <div className="aspect-[4/3] border-b border-paper-300 md:aspect-auto md:min-h-[30rem] md:border-r md:border-b-0">
@@ -54,7 +55,7 @@ export function MemoryCard({ card, index, total, onReact, onWhy, disabled, langu
         </div>
         {card.becauseOf ? (
           <p className="label" data-testid="card-because">
-            {t.card.because(personName, card.becauseOf)}
+            {card.becauseOf.via === "favorite" ? t.card.because(personName, card.becauseOf.name) : t.card.becauseLitUp(personName, card.becauseOf.name)}
           </p>
         ) : null}
         <blockquote className="prompt my-2 ml-[1.1em]" data-testid="card-prompt">
@@ -62,8 +63,7 @@ export function MemoryCard({ card, index, total, onReact, onWhy, disabled, langu
         </blockquote>
         {card.description ? <p className="max-w-[44ch] text-md text-ink-700">{card.description}</p> : null}
         <p className="border-t border-paper-200 pt-3 text-sm text-ink-500">
-          {t.card.fromQloo} {card.why}
-          {affinity} ·{" "}
+          {provenance ? `${provenance} · ` : null}
           <button type="button" onClick={onWhy} className="btn-text btn-text-inline text-sm text-ember-700">
             {t.card.showCall}
           </button>

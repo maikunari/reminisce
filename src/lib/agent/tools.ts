@@ -737,19 +737,20 @@ export function subtitleFor(domain: Domain, e: QlooEntity, language: Language = 
 const BECAUSE_DOMAINS: ReadonlySet<Domain> = new Set(["music", "film", "tv", "destination"]);
 
 /**
- * The card this one leans on: when a re-tune chose it near a card the person
- * lit up, that card (Qloo's explainability says which seed counted most; the
- * card that just lit up when it says nothing). A typed favorite is not named:
- * the why-line already says "close to {favorite}", so repeating it adds
- * nothing. Only for domains a seed's taste shapes; a restaurant is chosen for
- * the town, not for a singer.
+ * The seed a card is "because of": the one Qloo says contributed most, else the
+ * first. A typed favorite is named as the caregiver typed it; any other seed is
+ * a card the person lit up that a re-tune leans on. Only for domains a seed's
+ * taste shapes; a restaurant is chosen for the town, not for a singer.
  */
-function becauseOf(entry: PoolEntry, domain: Domain, ctx: ToolContext): string | undefined {
+function becauseOf(entry: PoolEntry, domain: Domain, ctx: ToolContext): Card["becauseOf"] {
   if (!BECAUSE_DOMAINS.has(domain) || entry.seedIds.length === 0) return undefined;
   const contributions = explainabilityOf(entry.entity) ?? {};
   const best = [...entry.seedIds].sort((a, b) => (contributions[b] ?? 0) - (contributions[a] ?? 0))[0];
-  if (!best || ctx.favorites.some((f) => f.entityId === best)) return undefined;
-  return ctx.names.get(best) ?? ctx.pool.get(best)?.entity.name;
+  if (!best) return undefined;
+  const favorite = ctx.favorites.find((f) => f.entityId === best);
+  if (favorite) return { name: favorite.name, via: "favorite" };
+  const name = ctx.names.get(best) ?? ctx.pool.get(best)?.entity.name;
+  return name ? { name, via: "lit_up" } : undefined;
 }
 
 function explainabilityOf(e: QlooEntity): Record<string, number> | undefined {

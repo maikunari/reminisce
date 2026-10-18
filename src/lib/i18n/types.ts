@@ -77,8 +77,10 @@ export interface Dictionary {
   card: {
     counter: (index: number, total: number) => string;
     retunedFor: (pronouns: Pronouns) => string;
+    /** "Because Frank likes Frank Sinatra": the typed favorite a card was chosen near. */
+    because: (name: string, favorite: string) => string;
     /** "Because Frank lit up at Nat King Cole": the card a re-tune chose this one near. */
-    because: (name: string, liked: string) => string;
+    becauseLitUp: (name: string, liked: string) => string;
     fromQloo: string;
     affinity: (value: string) => string;
     showCall: string;

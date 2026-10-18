@@ -88,14 +88,15 @@ describe("a seed that is not mainstream leads the suggestions (live-like Qloo)",
     for (const card of result.cards) expect(card.tags.every((t) => typeof t === "string" && t.length > 0)).toBe(true);
   });
 
-  it("does not name the favorite on its own cards, since the why-line already does", async () => {
+  it("says which favorite each seeded card is because of", async () => {
     const { result } = await planLive();
-    for (const card of result.cards) expect(card.becauseOf).toBeUndefined();
-    const music = result.cards.find((c) => c.domain === "music")!;
-    expect(music.why).toContain("Lonnie Donegan");
+    const music = result.cards.filter((c) => c.domain === "music");
+    expect(music.length).toBeGreaterThanOrEqual(3);
+    for (const card of music) expect(card.becauseOf).toEqual({ name: "Lonnie Donegan", via: "favorite" });
+    for (const card of result.cards.filter((c) => c.domain === "dining" || c.domain === "place")) expect(card.becauseOf).toBeUndefined();
   });
 
-  it("names the liked card a re-tune leans on, under the typed name of the favorite when that is the seed", async () => {
+  it("names the liked card a re-tune leans on, and the typed favorite when that is the seed", async () => {
     const { result } = await planLive();
     const liked = result.cards.find((c) => c.domain === "music")!;
     const { qloo } = liveClient();
@@ -104,10 +105,10 @@ describe("a seed that is not mainstream leads the suggestions (live-like Qloo)",
       { person, cards: result.cards.map((c) => (c.id === liked.id ? { ...c, reaction: "lit_up" as const } : c)), feedback: { cardId: liked.id, reaction: "lit_up" }, currentIndex: 0 },
       { env: liveEnv, qloo, now: NOW },
     );
-    const leaning = adapted.replacements.filter((r) => r.becauseOf);
+    const leaning = adapted.replacements.filter((r) => r.becauseOf?.via === "lit_up");
     expect(leaning.length).toBeGreaterThanOrEqual(1);
-    for (const r of leaning) expect(r.becauseOf).toBe(liked.title);
-    for (const r of adapted.replacements) expect(r.becauseOf).not.toBe("Lonnie Donegan");
+    for (const r of leaning) expect(r.becauseOf!.name).toBe(liked.title);
+    for (const r of adapted.replacements.filter((r) => r.becauseOf?.via === "favorite")) expect(r.becauseOf!.name).toBe("Lonnie Donegan");
   });
 });
 
@@ -132,6 +133,7 @@ describe("the presets are no worse for it (fixture Qloo)", () => {
         expect(card.signals.params["signal.demographics.age"]).toBeUndefined();
         expect(card.signals.params["signal.interests.entities"]).toBe(result.favorites[0]!.entityId);
         expect(card.signals.seedNames).toEqual([preset.person.favorites[0]!.name]);
+        expect(card.becauseOf).toEqual({ name: preset.person.favorites[0]!.name, via: "favorite" });
       }
       expect(result.cards.length).toBeGreaterThanOrEqual(8);
     });
