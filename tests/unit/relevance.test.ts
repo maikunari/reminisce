@@ -48,6 +48,16 @@ describe("artistFit", () => {
     expect(near.score).toBeGreaterThan(famous.score);
   });
 
+  it("puts a household name below on-genre, on-era acts even when the seed is famous too", () => {
+    const famousSeed = { birthYear: 1940, seeds: [{ name: "Famous Seed", popularity: 0.92, tags: ["skiffle", "folk"] }], homeCountry: "United Kingdom" };
+    expect(popularityCapFor(famousSeed.seeds)).toBeUndefined();
+    const beatles = artistFit(artist("The Beatles", { popularity: 0.99, start: 1960, place: "Liverpool, England, United Kingdom", tags: [tag("Skiffle"), tag("Rock")], query: { affinity: 0.95 } }), famousSeed);
+    const vipers = artistFit(artist("The Vipers", { popularity: 0.6, start: 1956, place: "London, England, United Kingdom", tags: [tag("Skiffle"), tag("Folk")], query: { affinity: 0.5 } }), famousSeed);
+    const duncan = artistFit(artist("Johnny Duncan", { popularity: 0.9, start: 1957, tags: [tag("Skiffle"), tag("Folk")], query: { affinity: 0.6 } }), famousSeed);
+    expect(vipers.score).toBeGreaterThan(beatles.score);
+    expect(duncan.score).toBeGreaterThan(beatles.score);
+  });
+
   it("does not punish an act for being about as famous as the seed", () => {
     const peer = artistFit(artist("Peer", { popularity: 0.78, start: 1956, tags: [tag("Skiffle")] }), ctx);
     const quiet = artistFit(artist("Quiet", { popularity: 0.3, start: 1956, tags: [tag("Skiffle")] }), ctx);

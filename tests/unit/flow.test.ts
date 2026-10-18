@@ -24,14 +24,11 @@ function session(over: Partial<Session> = {}): Session {
 }
 
 describe("session flow: transitions", () => {
-  it("follows the whole path from planning to closed, and back out of the ending", () => {
+  it("follows the whole path from planning to complete", () => {
     const path: [SessionPhase, FlowEvent, SessionPhase][] = [
       ["planning", "deal", "overview"],
       ["overview", "start", "in_session"],
       ["in_session", "finish", "complete"],
-      ["complete", "close", "closed"],
-      ["closed", "reopen", "complete"],
-      ["complete", "resume", "in_session"],
       ["planning", "fail", "failed"],
       ["failed", "retry", "planning"],
     ];
@@ -55,11 +52,8 @@ describe("session flow: transitions", () => {
     expect(transition("failed", "deal")).toBe("failed");
   });
 
-  it("can only leave the ending through the screens that belong to it", () => {
-    expect(transition("complete", "start")).toBe("complete");
-    expect(transition("closed", "resume")).toBe("closed");
-    expect(transition("closed", "finish")).toBe("closed");
-    expect(transition("in_session", "close")).toBe("in_session");
+  it("treats complete as the end: no event leads out of it", () => {
+    for (const event of FLOW_EVENTS) expect(transition("complete", event), `complete --${event}-->`).toBe("complete");
   });
 });
 
@@ -70,7 +64,6 @@ describe("session flow: reading the phase back from what is saved", () => {
     expect(phaseOf(session({ overview: true }))).toBe("overview");
     expect(phaseOf(session({ overview: false }))).toBe("in_session");
     expect(phaseOf(session({ overview: false, ending: "complete" }))).toBe("complete");
-    expect(phaseOf(session({ overview: false, ending: "closed" }))).toBe("closed");
   });
 
   it("opens a session saved before the overview and the ending existed in the session", () => {
@@ -78,10 +71,9 @@ describe("session flow: reading the phase back from what is saved", () => {
   });
 
   it("is still in the ending after a reload", () => {
-    const ended = applyFlow(applyFlow(session({ overview: false }), "finish"), "close");
+    const ended = applyFlow(session({ overview: false }), "finish");
     const reloaded = JSON.parse(JSON.stringify(ended)) as Session;
-    expect(phaseOf(reloaded)).toBe("closed");
-    expect(phaseOf(applyFlow(reloaded, "reopen"))).toBe("complete");
+    expect(phaseOf(reloaded)).toBe("complete");
   });
 });
 
@@ -97,15 +89,13 @@ describe("session flow: applying events to a session", () => {
     s = applyFlow(s, "finish");
     expect(phaseOf(s)).toBe("complete");
     expect(s.ending).toBe("complete");
-    s = applyFlow(s, "resume");
-    expect(phaseOf(s)).toBe("in_session");
-    expect(s.ending).toBeUndefined();
+    expect(applyFlow(s, "start")).toBe(s);
   });
 
   it("returns the very same session when the event does not apply", () => {
     const s = session({ overview: true });
     expect(applyFlow(s, "finish")).toBe(s);
-    expect(applyFlow(s, "close")).toBe(s);
+    expect(applyFlow(s, "deal")).toBe(s);
     expect(flowPatch("overview", "finish")).toEqual({});
   });
 

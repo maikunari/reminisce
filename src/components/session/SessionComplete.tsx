@@ -8,17 +8,8 @@ import type { Session } from "@/lib/session/types";
 
 import { Keepsake } from "./Keepsake";
 
-interface Props {
-  session: Session;
-  /** `complete` is the thank-you and the summary; `closed` is the quiet screen after "Done". */
-  closed: boolean;
-  onDone: () => void;
-  onBack: () => void;
-  onReopen: () => void;
-}
-
 /** The calm end of a session: thanks, what lit them up, a summary to keep, and a way on. */
-export function SessionComplete({ session, closed, onDone, onBack, onReopen }: Props) {
+export function SessionComplete({ session }: { session: Session }) {
   const t = dictionary(session.person.language);
   const name = session.person.name;
   const litCount = session.cards.filter((c) => c.reaction === "lit_up").length;
@@ -27,26 +18,7 @@ export function SessionComplete({ session, closed, onDone, onBack, onReopen }: P
   useEffect(() => {
     window.scrollTo({ top: 0 });
     heading.current?.focus();
-  }, [closed]);
-
-  if (closed) {
-    return (
-      <section className="line-in mx-auto max-w-[36rem] py-12 text-center sm:py-20" aria-labelledby="closed-heading" data-testid="session-closed">
-        <h2 id="closed-heading" ref={heading} tabIndex={-1} className="balance text-3xl outline-none sm:text-4xl">
-          {t.ending.closedTitle(name)}
-        </h2>
-        <p className="lede mt-4">{t.ending.closedBody}</p>
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <Link href="/" className="btn btn-primary" data-testid="start-another">
-            {t.ending.startAnother}
-          </Link>
-          <button type="button" onClick={onReopen} className="btn btn-outline" data-testid="show-summary">
-            {t.ending.showSummary}
-          </button>
-        </div>
-      </section>
-    );
-  }
+  }, []);
 
   return (
     <section className="line-in mx-auto max-w-[44rem] py-6 sm:py-10" aria-labelledby="complete-heading" data-testid="session-complete">
@@ -68,12 +40,9 @@ export function SessionComplete({ session, closed, onDone, onBack, onReopen }: P
         <Link href="/" className="btn btn-primary" data-testid="start-another">
           {t.ending.startAnother}
         </Link>
-        <button type="button" onClick={onDone} className="btn btn-outline" data-testid="session-done">
+        <Link href="/" className="btn btn-outline" data-testid="session-done">
           {t.ending.done}
-        </button>
-        <button type="button" onClick={onBack} className="btn-text btn-text-muted" data-testid="back-to-cards">
-          {t.ending.backToCards}
-        </button>
+        </Link>
       </div>
     </section>
   );

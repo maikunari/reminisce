@@ -120,7 +120,6 @@ export interface Dictionary {
   ending: {
     /** The button on the last card that ends the session before every card has a reaction. */
     finish: string;
-    backToCards: string;
     complete: string;
     thanks: (name: string) => string;
     lede: string;
@@ -131,9 +130,6 @@ export interface Dictionary {
     cardLine: (domain: string, detail: string) => string;
     startAnother: string;
     done: string;
-    closedTitle: (name: string) => string;
-    closedBody: string;
-    showSummary: string;
     madeWith: string;
   };
   trace: {

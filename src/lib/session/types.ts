@@ -185,8 +185,8 @@ export interface Session {
   currentIndex: number;
   /** True from the moment the deck is dealt until "Start the session": the lineup overview, not a card, is on screen. Absent on sessions saved before the overview existed, which count as started. */
   overview?: boolean;
-  /** How the session ended, once it has: `complete` shows the "Session complete" screen, `closed` is after "Done". Read the whole flow through `phaseOf` in flow.ts. */
-  ending?: "complete" | "closed";
+  /** `complete` once the session has ended and the "Session complete" screen shows. Read the whole flow through `phaseOf` in flow.ts. */
+  ending?: "complete";
   error?: string;
   /** `empty` when Qloo had too little for this person to make a deck; otherwise the build failed. */
   errorCode?: "empty" | "failed";

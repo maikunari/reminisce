@@ -244,9 +244,6 @@ function SessionClient({ id }: { id: string }) {
     setNotice(null);
     update((s) => applyFlow(s, "finish"));
   }, [update, cancelAdvance]);
-  const done = useCallback(() => update((s) => applyFlow(s, "close")), [update]);
-  const backToCards = useCallback(() => update((s) => applyFlow(s, "resume")), [update]);
-  const reopenSummary = useCallback(() => update((s) => applyFlow(s, "reopen")), [update]);
 
   const drop = useCallback(
     (cardId: string) => {
@@ -523,8 +520,8 @@ function SessionClient({ id }: { id: string }) {
                 onWhy={() => setTraceOpen(true)}
               />
             </>
-          ) : phase === "complete" || phase === "closed" ? (
-            <SessionComplete session={s} closed={phase === "closed"} onDone={done} onBack={backToCards} onReopen={reopenSummary} />
+          ) : phase === "complete" ? (
+            <SessionComplete session={s} />
           ) : (
             <>
               {s.notice ? (

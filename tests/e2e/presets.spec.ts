@@ -231,15 +231,11 @@ test("reacting to every card ends in a calm Session complete screen with a print
   await expect(keepsake.getByRole("button", { name: "Print or save as PDF" })).toBeVisible();
   await expect(complete.getByRole("link", { name: "Start another session" })).toHaveAttribute("href", "/");
 
-  // It survives a reload, and "Done" leads to a quiet screen the summary can come back from.
+  // It survives a reload, and "Done" leaves the session for the start page.
   await page.reload();
   await expect(page.getByTestId("session-complete")).toBeVisible();
   await page.getByTestId("session-done").click();
-  const closed = page.getByTestId("session-closed");
-  await expect(closed).toBeVisible();
-  await expect(closed).toContainText("Until next time, Frank");
-  await page.getByTestId("show-summary").click();
-  await expect(page.getByTestId("keepsake")).toBeVisible();
+  await expect(page).toHaveURL(/\/$/);
 });
 
 test("the last card can end the session before every card has a reaction", async ({ page }) => {
@@ -251,8 +247,7 @@ test("the last card can end the session before every card has a reaction", async
   await page.getByTestId("finish-session").click();
   await expect(page.getByTestId("session-complete")).toBeVisible();
   await expect(page.getByTestId("keepsake")).toContainText("Nothing landed for Frank today");
-  await page.getByTestId("back-to-cards").click();
-  await expect(page.getByTestId("memory-card")).toBeVisible();
+  await expect(page.getByTestId("back-to-cards")).toHaveCount(0);
 });
 
 test("when Qloo has too little for a person, planning ends in a kind empty state with a way on", async ({ page }) => {

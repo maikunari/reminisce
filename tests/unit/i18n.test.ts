@@ -63,7 +63,6 @@ describe("dictionaries", () => {
     expect(t.card.because("Frank", "Frank Sinatra")).toContain("Frank Sinatra");
     expect(t.card.because("Frank", "Frank Sinatra")).toContain("Frank");
     expect(t.ending.thanks("Frank")).toContain("Frank");
-    expect(t.ending.closedTitle("Frank")).toContain("Frank");
     expect(t.ending.summaryFor("Frank", "Chicago", 1960, 1975)).toContain("Chicago");
     expect(t.intake.favorites(1, 3)).toContain("1/3");
     expect(t.intake.errorYear(1900, 2008)).toContain("2008");

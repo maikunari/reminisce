@@ -98,7 +98,6 @@ export const ja: Dictionary = {
   },
   ending: {
     finish: "セッションを終える",
-    backToCards: "カードに戻る",
     complete: "セッション完了",
     thanks: (name) => `${name}さんとの時間をありがとうございました。`,
     lede: "あとはゆっくりお休みください。今日のひとときをまとめました。",
@@ -109,9 +108,6 @@ export const ja: Dictionary = {
     cardLine: (domain, detail) => (detail ? `${domain} · ${detail}` : domain),
     startAnother: "もう一度セッションを始める",
     done: "終わる",
-    closedTitle: (name) => `${name}さん、またお会いしましょう。`,
-    closedBody: "このセッションはこの端末に残っています。まとめはいつでも見られます。",
-    showSummary: "まとめを見る",
     madeWith: "Reminisceで作成。提案はQlooのテイストグラフによるものです。",
   },
   trace: {

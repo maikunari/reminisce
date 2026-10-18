@@ -8,6 +8,7 @@
  * in general (the Beatles, Tom Jones, Dolly Parton). The tool therefore leaves
  * the age signal out of a seeded artist call and caps popularity, and this
  * score then orders what comes back so the seed's own neighbourhood leads.
+ * Household names are marked down even when the seed is famous too.
  */
 import type { QlooEntity } from "@/lib/qloo/types";
 import { entityAffinity } from "@/lib/qloo/types";
@@ -29,6 +30,10 @@ export interface SeedProfile {
 export const POPULARITY_MARGIN = 0.1;
 /** The popularity cap sent to Qloo is never tighter than this, so a very niche seed still finds neighbours. */
 const MIN_POPULARITY_CAP = 0.5;
+/** Popularity above which an artist counts as a household name, however famous the seed itself is. */
+export const MAINSTREAM_POPULARITY = 0.95;
+/** Taken off a household name: more than the genre and era bonuses together, so it falls below acts that have both. */
+const MAINSTREAM_PENALTY = 0.6;
 /** A seed whose popularity is unknown is treated as this popular when penalising mainstream names. */
 const ASSUMED_SEED_POPULARITY = 0.85;
 
@@ -106,7 +111,8 @@ export function artistFit(entity: QlooEntity, ctx: ArtistFitContext): ArtistFit 
   const known = ctx.seeds.map((s) => s.popularity).filter((p): p is number => typeof p === "number");
   const reference = (known.length > 0 ? Math.min(...known) : ASSUMED_SEED_POPULARITY) + POPULARITY_MARGIN / 2;
   const popularity = typeof entity.popularity === "number" ? entity.popularity : undefined;
-  const mainstream = popularity !== undefined ? 1.5 * Math.max(0, popularity - reference) : 0;
+  const mainstream =
+    popularity === undefined ? 0 : 1.5 * Math.max(0, popularity - reference) + (popularity > MAINSTREAM_POPULARITY ? MAINSTREAM_PENALTY : 0);
 
   const country = bornInCountry(entity, ctx.homeCountry) ? 0.1 : 0;
   return { score: base + 0.3 * genre + era + country - mainstream, genre, formative };

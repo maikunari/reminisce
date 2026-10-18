@@ -103,7 +103,6 @@ export const en: Dictionary = {
   },
   ending: {
     finish: "Finish the session",
-    backToCards: "Back to the cards",
     complete: "Session complete",
     thanks: (name) => `Thank you for spending this time with ${name}.`,
     lede: "There is nothing more to do. Here is what today held.",
@@ -114,9 +113,6 @@ export const en: Dictionary = {
     cardLine: (domain, detail) => (detail ? `${domain} · ${detail}` : domain),
     startAnother: "Start another session",
     done: "Done",
-    closedTitle: (name) => `Until next time, ${name}.`,
-    closedBody: "This session stays on this device. The summary is here whenever you want it again.",
-    showSummary: "Show the summary",
     madeWith: "Made with Reminisce. Suggestions from the Qloo taste graph.",
   },
   trace: {

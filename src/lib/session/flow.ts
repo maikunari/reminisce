@@ -2,10 +2,10 @@
  * The session's flow as one named state and a table of transitions, not a set
  * of flags read against each other.
  *
- *   planning --deal--> overview --start--> in_session --finish--> complete --close--> closed
- *      |  ^                                     ^  |                  |  ^               |
- *     fail retry                                |  +------------------+  +----reopen-----+
- *      v  |                                  resume
+ *   planning --deal--> overview --start--> in_session --finish--> complete
+ *      |  ^
+ *     fail retry
+ *      v  |
  *    failed
  *
  * Only what must survive a reload is stored on the Session (`status`,
@@ -15,10 +15,10 @@
  */
 import type { Session } from "./types";
 
-export const PHASES = ["planning", "failed", "overview", "in_session", "complete", "closed"] as const;
+export const PHASES = ["planning", "failed", "overview", "in_session", "complete"] as const;
 export type SessionPhase = (typeof PHASES)[number];
 
-export const FLOW_EVENTS = ["deal", "fail", "retry", "start", "finish", "resume", "close", "reopen"] as const;
+export const FLOW_EVENTS = ["deal", "fail", "retry", "start", "finish"] as const;
 export type FlowEvent = (typeof FLOW_EVENTS)[number];
 
 /** The only legal moves; a missing entry means the event does nothing in that phase. */
@@ -30,10 +30,8 @@ export const TRANSITIONS: Record<SessionPhase, Partial<Record<FlowEvent, Session
   overview: { start: "in_session" },
   /** Cards are being shown; the caregiver (or the last reaction) ends the session. */
   in_session: { finish: "complete" },
-  /** "Session complete": thanks, what lit them up, the printable summary. */
-  complete: { resume: "in_session", close: "closed" },
-  /** "Done": the quiet last screen. The summary can still be brought back. */
-  closed: { reopen: "complete" },
+  /** "Session complete": thanks, what lit them up, the printable summary. "Done" leaves the page. */
+  complete: {},
 };
 
 export function transition(phase: SessionPhase, event: FlowEvent): SessionPhase {
@@ -47,7 +45,6 @@ export function phaseOf(s: FlowFields): SessionPhase {
   if (s.status === "error") return "failed";
   if (s.cards.length === 0) return "planning";
   if (s.overview) return "overview";
-  if (s.ending === "closed") return "closed";
   if (s.ending === "complete") return "complete";
   return "in_session";
 }
@@ -65,8 +62,6 @@ function fieldsFor(phase: SessionPhase): Pick<Session, "status" | "overview" | "
       return { status: "ready", overview: false, ending: undefined };
     case "complete":
       return { status: "ready", overview: false, ending: "complete" };
-    case "closed":
-      return { status: "ready", overview: false, ending: "closed" };
   }
 }
 
