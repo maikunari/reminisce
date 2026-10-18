@@ -140,7 +140,7 @@ test("intake form: autocomplete from Qloo search, the whole session in the chose
   await expect(page.getByTestId("react-lit-up")).toHaveText(/Le encantó/);
   await expect(page.getByTestId("react-not-this")).toHaveText("Esta no");
   await expect(page.getByRole("navigation", { name: "Tarjetas de la sesión" })).toBeVisible();
-  await expect(page.getByTestId("memory-card")).toContainText("De Qloo:");
+  await expect(page.getByTestId("card-because")).toHaveText("Porque a Maria le gusta Julio Iglesias");
   await page.getByTestId("why-qloo-toggle").click();
   await expect(page.getByTestId("trace-panel")).toContainText("Por qué Qloo eligió esto");
   await expect(page.getByTestId("trace-mode")).toHaveText("catálogo de demostración");
