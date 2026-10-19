@@ -45,10 +45,10 @@ export function SessionView({ id }: { id: string }) {
   const isClient = useIsClient();
   if (!isClient) {
     return (
-      <main id="main" className="wrap wrap-wide py-16" aria-busy="true">
+      <div className="wrap wrap-wide py-16" aria-busy="true">
         <div className="sleeve-blank h-10 w-64" />
         <div className="sleeve-blank mt-8 h-[28rem]" />
-      </main>
+      </div>
     );
   }
   return <SessionClient key={id} id={id} />;
@@ -416,7 +416,7 @@ function SessionClient({ id }: { id: string }) {
             </Link>
           }
         />
-        <main id="main" className="flex-1 py-16 sm:py-24">
+        <div className="flex-1 py-16 sm:py-24">
           <div className="mx-auto max-w-[36rem] text-center">
             <h1 className="balance text-3xl sm:text-4xl">{t.missing.title}</h1>
             <p className="lede mt-4">{t.missing.body}</p>
@@ -424,7 +424,7 @@ function SessionClient({ id }: { id: string }) {
               {t.missing.cta}
             </Link>
           </div>
-        </main>
+        </div>
         <Footer />
       </div>
     );
@@ -471,7 +471,7 @@ function SessionClient({ id }: { id: string }) {
       />
 
       <div className={`flex-1 pt-6 ${traceOpen ? "xl:grid xl:grid-cols-[minmax(0,1fr)_26rem] xl:items-start xl:gap-8" : ""}`}>
-        <main id="main" className="min-w-0">
+        <div className="min-w-0">
           <h1 className="sr-only">{t.session.heading(s.person.name)}</h1>
           {phase === "failed" ? (
             <div role="alert" className="line-in mx-auto max-w-[40rem] py-10 text-center sm:py-16" data-testid="build-failed" data-code={s.errorCode ?? "failed"}>
@@ -578,7 +578,7 @@ function SessionClient({ id }: { id: string }) {
               </div>
             </>
           )}
-        </main>
+        </div>
         <TracePanel open={traceOpen} onClose={() => setTraceOpen(false)} session={s} card={phase === "in_session" ? current : undefined} liveEvents={liveEvents} />
       </div>
       <Footer language={language} />

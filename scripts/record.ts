@@ -19,6 +19,7 @@ import { QlooClient } from "../src/lib/qloo/client";
 import { DEFAULT_RECORDED_ROOT } from "../src/lib/qloo/fixtures";
 import { PRESETS } from "../src/lib/session/presets";
 import type { Person } from "../src/lib/session/types";
+import { loadDotEnv } from "./dotenv";
 
 /** Replayed by tests/unit/live-qloo.test.ts when present: three people, three cities, three decades. */
 const LIVE_ROOT = path.join(process.cwd(), "fixtures", "live");
@@ -37,24 +38,6 @@ const FAVORITE_TYPES = [
   "urn:entity:brand",
   "urn:entity:place",
 ];
-
-async function loadDotEnv(): Promise<void> {
-  for (const file of [".env.local", ".env"]) {
-    try {
-      const text = await fs.readFile(path.join(process.cwd(), file), "utf8");
-      for (const line of text.split("\n")) {
-        const m = /^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/.exec(line);
-        if (!m) continue;
-        const key = m[1]!;
-        let value = m[2] ?? "";
-        if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) value = value.slice(1, -1);
-        if (!(key in process.env)) process.env[key] = value;
-      }
-    } catch {
-      // file absent
-    }
-  }
-}
 
 function parseArgs(argv: string[]) {
   const presets: string[] = [];

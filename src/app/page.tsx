@@ -30,7 +30,7 @@ export default function HomePage() {
         }
       />
 
-      <main id="main" className="flex-1">
+      <div className="flex-1">
         <section className="grid items-center gap-8 py-12 sm:py-16 md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] md:gap-12">
           <div>
             <h1 className="balance max-w-[14ch] text-4xl sm:text-5xl">Music and memories from when they were twenty.</h1>
@@ -93,7 +93,7 @@ export default function HomePage() {
           <SectionHead id="make-heading" title="Or make one for someone you love" aside="About a minute." />
           <IntakeForm />
         </section>
-      </main>
+      </div>
       <Footer />
     </div>
   );

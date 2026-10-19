@@ -34,6 +34,10 @@ function siteUrl(): URL {
   return new URL("http://localhost:3000");
 }
 
+/** The home page's hero at 1200x630, from public/. metadataBase makes the URL absolute. */
+const OG_IMAGE = "/og.png";
+const OG_ALT = "Reminisce: Music and memories from when they were twenty, beside a record sleeve, a film ticket and a postcard.";
+
 export const metadata: Metadata = {
   title: {
     default: "Reminisce",
@@ -47,6 +51,13 @@ export const metadata: Metadata = {
     title: "Reminisce",
     description: "Music and memories from when they were twenty.",
     type: "website",
+    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: OG_ALT }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Reminisce",
+    description: "Music and memories from when they were twenty.",
+    images: [{ url: OG_IMAGE, alt: OG_ALT }],
   },
 };
 
@@ -66,7 +77,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         >
           Skip to content
         </a>
-        {children}
+        {/* The one main landmark: pages render inside it, because Next keeps the previous page mounted (hidden) after a client-side navigation and a main per page would leave two ids behind. */}
+        <main id="main" tabIndex={-1} className="flex flex-1 flex-col outline-none">
+          {children}
+        </main>
       </body>
     </html>
   );
