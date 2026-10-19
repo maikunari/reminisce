@@ -77,6 +77,10 @@ export interface Dictionary {
   card: {
     counter: (index: number, total: number) => string;
     retunedFor: (pronouns: Pronouns) => string;
+    /** "Because Frank likes Frank Sinatra": the typed favorite a card was chosen near. */
+    because: (name: string, favorite: string) => string;
+    /** "Because Frank lit up at Nat King Cole": the card a re-tune chose this one near. */
+    becauseLitUp: (name: string, liked: string) => string;
     fromQloo: string;
     affinity: (value: string) => string;
     showCall: string;
@@ -114,6 +118,21 @@ export interface Dictionary {
     nothingTitle: (name: string) => string;
     nothingBody: string;
     print: string;
+  };
+  ending: {
+    /** The button on the last card that ends the session before every card has a reaction. */
+    finish: string;
+    complete: string;
+    thanks: (name: string) => string;
+    lede: string;
+    stats: (cards: number, litUp: number) => string;
+    summaryTitle: string;
+    summaryNote: string;
+    summaryFor: (name: string, hometown: string, start: number, end: number) => string;
+    cardLine: (domain: string, detail: string) => string;
+    startAnother: string;
+    done: string;
+    madeWith: string;
   };
   trace: {
     title: string;

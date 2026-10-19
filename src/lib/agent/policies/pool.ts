@@ -74,7 +74,7 @@ export function deckFromPool(ctx: ToolContext): { domain: Domain; entity_id: str
   const entries = ctx.pool
     .all()
     .slice()
-    .sort((a, b) => (entityAffinity(b.entity) ?? 0) - (entityAffinity(a.entity) ?? 0) || a.rank - b.rank);
+    .sort((a, b) => (b.fit ?? entityAffinity(b.entity) ?? 0) - (a.fit ?? entityAffinity(a.entity) ?? 0) || a.rank - b.rank);
   for (const entry of entries) {
     const domain = domainOf(entry);
     if (!domain) continue;

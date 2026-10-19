@@ -140,7 +140,7 @@ test("intake form: autocomplete from Qloo search, the whole session in the chose
   await expect(page.getByTestId("react-lit-up")).toHaveText(/Le encantó/);
   await expect(page.getByTestId("react-not-this")).toHaveText("Esta no");
   await expect(page.getByRole("navigation", { name: "Tarjetas de la sesión" })).toBeVisible();
-  await expect(page.getByTestId("memory-card")).toContainText("De Qloo:");
+  await expect(page.getByTestId("card-because")).toHaveText("Porque a Maria le gusta Julio Iglesias");
   await page.getByTestId("why-qloo-toggle").click();
   await expect(page.getByTestId("trace-panel")).toContainText("Por qué Qloo eligió esto");
   await expect(page.getByTestId("trace-mode")).toHaveText("catálogo de demostración");
@@ -207,7 +207,7 @@ test("session pages for unknown ids explain that sessions stay on the device", a
   await expect(page.getByRole("link", { name: "Build a new session" })).toBeVisible();
 });
 
-test("reacting to every card ends in a printable keepsake", async ({ page }) => {
+test("reacting to every card ends in a calm Session complete screen with a printable summary", async ({ page }) => {
   await page.goto("/");
   await page.getByTestId("preset-frank").click();
   await startSession(page);
@@ -219,13 +219,35 @@ test("reacting to every card ends in a printable keepsake", async ({ page }) => 
     await button.click();
     // No "Next" needed, and no waiting for the re-tune: the deck moves on by itself at once.
     if (i < total - 1) await expect(page.getByTestId("card-title")).not.toHaveText(title, { timeout: 3_000 });
-    else await expect(button).toHaveAttribute("aria-pressed", "true");
   }
+  // The last reaction ends the session by itself, after a beat.
+  const complete = page.getByTestId("session-complete");
+  await expect(complete).toBeVisible();
+  await expect(complete.getByRole("heading", { level: 2, name: "Session complete" })).toBeVisible();
+  await expect(page.getByTestId("complete-thanks")).toContainText("Frank");
   const keepsake = page.getByTestId("keepsake");
-  await expect(keepsake).toBeVisible();
   await expect(keepsake).toContainText("What lit Frank up today");
-  expect(await keepsake.locator("ol li").count()).toBeGreaterThanOrEqual(5);
-  await expect(keepsake.getByRole("button", { name: "Print for the care file" })).toBeVisible();
+  expect(await keepsake.getByTestId("keepsake-moment").count()).toBeGreaterThanOrEqual(5);
+  await expect(keepsake.getByRole("button", { name: "Print or save as PDF" })).toBeVisible();
+  await expect(complete.getByRole("link", { name: "Start another session" })).toHaveAttribute("href", "/");
+
+  // It survives a reload, and "Done" leaves the session for the start page.
+  await page.reload();
+  await expect(page.getByTestId("session-complete")).toBeVisible();
+  await page.getByTestId("session-done").click();
+  await expect(page).toHaveURL(/\/$/);
+});
+
+test("the last card can end the session before every card has a reaction", async ({ page }) => {
+  await page.goto("/");
+  await page.getByTestId("preset-frank").click();
+  await startSession(page);
+  const total = await page.getByTestId("deck-strip").locator("li").count();
+  for (let i = 0; i < total - 1; i++) await page.getByTestId("next-card").click();
+  await page.getByTestId("finish-session").click();
+  await expect(page.getByTestId("session-complete")).toBeVisible();
+  await expect(page.getByTestId("keepsake")).toContainText("Nothing landed for Frank today");
+  await expect(page.getByTestId("back-to-cards")).toHaveCount(0);
 });
 
 test("when Qloo has too little for a person, planning ends in a kind empty state with a way on", async ({ page }) => {

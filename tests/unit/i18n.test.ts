@@ -60,6 +60,12 @@ describe("dictionaries", () => {
     expect(t.trace.asked({ plural: t.domain.music.plural, seeds: "Hibari Misora", tunedTo: "Osaka", age: t.age["55_and_older"] })).toContain("Osaka");
     expect(t.trace.cameBack("Kyoto", 3, 10)).toContain("Kyoto");
     expect(t.keepsake.litTitle("Frank")).toContain("Frank");
+    expect(t.card.because("Frank", "Frank Sinatra")).toContain("Frank Sinatra");
+    expect(t.card.because("Michiko", "Hibari Misora")).toContain("Michiko");
+    expect(t.card.becauseLitUp("Frank", "Nat King Cole")).toContain("Nat King Cole");
+    expect(t.card.becauseLitUp("Frank", "Nat King Cole")).toContain("Frank");
+    expect(t.ending.thanks("Frank")).toContain("Frank");
+    expect(t.ending.summaryFor("Frank", "Chicago", 1960, 1975)).toContain("Chicago");
     expect(t.intake.favorites(1, 3)).toContain("1/3");
     expect(t.intake.errorYear(1900, 2008)).toContain("2008");
     expect(Object.keys(t.intake.typeLabel)).toEqual(Object.keys(en.intake.typeLabel));

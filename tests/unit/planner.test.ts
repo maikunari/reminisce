@@ -48,7 +48,8 @@ describe("planSession (deterministic planner, fixture Qloo)", () => {
     for (const card of music) {
       expect(card.signals.params["signal.interests.entities"]).toContain(seed!.entityId);
       expect(card.signals.params["signal.location.query"]).toBe("Osaka");
-      expect(card.signals.params["signal.demographics.age"]).toBe("55_and_older");
+      // The age bucket is left out of a seeded artist call: it would pull in what every 55 and older likes.
+      expect(card.signals.params["signal.demographics.age"]).toBeUndefined();
       expect(card.signals.seedNames).toEqual(["Hibari Misora"]);
       expect(card.signals.explainability?.[seed!.entityId!]).toBeGreaterThan(0);
     }

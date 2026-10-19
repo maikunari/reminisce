@@ -4,7 +4,7 @@ import { searchCacheControl } from "@/lib/api/cache-control";
 import { jsonError } from "@/lib/api/stream";
 import { openGuard } from "@/lib/guard/runtime";
 import { QlooError } from "@/lib/qloo/client";
-import { QLOO_SEARCH_TYPES, entityImageUrl, entityYear, type QlooSearchType } from "@/lib/qloo/types";
+import { QLOO_SEARCH_TYPES, entityImageUrl, entityYear, genreTagIdsOf, type QlooSearchType } from "@/lib/qloo/types";
 
 export const maxDuration = 30;
 
@@ -29,6 +29,7 @@ export async function GET(request: NextRequest): Promise<Response> {
       type: r.types[0] ?? "",
       year: entityYear(r),
       imageUrl: entityImageUrl(r),
+      genres: genreTagIdsOf(r.tags),
       disambiguation: r.disambiguation,
       description: r.properties?.short_description ?? r.properties?.description,
     }));

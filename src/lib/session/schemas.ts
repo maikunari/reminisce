@@ -12,6 +12,7 @@ export const FavoriteSchema = z.object({
   entityId: z.string().trim().min(8).max(80).optional(),
   type: z.string().trim().max(60).optional(),
   imageUrl: z.string().url().max(500).optional(),
+  genres: z.array(z.string().trim().min(1).max(120)).max(12).optional(),
 });
 
 export const PersonSchema = z.object({

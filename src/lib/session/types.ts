@@ -15,6 +15,8 @@ export interface Favorite {
   /** Qloo subtype, e.g. urn:entity:artist */
   type?: string;
   imageUrl?: string;
+  /** Qloo music genre tag ids the entity carries (urn:tag:genre:music:skiffle), used to keep suggestions in the seed's genre. */
+  genres?: string[];
 }
 
 /** How to refer to the person in caregiver-facing copy. Defaults to "they". */
@@ -108,6 +110,12 @@ export interface Card {
   tags: string[];
   /** One line: which Qloo signal chose this card. */
   why: string;
+  /**
+   * What this card was chosen near: a typed favorite, under the name the
+   * caregiver typed ("Because Frank likes Frank Sinatra"), or a card the
+   * person lit up that a re-tune leans on ("Because Frank lit up at Nat King Cole").
+   */
+  becauseOf?: { name: string; via: "favorite" | "lit_up" };
   /** Gentle conversation prompt for the caregiver to read aloud. */
   prompt: string;
   /** Who wrote the prompt: the LLM, or the offline template set. */
@@ -179,6 +187,8 @@ export interface Session {
   currentIndex: number;
   /** True from the moment the deck is dealt until "Start the session": the lineup overview, not a card, is on screen. Absent on sessions saved before the overview existed, which count as started. */
   overview?: boolean;
+  /** `complete` once the session has ended and the "Session complete" screen shows. Read the whole flow through `phaseOf` in flow.ts. */
+  ending?: "complete";
   error?: string;
   /** `empty` when Qloo had too little for this person to make a deck; otherwise the build failed. */
   errorCode?: "empty" | "failed";

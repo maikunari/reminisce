@@ -12,7 +12,8 @@ import { romanisedName } from "@/lib/session/names";
 
 /** Qloo tag names (lower case, whole tag) that mark a film or show as adult. */
 const MATURE_TAGS = new Set([
-  "mature",
+  // Not "mature": that is Qloo's audience tag (urn:tag:audience:qloo:mature), and live it sits on nearly every
+  // classic Japanese film (25 of 25 from 1965 to 1980) and on The Godfather. Adult content is the keyword tags below.
   "adult",
   "adult film",
   "pornography",

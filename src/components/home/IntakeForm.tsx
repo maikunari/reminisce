@@ -125,7 +125,7 @@ export function IntakeForm() {
             types={FAVORITE_TYPES}
             value={favoriteText}
             onChange={setFavoriteText}
-            onSelect={(s: Suggestion) => addFavorite({ name: s.name, entityId: s.entityId, type: s.type, imageUrl: s.imageUrl })}
+            onSelect={(s: Suggestion) => addFavorite({ name: s.name, entityId: s.entityId, type: s.type, imageUrl: s.imageUrl, genres: s.genres })}
             onFreeText={(text) => addFavorite({ name: text })}
             hint={t.favoritesHint}
             autoComplete="off"

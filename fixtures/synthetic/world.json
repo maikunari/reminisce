@@ -2176,6 +2176,41 @@
           2026
         ]
       }
+    },
+    {
+      "name": "Dolly Parton",
+      "entity_id": "ffffffff-0000-4000-8000-0000000d5016",
+      "type": "urn:entity",
+      "subtype": "urn:entity:artist",
+      "properties": {
+        "short_description": "'Jolene', '9 to 5': the Tennessee songwriter whose records sold everywhere.",
+        "date_of_birth": "1946-01-19",
+        "place_of_birth": "Tennessee, United States",
+        "start_year": 1959,
+        "akas": []
+      },
+      "popularity": 0.95,
+      "tags": [
+        {
+          "id": "urn:tag:genre:music:country",
+          "name": "Country",
+          "type": "urn:tag:genre:music"
+        },
+        {
+          "id": "urn:tag:genre:music:pop",
+          "name": "Pop",
+          "type": "urn:tag:genre:music"
+        }
+      ],
+      "_syn": {
+        "world": "generic",
+        "countries": [],
+        "localities": [],
+        "era": [
+          1967,
+          2026
+        ]
+      }
     }
   ]
 }
