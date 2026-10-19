@@ -17,6 +17,7 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "record": "tsx scripts/record.ts",
+    "smoke:live": "tsx scripts/smoke-live.ts",
     "check": "npm run lint && npm run typecheck && npm run test"
   },
   "dependencies": {

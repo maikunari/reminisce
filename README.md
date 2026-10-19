@@ -5,7 +5,7 @@ A cultural memory session builder for dementia caregivers, driven by an agent th
 
 Built for the Qloo Agentic Hackathon. MIT licensed.
 
-![Michiko's session: a record sleeve for Yujiro Ishihara beside the card, "Because Michiko likes Hibari Misora", an italic conversation prompt, the affinity and a Show the call link, and two large reaction buttons](docs/screenshots/session-michiko.png)
+![Michiko's session as it looks in fixture mode, with the offline demo catalogue standing in for Qloo: a record sleeve beside card 1 of 9, "Because Michiko likes Hibari Misora", an italic conversation prompt, the affinity and a Show the call link, two large reaction buttons and the programme strip of the other cards](docs/screenshots/session-michiko.png)
 
 ## What it is
 
@@ -13,20 +13,20 @@ A caregiver (a daughter, a care-home activity coordinator) enters three things a
 
 Planning ends at a **Session ready** overview rather than opening the first card: the lineup as small sleeves grouped by kind (music, film, television, food, places, trips), each with the Qloo line that chose it, a short "how Qloo built this" strip, a large **Start the session** button, a **Drop** and a **Swap** button per card (a session keeps at least three) and **Shuffle the order**. It reads only what planning already returned, and the model's prompts still fill in behind it. Only **Swap** goes back out: it reuses the `/api/adapt` re-tune with `currentIndex: -1` to put one other card of the same kind in that card's place, never one the deck holds or one just dropped and waiting for Undo. Nothing opens until the caregiver presses Start.
 
-![Michiko's session ready: Start the session and Shuffle the order buttons above a "How Qloo built this" strip and the lineup grouped by music and film, each card with its Qloo line and Drop and Swap buttons](docs/screenshots/overview.png)
+![Michiko's session ready, in fixture mode: Start the session and Shuffle the order buttons above a "How Qloo built this" strip and the lineup grouped by music and film, each card with its Qloo line and Drop and Swap buttons](docs/screenshots/overview.png)
 
 During the session the caregiver taps **They lit up** or **Not this one** and the deck moves straight on. Behind it, the agent goes back to Qloo with the liked entity as a new signal (or the disliked one excluded) and swaps cards further ahead, never the one in front of the caregiver, while a quiet "re-tuning" line shows what it is doing. A **Why Qloo** panel exposes every call: the endpoint, entity type, signals, filters, affinity score and Qloo's explainability breakdown of which seed pulled each item in.
 
-![Frank's session: Nat King Cole, "Because Frank likes Frank Sinatra", with a prompt about dancing to his music and affinity 0.91, one example of the cards Qloo dealt for him](docs/screenshots/session-frank.png)
+![Frank's session in fixture mode: Nat King Cole as card 1 of 9, "Because Frank likes Frank Sinatra", with a prompt about dancing to his music and affinity 0.91, one example of the cards dealt for him](docs/screenshots/session-frank.png)
 
-Two presets let you try it in one tap. Michiko (born 1950, Osaka, loved Hibari Misora) and Frank (born 1945, Chicago, loved Frank Sinatra) get sessions that differ end to end: Japanese singers, Japanese films of 1965 to 1980, Osaka's own landmarks and a trip for Michiko; standards singers, American films and television of 1960 to 1975, Chicago's own landmarks and a trip for Frank.
+Two presets let you try it in one tap. Michiko (born 1950, Osaka, loved Hibari Misora) and Frank (born 1945, Chicago, loved Frank Sinatra) get sessions that differ end to end. On live Qloo (checked on 19 October 2026 with `npm run smoke:live`, below) Michiko's deck was Japanese singers who started in the 1960s, such as Ishida Ayumi, Kitajima Saburo and Yashiro Aki, Japanese films and a Japanese television series from 1965 to 1980, Osaka Castle, a place to eat in Osaka and a trip to Kobe; Frank's was standards singers (Bobby Darin, Paul Anka, Louis Armstrong), mostly American films and television from 1960 to 1975, Millennium Park, a Chicago restaurant and a trip to Rome. Live decks follow Qloo's data, so the exact names change as it does. The screenshots in this README were taken in fixture mode, so their names come from the synthetic offline catalogue, not from Qloo.
 
 ## Why Qloo is essential
 
 Reminisce cannot be built on an LLM alone, and the reason is the centre of the product:
 
-- **Taste affinity across domains.** Knowing someone loved Hibari Misora says something about the films, the places and the food they are likely to light up at. Only a cross-domain taste graph can follow that thread from an artist to a 1960s Nikkatsu film to a Dotonbori restaurant. An LLM can guess, but it cannot score, rank or explain.
-- **Location as a signal, not a filter.** `signal.location.query=Osaka` biases every domain toward what Osaka's own taste profile favours, which is why Michiko gets Yoshimoto comedy and Frank gets the Chicago Theatre instead of a generic "best of the 60s" list.
+- **Taste affinity across domains.** Knowing someone loved Hibari Misora says something about the films, the places and the food they are likely to light up at. Only a cross-domain taste graph can follow that thread from an artist to a 1960s Japanese film to an Osaka restaurant. An LLM can guess, but it cannot score, rank or explain.
+- **Location as a signal and a filter.** The hometown goes to Qloo as `signal.location.query` for places to eat, landmarks and trips (and for Frank's Chicago films), and as `filter.location.query` for restaurants and landmarks, so Michiko's deck has Osaka Castle and an Osaka restaurant and Frank's has Millennium Park and a Chicago restaurant instead of a generic list. Where live Qloo answers nothing with the hometown (films from Osaka in a given era, television) or lets it drown a favourite (artists), the call is made without it and the era and country filters keep the answer local; see "Thin answers" below.
 - **Demographic signals.** `signal.demographics.age=55_and_older` tunes results toward what that cohort has affinity for.
 - **Explainability.** `feature.explainability=true` returns, per entity, how much each seed contributed. Reminisce shows this in the Why Qloo panel so a caregiver understands why a card is there, and the agent's reasoning is auditable rather than a black box.
 - **Live adaptation.** When a card lands, the liked entity goes straight back into `signal.interests.entities`. The deck re-tunes from real affinity data in a second, something no static playlist can do.
@@ -70,7 +70,7 @@ caregiver intake ──► /api/plan ──────────────�
                        deck re-tuned; trace appended to the Why Qloo panel
 ```
 
-![Planning view: "Asking Qloo what Osaka loved from 1965 to 1980", nine Qloo calls so far, four of six sleeves filled (Yujiro Ishihara, a Tora-san film, Yoshimoto Shinkigeki, a Dotonbori crab house) and one line per kind of memory, places still being asked](docs/screenshots/planning.png)
+![Planning view in fixture mode: "Asking Qloo what Osaka loved from 1965 to 1980", four Qloo calls so far, two of six sleeves filled (a singer and a Tora-san film) with their lines under Music and Film, and the other four kinds of memory still being asked](docs/screenshots/planning.png)
 
 The loop is a real tool-calling loop: a policy decides the next tool calls, the loop runs them and records a trace, and nothing is committed except through `plan_session` and `adapt_session`, which only accept entity ids that an earlier `qloo_insights` call returned in this session, so no card can be invented. The calls of one step run together, behind a limiter that keeps the hackathon key under its rate limit (4 requests in flight, 5 started per second, and a 429 asked again once after 300 ms instead of falling back). Every step is emitted as a trace event and streamed to the browser as NDJSON, so the planning screen fills in as Qloo answers and the Why Qloo panel keeps the full timeline.
 
@@ -150,7 +150,7 @@ With no keys configured the app runs in **fixture mode**: every Qloo call is ans
 | `LLM_MODE` | auto | `live` or `fixture`. Unset means live when a key is present. |
 | `LLM_BASE_URL` | `https://api.openai.com/v1` | `https://api.anthropic.com/v1` uses Anthropic's Messages API; anything else is called as an OpenAI-compatible `/chat/completions` endpoint (OpenAI, OpenRouter, Groq, Together, a local server). |
 | `LLM_MODEL` | `gpt-4o-mini` | Model name sent to that endpoint, e.g. `claude-haiku-4-5`. |
-| `NEXT_PUBLIC_SITE_URL` | derived | Absolute site URL for Open Graph tags. Vercel's production URL is used when unset. |
+| `NEXT_PUBLIC_SITE_URL` | derived | Absolute site URL for the Open Graph and Twitter card tags, including the preview image `public/og.png`. Vercel's production URL is used when unset. |
 | `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` | unset | Upstash Redis for the daily budget and preset snapshots (the Vercel Marketplace integration sets them; `KV_REST_API_URL` / `KV_REST_API_TOKEN` work too). Unset means no budget and no snapshots. |
 | `BUDGET_LLM_PLANS_PER_DAY` | `40` | Sessions per UTC day whose prompts the model writes. Past it, sessions keep their template prompts. `unlimited` removes the cap. |
 | `BUDGET_LLM_ADAPTS_PER_DAY` | `120` | Re-tunes per UTC day whose prompts the model writes; same fallback. |
@@ -196,17 +196,17 @@ Tapping **They lit up** on a card:
 
 **Not this one** excludes that entity and steers the next cards of that domain toward a different domain (the last one that lit up, if any).
 
-![After tapping They lit up: a notice reads "Three of the next cards now lean toward Yujiro Ishihara" and the re-tuned deck cards are marked new](docs/screenshots/retuned.png)
+![After tapping They lit up on the first card, in fixture mode: a notice reads "Three of the next cards now lean toward Yujiro Ishihara", a Tora-san film is card 2 of 9 and the programme strip marks the first card with a heart](docs/screenshots/retuned.png)
 
 When every card has a reaction the session ends by itself after a beat, or the caregiver presses **Finish the session** on the last card. A calm **Session complete** screen thanks the caregiver by the person's name and shows a memory summary for family and caregivers: what lit them up, each with its kind, year and prompt, ready to print or save as a PDF. **Start another session** and **Done** both lead back to the start page. The ending is saved with the session, so a reload opens the same screen. The session's phases (planning, overview, in session, complete) are one typed state machine in `src/lib/session/flow.ts`.
 
-![Session complete at the end of Frank's session: a thank-you with his name above the memory summary "What lit Frank up today", seven cards with their kind, year and prompt, a Print or save as PDF button, and Start another session and Done buttons](docs/screenshots/keepsake.png)
+![Session complete at the end of Frank's session, in fixture mode: "9 cards · 6 lit up", a thank-you with his name above the memory summary "What lit Frank up today", six cards with their kind, year and prompt, a Print or save as PDF button, and Start another session and Done buttons](docs/screenshots/keepsake.png)
 
 ## Why Qloo panel
 
 Open from the header or from "Show the call" on any card. For the current card it shows the entity type, the source (live, a saved response or the demo catalogue), affinity with a bar, rank and popularity, Qloo's explainability per seed, and every signal, filter and output parameter that was sent. Below it is the full agent timeline: narration, each tool call with its arguments, each Qloo request with its parameters, result counts and durations, and any parameters the validator dropped. Escape closes it; it is a complementary landmark and keyboard reachable.
 
-![Why Qloo panel beside the card: "Qloo was asked for artists with taste affinity to Hibari Misora, tuned to Osaka", affinity 0.855, a Pulled-in-by bar for Hibari Misora and the request as a table](docs/screenshots/why-qloo.png)
+![Why Qloo panel beside the card, in fixture mode: "Qloo was asked for artists with taste affinity to Hibari Misora, tuned to Osaka", affinity 0.855, a Pulled-in-by bar for Hibari Misora and the request as a table](docs/screenshots/why-qloo.png)
 
 ## Languages
 
@@ -256,10 +256,14 @@ npm run test:e2e   # Playwright, fixture mode, tablet viewport: both presets end
                    #         preset difference, intake autocomplete + a Spanish session, a Mexico City
                    #         custom person, auto-advance, the programme strip, unknown session,
                    #         the empty state when Qloo has too little, model prompts landing in
-                   #         place with leaked markup kept off the screen, the Session complete screen
+                   #         place with leaked markup kept off the screen, the Session complete screen,
+                   #         one main landmark per page with a working skip link, the link-preview tags
+QLOO_API_KEY=… npm run smoke:live   # live Qloo, 3 people, no model, not part of the tests above
 ```
 
 The Playwright run builds the app and starts it on port 3100 with `QLOO_MODE=fixture` and `LLM_MODE=fixture`.
+
+`npm run smoke:live` is the check the fixtures cannot give: it plans Michiko, Frank and one custom person (Dad, born 1940, London, loved Lonnie Donegan) against the real Qloo API with `LLM_MODE=fixture`, so no model is called, and prints each deck. It exits non-zero unless every deck has a music card, a film from the person's home country, no error event and only live Qloo answers, and Dad's deck also has a UK act that started before 1965. It needs `QLOO_API_KEY` (from the environment or `.env.local`), costs about 10 to 15 Qloo calls per person, and is neither part of CI nor of `npm test`: live Qloo and the offline fixtures have disagreed before, so run it before a release and now and then while the demo is public. Its checks are unit-tested offline in `tests/unit/smoke-checks.test.ts`.
 
 ## Deploying to Vercel
 
@@ -305,6 +309,8 @@ fixtures/synthetic/      hand-authored synthetic catalog, nine worlds (committed
 fixtures/recorded/       real responses from `npm run record` (git-ignored)
 fixtures/live/           real responses from `npm run record -- --live` (git-ignored)
 scripts/record.ts        recorder
+scripts/smoke-live.ts    live-Qloo smoke test (npm run smoke:live)
+public/og.png            1200 by 630 link-preview image (the home page's hero)
 tests/unit, tests/e2e    vitest and Playwright suites
 ```
 
