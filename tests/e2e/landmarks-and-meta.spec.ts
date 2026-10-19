@@ -1,12 +1,15 @@
 import { expect, test, type Page } from "@playwright/test";
 
-/** Exactly one main landmark and one id="main" in the document, however the page got there. */
+/** Exactly one main landmark and one id="main" in the document, however the page got there, with the masthead and footer beside it as the one banner and contentinfo. */
 async function expectOneMain(page: Page) {
   await expect(page.locator("main")).toHaveCount(1);
   await expect(page.locator("[id=main]")).toHaveCount(1);
+  await expect(page.getByRole("main")).toHaveCount(1);
+  await expect(page.getByRole("banner")).toHaveCount(1);
+  await expect(page.getByRole("contentinfo")).toHaveCount(1);
 }
 
-test("the home page is one main landmark and the skip link lands on it", async ({ page }) => {
+test("the home page is one main landmark, a banner and a contentinfo, and the skip link lands on it", async ({ page }) => {
   await page.goto("/");
   await expectOneMain(page);
   await page.keyboard.press("Tab");
@@ -33,6 +36,18 @@ test("a session stays one main landmark while planning, on the overview and afte
   await expectOneMain(page);
   // The page's own heading is inside it.
   await expect(page.locator("main").getByRole("heading", { level: 1 })).toHaveCount(1);
+});
+
+test("a session opened directly keeps its masthead and footer outside the main landmark, and Why Qloo still opens the trace", async ({ page }) => {
+  await page.goto("/");
+  await page.getByTestId("preset-michiko").click();
+  await expect(page.getByTestId("session-overview")).toBeVisible({ timeout: 45_000 });
+  await page.reload();
+  await expect(page.getByTestId("session-overview")).toBeVisible({ timeout: 45_000 });
+  await expectOneMain(page);
+  await expect(page.getByRole("banner").getByTestId("person-summary")).toBeVisible();
+  await page.getByRole("banner").getByTestId("why-qloo-toggle").click();
+  await expect(page.locator("main #trace-panel")).toBeVisible();
 });
 
 test("a session that is not in this browser is one main landmark too", async ({ page }) => {

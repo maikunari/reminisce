@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { ChromeFill } from "@/components/ChromeSlot";
 import { Footer } from "@/components/Footer";
 import { Masthead } from "@/components/Masthead";
 import { useIsClient, useReducedMotion } from "@/lib/client/hooks";
@@ -409,11 +410,22 @@ function SessionClient({ id }: { id: string }) {
   if (state.kind === "missing") {
     return (
       <div className="wrap wrap-wide flex flex-1 flex-col">
-        <Masthead
-          actions={
-            <Link href="/" className="btn-text btn-text-muted">
-              {t.nav.newSession}
-            </Link>
+        <ChromeFill
+          masthead={
+            <div className="wrap wrap-wide">
+              <Masthead
+                actions={
+                  <Link href="/" className="btn-text btn-text-muted">
+                    {t.nav.newSession}
+                  </Link>
+                }
+              />
+            </div>
+          }
+          footer={
+            <div className="wrap wrap-wide">
+              <Footer />
+            </div>
           }
         />
         <div className="flex-1 py-16 sm:py-24">
@@ -425,7 +437,6 @@ function SessionClient({ id }: { id: string }) {
             </Link>
           </div>
         </div>
-        <Footer />
       </div>
     );
   }
@@ -439,34 +450,45 @@ function SessionClient({ id }: { id: string }) {
 
   return (
     <div className="wrap wrap-wide flex flex-1 flex-col" lang={language} data-testid="session-root">
-      <Masthead
-        centre={
-          <p className="label label-ink sm:truncate" data-testid="person-summary">
-            {t.session.summary({
-              name: s.person.name,
-              hometown: s.person.hometown,
-              start: s.youthWindow.start,
-              end: s.youthWindow.end,
-              favorites: s.person.favorites.map((f) => f.name),
-            })}
-          </p>
+      <ChromeFill
+        masthead={
+          <div className="wrap wrap-wide" lang={language}>
+            <Masthead
+              centre={
+                <p className="label label-ink sm:truncate" data-testid="person-summary">
+                  {t.session.summary({
+                    name: s.person.name,
+                    hometown: s.person.hometown,
+                    start: s.youthWindow.start,
+                    end: s.youthWindow.end,
+                    favorites: s.person.favorites.map((f) => f.name),
+                  })}
+                </p>
+              }
+              actions={
+                <>
+                  <button
+                    type="button"
+                    onClick={() => setTraceOpen((o) => !o)}
+                    aria-expanded={traceOpen}
+                    aria-controls="trace-panel"
+                    data-testid="why-qloo-toggle"
+                    className="btn-text print-hide"
+                  >
+                    {t.nav.whyQloo}
+                  </button>
+                  <Link href="/" className="btn-text btn-text-muted print-hide">
+                    {t.nav.newSession}
+                  </Link>
+                </>
+              }
+            />
+          </div>
         }
-        actions={
-          <>
-            <button
-              type="button"
-              onClick={() => setTraceOpen((o) => !o)}
-              aria-expanded={traceOpen}
-              aria-controls="trace-panel"
-              data-testid="why-qloo-toggle"
-              className="btn-text print-hide"
-            >
-              {t.nav.whyQloo}
-            </button>
-            <Link href="/" className="btn-text btn-text-muted print-hide">
-              {t.nav.newSession}
-            </Link>
-          </>
+        footer={
+          <div className="wrap wrap-wide" lang={language}>
+            <Footer language={language} />
+          </div>
         }
       />
 
@@ -581,7 +603,6 @@ function SessionClient({ id }: { id: string }) {
         </div>
         <TracePanel open={traceOpen} onClose={() => setTraceOpen(false)} session={s} card={phase === "in_session" ? current : undefined} liveEvents={liveEvents} />
       </div>
-      <Footer language={language} />
     </div>
   );
 }

@@ -67,7 +67,7 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({ children, masthead, footer }: { children: ReactNode; masthead: ReactNode; footer: ReactNode }) {
   return (
     <html lang="en" className={`${fraunces.variable} ${franklin.variable}`}>
       <body className="flex min-h-dvh flex-col">
@@ -77,10 +77,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         >
           Skip to content
         </a>
-        {/* The one main landmark: pages render inside it, because Next keeps the previous page mounted (hidden) after a client-side navigation and a main per page would leave two ids behind. */}
+        {masthead}
+        {/* The one main landmark: pages render inside it, because Next keeps the previous page mounted (hidden) after a client-side navigation and a main per page would leave two ids behind. Each page's masthead and footer come through the @masthead and @footer slots, outside it. */}
         <main id="main" tabIndex={-1} className="flex flex-1 flex-col outline-none">
           {children}
         </main>
+        {footer}
       </body>
     </html>
   );
