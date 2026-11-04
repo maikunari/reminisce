@@ -1,4 +1,4 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Page } from "./fixtures";
 
 const PRESETS = [
   { id: "michiko", name: "Michiko", hometown: "Osaka", seed: "Hibari Misora" },
@@ -361,5 +361,6 @@ test("the overview fits a phone: no sideways scroll, a tappable Start above the 
   const drop = page.getByTestId("drop-card").first();
   expect((await drop.boundingBox())!.height).toBeGreaterThanOrEqual(44);
   const swap = page.getByTestId("swap-card").first();
-  expect((await swap.boundingBox())!.height).toBeGreaterThanOrEqual(47.5);
+  // The cards settle in from scale(0.97), so measure once the entrance has finished.
+  await expect.poll(async () => (await swap.boundingBox())!.height).toBeGreaterThanOrEqual(47.5);
 });

@@ -1,4 +1,4 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Page } from "./fixtures";
 
 /** Exactly one main landmark and one id="main" in the document, however the page got there, with the masthead and footer beside it as the one banner and contentinfo. */
 async function expectOneMain(page: Page) {

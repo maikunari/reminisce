@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./fixtures";
 
 import { PRESETS } from "../../src/lib/session/presets";
 import type { PlanResult, StreamEvent } from "../../src/lib/session/types";

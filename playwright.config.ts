@@ -5,7 +5,9 @@ const baseURL = `http://127.0.0.1:${port}`;
 
 /**
  * End-to-end tests run the app in fixture mode (no Qloo or LLM keys needed),
- * so the suite is fully deterministic and works offline.
+ * so the suite is fully deterministic and works offline. Tests import `test`
+ * from tests/e2e/fixtures.ts, which aborts any request to a host other than
+ * the local app.
  */
 export default defineConfig({
   testDir: "./tests/e2e",
@@ -25,7 +27,16 @@ export default defineConfig({
   projects: [
     {
       name: "chromium-tablet",
-      use: { ...devices["Desktop Chrome"], viewport: { width: 1024, height: 1366 } },
+      use: {
+        ...devices["Desktop Chrome"],
+        viewport: { width: 1024, height: 1366 },
+        launchOptions: {
+          // Keep Chromium's own sandbox on (Playwright turns it off by default).
+          chromiumSandbox: true,
+          // Defence in depth beside the route guard in tests/e2e/fixtures.ts: no outside host resolves.
+          args: ["--host-resolver-rules=MAP * ~NOTFOUND, EXCLUDE localhost, EXCLUDE 127.0.0.1"],
+        },
+      },
     },
   ],
   webServer: {
