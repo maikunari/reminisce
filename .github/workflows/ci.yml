@@ -41,6 +41,11 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
+      # Ubuntu 24.04 runners block unprivileged user namespaces through AppArmor,
+      # which Chromium's sandbox needs. Lift that on this throwaway runner only,
+      # so the suite keeps the sandbox on (chromiumSandbox: true in playwright.config.ts).
+      - name: Allow unprivileged user namespaces for the Chromium sandbox
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
       - run: npm run test:e2e
       - uses: actions/upload-artifact@v4
         if: failure()
